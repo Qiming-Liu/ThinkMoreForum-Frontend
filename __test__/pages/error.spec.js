@@ -6,5 +6,6 @@ describe('error page', () => {
   it('should render error message', () => {
     const { getByText } = render(<Error />);
     expect(getByText('err')).toBeInTheDocument();
+    expect(getByText('hello world')).toBeInTheDocument();
   });
 });

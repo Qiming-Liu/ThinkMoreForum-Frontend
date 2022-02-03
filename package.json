@@ -9,12 +9,12 @@
     "test": "jest -c jest.config.js --colors --passWithNoTests",
     "test:watch": "jest -c jest.config.js --colors --passWithNoTests --watch",
     "test:coverage": "jest -c jest.config.js --colors --coverage --passWithNoTests",
-    "lint:eslint": "eslint --ext .jsx,.js ./pages && eslint --ext .jsx,.js",
+    "lint:eslint": "eslint --ext .jsx,.js ./pages && eslint --ext .jsx,.js --fix",
     "lint:sass": "sass-lint -v",
     "lint:prettier": "prettier -c .prettierrc \"{pages,store}/**/*.{js,jsx}\" --check",
     "lint": "npm run lint:eslint && npm run lint:sass && npm run lint:prettier",
     "prepare": "husky install",
-    "prettier": "prettier -c .prettierrc \"{pages,store}/**/*.{js,jsx}\" --write"
+    "prettier": "prettier -c .prettierrc \"{__test__,pages,store}/**/*.{js,jsx}\" --write"
   },
   "dependencies": {
     "axios": "^0.25.0",
