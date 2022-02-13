@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from '../store/store';
 import Head from 'next/head';
+import LoginDialog from '../components/login/LoginDialog'
+import Login from '../components/login/index.js'
 import '../styles/main.scss';
 
 const MyApp = ({ Component, pageProps }) => {
@@ -26,6 +28,9 @@ const MyApp = ({ Component, pageProps }) => {
         />
       </Head>
       <Component {...pageProps} />
+      <LoginDialog>
+      <Login/>
+      </LoginDialog>
     </Provider>
   );
 };
