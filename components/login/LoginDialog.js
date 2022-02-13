@@ -46,7 +46,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function LoginDialog({ children }) {
+const LoginDialog = ({ children }) => {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
@@ -72,9 +72,11 @@ export default function LoginDialog({ children }) {
         <BootstrapDialogTitle
           id="customized-dialog-title"
           onClose={handleClose}
-        ></BootstrapDialogTitle>
+        />
         <DialogContent>{children}</DialogContent>
       </BootstrapDialog>
     </div>
   );
-}
+};
+
+export default LoginDialog;
