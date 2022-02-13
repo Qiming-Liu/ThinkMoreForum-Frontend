@@ -26,11 +26,11 @@ module.exports = {
     'react/prop-types': 0,
     'react/jsx-filename-extension': 0,
     'react/jsx-props-no-spreading': 0,
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
-  "prettier/prettier": [
-    "error",
-    {
-      "endOfLine": "auto"
-    },
-  ],
 };
