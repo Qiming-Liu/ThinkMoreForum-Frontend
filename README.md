@@ -1,6 +1,6 @@
 # ThinkMoreForum-Frontend
 
-## Prerequisites
+## Requirements
 
 * Nodejs-lts = v16.14.0   
 * Yarn = v1.22.17  
