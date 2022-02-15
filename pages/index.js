@@ -1,27 +1,22 @@
-import React from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from '../store/actions/postAction';
 
 const Index = () => {
-  const { data: session } = useSession();
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.post);
 
-  if (session) {
-    return (
-      <>
-        Signed in as email {session.users.email} <br />
-        Signed in as username {session.users.name} <br />
-        <button type="submit" onClick={() => signOut()}>
-          Sign out
-        </button>
-      </>
-    );
-  }
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
   return (
-    <>
-      Not signed in <br />
-      <button type="submit" onClick={() => signIn()}>
-        Sign in with Third Party Provider
-      </button>
-    </>
+    <ul>
+      {posts &&
+        posts.map((post) => {
+          return <li key={post}>{post}</li>;
+        })}
+    </ul>
   );
 };
 

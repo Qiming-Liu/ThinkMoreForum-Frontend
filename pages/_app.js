@@ -5,6 +5,7 @@ import Head from 'next/head';
 import store from '../store/store';
 import LoginDialog from '../components/login/LoginDialog';
 import Login from '../components/login';
+import LoginFBGoogle from '../components/thirdpartylogin';
 import '../styles/main.scss';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
@@ -25,6 +26,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
         <LoginDialog>
           <Login />
         </LoginDialog>
+        <LoginFBGoogle />
       </SessionProvider>
     </Provider>
   );
