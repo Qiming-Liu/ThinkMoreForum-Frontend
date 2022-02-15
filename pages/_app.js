@@ -1,14 +1,15 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import Head from 'next/head';
+import { ThemeProvider } from '@mui/material/styles';
 import store from '../store/store';
-import LoginDialog from '../components/login/LoginDialog';
-import Login from '../components/login';
+import Layout from '../components/Layout';
+import createTheme from '../theme';
 import '../styles/main.scss';
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <Provider store={store}>
+    <ReduxProvider store={store}>
       <Head>
         <title>ThinkMoreForum</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
@@ -19,11 +20,12 @@ const MyApp = ({ Component, pageProps }) => {
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
       </Head>
-      <Component {...pageProps} />
-      <LoginDialog>
-        <Login />
-      </LoginDialog>
-    </Provider>
+      <ThemeProvider theme={createTheme()}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    </ReduxProvider>
   );
 };
 

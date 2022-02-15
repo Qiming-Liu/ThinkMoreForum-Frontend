@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../store/actions/postAction';
+import LoginDialog from '../components/login/LoginDialog';
+import Login from '../components/Login';
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -10,13 +12,29 @@ const Index = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
+  const pStyle = {
+    tableLayout: 'fixed',
+    wordWrap: 'break-word',
+    wordBreak: 'normal',
+    overflow: 'hidden',
+  };
+
   return (
-    <ul>
-      {posts &&
-        posts.map((post) => {
-          return <li key={post}>{post}</li>;
-        })}
-    </ul>
+    <>
+      <ul>
+        {posts &&
+          posts.map((post) => {
+            return (
+              <li key={post}>
+                <p style={pStyle}>{post}</p>
+              </li>
+            );
+          })}
+      </ul>
+      <LoginDialog>
+        <Login />
+      </LoginDialog>
+    </>
   );
 };
 
