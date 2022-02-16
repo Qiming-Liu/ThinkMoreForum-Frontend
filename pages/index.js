@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../store/actions/postAction';
 import LoginDialog from '../components/login/LoginDialog';
 import Login from '../components/Login';
+import CategoryExample1 from '../components/Categroy/example1';
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Index = () => {
 
   return (
     <>
+      <CategoryExample1 />
       <ul>
         {posts &&
           posts.map((post) => {
