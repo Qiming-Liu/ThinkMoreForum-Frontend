@@ -3,6 +3,8 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useSession, signIn, signOut } from 'next-auth/react';
+
 import {
   Box,
   Button,
@@ -19,6 +21,7 @@ import GoogleIcon from '../../icons/google';
 
 const Login = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -35,6 +38,27 @@ const Login = () => {
       router.push('/');
     },
   });
+
+  if (session) {
+    return (
+      <>
+        Signed in as email {session.users.email} <br />
+        Signed in as username {session.users.name} <br />
+        <Button
+          color="primary"
+          disabled={formik.isSubmitting}
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          onClick={() => signOut()}
+          sx={{ borderRadius: 3 }}
+        >
+          Log out
+        </Button>
+      </>
+    );
+  }
 
   return (
     <Box
@@ -116,7 +140,7 @@ const Login = () => {
                 color="info"
                 fullWidth
                 startIcon={<FacebookIcon />}
-                onClick={formik.handleSubmit}
+                onClick={() => signIn('facebook')}
                 size="large"
                 variant="contained"
                 sx={{ borderRadius: 3 }}
@@ -129,7 +153,7 @@ const Login = () => {
                 fullWidth
                 color="error"
                 startIcon={<GoogleIcon />}
-                onClick={formik.handleSubmit}
+                onClick={() => signIn('google')}
                 size="large"
                 variant="contained"
                 sx={{ borderRadius: 3 }}
