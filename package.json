@@ -65,7 +65,6 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.7",
     "jsdom": "^19.0.0",
-    "lint": "^0.7.0",
     "lint-staged": ">=10",
     "prettier": "^2.5.1",
     "sass-lint": "^1.13.1"
