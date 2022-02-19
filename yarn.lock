@@ -8734,6 +8734,13 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
+secure-env@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/secure-env/-/secure-env-1.2.0.tgz#a2ae5937d3b6edc87626f6a3289941b40ae73052"
+  integrity sha512-BNi4AlHP6sMZv3ybFWD5/eieFGcqt93VRLzceUdt3+PftgVnxN7eRY7POtFm5PQqaQn5aoRoxG3A4HH9kUmeKw==
+  dependencies:
+    minimist "^1.2.0"
+
 "semver@2 || 3 || 4 || 5", semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
