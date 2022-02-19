@@ -24,12 +24,12 @@ const Register = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string().max(255).required('Username is required'),
+      username: Yup.string().max(20).required('Username is required'),
       email: Yup.string()
         .email('Must be a valid email')
         .max(255)
         .required('Email is required'),
-      password: Yup.string().max(255).required('Password is required'),
+      password: Yup.string().min(8).max(16).required('Password is required'),
     }),
     onSubmit: () => {
       router.push('/');
@@ -57,7 +57,12 @@ const Register = () => {
             </a>
           </NextLink>
           <Box sx={{ my: 3 }}>
-            <Typography color="textPrimary" variant="h4" align="center">
+            <Typography
+              color="textPrimary"
+              variant="h4"
+              align="center"
+              sx={{ pb: 5 }}
+            >
               Register
             </Typography>
             <TextField
@@ -99,7 +104,7 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            <Grid sx={{ py: 2 }}>
+            <Grid sx={{ py: 3, pt: 7 }}>
               <Button
                 color="primary"
                 disabled={formik.isSubmitting}
@@ -107,7 +112,6 @@ const Register = () => {
                 size="large"
                 type="submit"
                 variant="contained"
-                sx={{ borderRadius: 3 }}
               >
                 Register
               </Button>
@@ -123,7 +127,7 @@ const Register = () => {
                   cursor: 'pointer',
                 }}
               >
-                Having an account? Login now.
+                Having an account
               </Link>
             </NextLink>
           </Typography>
