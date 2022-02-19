@@ -8736,7 +8736,7 @@ schema-utils@^1.0.0:
 
 secure-env@^1.2.0:
   version "1.2.0"
-  resolved "https://registry.npmmirror.com/secure-env/-/secure-env-1.2.0.tgz#a2ae5937d3b6edc87626f6a3289941b40ae73052"
+  resolved "https://registry.yarnpkg.com/secure-env/-/secure-env-1.2.0.tgz#a2ae5937d3b6edc87626f6a3289941b40ae73052"
   integrity sha512-BNi4AlHP6sMZv3ybFWD5/eieFGcqt93VRLzceUdt3+PftgVnxN7eRY7POtFm5PQqaQn5aoRoxG3A4HH9kUmeKw==
   dependencies:
     minimist "^1.2.0"
