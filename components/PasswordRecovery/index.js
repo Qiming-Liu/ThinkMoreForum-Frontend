@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -37,6 +37,8 @@ const PasswordRecovery = (props) => {
         responseType: Stream,
       });
       if (reponse.date) {
+        // TODO
+        console.log(message);
         setmMessage(true);
       }
     },
@@ -76,7 +78,7 @@ const PasswordRecovery = (props) => {
             >
               <NextLink href="/" passHref>
                 <Typography align="center">
-                  <img src="/logo.svg" height="50" width="50" alt="logo" />
+                  <Image src="/logo.svg" height="50" width="50" alt="logo" />
                 </Typography>
               </NextLink>
               <Typography variant="h4">Password Recovery</Typography>

@@ -14,7 +14,7 @@
     "lint:eslint": "eslint --ext .jsx,.js ./pages && eslint --ext .jsx,.js",
     "lint:sass": "sass-lint -v",
     "lint:prettier": "prettier -c .prettierrc \"{pages,store}/**/*.{js,jsx}\" --check",
-    "lint": "npm run lint:eslint && npm run lint:sass && npm run lint:prettier",
+    "lint": "npm run prettier && npm run lint:eslint && npm run lint:sass && npm run lint:prettier",
     "prepare": "husky install",
     "prettier": "prettier -c .prettierrc \"{pages,store}/**/*.{js,jsx}\" --write"
   },

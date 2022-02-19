@@ -107,7 +107,7 @@ const Profile = () => {
             }}
           >
             <Link
-              href="#"
+              href="localhost:3000"
               underline="hover"
               variant="caption"
               sx={{
@@ -117,7 +117,7 @@ const Profile = () => {
               Following
             </Link>
             <Link
-              href="#"
+              href="localhost:3000"
               underline="hover"
               variant="caption"
               sx={{

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Button, Typography, Grid } from '@mui/material';
 
 const Category = () => {
@@ -40,7 +41,7 @@ const Category = () => {
           },
         }}
       >
-        <img alt="" src="/static/mock-images/jobs/job_browse_header.svg" />
+        <Image alt="" src="/static/mock-images/jobs/job_browse_header.svg" />
       </Grid>
     </Grid>
   );

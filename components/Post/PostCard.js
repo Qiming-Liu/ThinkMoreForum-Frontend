@@ -1,3 +1,4 @@
+import React from 'react';
 import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 import {
@@ -11,7 +12,7 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
-export const PostCard = (props) => {
+const PostCard = (props) => {
   const {
     authorAvatar,
     authorName,
@@ -36,7 +37,7 @@ export const PostCard = (props) => {
       </NextLink>
       <CardContent>
         <NextLink href="/" passHref>
-          <Link color="textPrimary" component="a" variant="h5">
+          <Link href="/" color="textPrimary" component="a" variant="h5">
             {title}
           </Link>
         </NextLink>
@@ -89,3 +90,5 @@ PostCard.propTypes = {
   abstract: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
+
+export default PostCard;

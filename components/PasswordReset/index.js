@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import Image from 'next/image';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,9 +15,9 @@ import {
   Card,
 } from '@mui/material';
 
-export const PasswordReset = (props) => {
+const PasswordReset = (props) => {
   const router = useRouter();
-  const [username, setUsername] = useState('test@gmail.com');
+  const username = 'test@gmail.com';
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -84,7 +85,7 @@ export const PasswordReset = (props) => {
             >
               <NextLink href="/" passHref>
                 <Typography align="center">
-                  <img src="/logo.svg" height="50" width="50" alt="logo" />
+                  <Image src="/logo.svg" height="50" width="50" alt="logo" />
                 </Typography>
               </NextLink>
               <Typography variant="h4">Password Reset</Typography>

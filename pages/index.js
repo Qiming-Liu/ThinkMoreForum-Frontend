@@ -23,7 +23,6 @@ const Index = () => {
 
   return (
     <>
-
       <CategoryExample1 />
       <CategoryExample2 />
       <ul>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
@@ -50,11 +51,9 @@ const Register = () => {
       <Container maxWidth="md">
         <form onSubmit={formik.handleSubmit}>
           <NextLink href="/" passHref>
-            <a>
-              <Typography align="center">
-                <img alt="logo" src="/logo.svg" height="50" width="50" />
-              </Typography>
-            </a>
+            <Typography align="center">
+              <Image alt="logo" src="/logo.svg" height="50" width="50" />
+            </Typography>
           </NextLink>
           <Box sx={{ my: 3 }}>
             <Typography
@@ -121,6 +120,7 @@ const Register = () => {
           <Typography color="textSecondary" variant="body2">
             <NextLink href="/login">
               <Link
+                href="localhost:3000"
                 variant="subtitle1"
                 underline="hover"
                 sx={{

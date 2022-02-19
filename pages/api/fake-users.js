@@ -1,4 +1,4 @@
-export const users = [
+const users = [
   {
     id: 1,
     logintime: '13/01/2022',
@@ -19,7 +19,7 @@ export const users = [
   },
   {
     id: 3,
-    logintime: '13/01/2022' ,
+    logintime: '13/01/2022',
     avatarUrl: '/static/images/avatars/avatar_2.png',
     createdAt: 1555016400000,
     email: 'alexa.richardson@devias.io',
@@ -28,7 +28,7 @@ export const users = [
   },
   {
     id: 4,
-    logintime: '13/01/2022' ,
+    logintime: '13/01/2022',
     avatarUrl: '/static/images/avatars/avatar_5.png',
     createdAt: 1554930000000,
     email: 'anje.keizer@devias.io',
@@ -64,7 +64,7 @@ export const users = [
   },
   {
     id: 8,
-    logintime: '13/01/2022' ,
+    logintime: '13/01/2022',
     avatarUrl: '/static/images/avatars/avatar_8.png',
     createdAt: 1523048400000,
     email: 'emilee.simchenko@devias.io',
@@ -73,7 +73,7 @@ export const users = [
   },
   {
     id: 9,
-    logintime: '13/01/2022' ,
+    logintime: '13/01/2022',
     avatarUrl: '/static/images/avatars/avatar_9.png',
     createdAt: 1554702800000,
     email: 'kwak.seong.min@devias.io',
@@ -90,3 +90,5 @@ export const users = [
     role: 'user',
   },
 ];
+
+export default users;

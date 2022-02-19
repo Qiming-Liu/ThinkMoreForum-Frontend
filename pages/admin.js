@@ -2,7 +2,7 @@ import * as React from 'react';
 import Head from 'next/head';
 import { Box, Container } from '@mui/material';
 import { AdminUser } from '../components/Admin/AdminUser';
-import { users } from './api/fake-users';
+import users from './api/fake-users';
 
 const Admin = () => (
   <>
