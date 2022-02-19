@@ -6,7 +6,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import store from '../store/store';
 import Layout from '../components/Layout';
 import createTheme from '../theme';
-import LoginFBGoogle from '../components/thirdpartylogin';
 import '../styles/main.scss';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
@@ -28,7 +27,6 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
-        <LoginFBGoogle />
       </SessionProvider>
     </ReduxProvider>
   );
