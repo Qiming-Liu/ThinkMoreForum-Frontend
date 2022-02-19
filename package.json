@@ -8,6 +8,7 @@
     "start": "next start",
     "export": "next export",
     "build-export": "next build && next export",
+    "json-server": "nodemon ./mock/server.js",
     "test": "jest -c jest.config.js --colors --passWithNoTests",
     "test:watch": "jest -c jest.config.js --colors --passWithNoTests --watch",
     "test:coverage": "jest -c jest.config.js --colors --coverage --passWithNoTests",
@@ -64,7 +65,9 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.7",
     "jsdom": "^19.0.0",
+    "json-server": "^0.17.0",
     "lint-staged": ">=10",
+    "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "sass-lint": "^1.13.1"
   },

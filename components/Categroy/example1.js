@@ -1,9 +1,24 @@
 import React from 'react';
 import Image from 'next/image';
 import { Grid, Box, Button, Card, Chip, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadAllUsers } from '../../store/actions/usersAction';
 
 const Category = (props) => {
   const { onDismiss, ...other } = props;
+
+  const dispatch = useDispatch();
+  const { isLoading, users, errorMessage } = useSelector(
+    (state) => state.users,
+  );
+  console.log(`isLoading: ${isLoading}`);
+  console.log(users);
+  console.log(`errorMessage: ${errorMessage}`);
+
+  React.useEffect(() => {
+    dispatch(loadAllUsers());
+  }, [dispatch]);
+
   return (
     <Grid item xs={12}>
       <Card
