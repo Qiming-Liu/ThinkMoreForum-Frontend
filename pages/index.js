@@ -22,6 +22,7 @@ const Index = () => {
 
   return (
     <>
+
       <CategoryExample1 />
       <ul>
         {posts &&

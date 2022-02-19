@@ -7,6 +7,7 @@ import store from '../store/store';
 import Layout from '../components/Layout';
 import createTheme from '../theme';
 import '../styles/main.scss';
+import '../styles/personalSetting.scss';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
