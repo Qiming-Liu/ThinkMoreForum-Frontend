@@ -1,9 +1,9 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -14,9 +14,10 @@ import {
   Typography,
 } from '@mui/material';
 import axios from 'axios';
+import { Stream } from '@mui/icons-material';
 
 const PasswordRecovery = (props) => {
-  const router = useRouter();
+  const [message, setmMessage] = useState();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -28,15 +29,24 @@ const PasswordRecovery = (props) => {
         .max(255)
         .required('Email is required'),
     }),
-    onSubmit: () => {
-      router.push('/');
+    onSubmit: async (values) => {
+      const basicUrl = `http://3.26.60.225:8080/v1/users/reset-password/${values.email}`;
+      const reponse = await axios({
+        method: 'get',
+        url: basicUrl,
+        responseType: Stream,
+      });
+      if (reponse.date) {
+        setmMessage(true);
+        sessionStorage.setItem('useremail', values.email);
+      }
     },
   });
 
   return (
     <>
       <Head>
-        <title>Password Recovery | Material Kit Pro</title>
+        <title>Password Recovery | ThinkMoreForum</title>
       </Head>
       <Box
         component="main"

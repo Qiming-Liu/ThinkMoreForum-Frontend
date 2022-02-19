@@ -16,11 +16,10 @@ import {
 
 export const PasswordReset = (props) => {
   const router = useRouter();
-  const [username, setUsername] = useState('test@gmail.com');
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: username,
+      email: sessionStorage.getItem('useremail'),
       password: '',
       passwordConfirm: '',
       submit: null,
@@ -31,8 +30,15 @@ export const PasswordReset = (props) => {
         .max(255)
         .required('Email is required'),
       password: Yup.string()
-        .min(7, 'Must be at least 7 characters')
-        .max(255)
+        .matches(
+          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,16}',
+          `Make sure password is between 8 characters  16 characters 
+          including a number, 
+          a lowercase letter, 
+          an upper case letter, 
+          a special character, 
+          and no white space! `,
+        )
         .required('Required'),
       passwordConfirm: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -46,7 +52,7 @@ export const PasswordReset = (props) => {
   return (
     <>
       <Head>
-        <title>Password Reset | Material Kit Pro</title>
+        <title>Password Reset | ThinkMoreForum </title>
       </Head>
       <Box
         component="main"
@@ -54,7 +60,7 @@ export const PasswordReset = (props) => {
           backgroundColor: 'background.default',
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '100vh'
+          minHeight: '100vh',
         }}
       >
         <Container
