@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../store/actions/postAction';
-import LoginDialog from '../components/login/LoginDialog';
-import Login from '../components/login';
+import LoginDialog from '../components/Logins/LoginDialog';
+import Login from '../components/Logins';
 import CategoryExample1 from '../components/Categroy/example1';
 
 const Index = () => {
