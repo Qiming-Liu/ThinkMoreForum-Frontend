@@ -4,6 +4,7 @@ import { fetchPosts } from '../store/actions/postAction';
 import LoginDialog from '../components/Logins/LoginDialog';
 import Login from '../components/Logins';
 import CategoryExample1 from '../components/Categroy/example1';
+import CategoryExample2 from '../components/Categroy/example2';
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const Index = () => {
     <>
 
       <CategoryExample1 />
+      <CategoryExample2 />
       <ul>
         {posts &&
           posts.map((post) => {
