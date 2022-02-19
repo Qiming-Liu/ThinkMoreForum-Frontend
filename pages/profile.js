@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useCallback, useState, useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -6,15 +6,28 @@ import {
   Container,
   Link,
   Typography,
+  Tabs,
+  Tab,
 } from '@mui/material';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import { blueGrey } from '@mui/material/colors';
 
 const Profile = () => {
+  const [currentTab, setCurrentTab] = useState('posts');
+
+  const handleTabsChange = (event, value) => {
+    setCurrentTab(value);
+  };
+
   const profileimg = {
     cover: '/static/mock-images/social/cover_1.jpg',
     avatar: '/static/mock-images/avatars/avatar-cao-yu.png',
   };
+
+  const tabs = [
+    { label: 'Posts', value: 'posts' },
+    { label: 'Comments', value: 'comments' },
+  ];
 
   return (
     <Box
@@ -26,7 +39,6 @@ const Profile = () => {
     >
       <Container maxWidth="lg">
         <Box
-          // style={{ backgroundImage: `url(${profile.cover})` }}
           style={{ backgroundImage: `url(${profileimg.cover})` }}
           sx={{
             backgroundPosition: 'center',
@@ -83,9 +95,9 @@ const Profile = () => {
           />
           <Box sx={{ ml: 2 }}>
             <Typography color="textSecondary" variant="overline">
-              {'front-end developer'}
+              front-end developer
             </Typography>
-            <Typography variant="h6">{'Tydias'}</Typography>
+            <Typography variant="h6">Tydias</Typography>
           </Box>
           <Box
             sx={{
@@ -102,7 +114,7 @@ const Profile = () => {
                 color: blueGrey[700],
               }}
             >
-              {'Following'}
+              Following
             </Link>
             <Link
               href="#"
@@ -112,7 +124,7 @@ const Profile = () => {
                 color: blueGrey[700],
               }}
             >
-              {'Follower'}
+              Follower
             </Link>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
@@ -149,6 +161,22 @@ const Profile = () => {
           </Box>
         </Box>
       </Container>
+      <Box sx={{ mt: 5 }}>
+        <Container maxWidth="lg">
+          <Tabs
+            indicatorColor="primary"
+            onChange={handleTabsChange}
+            scrollButtons="auto"
+            textColor="primary"
+            value={currentTab}
+            variant="scrollable"
+          >
+            {tabs.map((tab) => (
+              <Tab key={tab.value} label={tab.label} value={tab.value} />
+            ))}
+          </Tabs>
+        </Container>
+      </Box>
     </Box>
   );
 };
