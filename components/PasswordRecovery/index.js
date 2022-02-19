@@ -38,7 +38,6 @@ const PasswordRecovery = (props) => {
       });
       if (reponse.date) {
         setmMessage(true);
-        sessionStorage.setItem('useremail', values.email);
       }
     },
   });

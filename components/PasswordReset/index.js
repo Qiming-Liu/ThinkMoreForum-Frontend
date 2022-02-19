@@ -16,10 +16,11 @@ import {
 
 export const PasswordReset = (props) => {
   const router = useRouter();
+  const [username, setUsername] = useState('test@gmail.com');
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: sessionStorage.getItem('useremail'),
+      email: '',
       password: '',
       passwordConfirm: '',
       submit: null,
