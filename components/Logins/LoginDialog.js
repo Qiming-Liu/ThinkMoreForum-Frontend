@@ -42,14 +42,14 @@ const BootstrapDialogTitle = (props) => {
 };
 
 BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
+  // children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
 
 const LoginDialog = ({ children }) => {
   const [open, setOpen] = React.useState(false);
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState('md');
+  // const [fullWidth, setFullWidth] = React.useState(true);
+  // const [maxWidth, setMaxWidth] = React.useState('md');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -64,8 +64,8 @@ const LoginDialog = ({ children }) => {
         Login
       </Button>
       <BootstrapDialog
-        fullWidth={fullWidth}
-        maxWidth={maxWidth}
+        // fullWidth={fullWidth}
+        // maxWidth={maxWidth}
         aria-labelledby="customized-dialog-title"
         open={open}
       >

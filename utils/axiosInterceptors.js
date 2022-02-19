@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 axios.interceptors.request.use(
   (config) => {
@@ -9,7 +9,7 @@ axios.interceptors.request.use(
   },
   (error) => {
     Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -31,5 +31,5 @@ axios.interceptors.response.use(
       }
     } else {
     }
-  }
+  },
 );

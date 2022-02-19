@@ -10,7 +10,7 @@ import {
   Button,
   Container,
   Grid,
-  Link,
+  // Link,
   TextField,
   Typography,
   Divider,
@@ -74,11 +74,11 @@ const Login = () => {
       <Container maxWidth="md">
         <form onSubmit={formik.handleSubmit}>
           <NextLink href="/" passHref>
-            <a>
+            {/* <a>
               <Typography align="center">
                 <img src="/logo.svg" height="50" width="50" />
               </Typography>
-            </a>
+            </a> */}
           </NextLink>
           <Box sx={{ my: 3 }}>
             <Typography color="textPrimary" variant="h4" align="center">
@@ -170,7 +170,7 @@ const Login = () => {
           />
           <Typography color="textSecondary" variant="body2">
             <NextLink href="/password">
-              <Link
+              {/* <Link
                 variant="subtitle1"
                 underline="hover"
                 sx={{
@@ -178,13 +178,13 @@ const Login = () => {
                 }}
               >
                 Forgot your password?
-              </Link>
+              </Link> */}
             </NextLink>
           </Typography>
 
           <Typography color="textSecondary" variant="body2">
             <NextLink href="/register">
-              <Link
+              {/* <Link
                 variant="subtitle1"
                 underline="hover"
                 sx={{
@@ -192,7 +192,7 @@ const Login = () => {
                 }}
               >
                 Sign Up
-              </Link>
+              </Link> */}
             </NextLink>
           </Typography>
         </form>

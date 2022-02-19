@@ -1,5 +1,5 @@
 import React from 'react';
-// import Image from 'next/image';
+import Image from 'next/image';
 import { Grid, Box, Button, Card, Chip, Typography } from '@mui/material';
 
 const Category = (props) => {
@@ -31,7 +31,7 @@ const Category = (props) => {
             },
           }}
         >
-          <img //<Image
+          <Image
             alt="Categroy_img"
             src="/logo.png"
             layout="fill"
