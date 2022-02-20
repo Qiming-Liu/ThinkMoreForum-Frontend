@@ -1,6 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Box, Button, Container, Divider, Typography } from '@mui/material';
+import { Box, Button, Container, Divider } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PostCard from '../components/Post/PostCard';
@@ -30,12 +30,9 @@ const PostList = () => {
     <Container maxWidth="md">
       <NextLink href="/" passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
-          Back to categories
+          Back to Home
         </Button>
       </NextLink>
-      <Typography variant="h3" sx={{ mt: 3 }}>
-        Blog Platform
-      </Typography>
       <Divider sx={{ my: 3 }} />
       {posts.map((post) => (
         <PostCard

@@ -2,8 +2,8 @@ import {
   createTheme as createMuiTheme,
   responsiveFontSizes,
 } from '@mui/material/styles';
-import { baseThemeOptions } from './base-theme-options';
-import { lightThemeOptions } from './light-theme-options';
+import baseThemeOptions from './base-theme-options';
+import lightThemeOptions from './light-theme-options';
 
 const createTheme = () => {
   let theme = createMuiTheme(baseThemeOptions, lightThemeOptions, {

@@ -18,8 +18,7 @@ import SimpleBar from 'simplebar-react';
 import MailOpenIcon from '../../icons/mail-open';
 import XIcon from '../../icons/x';
 import UserCircleIcon from '../../icons/user-circle';
-// import 'simplebar/dist/simplebar.min.css';
-// import { Scrollbar } from '../scrollbar';
+import 'simplebar/dist/simplebar.min.css';
 
 const now = new Date();
 
