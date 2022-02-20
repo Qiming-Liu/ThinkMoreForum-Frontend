@@ -74,7 +74,17 @@ const AccountPopover = (props) => {
             />
           </MenuItem>
         </NextLink>
-        <NextLink href="/setting" passHref>
+        <NextLink href="/admin" passHref>
+          <MenuItem component="a">
+            <ListItemIcon>
+              <CogIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Typography variant="body1">Admin</Typography>}
+            />
+          </MenuItem>
+        </NextLink>
+        <NextLink href="/personal-setting" passHref>
           <MenuItem component="a">
             <ListItemIcon>
               <CogIcon fontSize="small" />

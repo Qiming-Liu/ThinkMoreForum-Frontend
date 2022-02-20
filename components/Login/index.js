@@ -1,4 +1,5 @@
 import React from 'react';
+import NextLink from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
@@ -13,7 +14,6 @@ import {
   TextField,
   Typography,
   Divider,
-  Alert,
 } from '@mui/material';
 import LoginDialog from './LoginDialog';
 import FacebookIcon from '../../icons/facebook';
@@ -122,14 +122,6 @@ const Login = () => {
                   Login
                 </Button>
               </Grid>
-              <Box sx={{ mt: 2 }}>
-                <Alert severity="info" sx={{ borderRadius: 3 }}>
-                  <div>
-                    You can use <b>demo@devias.io</b> and password{' '}
-                    <b>Password123!</b>
-                  </div>
-                </Alert>
-              </Box>
               <br />
               <Divider />
             </Box>
@@ -168,16 +160,15 @@ const Login = () => {
               }}
             />
             <Typography color="textSecondary" variant="body2">
-              <Link
-                href="/password"
-                variant="subtitle1"
-                underline="hover"
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                Forgot your password?
-              </Link>
+              <NextLink href="/password-email" passHref>
+                <Link
+                  href="/password-email"
+                  variant="subtitle1"
+                  underline="hover"
+                >
+                  Forgot your password?
+                </Link>
+              </NextLink>
             </Typography>
 
             <Typography color="textSecondary" variant="body2">

@@ -44,6 +44,7 @@
     "redux-thunk": "^2.3.0",
     "sass": "^1.49.7",
     "secure-env": "^1.2.0",
+    "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
     "yup": "^0.32.11"
   },
