@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -40,7 +41,11 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 
-const LoginDialog = ({ children }) => {
+BootstrapDialogTitle.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
+
+const RegisterDialog = ({ children }) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,7 +64,7 @@ const LoginDialog = ({ children }) => {
         }}
         onClick={handleClickOpen}
       >
-        Login
+        Create New Account
       </Link>
       <BootstrapDialog
         fullWidth
@@ -77,4 +82,4 @@ const LoginDialog = ({ children }) => {
   );
 };
 
-export default LoginDialog;
+export default RegisterDialog;

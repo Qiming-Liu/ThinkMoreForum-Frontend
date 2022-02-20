@@ -18,6 +18,7 @@ import {
 import LoginDialog from './LoginDialog';
 import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
+import Register from '../Register';
 
 const Login = () => {
   const router = useRouter();
@@ -42,20 +43,18 @@ const Login = () => {
   if (session) {
     return (
       <>
-        Signed in as email {session.users.email} <br />
-        Signed in as username {session.users.name} <br />
-        <Button
-          color="primary"
-          disabled={formik.isSubmitting}
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
+        Signed in as email {session.user.email} <br />
+        Signed in as username {session.user.name} <br />
+        <Link
+          variant="subtitle1"
+          underline="hover"
+          sx={{
+            cursor: 'pointer',
+          }}
           onClick={() => signOut()}
-          sx={{ borderRadius: 3 }}
         >
           Log out
-        </Button>
+        </Link>
       </>
     );
   }
@@ -170,19 +169,7 @@ const Login = () => {
                 </Link>
               </NextLink>
             </Typography>
-
-            <Typography color="textSecondary" variant="body2">
-              <Link
-                href="/register"
-                variant="subtitle1"
-                underline="hover"
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                Sign Up
-              </Link>
-            </Typography>
+            <Register />
           </form>
         </Container>
       </Box>
