@@ -4,7 +4,7 @@ import { Box, Button, Container, Divider, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PostCard from '../components/Post/PostCard';
-import { ArrowLeft as ArrowLeftIcon } from '../icons/arrow-left';
+import ArrowLeftIcon from '../icons/arrow-left';
 
 const PostList = () => {
   const posts = [
@@ -27,54 +27,43 @@ const PostList = () => {
   ];
 
   return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8,
-      }}
-    >
-      <Container maxWidth="md">
-        <NextLink href="/" passHref>
-          <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
-            Back to categories
-          </Button>
-        </NextLink>
-        <Typography variant="h3" sx={{ mt: 3 }}>
-          Blog Platform
-        </Typography>
-        <Divider sx={{ my: 3 }} />
-        {posts.map((post) => (
-          <PostCard
-            authorAvatar={post.authorAvatar}
-            authorName={post.authorName}
-            headImg={post.headImg}
-            createTimeStamp={post.createTimeStamp}
-            abstract={post.abstract}
-            title={post.title}
-          />
-        ))}
-        <Box
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            justifyContent: 'center',
-            mt: 4,
-            mb: 8,
-          }}
-        >
-          <Button disabled startIcon={<ArrowBackIcon fontSize="small" />}>
-            Newer
-          </Button>
-          <Button
-            endIcon={<ArrowForwardIcon fontSize="small" />}
-            sx={{ ml: 1 }}
-          >
-            Older posts
-          </Button>
-        </Box>
-      </Container>
-    </Box>
+    <Container maxWidth="md">
+      <NextLink href="/" passHref>
+        <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
+          Back to categories
+        </Button>
+      </NextLink>
+      <Typography variant="h3" sx={{ mt: 3 }}>
+        Blog Platform
+      </Typography>
+      <Divider sx={{ my: 3 }} />
+      {posts.map((post) => (
+        <PostCard
+          authorAvatar={post.authorAvatar}
+          authorName={post.authorName}
+          headImg={post.headImg}
+          createTimeStamp={post.createTimeStamp}
+          abstract={post.abstract}
+          title={post.title}
+        />
+      ))}
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          mt: 4,
+          mb: 8,
+        }}
+      >
+        <Button disabled startIcon={<ArrowBackIcon fontSize="small" />}>
+          Newer
+        </Button>
+        <Button endIcon={<ArrowForwardIcon fontSize="small" />} sx={{ ml: 1 }}>
+          Older posts
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

@@ -1,44 +1,39 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from '../store/actions/postAction';
-import LoginDialog from '../components/Login/LoginDialog';
-import Login from '../components/Login';
-import CategoryExample1 from '../components/Categroy/example1';
-import CategoryExample2 from '../components/Categroy/example2';
+import React from 'react';
+import { Grid } from '@mui/material';
+import Category from '../components/Categroy';
 
 const Index = () => {
-  const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.post);
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
-
-  const pStyle = {
-    tableLayout: 'fixed',
-    wordWrap: 'break-word',
-    wordBreak: 'normal',
-    overflow: 'hidden',
-  };
-
   return (
-    <>
-      <CategoryExample1 />
-      <CategoryExample2 />
-      <ul>
-        {posts &&
-          posts.map((post) => {
-            return (
-              <li key={post}>
-                <p style={pStyle}>{post}</p>
-              </li>
-            );
-          })}
-      </ul>
-      <LoginDialog>
-        <Login />
-      </LoginDialog>
-    </>
+    <Grid container spacing={4}>
+      <Category
+        type="A"
+        color="primary.main"
+        title="Category One"
+        description="description description description"
+        postCount="10"
+      />
+      <Category
+        type="B"
+        color="neutral.900"
+        title="Category Two"
+        description="description description description"
+        postCount="10"
+      />
+      <Category
+        type="A"
+        color="primary.main"
+        title="Category Three"
+        description="description description description"
+        postCount="10"
+      />
+      <Category
+        type="B"
+        color="neutral.900"
+        title="Category Four"
+        description="description description description"
+        postCount="10"
+      />
+    </Grid>
   );
 };
 

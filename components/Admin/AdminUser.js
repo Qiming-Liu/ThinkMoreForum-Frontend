@@ -18,7 +18,7 @@ import {
   IconButton,
 } from '@mui/material';
 import Edit from '../../icons/edit';
-import RightArrow from '../../icons/rightArrow';
+import RightArrow from '../../icons/right-arrow';
 
 export const AdminUser = ({ users, ...rest }) => {
   const [selectedUserIds, setSelectedUserIds] = useState([]);
