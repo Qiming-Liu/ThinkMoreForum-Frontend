@@ -25,7 +25,7 @@ const Layout = ({ children }) => (
         flexDirection: 'column',
         width: '100%',
         flexGrow: 1,
-        py: 8,
+        py: 4,
       }}
     >
       <Container maxWidth="xl">{children}</Container>

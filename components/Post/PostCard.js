@@ -1,6 +1,5 @@
 import React from 'react';
 import NextLink from 'next/link';
-import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
@@ -80,15 +79,6 @@ const PostCard = (props) => {
       </CardContent>
     </Card>
   );
-};
-
-PostCard.propTypes = {
-  authorAvatar: PropTypes.string.isRequired,
-  authorName: PropTypes.string.isRequired,
-  headImg: PropTypes.string.isRequired,
-  createTimeStamp: PropTypes.string.isRequired,
-  abstract: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
 };
 
 export default PostCard;
