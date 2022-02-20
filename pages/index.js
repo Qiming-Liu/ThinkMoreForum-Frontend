@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../store/actions/postAction';
-import LoginDialog from '../components/Logins/LoginDialog';
-import Login from '../components/Logins';
+import LoginDialog from '../components/Login/LoginDialog';
+import Login from '../components/Login';
 import CategoryExample1 from '../components/Categroy/example1';
 import CategoryExample2 from '../components/Categroy/example2';
 

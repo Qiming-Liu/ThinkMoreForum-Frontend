@@ -31,12 +31,7 @@ const Category = (props) => {
             },
           }}
         >
-          <Image
-            alt="Categroy_img"
-            src="/logo.png"
-            layout="fill"
-            objectFit="contain"
-          />
+          <Image src="/logo.svg" height="200" width="200" alt="logo" />
         </Box>
         <div>
           <div>

@@ -41,7 +41,7 @@ const Category = () => {
           },
         }}
       >
-        <Image alt="" src="/static/mock-images/jobs/job_browse_header.svg" />
+        <Image src="/logo.svg" height="200" width="200" alt="logo" />
       </Grid>
     </Grid>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import NextLink from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -10,7 +10,7 @@ import {
   Button,
   Container,
   Grid,
-  // Link,
+  Link,
   TextField,
   Typography,
   Divider,
@@ -73,13 +73,9 @@ const Login = () => {
     >
       <Container maxWidth="md">
         <form onSubmit={formik.handleSubmit}>
-          <NextLink href="/" passHref>
-            {/* <a>
-              <Typography align="center">
-                <img src="/logo.svg" height="50" width="50" />
-              </Typography>
-            </a> */}
-          </NextLink>
+          <Typography align="center">
+            <Image src="/logo.svg" height="50" width="50" alt="logo" />
+          </Typography>
           <Box sx={{ my: 3 }}>
             <Typography color="textPrimary" variant="h4" align="center">
               Sign in
@@ -169,31 +165,29 @@ const Login = () => {
             }}
           />
           <Typography color="textSecondary" variant="body2">
-            <NextLink href="/password">
-              {/* <Link
-                variant="subtitle1"
-                underline="hover"
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                Forgot your password?
-              </Link> */}
-            </NextLink>
+            <Link
+              href="/password"
+              variant="subtitle1"
+              underline="hover"
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              Forgot your password?
+            </Link>
           </Typography>
 
           <Typography color="textSecondary" variant="body2">
-            <NextLink href="/register">
-              {/* <Link
-                variant="subtitle1"
-                underline="hover"
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                Sign Up
-              </Link> */}
-            </NextLink>
+            <Link
+              href="/register"
+              variant="subtitle1"
+              underline="hover"
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              Sign Up
+            </Link>
           </Typography>
         </form>
       </Container>
