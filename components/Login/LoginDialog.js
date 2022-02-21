@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -51,9 +51,16 @@ const LoginDialog = ({ children }) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Link
+        variant="subtitle1"
+        underline="hover"
+        sx={{
+          cursor: 'pointer',
+        }}
+        onClick={handleClickOpen}
+      >
         Login
-      </Button>
+      </Link>
       <BootstrapDialog
         fullWidth
         maxWidth="md"
