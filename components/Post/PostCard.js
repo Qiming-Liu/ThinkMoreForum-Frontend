@@ -9,7 +9,14 @@ import {
   Link,
   Typography,
 } from '@mui/material';
-import { getInitials } from '../../utils/get-initials';
+
+const getInitials = (name = '') =>
+  name
+    .replace(/\s+/, ' ')
+    .split(' ')
+    .slice(0, 2)
+    .map((v) => v && v[0].toUpperCase())
+    .join('');
 
 const PostCard = (props) => {
   const {

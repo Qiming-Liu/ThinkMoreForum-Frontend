@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { AppBar, Box, Toolbar } from '@mui/material';
 import AccountButton from './AccountButton';
 import NotificationsButton from './NotificationsButton';
-import Login from '../Login';
+import Sign from '../Sign';
 
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -34,7 +34,7 @@ const Navbar = (props) => {
         }}
       >
         <Box sx={{ flexGrow: 1 }} />
-        <Login />
+        <Sign />
         <NotificationsButton />
         <AccountButton />
       </Toolbar>
