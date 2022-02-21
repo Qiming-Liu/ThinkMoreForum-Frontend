@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -13,14 +13,16 @@ import {
   Container,
   Typography,
 } from '@mui/material';
-import axios from 'axios';
-import { Stream } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkEmail } from '../../store/actions/userAction';
 
 const PasswordRecovery = (props) => {
-  const [message, setmMessage] = useState();
+  const dispatch = useDispatch();
+  const { isFound, errorMessage } = useSelector((state) => state.password);
   const formik = useFormik({
     initialValues: {
       email: '',
+      success: '',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -29,20 +31,19 @@ const PasswordRecovery = (props) => {
         .max(255)
         .required('Email is required'),
     }),
-    onSubmit: async (values) => {
-      const basicUrl = `http://3.26.60.225:8080/v1/users/reset-password/${values.email}`;
-      const reponse = await axios({
-        method: 'get',
-        url: basicUrl,
-        responseType: Stream,
-      });
-      if (reponse.date) {
-        // TODO
-        console.log(message);
-        setmMessage(true);
-      }
+    onSubmit: (values, helpers) => {
+      helpers.setStatus({ success: false });
+      const message = isFound
+        ? 'The reset email has been sent to the email address you provided!'
+        : errorMessage;
+      helpers.setErrors({ submit: message });
+      helpers.setSubmitting(isFound);
     },
   });
+  const { email } = formik.values;
+  useEffect(() => {
+    dispatch(checkEmail(email));
+  }, [dispatch, email]);
 
   return (
     <>
