@@ -1,4 +1,4 @@
-import api from '../api';
+import api from '../utils/axios';
 
 // eslint-disable-next-line import/prefer-default-export
 export const resetPasswordemail = (email) =>

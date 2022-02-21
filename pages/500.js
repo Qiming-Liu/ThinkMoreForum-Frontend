@@ -17,7 +17,7 @@ const NotFound = () => {
   return (
     <>
       <Head>
-        <title>Error: Not Found | ThinkMoreForum</title>
+        <title>Error: Internal Server | ThinkMoreForum</title>
       </Head>
       <Box
         component="main"
@@ -31,7 +31,7 @@ const NotFound = () => {
       >
         <Container maxWidth="lg">
           <Typography align="center" variant={mobileDevice ? 'h4' : 'h1'}>
-            404 : Not Found Error
+            500 : Internal Server Error
           </Typography>
           <Box
             sx={{
@@ -43,7 +43,7 @@ const NotFound = () => {
             <Box
               alt=""
               component="img"
-              src="/error404.svg"
+              src="/error500.svg"
               sx={{
                 height: 400,
               }}
