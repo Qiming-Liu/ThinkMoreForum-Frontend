@@ -16,12 +16,6 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
         <Head>
           <title>ThinkMoreForum</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          />
         </Head>
         <ThemeProvider theme={createTheme()}>
           <Layout>

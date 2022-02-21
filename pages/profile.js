@@ -20,8 +20,8 @@ const Profile = () => {
   };
 
   const profileimg = {
-    cover: '/static/mock-images/social/cover_1.jpg',
-    avatar: '/static/mock-images/avatars/avatar-cao-yu.png',
+    cover: '/cover_1.jpg',
+    avatar: '/avatar-cao-yu.png',
   };
 
   const tabs = [

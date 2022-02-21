@@ -1,13 +1,13 @@
-import { EMAIL_ERROR, EMAIL_FOUND } from '../actionTypes';
-import { resetPasswordemail } from '../../services/users.services';
+import * as Action from '../actionTypes';
+import { resetPasswordemail } from '../../services/usersServices';
 
 const emailFound = (isFound) => ({
-  type: EMAIL_FOUND,
+  type: Action.EMAIL_FOUND,
   payload: isFound,
 });
 
 const emailError = (errorMessage) => ({
-  type: EMAIL_ERROR,
+  type: Action.EMAIL_ERROR,
   payload: errorMessage,
 });
 

@@ -7,7 +7,7 @@ import users from './api/fake-users';
 const Admin = () => (
   <>
     <Head>
-      <title>Administration Page</title>
+      <title>Administration | ThinkMoreForum</title>
     </Head>
     <Box
       component="main"

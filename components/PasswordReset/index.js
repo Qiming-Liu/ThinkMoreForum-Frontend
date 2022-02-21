@@ -54,7 +54,7 @@ const PasswordReset = (props) => {
   return (
     <>
       <Head>
-        <title>Password Reset | ThinkMoreForum </title>
+        <title>Password Reset | ThinkMoreForum</title>
       </Head>
       <Box
         component="main"
