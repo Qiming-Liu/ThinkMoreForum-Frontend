@@ -1,9 +1,6 @@
-import * as React from 'react';
-import Link from '@mui/material/Link';
+import React from 'react';
+import { Button, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -16,9 +13,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const BootstrapDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
-
+const BootstrapDialogTitle = ({ children, onClose, ...other }) => {
   return (
     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
       {children}
@@ -40,41 +35,25 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 
-const LoginDialog = ({ children }) => {
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+const SignDialog = ({ children, open, onOpen, onClose }) => {
+  // const [open, setOpen] = React.useState(false);
 
   return (
     <div>
-      <Link
-        variant="subtitle1"
-        underline="hover"
-        sx={{
-          cursor: 'pointer',
-        }}
-        onClick={handleClickOpen}
-      >
+      <Button variant="outlined" onClick={onOpen}>
         Login
-      </Link>
+      </Button>
       <BootstrapDialog
         fullWidth
         maxWidth="md"
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-        />
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose} />
         <DialogContent>{children}</DialogContent>
       </BootstrapDialog>
     </div>
   );
 };
 
-export default LoginDialog;
+export default SignDialog;
