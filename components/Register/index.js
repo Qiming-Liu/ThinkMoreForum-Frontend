@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -10,17 +11,67 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
   FormHelperText,
   Grid,
+  IconButton,
+  Link,
   TextField,
   Typography,
   Divider,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
 
 import Login from '../Login';
-import RegisterDialog from './RegisterDialog';
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 
 const Register = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -40,10 +91,10 @@ const Register = () => {
     onSubmit: async (values, helpers) => {
       axios
         .post(
-          `http://localhost:8080/v1/users/signup/${values.email}/${values.username}/${values.password}`,
+          `http://3.26.60.225:8080/v1/users/signup/${values.email}/${values.username}/${values.password}`,
         )
         .then(() => {
-          router.push('/');
+          router.push('/profile');
         })
         .catch((error) => {
           if (
@@ -69,114 +120,157 @@ const Register = () => {
   });
 
   return (
-    <RegisterDialog>
-      <Box
-        component="main"
+    <div>
+      <Link
+        variant="subtitle1"
+        underline="hover"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100%',
-          minWidth: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-          my: 5,
+          cursor: 'pointer',
         }}
+        onClick={handleClickOpen}
       >
-        <Container maxWidth="md">
+        Create New Account
+      </Link>
+      <BootstrapDialog
+        fullWidth
+        maxWidth="md"
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+        />
+        <DialogContent>
           <Box
+            component="main"
             sx={{
-              alignItems: 'center',
               display: 'flex',
               flexDirection: 'column',
+              minHeight: '100%',
+              minWidth: '100%',
+              alignItems: 'center',
               justifyContent: 'center',
+              my: 5,
             }}
           >
-            <NextLink href="/" passHref>
-              <a href="/">
-                <Typography align="center">
-                  <Image alt="logo" src="/logo.svg" height="50" width="50" />
-                </Typography>
-              </a>
-            </NextLink>
-            <Typography color="textPrimary" variant="h4" sx={{ pb: 3 }}>
-              Register
-            </Typography>
-          </Box>
-          <Box>
-            <form onSubmit={formik.handleSubmit}>
-              <TextField
-                error={Boolean(
-                  formik.touched.username && formik.errors.username,
-                )}
-                fullWidth
-                helperText={formik.touched.username && formik.errors.username}
-                label="Username"
-                margin="normal"
-                name="username"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="username"
-                value={formik.values.username}
-                variant="outlined"
-              />
-              <TextField
-                error={Boolean(formik.touched.email && formik.errors.email)}
-                fullWidth
-                helperText={formik.touched.email && formik.errors.email}
-                label="Email Address"
-                margin="normal"
-                name="email"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="email"
-                value={formik.values.email}
-                variant="outlined"
-              />
-              <TextField
-                error={Boolean(
-                  formik.touched.password && formik.errors.password,
-                )}
-                fullWidth
-                helperText={formik.touched.password && formik.errors.password}
-                label="Password"
-                margin="normal"
-                name="password"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="password"
-                value={formik.values.password}
-                variant="outlined"
-              />
-              {formik.errors.submit && (
-                <Box sx={{ mt: 3 }}>
-                  <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                </Box>
-              )}
-              <Grid sx={{ pt: 3 }}>
-                <Button
-                  color="primary"
-                  disabled={formik.isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                >
+            <Container maxWidth="md">
+              <Box
+                sx={{
+                  alignItems: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <NextLink href="/" passHref>
+                  <a href="/">
+                    <Typography align="center">
+                      <Image
+                        alt="logo"
+                        src="/logo.svg"
+                        height="50"
+                        width="50"
+                      />
+                    </Typography>
+                  </a>
+                </NextLink>
+                <Typography color="textPrimary" variant="h4" sx={{ pb: 3 }}>
                   Register
-                </Button>
-              </Grid>
-            </form>
+                </Typography>
+              </Box>
+              <Box>
+                <form onSubmit={formik.handleSubmit}>
+                  <TextField
+                    error={Boolean(
+                      formik.touched.username && formik.errors.username,
+                    )}
+                    fullWidth
+                    helperText={
+                      formik.touched.username && formik.errors.username
+                    }
+                    label="Username"
+                    margin="normal"
+                    name="username"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="username"
+                    value={formik.values.username}
+                    variant="outlined"
+                  />
+                  <TextField
+                    error={Boolean(formik.touched.email && formik.errors.email)}
+                    fullWidth
+                    helperText={formik.touched.email && formik.errors.email}
+                    label="Email Address"
+                    margin="normal"
+                    name="email"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="email"
+                    value={formik.values.email}
+                    variant="outlined"
+                  />
+                  <TextField
+                    error={Boolean(
+                      formik.touched.password && formik.errors.password,
+                    )}
+                    fullWidth
+                    helperText={
+                      formik.touched.password && formik.errors.password
+                    }
+                    label="Password"
+                    margin="normal"
+                    name="password"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="password"
+                    value={formik.values.password}
+                    variant="outlined"
+                  />
+                  {formik.errors.submit && (
+                    <Box sx={{ mt: 3 }}>
+                      <FormHelperText error>
+                        {formik.errors.submit}
+                      </FormHelperText>
+                    </Box>
+                  )}
+                  <Grid sx={{ pt: 3 }}>
+                    <Button
+                      color="primary"
+                      disabled={formik.isSubmitting}
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                    >
+                      Register
+                    </Button>
+                  </Grid>
+                </form>
+              </Box>
+              <Divider sx={{ my: 3 }} />
+              <Box
+                sx={{
+                  alignItems: 'left',
+                }}
+              >
+                <Link
+                  variant="subtitle1"
+                  underline="hover"
+                  sx={{
+                    cursor: 'pointer',
+                  }}
+                  onClick={handleClose}
+                >
+                  <Login />
+                </Link>
+              </Box>
+            </Container>
           </Box>
-          <Divider sx={{ my: 3 }} />
-          <Box
-            sx={{
-              alignItems: 'left',
-            }}
-          >
-            <Login />
-          </Box>
-        </Container>
-      </Box>
-    </RegisterDialog>
+        </DialogContent>
+      </BootstrapDialog>
+    </div>
   );
 };
 

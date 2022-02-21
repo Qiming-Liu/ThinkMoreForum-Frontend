@@ -42,20 +42,16 @@ const Login = () => {
 
   if (session) {
     return (
-      <>
-        Signed in as email {session.user.email} <br />
-        Signed in as username {session.user.name} <br />
-        <Link
-          variant="subtitle1"
-          underline="hover"
-          sx={{
-            cursor: 'pointer',
-          }}
-          onClick={() => signOut()}
-        >
-          Log out
-        </Link>
-      </>
+      <Link
+        variant="subtitle1"
+        underline="hover"
+        sx={{
+          cursor: 'pointer',
+        }}
+        onClick={() => signOut()}
+      >
+        Log out
+      </Link>
     );
   }
 
