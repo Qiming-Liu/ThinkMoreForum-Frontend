@@ -2,11 +2,11 @@ import {
   createTheme as createMuiTheme,
   responsiveFontSizes,
 } from '@mui/material/styles';
-import baseThemeOptions from './base-theme-options';
-import lightThemeOptions from './light-theme-options';
+import baseTheme from './base-theme';
+import lightTheme from './light-theme';
 
 const createTheme = () => {
-  let theme = createMuiTheme(baseThemeOptions, lightThemeOptions, {
+  let theme = createMuiTheme(baseTheme, lightTheme, {
     direction: 'ltr',
   });
   theme = responsiveFontSizes(theme);
