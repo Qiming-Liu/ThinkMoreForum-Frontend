@@ -7,7 +7,7 @@ const AccountButton = () => {
   const anchorRef = useRef(null);
   const [openPopover, setOpenPopover] = useState(false);
   const user = {
-    avatar: '/avatar.png',
+    avatar: '/logo.png',
     name: 'Alan',
   };
 

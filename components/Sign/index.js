@@ -1,7 +1,6 @@
 import React from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
-import * as Action from '../../store/actions/signAction';
+import * as Action from '../../store/actionTypes';
 import SignDialog from './SignDialog';
 import Login from './Login';
 import Register from './Register';
@@ -14,13 +13,15 @@ const Sign = () => {
   return (
     <SignDialog
       open={dialogOpen}
-      onOpen={() => dispatch(Action.setSignDialogOpen())}
-      onClose={() => dispatch(Action.setSignDialogClose())}
+      onOpen={() => dispatch({ type: Action.OPEN_SIGN_DIALOG })}
+      onClose={() => dispatch({ type: Action.CLOSE_SIGN_DIALOG })}
     >
       {dialogContent === 'login' ? (
-        <Login register={() => dispatch(Action.setSignDialogRegister())} />
+        <Login
+          register={() => dispatch({ type: Action.REGISTER_SIGN_DIALOG })}
+        />
       ) : (
-        <Register login={() => dispatch(Action.setSignDialogLogin())} />
+        <Register login={() => dispatch({ type: Action.LOGIN_SIGN_DIALOG })} />
       )}
     </SignDialog>
   );

@@ -8,25 +8,25 @@ const initialState = {
 // eslint-disable-next-line default-param-last
 const signReducer = (state = initialState, { type }) => {
   switch (type) {
-    case Action.SET_SIGN_DIALOG_OPEN:
+    case Action.OPEN_SIGN_DIALOG:
       return {
         isOpen: true,
         content: state.content,
       };
 
-    case Action.SET_SIGN_DIALOG_CLOSE:
+    case Action.CLOSE_SIGN_DIALOG:
       return {
         isOpen: false,
         content: state.content,
       };
 
-    case Action.SET_SIGN_DIALOG_LOGIN:
+    case Action.LOGIN_SIGN_DIALOG:
       return {
         isOpen: state.isOpen,
         content: 'login',
       };
 
-    case Action.SET_SIGN_DIALOG_REGISTER:
+    case Action.REGISTER_SIGN_DIALOG:
       return {
         isOpen: state.isOpen,
         content: 'register',

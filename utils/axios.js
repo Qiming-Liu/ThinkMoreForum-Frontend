@@ -1,23 +1,18 @@
 import axios from 'axios';
-
-const apiUrl =
-  process.env.NODE_ENV === 'development' ? 'http://3.26.60.225:8080/' : '';
+import store from '../store/store';
 
 const axiosInstance = axios.create({
-  baseURL: apiUrl,
+  baseURL: 'http://3.26.60.225:8080',
 });
 
-const api = async (
-  endpoint,
-  { contentType, method, requestData, token, headers, ...customConfig },
-) => {
+const api = async (endpoint, { method, data, headers, ...customConfig }) => {
   const config = {
     method,
     headers: {
-      Authorization: token ? `${token}` : '',
-      'Content-Type': contentType || 'application/json',
+      Authorization: store.getState().jwt.token,
+      ...headers,
     },
-    data: requestData,
+    data,
     ...customConfig,
   };
   const response = await axiosInstance(endpoint, { ...config });

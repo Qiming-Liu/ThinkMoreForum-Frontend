@@ -1,17 +1,39 @@
 import * as Action from '../actionTypes';
+import { login } from '../../services/usersServices';
 
-export const setSignDialogOpen = () => ({
-  type: Action.SET_SIGN_DIALOG_OPEN,
+const loginStart = () => ({
+  type: Action.LOGIN_START,
 });
 
-export const setSignDialogClose = () => ({
-  type: Action.SET_SIGN_DIALOG_CLOSE,
+const loginSuccess = (token) => ({
+  type: Action.LOGIN_SUCCESS,
+  payload: token,
 });
 
-export const setSignDialogLogin = () => ({
-  type: Action.SET_SIGN_DIALOG_LOGIN,
+const loginError = (errorMessage) => ({
+  type: Action.LOGIN_ERROR,
+  payload: errorMessage,
 });
 
-export const setSignDialogRegister = () => ({
-  type: Action.SET_SIGN_DIALOG_REGISTER,
+const loginOut = () => ({
+  type: Action.LOGOUT,
 });
+
+export default {
+  loginStart,
+  loginSuccess,
+  loginError,
+  loginOut,
+};
+
+// TODO get token from headers
+export const loginAction = (email, password) => (dispatch) => {
+  dispatch(loginStart());
+  login(email, password)
+    .then((response) => dispatch(loginSuccess(response.headers)))
+    .catch((error) => dispatch(loginSuccess(error.message)));
+};
+
+export const logoutAction = () => (dispatch) => {
+  dispatch(loginOut());
+};
