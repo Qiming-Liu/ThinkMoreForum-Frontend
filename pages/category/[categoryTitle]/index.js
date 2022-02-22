@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import {
@@ -10,7 +8,6 @@ import {
   Pagination,
   Typography,
 } from '@mui/material';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import PostCard from '../../../components/Post/PostCard';
 import ArrowLeftIcon from '../../../icons/arrow-left';
@@ -28,14 +25,16 @@ const PostList = () => {
   const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
-      const responsePosts = await getPostsByCategoryTitle(
+      const { data: responsePosts } = await getPostsByCategoryTitle(
         categoryTitle,
         currentPage,
         sizePerPage,
       );
-      const responseTotalPages = await getPagesByCategoryTitle(categoryTitle);
-      setTotalPages(Math.ceil(responseTotalPages.data / sizePerPage));
-      setPosts(responsePosts.data);
+      const { data: responseTotalPages } = await getPagesByCategoryTitle(
+        categoryTitle,
+      );
+      setTotalPages(Math.ceil(responseTotalPages / sizePerPage));
+      setPosts(responsePosts);
     };
     fetchData();
   }, [currentPage, categoryTitle]);
@@ -54,31 +53,42 @@ const PostList = () => {
         {categoryTitle}
       </Typography>
       <Divider sx={{ my: 3 }} />
-      {posts.map((post) => {
-        const timeStamp = new Date(post.createTimestamp);
-        const createDate = timeStamp.toLocaleDateString('en-AU');
-        const createTime = timeStamp.toLocaleTimeString('en-AU');
-        const concatedDateTime = `${createDate.toString()} ${createTime.toString()}`;
-        return (
-          <PostCard
-            key={post.id}
-            generatedUrl={`/category/${categoryTitle}/post/${post.id}`}
-            authorAvatar={
-              post.postUsers.profileImg
-                ? post.postUsers.profileImg.url
-                : '/logo.png'
-            }
-            authorName={post.postUsers.username}
-            headImg={post.headImg ? post.headImg.url : '/logo.png'}
-            createTimeStamp={concatedDateTime}
-            abstract={post.context}
-            title={post.title}
-            commentCount={post.commentCount}
-            viewCount={post.viewCount}
-            followCount={post.followCount}
-          />
-        );
-      })}
+      {posts.map(
+        ({
+          id,
+          createTimestamp,
+          postUsers: {
+            profileImg: authorAvatar = '/logo.png',
+            username: authorName = 'N.A.',
+          },
+          headImg = 'logo.png',
+          context,
+          title,
+          commentCount,
+          viewCount,
+          followCount,
+        }) => {
+          const timeStamp = new Date(createTimestamp);
+          const createDate = timeStamp.toLocaleDateString('en-AU');
+          const createTime = timeStamp.toLocaleTimeString('en-AU');
+          const concatedDateTime = `${createDate.toString()} ${createTime.toString()}`;
+          return (
+            <PostCard
+              key={id}
+              generatedUrl={`/category/${categoryTitle}/post/${id}`}
+              authorAvatar={authorAvatar || '/logo.png'}
+              authorName={authorName}
+              headImg={headImg || '/logo.png'}
+              createTimeStamp={concatedDateTime}
+              abstract={context}
+              title={title}
+              commentCount={commentCount}
+              viewCount={viewCount}
+              followCount={followCount}
+            />
+          );
+        },
+      )}
       <Box
         sx={{
           alignItems: 'center',

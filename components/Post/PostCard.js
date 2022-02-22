@@ -88,7 +88,7 @@ const PostCard = (props) => {
               {getInitials(authorName)}
             </Avatar>
             <Typography variant="subtitle2">
-              By {authorName} • {createTimeStamp}
+              {`By ${authorName} • ${createTimeStamp}`}
             </Typography>
           </Box>
           <Typography
@@ -97,8 +97,7 @@ const PostCard = (props) => {
             sx={{ flexGrow: 1 }}
             variant="body2"
           >
-            {`${viewCount} views`} • {`${commentCount} comments`} •{' '}
-            {`${followCount} users following`}
+            {`${viewCount} views • ${commentCount} comments • ${followCount} users following`}
           </Typography>
         </Box>
       </CardContent>
