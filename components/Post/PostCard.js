@@ -42,13 +42,13 @@ const PostCard = (props) => {
       }}
       {...other}
     >
-      <NextLink href={generatedUrl} passHref>
+      <NextLink href={generatedUrl ?? ''} passHref>
         <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
       </NextLink>
       <CardContent>
-        <NextLink href={generatedUrl} passHref>
+        <NextLink href={generatedUrl ?? ''} passHref>
           <Link
-            href={generatedUrl}
+            href={generatedUrl ?? ''}
             color="textPrimary"
             component="a"
             variant="h5"

@@ -60,7 +60,7 @@ const SocialConnections = (props) => {
                     p: 2,
                   }}
                 >
-                  <NextLink href="#" passHref>
+                  <NextLink href="/" passHref>
                     <Avatar
                       component="a"
                       src={connection.avatar}
@@ -76,7 +76,7 @@ const SocialConnections = (props) => {
                       mx: 2,
                     }}
                   >
-                    <NextLink href="#" passHref>
+                    <NextLink href="/" passHref>
                       {/* <Link color="textPrimary" variant="subtitle2"> */}
                       {connection.name}
                       {/* </Link> */}

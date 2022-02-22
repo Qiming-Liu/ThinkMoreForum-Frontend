@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Container,
-  Link,
   Typography,
   Tabs,
   Tab,
@@ -131,34 +130,6 @@ const Profile = () => {
               front-end developer
             </Typography>
             <Typography variant="h6">Tydias</Typography>
-          </Box>
-          <Box
-            sx={{
-              ml: 2,
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            <Link
-              href="localhost:3000"
-              underline="hover"
-              variant="caption"
-              sx={{
-                color: blueGrey[700],
-              }}
-            >
-              Following
-            </Link>
-            <Link
-              href="localhost:3000"
-              underline="hover"
-              variant="caption"
-              sx={{
-                color: blueGrey[700],
-              }}
-            >
-              Follower
-            </Link>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box

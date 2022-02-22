@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '../store/store';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://3.26.60.225:8080',
+  baseURL: 'https://api.thinkmoreapp.com',
 });
 
 const api = async (endpoint, { method, data, headers, ...customConfig }) => {
@@ -16,6 +16,9 @@ const api = async (endpoint, { method, data, headers, ...customConfig }) => {
     ...customConfig,
   };
   const response = await axiosInstance(endpoint, { ...config });
+  // const jwt = response.headers.authorization;
+  // localStorage.setItem('jwt', jwt);
+  // localStorage.getItem('jwt')
   return response;
 };
 
