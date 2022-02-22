@@ -8,9 +8,16 @@ import {
   Typography,
   Tabs,
   Tab,
+  Divider,
 } from '@mui/material';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import { blueGrey } from '@mui/material/colors';
+// import { format, subHours } from 'date-fns';
+import ProfilePost from '../components/Profile/ProfilePost';
+import BlogComment from '../components/Profile/blog-comment';
+import SocialConnections from '../components/Profile/social-connections';
+import UserAdd from '../icons/user-add';
+import Chat from '../icons/chat';
 
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState('posts');
@@ -27,6 +34,33 @@ const Profile = () => {
   const tabs = [
     { label: 'Posts', value: 'posts' },
     { label: 'Comments', value: 'comments' },
+    { label: 'Following', value: 'following' },
+    { label: 'Follower', value: 'follower' },
+  ];
+
+  const comments = [
+    {
+      id: 'd0ab3d02ef737fa6b007e35d',
+      authorAvatar: '/static/mock-images/avatars/avatar-alcides_antonio.png',
+      authorName: 'Alcides Antonio',
+      authorRole: 'Product Designer',
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      // createdAt: subHours(new Date(), 2).getTime(),
+      isLiked: true,
+      likes: 12,
+    },
+    {
+      id: '3ac1e17289e38a84108efdf3',
+      authorAvatar: '/static/mock-images/avatars/avatar-jie_yan_song.png',
+      authorName: 'Jie Yan Song',
+      authorRole: 'Web Developer',
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+      // createdAt: subHours(new Date(), 8).getTime(),
+      isLiked: false,
+      likes: 8,
+    },
   ];
 
   return (
@@ -34,7 +68,6 @@ const Profile = () => {
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8,
       }}
     >
       <Container maxWidth="lg">
@@ -139,9 +172,7 @@ const Profile = () => {
             <Button
               // onClick={handleConnectToggle}
               size="small"
-              // startIcon={(
-              //   <UserAddIcon fontSize="small" />
-              // )}
+              startIcon={<UserAdd fontSize="small" />}
               sx={{ ml: 2 }}
               variant="outlined"
             >
@@ -150,9 +181,7 @@ const Profile = () => {
             <Button
               component="a"
               size="small"
-              // startIcon={(
-              //   <ChatIcon fontSize="small" />
-              // )}
+              startIcon={<Chat fontSize="small" />}
               sx={{ ml: 1 }}
               variant="contained"
             >
@@ -175,6 +204,16 @@ const Profile = () => {
               <Tab key={tab.value} label={tab.label} value={tab.value} />
             ))}
           </Tabs>
+          <Divider />
+          <Box sx={{ py: 3 }}>
+            {currentTab === 'posts' && <ProfilePost />}
+            {currentTab === 'comments' &&
+              comments.map((comment) => {
+                return <BlogComment key={comment.id} {...comment} />;
+              })}
+            {currentTab === 'following' && <SocialConnections />}
+            {currentTab === 'follower' && <SocialConnections />}
+          </Box>
         </Container>
       </Box>
     </Box>
