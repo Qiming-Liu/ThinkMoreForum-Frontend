@@ -13,6 +13,7 @@ import { getInitials } from '../../utils/get-initials';
 
 const PostCard = (props) => {
   const {
+    id,
     authorAvatar,
     authorName,
     headImg,
@@ -31,11 +32,11 @@ const PostCard = (props) => {
       }}
       {...other}
     >
-      <NextLink href="/" passHref>
+      <NextLink href={`/category/${id}`} passHref>
         <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
       </NextLink>
       <CardContent>
-        <NextLink href="/" passHref>
+        <NextLink href={`/category/${id}`} passHref>
           <Link href="/" color="textPrimary" component="a" variant="h5">
             {title}
           </Link>

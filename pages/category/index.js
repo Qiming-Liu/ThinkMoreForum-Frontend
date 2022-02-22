@@ -3,12 +3,13 @@ import NextLink from 'next/link';
 import { Box, Button, Container, Divider } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import PostCard from '../components/Post/PostCard';
-import ArrowLeftIcon from '../icons/arrow-left';
+import PostCard from '../../components/Post/PostCard';
+import ArrowLeftIcon from '../../icons/arrow-left';
 
 const PostList = () => {
   const posts = [
     {
+      id: 1,
       authorAvatar: '/logo.png',
       authorName: 'Adam',
       headImg: '/logo.png',
@@ -17,6 +18,7 @@ const PostList = () => {
       title: 'test',
     },
     {
+      id: 2,
       authorAvatar: '/logo.png',
       authorName: 'Adam',
       headImg: '/logo.png',
