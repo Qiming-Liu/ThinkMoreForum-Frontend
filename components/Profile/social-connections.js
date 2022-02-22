@@ -8,7 +8,6 @@ import {
   Divider,
   Grid,
   IconButton,
-  Link,
   Paper,
   Typography,
 } from '@mui/material';
@@ -78,9 +77,9 @@ const SocialConnections = (props) => {
                     }}
                   >
                     <NextLink href="#" passHref>
-                      <Link color="textPrimary" variant="subtitle2">
-                        {connection.name}
-                      </Link>
+                      {/* <Link color="textPrimary" variant="subtitle2"> */}
+                      {connection.name}
+                      {/* </Link> */}
                     </NextLink>
                     <Typography
                       color="textSecondary"
