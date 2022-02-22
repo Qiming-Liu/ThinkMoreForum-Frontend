@@ -30,7 +30,7 @@ export default {
 export const loginAction = (email, password) => (dispatch) => {
   dispatch(loginStart());
   login(email, password)
-    .then((response) => dispatch(loginSuccess(response.headers)))
+    .then((response) => dispatch(loginSuccess(response.headers.authorization)))
     .catch((error) => dispatch(loginSuccess(error.message)));
 };
 

@@ -7,3 +7,7 @@ export const login = (email, password) =>
 // path variable 参考这个
 export const resetPasswordemail = (email) =>
   api(`/v1/users/reset-password/${email}`, { method: 'GET' });
+
+// 调用:
+// import { login } from '../services/usersServices';
+// login(email, password);
