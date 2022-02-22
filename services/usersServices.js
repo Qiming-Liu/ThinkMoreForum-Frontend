@@ -11,3 +11,19 @@ export const resetPasswordemail = (email) =>
 // 调用:
 // import { login } from '../services/usersServices';
 // login(email, password);
+
+export const getPostsByCategoryTitle = (
+  categoryTitle,
+  currentPage,
+  sizePerPage,
+) =>
+  api(`/v1/category/${categoryTitle}`, {
+    method: 'GET',
+    params: {
+      page: currentPage,
+      value: sizePerPage,
+    },
+  });
+
+export const getPagesByCategoryTitle = (categoryTitle) =>
+  api(`/v1/category/${categoryTitle}/count`, { method: 'GET' });

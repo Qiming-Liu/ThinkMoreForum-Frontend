@@ -20,6 +20,7 @@ const getInitials = (name = '') =>
 
 const PostCard = (props) => {
   const {
+    generatedUrl,
     authorAvatar,
     authorName,
     headImg,
@@ -41,12 +42,17 @@ const PostCard = (props) => {
       }}
       {...other}
     >
-      <NextLink href="/" passHref>
+      <NextLink href={generatedUrl} passHref>
         <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
       </NextLink>
       <CardContent>
-        <NextLink href="/" passHref>
-          <Link href="/" color="textPrimary" component="a" variant="h5">
+        <NextLink href={generatedUrl} passHref>
+          <Link
+            href={generatedUrl}
+            color="textPrimary"
+            component="a"
+            variant="h5"
+          >
             {title}
           </Link>
         </NextLink>
