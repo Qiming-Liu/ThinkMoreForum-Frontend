@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -6,7 +6,6 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import {
   Box,
-  Button,
   Card,
   FormHelperText,
   TextField,
@@ -14,11 +13,13 @@ import {
   Typography,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkEmail } from '../../store/actions/userAction';
+import LoadingButton from '@mui/lab/LoadingButton';
+import * as Action from '../../store/actionTypes';
+import { resetPasswordemail } from '../../services/usersServices';
 
 const PasswordRecovery = (props) => {
   const dispatch = useDispatch();
-  const { isFound, errorMessage } = useSelector((state) => state.password);
+  const { isLoading } = useSelector((state) => state.password);
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -31,19 +32,13 @@ const PasswordRecovery = (props) => {
         .max(255)
         .required('Email is required'),
     }),
-    onSubmit: (values, helpers) => {
-      helpers.setStatus({ success: false });
-      const message = isFound
-        ? 'The reset email has been sent to the email address you provided!'
-        : errorMessage;
-      helpers.setErrors({ submit: message });
-      helpers.setSubmitting(isFound);
+    onSubmit: async (values) => {
+      dispatch({ type: Action.EMAIL_START });
+      const respone = await resetPasswordemail(values.email);
+      console.log(respone);
+      dispatch({ type: Action.EMAIL_SUCCESS });
     },
   });
-  const { email } = formik.values;
-  useEffect(() => {
-    dispatch(checkEmail(email));
-  }, [dispatch, email]);
 
   return (
     <>
@@ -115,15 +110,16 @@ const PasswordRecovery = (props) => {
                   </Box>
                 )}
                 <Box sx={{ mt: 3 }}>
-                  <Button
+                  <LoadingButton
                     disabled={formik.isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
                     variant="contained"
+                    loading={isLoading}
                   >
                     Recover Password
-                  </Button>
+                  </LoadingButton>
                 </Box>
               </form>
             </Box>

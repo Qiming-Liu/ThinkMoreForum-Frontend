@@ -1,23 +1,22 @@
-import { EMAIL_FOUND, EMAIL_ERROR } from '../actionTypes';
+import * as Action from '../actionTypes';
 
 const initialState = {
-  isFound: false,
-  errorMessage: null,
+  isLoading: false,
 };
 
 // eslint-disable-next-line default-param-last
-const passwordReducer = (state = initialState, { type, payload }) => {
+const passwordReducer = (state = initialState, { type }) => {
   switch (type) {
-    case EMAIL_FOUND:
+    case Action.EMAIL_START:
       return {
         ...state,
-        isFound: payload,
+        isLoading: true,
       };
 
-    case EMAIL_ERROR:
+    case Action.EMAIL_SUCCESS:
       return {
         ...state,
-        errorMessage: payload,
+        isLoading: false,
       };
 
     default:

@@ -19,6 +19,11 @@ const loginOut = () => ({
   type: Action.LOGOUT,
 });
 
+const setJWT = (token) => ({
+  type: Action.SET_JWT,
+  payload: token,
+});
+
 export default {
   loginStart,
   loginSuccess,
@@ -26,7 +31,6 @@ export default {
   loginOut,
 };
 
-// TODO get token from headers
 export const loginAction = (email, password) => (dispatch) => {
   dispatch(loginStart());
   login(email, password)
@@ -36,4 +40,8 @@ export const loginAction = (email, password) => (dispatch) => {
 
 export const logoutAction = () => (dispatch) => {
   dispatch(loginOut());
+};
+
+export const setJWTAction = (token) => (dispatch) => {
+  dispatch(setJWT(token));
 };
