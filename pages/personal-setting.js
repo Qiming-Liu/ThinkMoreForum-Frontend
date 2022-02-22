@@ -1,19 +1,20 @@
 import React from 'react';
-import PersonalSettingHead from '../components/PersonalSetting/components/PersonalSettingHead/PersonalSettingHead';
-import PersonalSettingNavigation from '../components/PersonalSetting/components/PersonalSettingNavigation';
-import PersonalSettingContent from '../components/PersonalSetting/components/PersonalSettingContent';
-import Grid from '@mui/material/Grid';
+import PersonalSetting from '../components/PersonalSetting';
+import PersonalSettingHead from '../components/PersonalSetting/PersonalSettingHead';
+import PersonalSettingNavigation from '../components/PersonalSetting/PersonalSettingNavigation';
+import PersonalSettingContentMin from '../components/PersonalSetting/PersonalSettingContentMin';
+import PersonalSettingPassword from '../components/PersonalSetting/PersonalSettingPassword';
 
 const personalSetting = () => (
-  <Grid container direction="column" >
-    <Grid item>
-      <PersonalSettingHead></PersonalSettingHead>
-    </Grid>
-    <Grid item>
-      <PersonalSettingContent></PersonalSettingContent>
-    </Grid>
-
-  </Grid>
+  <>
+    <PersonalSetting />
+    <div className="personal__setting__header">
+      <PersonalSettingHead />
+      <PersonalSettingNavigation />
+      <PersonalSettingContentMin />
+      <PersonalSettingPassword />
+    </div>
+  </>
 );
 
 export default personalSetting;
