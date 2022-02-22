@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useReducer } from 'react';
+
 
 
 
 
 const PersonalSettingHead = () => {
-  
+
+
   return (
     <div>
-      <div >Account</div>
+      <h1 >Account</h1>
     </div>
   )
 }
