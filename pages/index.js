@@ -8,14 +8,14 @@ const Index = () => {
       <Category
         type="A"
         color="primary.main"
-        title="Category One"
+        title="Default Category"
         description="description description description"
         postCount="10"
       />
       <Category
         type="B"
         color="neutral.900"
-        title="Category Two"
+        title="Second Category"
         description="description description description"
         postCount="10"
       />

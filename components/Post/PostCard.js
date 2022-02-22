@@ -26,6 +26,9 @@ const PostCard = (props) => {
     createTimeStamp,
     abstract,
     title,
+    commentCount,
+    viewCount,
+    followCount,
     ...other
   } = props;
 
@@ -82,6 +85,15 @@ const PostCard = (props) => {
               By {authorName} • {createTimeStamp}
             </Typography>
           </Box>
+          <Typography
+            align="right"
+            color="textSecondary"
+            sx={{ flexGrow: 1 }}
+            variant="body2"
+          >
+            {`${viewCount} views`} • {`${commentCount} comments`} •{' '}
+            {`${followCount} users following`}
+          </Typography>
         </Box>
       </CardContent>
     </Card>
