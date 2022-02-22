@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
-import { postReducer } from './postReducer';
+import jwtReducer from './jwtReducer';
+import signReducer from './signReducer';
+import passwordReducer from './passwordReducer';
 
 export default combineReducers({
-  post: postReducer,
+  jwt: jwtReducer,
+  sign: signReducer,
+  password: passwordReducer,
 });

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { createSvgIcon } from '@mui/material/utils';
 
 const Google = createSvgIcon(

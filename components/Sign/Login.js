@@ -1,10 +1,10 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { useFormik } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { useSession, signIn, signOut } from 'next-auth/react';
-
+import { signIn } from 'next-auth/react';
 import {
   Box,
   Button,
@@ -14,14 +14,15 @@ import {
   TextField,
   Typography,
   Divider,
-  Alert,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
+import { loginAction } from '../../store/actions/signAction';
 
-const Login = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
+const Login = ({ register }) => {
+  const { isLoading, errorMessage } = useSelector((state) => state.jwt);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -34,31 +35,11 @@ const Login = () => {
         .required('Email is required'),
       password: Yup.string().max(255).required('Password is required'),
     }),
-    onSubmit: () => {
-      router.push('/');
+    onSubmit: async (values, helpers) => {
+      dispatch(loginAction(values.email, values.password));
+      helpers.setErrors({ submit: errorMessage });
     },
   });
-
-  if (session) {
-    return (
-      <>
-        Signed in as email {session.users.email} <br />
-        Signed in as username {session.users.name} <br />
-        <Button
-          color="primary"
-          disabled={formik.isSubmitting}
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-          onClick={() => signOut()}
-          sx={{ borderRadius: 3 }}
-        >
-          Log out
-        </Button>
-      </>
-    );
-  }
 
   return (
     <Box
@@ -73,16 +54,12 @@ const Login = () => {
     >
       <Container maxWidth="md">
         <form onSubmit={formik.handleSubmit}>
-          <NextLink href="/" passHref>
-            <a>
-              <Typography align="center">
-                <img src="/logo.svg" height="50" width="50" />
-              </Typography>
-            </a>
-          </NextLink>
+          <Typography align="center">
+            <Image src="/logo.svg" height="50" width="50" alt="logo" />
+          </Typography>
           <Box sx={{ my: 3 }}>
             <Typography color="textPrimary" variant="h4" align="center">
-              Sign in
+              Log in
             </Typography>
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
@@ -111,52 +88,42 @@ const Login = () => {
               variant="outlined"
             />
             <Grid sx={{ py: 2 }}>
-              <Button
-                color="primary"
+              <LoadingButton
+                loading={isLoading}
                 disabled={formik.isSubmitting}
+                color="primary"
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
-                sx={{ borderRadius: 3 }}
               >
                 Login
-              </Button>
+              </LoadingButton>
             </Grid>
-            <Box sx={{ mt: 2 }}>
-              <Alert severity="info" sx={{ borderRadius: 3 }}>
-                <div>
-                  You can use <b>demo@devias.io</b> and password{' '}
-                  <b>Password123!</b>
-                </div>
-              </Alert>
-            </Box>
             <br />
             <Divider />
           </Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <Button
-                color="info"
-                fullWidth
                 startIcon={<FacebookIcon />}
                 onClick={() => signIn('facebook')}
+                color="info"
+                fullWidth
                 size="large"
                 variant="contained"
-                sx={{ borderRadius: 3 }}
               >
                 Login with Facebook
               </Button>
             </Grid>
             <Grid item xs={12} md={6}>
               <Button
-                fullWidth
-                color="error"
                 startIcon={<GoogleIcon />}
                 onClick={() => signIn('google')}
+                fullWidth
+                color="error"
                 size="large"
                 variant="contained"
-                sx={{ borderRadius: 3 }}
               >
                 Login with Google
               </Button>
@@ -169,29 +136,16 @@ const Login = () => {
             }}
           />
           <Typography color="textSecondary" variant="body2">
-            <NextLink href="/password">
+            <Button onClick={() => register()}>Create a new account</Button>
+          </Typography>
+          <Typography color="textSecondary" variant="body2">
+            <NextLink href="/password-email" passHref>
               <Link
+                href="/password-email"
                 variant="subtitle1"
                 underline="hover"
-                sx={{
-                  cursor: 'pointer',
-                }}
               >
                 Forgot your password?
-              </Link>
-            </NextLink>
-          </Typography>
-
-          <Typography color="textSecondary" variant="body2">
-            <NextLink href="/register">
-              <Link
-                variant="subtitle1"
-                underline="hover"
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                Sign Up
               </Link>
             </NextLink>
           </Typography>
