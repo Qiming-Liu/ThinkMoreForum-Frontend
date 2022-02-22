@@ -19,15 +19,6 @@ import {
   getPagesByCategoryTitle,
 } from '../../../services/usersServices';
 
-// const axiosInstance = axios.create({
-//   baseURL: 'http://localhost:8080/v1/category',
-//   timeout: 2000,
-//   headers: {
-//     Authorization:
-//       'eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiJhNWUxMzUxMC05MmU0LTExZWMtYWRlYy0yNzQzNTk0NDVhYWQiLCJzdWIiOiJhZG1pbiIsImF1ZCI6Int9IiwiaWF0IjoxNjQ1NDk3NjY3LCJleHAiOjE2NDU1MzQ4MDB9.9XyLuCtU0vyL9dM2E2vOg99L9lZytizdLRfhMqptBKLjtCSbertMYdfNDWmpBJxz',
-//   },
-// });
-
 const PostList = () => {
   const router = useRouter();
   const { categoryTitle } = router.query;
