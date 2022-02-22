@@ -36,6 +36,12 @@ const jwtReducer = (state = initialState, { type, payload }) => {
     case Action.LOGOUT:
       return initialState;
 
+    case Action.SET_JWT:
+      return {
+        ...state,
+        token: payload,
+      };
+
     default:
       return state;
   }

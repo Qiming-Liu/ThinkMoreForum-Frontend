@@ -2,6 +2,7 @@ export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT = 'LOGOUT';
+export const SET_JWT = 'SET_JWT';
 
 export const OPEN_SIGN_DIALOG = 'OPEN_SIGN_DIALOG';
 export const CLOSE_SIGN_DIALOG = 'CLOSE_SIGN_DIALOG';
