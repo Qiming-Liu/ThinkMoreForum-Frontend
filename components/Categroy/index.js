@@ -9,8 +9,8 @@ const Category = (props) => {
 
   return (
     <Grid item xs={12}>
-      <NextLink href="/category" passHref>
-        <Link href="/category">
+      <NextLink href={`/category/${title}`} passHref>
+        <Link href={`/category/${title}`}>
           <Paper elevation={24}>
             {type === 'A' ? (
               <TypeOne

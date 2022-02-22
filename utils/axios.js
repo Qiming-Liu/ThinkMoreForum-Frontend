@@ -16,7 +16,6 @@ const api = async (endpoint, { method, data, headers, ...customConfig }) => {
     ...customConfig,
   };
   const response = await axiosInstance(endpoint, { ...config });
-
   return response;
 };
 
