@@ -3,7 +3,7 @@ import { Avatar, Box, ButtonBase } from '@mui/material';
 import UserCircleIcon from '../../icons/user-circle';
 import AccountPopover from './AccountPopover';
 
-const AccountButton = ({ login }) => {
+const AccountButton = ({ isLogin }) => {
   const anchorRef = useRef(null);
   const [openPopover, setOpenPopover] = useState(false);
 
@@ -24,7 +24,7 @@ const AccountButton = ({ login }) => {
             height: 40,
             width: 40,
           }}
-          src={login ? '/avatar-cao-yu.png' : ''}
+          src={isLogin ? '/avatar-cao-yu.png' : ''}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>

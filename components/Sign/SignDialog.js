@@ -35,9 +35,9 @@ const BootstrapDialogTitle = ({ children, onClose, ...other }) => {
   );
 };
 
-const SignDialog = ({ children, open, onOpen, onClose }) => {
+const SignDialog = ({ children, isOpen, onOpen, onClose }) => {
   return (
-    <div>
+    <>
       <Button variant="outlined" onClick={onOpen}>
         Login
       </Button>
@@ -45,12 +45,12 @@ const SignDialog = ({ children, open, onOpen, onClose }) => {
         fullWidth
         maxWidth="md"
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={isOpen}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose} />
         <DialogContent>{children}</DialogContent>
       </BootstrapDialog>
-    </div>
+    </>
   );
 };
 

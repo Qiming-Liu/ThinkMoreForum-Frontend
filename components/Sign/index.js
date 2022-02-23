@@ -1,22 +1,21 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  openSignDialog,
-  closeSignDialog,
-  loginSignDialog,
-  registerSignDialog,
-} from '../../store/actions/signAction';
 import SignDialog from './SignDialog';
 import Login from './Login';
 import Register from './Register';
+import {
+  openSignDialog,
+  closeSignDialog,
+  registerSignDialog,
+  loginSignDialog,
+} from '../../store/actions/signAction';
 
 const Sign = () => {
   const { isOpen, content } = useSelector((state) => state.sign);
   const dispatch = useDispatch();
-
   return (
     <SignDialog
-      open={isOpen}
+      isOpen={isOpen}
       onOpen={() => dispatch(openSignDialog())}
       onClose={() => dispatch(closeSignDialog())}
     >

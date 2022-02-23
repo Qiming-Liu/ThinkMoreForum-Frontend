@@ -16,7 +16,7 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
-import { loginAction } from '../../store/actions/signAction';
+import loginAction from '../../store/actions/httpAction';
 
 const Login = ({ register }) => {
   const { isLoading } = useSelector((state) => state.sign);

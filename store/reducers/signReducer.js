@@ -4,7 +4,7 @@ const initialState = {
   isOpen: false,
   content: 'login',
   isLoading: false,
-  login: false,
+  isLogin: false,
   token: undefined,
   errorMessage: undefined,
 };
@@ -49,26 +49,26 @@ const signReducer = (state = initialState, { type, payload }) => {
         ...state,
         isOpen: false,
         isLoading: false,
-        token: payload || state.token,
-        login: true,
+        token: payload,
+        isLogin: true,
       };
 
     case Action.LOGIN_ERROR:
       return {
         ...state,
         isLoading: false,
-        login: false,
+        isLogin: false,
         errorMessage: payload,
       };
-
-    case Action.LOGOUT:
-      return initialState;
 
     case Action.SET_JWT:
       return {
         ...state,
-        token: payload || state.token,
+        token: payload,
       };
+
+    case Action.LOGOUT:
+      return initialState;
 
     default:
       return state;
