@@ -11,7 +11,7 @@ export const getPostsByCategoryTitle = (
   currentPage,
   sizePerPage,
 ) =>
-  api(`/v1/category/${categoryTitle}`, {
+  api(`/v1/category/${categoryTitle}/post`, {
     method: 'GET',
     params: {
       page: currentPage,
@@ -21,3 +21,6 @@ export const getPostsByCategoryTitle = (
 
 export const getPagesByCategoryTitle = (categoryTitle) =>
   api(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
+
+export const getPostByPostId = (postId) =>
+  api(`/v1/post/${postId}`, { method: 'GET' });
