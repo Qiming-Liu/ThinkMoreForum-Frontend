@@ -11,7 +11,7 @@ export const getPostsByCategoryTitle = (
   currentPage,
   sizePerPage,
 ) =>
-  http(`/v1/category/${categoryTitle}`, {
+  http(`/v1/category/${categoryTitle}/post`, {
     method: 'GET',
     params: {
       page: currentPage,
@@ -19,11 +19,17 @@ export const getPostsByCategoryTitle = (
     },
   });
 
-export const getPagesByCategoryTitle = (categoryTitle) =>
-  http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
-
 export const getPostByPostId = (postId) =>
   http(`/v1/post/${postId}`, { method: 'GET' });
 
 export const getNotifications = () =>
   http(`/v1/notification`, { method: 'GET' });
+
+export const getPostCountByCategoryTitle = (categoryTitle) =>
+  http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
+
+export const getAllCategoryTitles = () =>
+  http(`/v1/category/mini`, { method: 'GET' });
+
+export const getCategoryByCategoryTitle = (categoryTitle) =>
+  http(`/v1/category/${categoryTitle}`, { method: 'GET' });
