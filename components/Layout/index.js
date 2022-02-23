@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Container } from '@mui/material';
-import Navbar from '../Navbar';
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -14,23 +13,25 @@ const LayoutRoot = styled('div')(({ theme }) => ({
   },
 }));
 
-const Layout = ({ children }) => (
-  <LayoutRoot>
-    <Navbar />
-    <Box
-      component="main"
-      sx={{
-        display: 'flex',
-        flex: '1 1 auto',
-        flexDirection: 'column',
-        width: '100%',
-        flexGrow: 1,
-        py: 4,
-      }}
-    >
-      <Container maxWidth="xl">{children}</Container>
-    </Box>
-  </LayoutRoot>
-);
+const Layout = ({ children }) => {
+  return (
+    <LayoutRoot>
+      {children[0]}
+      <Box
+        component="main"
+        sx={{
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          width: '100%',
+          flexGrow: 1,
+          py: 4,
+        }}
+      >
+        <Container maxWidth="xl">{children[1]}</Container>
+      </Box>
+    </LayoutRoot>
+  );
+};
 
 export default Layout;

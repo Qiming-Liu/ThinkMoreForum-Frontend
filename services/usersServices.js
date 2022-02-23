@@ -1,17 +1,17 @@
-import api from '../utils/axios';
+import http from '../utils/axios';
 
 export const login = (email, password) =>
-  api(`/login`, { method: 'POST', data: { email, password } });
+  http(`/login`, { method: 'POST', data: { email, password } });
 
 export const resetPasswordemail = (email) =>
-  api(`/v1/users/reset-password/${email}`, { method: 'GET' });
+  http(`/v1/users/reset-password/${email}`, { method: 'GET' });
 
 export const getPostsByCategoryTitle = (
   categoryTitle,
   currentPage,
   sizePerPage,
 ) =>
-  api(`/v1/category/${categoryTitle}`, {
+  http(`/v1/category/${categoryTitle}`, {
     method: 'GET',
     params: {
       page: currentPage,
@@ -20,4 +20,7 @@ export const getPostsByCategoryTitle = (
   });
 
 export const getPagesByCategoryTitle = (categoryTitle) =>
-  api(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
+  http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
+
+export const getNotifications = () =>
+  http(`/v1/notification`, { method: 'GET' });

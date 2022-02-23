@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Button, Container, Divider, Typography } from '@mui/material';
 import NextLink from 'next/link';
-import ArrowLeftIcon from '../../../../icons/arrow-left';
+import ArrowLeftIcon from '../../icons/arrow-left';
 
 const Post = () => {
   const router = useRouter();
