@@ -22,5 +22,8 @@ export const getPostsByCategoryTitle = (
 export const getPagesByCategoryTitle = (categoryTitle) =>
   http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
 
+export const getPostByPostId = (postId) =>
+  http(`/v1/post/${postId}`, { method: 'GET' });
+
 export const getNotifications = () =>
   http(`/v1/notification`, { method: 'GET' });
