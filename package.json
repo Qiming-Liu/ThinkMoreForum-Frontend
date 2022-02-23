@@ -43,6 +43,7 @@
     "react-redux": "^7.2.1",
     "react-svg": "^14.1.9",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "sass": "^1.49.7",
     "secure-env": "^1.2.0",

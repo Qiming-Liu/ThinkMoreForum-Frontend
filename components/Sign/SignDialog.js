@@ -36,8 +36,6 @@ const BootstrapDialogTitle = ({ children, onClose, ...other }) => {
 };
 
 const SignDialog = ({ children, open, onOpen, onClose }) => {
-  // const [open, setOpen] = React.useState(false);
-
   return (
     <div>
       <Button variant="outlined" onClick={onOpen}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import NextLink from 'next/link';
 import Image from 'next/image';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +9,6 @@ import {
   Button,
   Container,
   Grid,
-  Link,
   TextField,
   Typography,
   Divider,
@@ -21,7 +19,7 @@ import GoogleIcon from '../../icons/google';
 import { loginAction } from '../../store/actions/signAction';
 
 const Login = ({ register }) => {
-  const { isLoading, errorMessage } = useSelector((state) => state.jwt);
+  const { isLoading } = useSelector((state) => state.sign);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -35,9 +33,9 @@ const Login = ({ register }) => {
         .required('Email is required'),
       password: Yup.string().max(255).required('Password is required'),
     }),
-    onSubmit: async (values, helpers) => {
-      dispatch(loginAction(values.email, values.password));
-      helpers.setErrors({ submit: errorMessage });
+    onSubmit: (values) => {
+      const { email, password } = values;
+      dispatch(loginAction(email, password));
     },
   });
 

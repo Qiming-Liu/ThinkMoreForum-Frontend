@@ -95,7 +95,7 @@ const AccountPopover = (props) => {
           </MenuItem>
         </NextLink>
         <Divider />
-        <NextLink href="/" passHref>
+        <NextLink href="/logout" passHref>
           <MenuItem component="a">
             <ListItemIcon>
               <LogoutIcon fontSize="small" />

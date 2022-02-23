@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useSelector } from 'react-redux';
 import { AppBar, Box, Toolbar } from '@mui/material';
 import AccountButton from './AccountButton';
 import NotificationsButton from './NotificationsButton';
@@ -22,7 +23,7 @@ const NavbarRoot = styled(AppBar)(({ theme }) => ({
 
 const Navbar = (props) => {
   const { ...other } = props;
-
+  const { login } = useSelector((state) => state.sign);
   return (
     <NavbarRoot {...other}>
       <Toolbar
@@ -34,9 +35,9 @@ const Navbar = (props) => {
         }}
       >
         <Box sx={{ flexGrow: 1 }} />
-        <Sign />
+        {login || <Sign />}
         <NotificationsButton />
-        <AccountButton />
+        <AccountButton login={login} />
       </Toolbar>
     </NavbarRoot>
   );
