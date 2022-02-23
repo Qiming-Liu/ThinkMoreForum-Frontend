@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import { formatDistanceToNow } from 'date-fns';
 import { Avatar, Box, Typography } from '@mui/material';
 
-const BlogComment = (props) => {
+const ProfileComment = (props) => {
   const {
     authorAvatar,
     authorName,
@@ -57,7 +57,7 @@ const BlogComment = (props) => {
   );
 };
 
-BlogComment.propTypes = {
+ProfileComment.propTypes = {
   authorAvatar: PropTypes.string.isRequired,
   authorName: PropTypes.string.isRequired,
   authorRole: PropTypes.string.isRequired,
@@ -67,4 +67,4 @@ BlogComment.propTypes = {
   likes: PropTypes.number.isRequired,
 };
 
-export default BlogComment;
+export default ProfileComment;

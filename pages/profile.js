@@ -13,8 +13,8 @@ import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import { blueGrey } from '@mui/material/colors';
 // import { format, subHours } from 'date-fns';
 import ProfilePost from '../components/Profile/ProfilePost';
-import BlogComment from '../components/Profile/blog-comment';
-import SocialConnections from '../components/Profile/social-connections';
+import ProfileComment from '../components/Profile/ProfileComment';
+import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
 import Chat from '../icons/chat';
 
@@ -180,10 +180,10 @@ const Profile = () => {
             {currentTab === 'posts' && <ProfilePost />}
             {currentTab === 'comments' &&
               comments.map((comment) => {
-                return <BlogComment key={comment.id} {...comment} />;
+                return <ProfileComment key={comment.id} {...comment} />;
               })}
-            {currentTab === 'following' && <SocialConnections />}
-            {currentTab === 'follower' && <SocialConnections />}
+            {currentTab === 'following' && <ProfileFollow />}
+            {currentTab === 'follower' && <ProfileFollow />}
           </Box>
         </Container>
       </Box>

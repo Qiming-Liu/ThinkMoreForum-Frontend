@@ -44,7 +44,7 @@ const connections = [
   },
 ];
 
-const SocialConnections = (props) => {
+const ProfileFollow = (props) => {
   return (
     <Card {...props}>
       <CardHeader title="Following" />
@@ -102,4 +102,4 @@ const SocialConnections = (props) => {
   );
 };
 
-export default SocialConnections;
+export default ProfileFollow;
