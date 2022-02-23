@@ -12,15 +12,6 @@ import '../styles/main.scss';
 import '../styles/personalSetting.scss';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
-  const {
-    isLogin,
-    isOpen,
-    content,
-    openSignDialog,
-    closeSignDialog,
-    registerSignDialog,
-    loginSignDialog,
-  } = store.getState().sign;
   return (
     <ReduxProvider store={store}>
       <Head>
@@ -30,19 +21,10 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
       <SessionProvider session={session}>
         <ThemeProvider theme={createTheme()}>
           <Layout>
-            <>
-              <Component {...pageProps} />
-              <Navbar isLogin={isLogin}>
-                <Sign
-                  isOpen={isOpen}
-                  content={content}
-                  openSignDialog={openSignDialog}
-                  closeSignDialog={closeSignDialog}
-                  registerSignDialog={registerSignDialog}
-                  loginSignDialog={loginSignDialog}
-                />
-              </Navbar>
-            </>
+            <Navbar>
+              <Sign />
+            </Navbar>
+            <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
       </SessionProvider>

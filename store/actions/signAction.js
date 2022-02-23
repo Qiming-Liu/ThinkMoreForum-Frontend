@@ -23,7 +23,7 @@ const setJWT = (token) => ({
 });
 
 export const setJWTAction = (token) => (dispatch) => {
-  dispatch(setJWT());
+  dispatch(setJWT(token));
 };
 
 const loginOut = () => ({

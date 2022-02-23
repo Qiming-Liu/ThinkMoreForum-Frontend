@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import store from '../store/store';
-import { signOut } from '../store/actions';
+import { setJWTAction, logoutAction } from '../store/actions/signAction';
 
 const getInstance = () => {
   const axiosInstance = axios.create();
@@ -27,13 +27,20 @@ const getInstance = () => {
     (config) => {
       console.log(`response:${config.url}`);
       console.log(config);
+
+      // update jwt
+      const { authorization } = config.headers;
+      if (authorization && authorization.startsWith('Bearer')) {
+        store.dispatch(setJWTAction(authorization));
+      }
+
       return config;
     },
     (error) => {
       console.log(`response error:${error.config.url}`);
       console.log(error.toJSON());
       if (error.response.status === 401) {
-        store.dispatch(signOut());
+        store.dispatch(logoutAction());
       }
       return Promise.reject(error);
     },
@@ -54,9 +61,3 @@ const http = async (endpoint, { method, data, headers, ...customConfig }) => {
 };
 
 export default http;
-
-//   // await console.log(response);
-//   const { authorization } = response.headers;
-//   if (authorization.startsWith('Bearer')) {
-//     store.dispatch(setJWT(authorization));
-//   }
