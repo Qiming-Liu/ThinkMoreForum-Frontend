@@ -9,12 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import PostCard from '../../../components/Post/PostCard';
-import ArrowLeftIcon from '../../../icons/arrow-left';
+import PostCard from '../../components/Post/PostCard';
+import ArrowLeftIcon from '../../icons/arrow-left';
 import {
   getPostsByCategoryTitle,
   getPagesByCategoryTitle,
-} from '../../../services/usersServices';
+} from '../../services/usersServices';
 
 const PostList = () => {
   const router = useRouter();
@@ -75,7 +75,7 @@ const PostList = () => {
           return (
             <PostCard
               key={id}
-              generatedUrl={`/category/${categoryTitle}/post/${id}`}
+              generatedUrl={`/post/${id}?categoryTitle=${categoryTitle}`}
               authorAvatar={authorAvatar || '/logo.png'}
               authorName={authorName}
               headImg={headImg || '/logo.png'}
