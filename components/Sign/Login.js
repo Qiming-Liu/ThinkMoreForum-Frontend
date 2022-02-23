@@ -139,15 +139,7 @@ const Login = ({ register }) => {
             <Button onClick={() => register()}>Create a new account</Button>
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            <NextLink href="/password-email" passHref>
-              <Link
-                href="/password-email"
-                variant="subtitle1"
-                underline="hover"
-              >
-                Forgot your password?
-              </Link>
-            </NextLink>
+            <Button href="/password-email">Forgot your password?</Button>
           </Typography>
         </form>
       </Container>
