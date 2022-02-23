@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
 import { AppBar, Box, Toolbar } from '@mui/material';
 import AccountButton from './AccountButton';
 import NotificationsButton from './NotificationsButton';
-import Sign from '../Sign';
 
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -21,11 +19,9 @@ const NavbarRoot = styled(AppBar)(({ theme }) => ({
       }),
 }));
 
-const Navbar = (props) => {
-  const { ...other } = props;
-  const { login } = useSelector((state) => state.sign);
+const Navbar = ({ children, isLogin }) => {
   return (
-    <NavbarRoot {...other}>
+    <NavbarRoot>
       <Toolbar
         disableGutters
         sx={{
@@ -35,9 +31,9 @@ const Navbar = (props) => {
         }}
       >
         <Box sx={{ flexGrow: 1 }} />
-        {login || <Sign />}
+        {isLogin ? null : { children }}
         <NotificationsButton />
-        <AccountButton login={login} />
+        <AccountButton isLogin={isLogin} />
       </Toolbar>
     </NavbarRoot>
   );

@@ -12,14 +12,11 @@ import {
   Container,
   Typography,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 import LoadingButton from '@mui/lab/LoadingButton';
-import * as Action from '../../store/actionTypes';
 import { resetPasswordemail } from '../../services/usersServices';
 
 const PasswordRecovery = (props) => {
-  const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.password);
+  let isLoading = false;
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -33,10 +30,9 @@ const PasswordRecovery = (props) => {
         .required('Email is required'),
     }),
     onSubmit: async (values) => {
-      dispatch({ type: Action.EMAIL_START });
-      const respone = await resetPasswordemail(values.email);
-      console.log(respone);
-      dispatch({ type: Action.EMAIL_SUCCESS });
+      isLoading = true;
+      await resetPasswordemail(values.email);
+      isLoading = false;
     },
   });
 

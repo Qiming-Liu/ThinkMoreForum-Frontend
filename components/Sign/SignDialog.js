@@ -37,7 +37,7 @@ const BootstrapDialogTitle = ({ children, onClose, ...other }) => {
 
 const SignDialog = ({ children, open, onOpen, onClose }) => {
   return (
-    <div>
+    <>
       <Button variant="outlined" onClick={onOpen}>
         Login
       </Button>
@@ -50,7 +50,7 @@ const SignDialog = ({ children, open, onOpen, onClose }) => {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose} />
         <DialogContent>{children}</DialogContent>
       </BootstrapDialog>
-    </div>
+    </>
   );
 };
 

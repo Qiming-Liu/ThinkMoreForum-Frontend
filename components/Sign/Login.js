@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { signIn } from 'next-auth/react';
 import {
@@ -16,11 +15,8 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
-import { loginAction } from '../../store/actions/signAction';
 
-const Login = ({ register }) => {
-  const { isLoading } = useSelector((state) => state.sign);
-  const dispatch = useDispatch();
+const Login = ({ register, isLoading, loginAction }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -35,7 +31,7 @@ const Login = ({ register }) => {
     }),
     onSubmit: (values) => {
       const { email, password } = values;
-      dispatch(loginAction(email, password));
+      loginAction(email, password);
     },
   });
 

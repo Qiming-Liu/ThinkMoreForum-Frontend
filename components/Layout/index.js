@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Container } from '@mui/material';
-import Navbar from '../Navbar';
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -16,7 +15,7 @@ const LayoutRoot = styled('div')(({ theme }) => ({
 
 const Layout = ({ children }) => (
   <LayoutRoot>
-    <Navbar />
+    {children[1]}
     <Box
       component="main"
       sx={{
@@ -28,7 +27,7 @@ const Layout = ({ children }) => (
         py: 4,
       }}
     >
-      <Container maxWidth="xl">{children}</Container>
+      <Container maxWidth="xl">{children[0]}</Container>
     </Box>
   </LayoutRoot>
 );
