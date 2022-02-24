@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import axios from 'axios';
 import store from '../store/store';
 import { setJWTAction, logoutAction } from '../store/actions/signAction';
@@ -55,9 +54,14 @@ const http = async (endpoint, { method, data, headers, ...customConfig }) => {
     data,
     ...customConfig,
   };
-  const axiosInstance = getInstance();
-  const response = await axiosInstance(endpoint, { ...config });
-  return response;
+
+  try {
+    const axiosInstance = getInstance();
+    const response = await axiosInstance(endpoint, { ...config });
+    return response;
+  } catch (error) {
+    return 'request error detected';
+  }
 };
 
 export default http;
