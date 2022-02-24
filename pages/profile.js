@@ -40,7 +40,7 @@ const Profile = () => {
   const comments = [
     {
       id: 'd0ab3d02ef737fa6b007e35d',
-      authorAvatar: '/static/mock-images/avatars/avatar-alcides_antonio.png',
+      authorAvatar: '/avatar-jie_yan_song.png',
       authorName: 'Alcides Antonio',
       authorRole: 'Product Designer',
       content:
@@ -51,7 +51,7 @@ const Profile = () => {
     },
     {
       id: '3ac1e17289e38a84108efdf3',
-      authorAvatar: '/static/mock-images/avatars/avatar-jie_yan_song.png',
+      authorAvatar: '/avatar-jie_yan_song.png',
       authorName: 'Jie Yan Song',
       authorRole: 'Web Developer',
       content:

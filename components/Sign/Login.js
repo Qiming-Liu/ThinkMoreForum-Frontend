@@ -46,14 +46,14 @@ const Login = ({ register }) => {
           email,
           password,
           () => {
-            setLoading(false);
             hotToast('success', 'Login Success');
           },
           (fail) => {
             setLoading(false);
-            if (fail.response.status === 403) {
+            if (fail && fail.response && fail.response.status === 403) {
               hotToast('error', 'Invalid Email or Password');
             }
+            hotToast('error', `something wrong${fail}`);
           },
         ),
       );
@@ -64,11 +64,12 @@ const Login = ({ register }) => {
     <Box
       component="main"
       sx={{
-        alignItems: 'center',
         display: 'flex',
-        flexGrow: 1,
+        flexDirection: 'column',
         minHeight: '100%',
         minWidth: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <Container maxWidth="md">
@@ -76,10 +77,11 @@ const Login = ({ register }) => {
           <Typography align="center">
             <Image src="/logo.svg" height="50" width="50" alt="logo" />
           </Typography>
-          <Box sx={{ my: 3 }}>
-            <Typography color="textPrimary" variant="h4" align="center">
-              Log in
-            </Typography>
+          <br />
+          <Typography color="textPrimary" variant="h4" align="center">
+            Log in
+          </Typography>
+          <Box sx={{ my: 4 }}>
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -106,7 +108,7 @@ const Login = ({ register }) => {
               value={formik.values.password}
               variant="outlined"
             />
-            <Grid sx={{ py: 2 }}>
+            <Grid sx={{ py: 3 }}>
               <LoadingButton
                 loading={isLoading}
                 disabled={formik.isSubmitting}

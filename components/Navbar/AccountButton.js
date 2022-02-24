@@ -11,7 +11,7 @@ const AccountButton = ({ isLogin }) => {
     <>
       <Box
         component={ButtonBase}
-        onClick={() => setOpenPopover(true)}
+        onClick={() => setOpenPopover(isLogin)}
         ref={anchorRef}
         sx={{
           alignItems: 'center',
