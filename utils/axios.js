@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios';
 import store from '../store/store';
 import { setJWTAction, logoutAction } from '../store/actions/signAction';
@@ -5,6 +6,7 @@ import { setJWTAction, logoutAction } from '../store/actions/signAction';
 const getInstance = () => {
   const axiosInstance = axios.create();
   axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
+  // axiosInstance.defaults.baseURL = 'http://localhost:443';
 
   axiosInstance.defaults.headers.common.Authorization =
     store.getState().sign.token || '';
@@ -21,9 +23,12 @@ const getInstance = () => {
     },
     (error) => {
       // jwt expired
-      if (error && error.response.status === 401) {
+      if (error && error.response && error.response.status === 401) {
         store.dispatch(logoutAction());
       }
+
+      // eslint-disable-next-line no-unused-expressions
+      error && console.log(error.response);
       return Promise.reject(error);
     },
   );

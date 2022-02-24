@@ -1,5 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
+import Router from 'next/router';
 import {
   Avatar,
   Box,
@@ -11,11 +12,14 @@ import {
   Typography,
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useDispatch } from 'react-redux';
 import CogIcon from '../../icons/cog';
 import UserCircleIcon from '../../icons/user-circle';
+import { logoutAction } from '../../store/actions/signAction';
 
 const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
+  const dispatch = useDispatch();
   const user = {
     avatar: '/logo.png',
     name: 'User name',
@@ -95,16 +99,20 @@ const AccountPopover = (props) => {
           </MenuItem>
         </NextLink>
         <Divider />
-        <NextLink href="/logout" passHref>
-          <MenuItem component="a">
-            <ListItemIcon>
-              <LogoutIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="body1">Logout</Typography>}
-            />
-          </MenuItem>
-        </NextLink>
+        <MenuItem
+          onClick={() => {
+            dispatch(logoutAction());
+            Router.push('/');
+            onClose();
+          }}
+        >
+          <ListItemIcon>
+            <LogoutIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText
+            primary={<Typography variant="body1">Logout</Typography>}
+          />
+        </MenuItem>
       </Box>
     </Popover>
   );

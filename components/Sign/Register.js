@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   Button,
   Container,
-  FormHelperText,
   Grid,
   TextField,
   Typography,
   Divider,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Yup from '../../utils/yupValidation';
 import hotToast from '../../utils/hotToast';
-import { signIn } from 'next-auth/react';
+import {
+  register,
+  uniqueUsername,
+  uniqueEmail,
+} from '../../services/usersServices';
+import loginAction from '../../store/actions/httpAction';
 
 const Register = ({ login }) => {
   const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -26,45 +32,49 @@ const Register = ({ login }) => {
       submit: null,
     },
     validationSchema: Yup.object({
-      username: Yup.string().max(20).required('Username is required'),
-      email: Yup.string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
+      email: Yup.string().sequence([
+        () =>
+          Yup.string()
+            .email('Must be a valid email')
+            .max(255)
+            .required('Email is required'),
+        () => Yup.string().unique('Email is already in use', uniqueEmail),
+      ]),
+      username: Yup.string().sequence([
+        () => Yup.string().max(20).required('Username is required'),
+        () => Yup.string().unique('Username is already taken', uniqueUsername),
+      ]),
       password: Yup.string()
         .min(6, 'must be at least 6 characters long')
-        .max(255)
+        .max(16)
         .required('Password is required'),
     }),
     onSubmit: async (values) => {
-      const { username, email, password } = values;
+      const { email, username, password } = values;
       setLoading(true);
-      // signIn(username, email, password)
-      // .then(() => {
-
-      //   .then(() => {
-      //     router.push('/profile');
-      //   })
-      //   .catch((error) => {
-      //     if (
-      //       error.response &&
-      //       error.response.status === 503 &&
-      //       error.response.data.message ===
-      //         'could not execute statement; SQL [n/a]; constraint [users_email_key]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement'
-      //     ) {
-      //       helpers.setErrors({ submit: 'Email address already exists.' });
-      //     }
-      //     if (
-      //       error.response &&
-      //       error.response.status === 503 &&
-      //       error.response.data.message ===
-      //         'could not execute statement; SQL [n/a]; constraint [users_username_key]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement'
-      //     ) {
-      //       helpers.setErrors({ submit: 'Username already exists.' });
-      //     }
-      //     helpers.setStatus({ success: false });
-      //     helpers.setSubmitting(false);
-      //   });
+      register(email, username, password)
+        .then(() => {
+          hotToast('success', 'Register Success');
+          // auto login
+          dispatch(
+            loginAction(
+              email,
+              password,
+              () => {},
+              (fail) => {
+                setLoading(false);
+                if (fail && fail.response && fail.response.status === 403) {
+                  hotToast('error', 'Invalid Email or Password');
+                }
+                hotToast('error', `something wrong${fail}`);
+              },
+            ),
+          );
+        })
+        .catch((error) => {
+          setLoading(false);
+          hotToast('error', `Something wrong: ${error}`);
+        });
     },
   });
 
@@ -78,40 +88,18 @@ const Register = ({ login }) => {
         minWidth: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        my: 5,
       }}
     >
       <Container maxWidth="md">
-        <Box
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-          }}
-        >
+        <form onSubmit={formik.handleSubmit}>
           <Typography align="center">
-            <Image alt="logo" src="/logo.svg" height="50" width="50" />
+            <Image src="/logo.svg" height="50" width="50" alt="logo" />
           </Typography>
-          <Typography color="textPrimary" variant="h4" sx={{ pb: 3 }}>
+          <br />
+          <Typography color="textPrimary" variant="h4" align="center">
             Register
           </Typography>
-        </Box>
-        <Box>
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              error={Boolean(formik.touched.username && formik.errors.username)}
-              fullWidth
-              helperText={formik.touched.username && formik.errors.username}
-              label="Username"
-              margin="normal"
-              name="username"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="username"
-              value={formik.values.username}
-              variant="outlined"
-            />
+          <Box sx={{ my: 4 }}>
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -123,6 +111,19 @@ const Register = ({ login }) => {
               onChange={formik.handleChange}
               type="email"
               value={formik.values.email}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.username && formik.errors.username)}
+              fullWidth
+              helperText={formik.touched.username && formik.errors.username}
+              label="Username"
+              margin="normal"
+              name="username"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="username"
+              value={formik.values.username}
               variant="outlined"
             />
             <TextField
@@ -138,29 +139,26 @@ const Register = ({ login }) => {
               value={formik.values.password}
               variant="outlined"
             />
-            {formik.errors.submit && (
-              <Box sx={{ mt: 3 }}>
-                <FormHelperText error>{formik.errors.submit}</FormHelperText>
-              </Box>
-            )}
-            <Grid sx={{ pt: 3 }}>
-              <Button
-                color="primary"
+            <Grid sx={{ pt: 11 }}>
+              <LoadingButton
+                loading={isLoading}
                 disabled={formik.isSubmitting}
+                color="primary"
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
               >
                 Register
-              </Button>
+              </LoadingButton>
             </Grid>
-          </form>
-        </Box>
-        <Divider sx={{ my: 3 }} />
-        <Typography color="textSecondary" variant="body2">
-          <Button onClick={() => login()}>Log in</Button>
-        </Typography>
+            <br />
+            <Divider />
+          </Box>
+          <Typography color="textSecondary" variant="body2">
+            <Button onClick={() => login()}>Having an account</Button>
+          </Typography>
+        </form>
       </Container>
     </Box>
   );
