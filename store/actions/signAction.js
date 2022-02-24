@@ -22,8 +22,17 @@ const setJWT = (token) => ({
   payload: token,
 });
 
+const setOpenID = (openid) => ({
+  type: Action.SET_OPENID,
+  payload: openid,
+});
+
 export const setJWTAction = (token) => (dispatch) => {
   dispatch(setJWT(token));
+};
+
+export const setOpenIDAction = (openid) => (dispatch) => {
+  dispatch(setOpenID(openid));
 };
 
 const loginOut = () => ({

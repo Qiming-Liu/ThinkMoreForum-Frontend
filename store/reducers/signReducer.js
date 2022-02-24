@@ -5,6 +5,7 @@ const initialState = {
   content: 'login',
   isLogin: false,
   token: undefined,
+  openid: undefined,
 };
 
 // eslint-disable-next-line default-param-last
@@ -51,6 +52,12 @@ const signReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         token: payload,
+      };
+
+    case Action.SET_OPENID:
+      return {
+        ...state,
+        openid: payload,
       };
 
     case Action.LOGOUT:
