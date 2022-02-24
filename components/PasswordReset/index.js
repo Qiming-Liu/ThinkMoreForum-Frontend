@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Head from 'next/head';
 import NextLink from 'next/link';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import {
@@ -14,23 +15,16 @@ import {
   Card,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-// import { setJWTAction } from '../../store/actions/signAction';
-import resetPassword from '../../services/usersServices';
-
-// const getToken = () => {
-//   // const currentUrl = typeof window !== 'undefined' && window.location.href;
-//   const currentUrl = new URL(
-//     'https://www.thinkmoreapp.com/password-reset?token=eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIwM2M2MzUyNi05NDllLTExZWMtYmUxNi0yNzEzYmE1MTM4YTUiLCJzdWIiOiJtb2RlcmF0b3IiLCJhdWQiOiJ7fSIsImlhdCI6MTY0NTY3NTk0MywiZXhwIjoxNjQ1NzA3NjAwfQ.Y6L8RDOGhk-rYw5ba6ZVII1yANiXe59yvIcm7BLzyvCGxz3zN9IHzdSjt-kDNKhC',
-//   );
-//   const params = currentUrl.toString().split('password-reset?');
-//   return new URLSearchParams(params[1]).get('token');
-// };
+import { setJWTAction } from '../../store/actions/signAction';
+import { resetPassword } from '../../services/usersServices';
+import hotToast from '../../utils/hotToast';
 
 const PasswordReset = () => {
   const [isLoading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
-  // const jwtToken = getToken();
-  // dispatch(setJWTAction(jwt)); 这里是set jwt
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { token } = router.query;
+  dispatch(setJWTAction(decodeURI(token)));
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -54,17 +48,18 @@ const PasswordReset = () => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Password is required'),
     }),
-    onSubmit: async (values, helpers) => {
+    onSubmit: async (values) => {
       const { password } = values;
       setLoading(true);
-      resetPassword(password)
+      await resetPassword(password)
         .then(() => {
           setLoading(false);
+          hotToast('success', 'Reset Password Success');
           // success
         })
         .catch((error) => {
           setLoading(false);
-          helpers.setErrors({ submit: error.response.data.message });
+          hotToast('success', error.response.data.message);
         });
     },
   });
