@@ -9,6 +9,9 @@ export const signup = (email, username, password) =>
 export const resetPasswordemail = (email) =>
   http(`/v1/users/reset-password/${email}`, { method: 'GET' });
 
+export const resetPassword = (password) =>
+  http(`/v1/users/password-reset/${password}`, { method: 'PUT' });
+
 export const getPostsByCategoryTitle = (
   categoryTitle,
   currentPage,
@@ -33,15 +36,3 @@ export const getPostCountByCategoryTitle = (categoryTitle) =>
 
 export const getAllCategoryTitles = () =>
   http(`/v1/category/mini`, { method: 'GET' });
-
-<<<<<<< Updated upstream
-export const getCategoryByCategoryTitle = (categoryTitle) =>
-  http(`/v1/category/${categoryTitle}`, { method: 'GET' });
-=======
-export const resetPassword = (password) =>
-  api(`/v1/users/password-reset/${password}`, { method: 'PUT' });
-
-// 调用:
-// import { login } from '../services/usersServices';
-// login(email, password);
->>>>>>> Stashed changes
