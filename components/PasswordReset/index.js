@@ -2,38 +2,46 @@ import React from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
-  Button,
   FormHelperText,
   TextField,
   Typography,
   Container,
   Card,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { passwordAction } from '../../store/actions/passwordAction';
 
-const PasswordReset = (props) => {
-  const router = useRouter();
-  const username = 'test@gmail.com';
+const getToken = () => {
+  // const currentUrl = typeof window !== 'undefined' && window.location.href;
+  const currentUrl = new URL(
+    'https://www.thinkmoreapp.com/password-reset?token=eyJhbGciOiJIUzM4NCJ9.eyJqdGkiOiIwM2M2MzUyNi05NDllLTExZWMtYmUxNi0yNzEzYmE1MTM4YTUiLCJzdWIiOiJtb2RlcmF0b3IiLCJhdWQiOiJ7fSIsImlhdCI6MTY0NTY3NTk0MywiZXhwIjoxNjQ1NzA3NjAwfQ.Y6L8RDOGhk-rYw5ba6ZVII1yANiXe59yvIcm7BLzyvCGxz3zN9IHzdSjt-kDNKhC',
+  );
+  const params = currentUrl.toString().split('password-reset?');
+  return new URLSearchParams(params[1]).get('token');
+};
+
+const PasswordReset = () => {
+  const dispatch = useDispatch();
+  const { isLoading, errorMessage } = useSelector(
+    (state) => state.passwordReset,
+  );
+  const jwtToken = getToken();
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: '',
       password: '',
       passwordConfirm: '',
       submit: null,
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
       password: Yup.string()
         .matches(
-          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,16}',
+          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{6,16}',
           `Make sure password is between 8 characters  16 characters 
           including a number, 
           a lowercase letter, 
@@ -46,8 +54,9 @@ const PasswordReset = (props) => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Required'),
     }),
-    onSubmit: () => {
-      router.push('/');
+    onSubmit: async (values, helpers) => {
+      dispatch(passwordAction(values.password));
+      helpers.setErrors({ submit: errorMessage });
     },
   });
 
@@ -96,29 +105,7 @@ const PasswordReset = (props) => {
                 mt: 3,
               }}
             >
-              <form noValidate onSubmit={formik.handleSubmit} {...props}>
-                {!username ? (
-                  <TextField
-                    autoFocus
-                    error={Boolean(formik.touched.email && formik.errors.email)}
-                    fullWidth
-                    helperText={formik.touched.email && formik.errors.email}
-                    label="Email Address"
-                    margin="normal"
-                    name="email"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    type="email"
-                    value={formik.values.email}
-                  />
-                ) : (
-                  <TextField
-                    disabled
-                    fullWidth
-                    margin="normal"
-                    value={username}
-                  />
-                )}
+              <form noValidate onSubmit={formik.handleSubmit}>
                 <TextField
                   error={Boolean(
                     formik.touched.password && formik.errors.password,
@@ -159,15 +146,16 @@ const PasswordReset = (props) => {
                   </Box>
                 )}
                 <Box sx={{ mt: 3 }}>
-                  <Button
+                  <LoadingButton
                     disabled={formik.isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
                     variant="contained"
+                    loading={isLoading}
                   >
                     Reset Password
-                  </Button>
+                  </LoadingButton>
                 </Box>
               </form>
             </Box>

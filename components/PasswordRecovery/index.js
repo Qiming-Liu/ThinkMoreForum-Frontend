@@ -39,7 +39,7 @@ const PasswordRecovery = (props) => {
   return (
     <>
       <Head>
-        <title>Password Recovery | ThinkMoreForum</title>
+        <title>Password Reset | ThinkMoreForum</title>
       </Head>
       <Box
         component="main"
@@ -73,7 +73,7 @@ const PasswordRecovery = (props) => {
                   <Image src="/logo.svg" height="50" width="50" alt="logo" />
                 </Typography>
               </NextLink>
-              <Typography variant="h4">Password Recovery</Typography>
+              <Typography variant="h4">Password Reset</Typography>
               <Typography color="textSecondary" sx={{ mt: 2 }} variant="body2">
                 Tell us your email so we can send you a reset link
               </Typography>
@@ -114,7 +114,7 @@ const PasswordRecovery = (props) => {
                     variant="contained"
                     loading={isLoading}
                   >
-                    Recover Password
+                    Reset Password
                   </LoadingButton>
                 </Box>
               </form>
