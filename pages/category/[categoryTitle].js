@@ -40,11 +40,9 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const response = await getCategoryByCategoryTitle(params.categoryTitle);
   if (typeof response === 'string') {
-    // const noSuchCategory = true;
     return {
       notFound: true,
       revalidate: 10,
-      // props: { noSuchCategory },
     };
   }
   const { data: initialPosts } = await getPostsByCategoryTitle(
@@ -70,7 +68,6 @@ const PostList = ({
   noSuchCategory = false,
 }) => {
   const router = useRouter();
-  // const { categoryTitle } = router.query;
   const [posts, setPosts] = useState(initialPosts);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const sizePerPage = initialSizePerPage;
