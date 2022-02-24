@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { signIn } from 'next-auth/react';
 import {
@@ -17,25 +17,46 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
 import loginAction from '../../store/actions/httpAction';
+import hotToast from '../../utils/hotToast';
 
 const Login = ({ register }) => {
-  const { isLoading } = useSelector((state) => state.sign);
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
+      submit: null,
     },
     validationSchema: Yup.object({
       email: Yup.string()
         .email('Must be a valid email')
         .max(255)
         .required('Email is required'),
-      password: Yup.string().max(255).required('Password is required'),
+      password: Yup.string()
+        .min(6, 'must be at least 6 characters long')
+        .max(255)
+        .required('Password is required'),
     }),
     onSubmit: (values) => {
       const { email, password } = values;
-      dispatch(loginAction(email, password));
+      setLoading(true);
+      dispatch(
+        loginAction(
+          email,
+          password,
+          () => {
+            setLoading(false);
+            hotToast('success', 'Login Success');
+          },
+          (fail) => {
+            setLoading(false);
+            if (fail.response.status === 403) {
+              hotToast('error', 'Invalid Email or Password');
+            }
+          },
+        ),
+      );
     },
   });
 

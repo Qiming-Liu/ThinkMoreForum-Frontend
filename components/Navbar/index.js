@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { AppBar, Box, Toolbar } from '@mui/material';
 import AccountButton from './AccountButton';
 import NotificationsButton from './NotificationsButton';
+import Sign from '../Sign';
 
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -20,7 +21,7 @@ const NavbarRoot = styled(AppBar)(({ theme }) => ({
       }),
 }));
 
-const Navbar = ({ children }) => {
+const Navbar = () => {
   const { isLogin } = useSelector((state) => state.sign);
   return (
     <NavbarRoot>
@@ -33,9 +34,11 @@ const Navbar = ({ children }) => {
         }}
       >
         <Box sx={{ flexGrow: 1 }} />
-        {isLogin || children}
-        {isLogin && <NotificationsButton />}
-        <AccountButton isLogin={isLogin} />
+        <>
+          {isLogin || <Sign />}
+          {isLogin && <NotificationsButton />}
+          <AccountButton isLogin={isLogin} />
+        </>
       </Toolbar>
     </NavbarRoot>
   );

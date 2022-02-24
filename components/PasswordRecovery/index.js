@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -16,7 +16,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { resetPasswordemail } from '../../services/usersServices';
 
 const PasswordRecovery = (props) => {
-  let isLoading = false;
+  const [isLoading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -30,9 +30,9 @@ const PasswordRecovery = (props) => {
         .required('Email is required'),
     }),
     onSubmit: async (values) => {
-      isLoading = true;
+      setLoading(true);
       await resetPasswordemail(values.email);
-      isLoading = false;
+      setLoading(false);
     },
   });
 

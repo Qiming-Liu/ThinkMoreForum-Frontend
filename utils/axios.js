@@ -7,26 +7,10 @@ const getInstance = () => {
   axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
 
   axiosInstance.defaults.headers.common.Authorization =
-    store.getState().sign.token;
-
-  axiosInstance.interceptors.request.use(
-    (config) => {
-      console.log(`request:${config.url}`);
-      console.log(config);
-      return config;
-    },
-    (error) => {
-      console.log(`request error:${error.config.url}`);
-      console.log(error.toJSON());
-      return Promise.reject(error);
-    },
-  );
+    store.getState().sign.token || '';
 
   axiosInstance.interceptors.response.use(
     (config) => {
-      console.log(`response:${config.url}`);
-      console.log(config);
-
       // update jwt
       const { authorization } = config.headers;
       if (authorization && authorization.startsWith('Bearer')) {
@@ -36,9 +20,8 @@ const getInstance = () => {
       return config;
     },
     (error) => {
-      console.log(`response error:${error.config.url}`);
-      console.log(error.toJSON());
-      if (error.response.status === 401) {
+      // jwt expired
+      if (error && error.response.status === 401) {
         store.dispatch(logoutAction());
       }
       return Promise.reject(error);
@@ -47,7 +30,7 @@ const getInstance = () => {
   return axiosInstance;
 };
 
-const http = async (endpoint, { method, data, headers, ...customConfig }) => {
+const http = (endpoint, { method, data, headers, ...customConfig }) => {
   const config = {
     method,
     headers,
@@ -55,13 +38,8 @@ const http = async (endpoint, { method, data, headers, ...customConfig }) => {
     ...customConfig,
   };
 
-  try {
-    const axiosInstance = getInstance();
-    const response = await axiosInstance(endpoint, { ...config });
-    return response;
-  } catch (error) {
-    return 'request error detected';
-  }
+  const axiosInstance = getInstance();
+  return axiosInstance(endpoint, { ...config });
 };
 
 export default http;

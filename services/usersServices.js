@@ -3,6 +3,9 @@ import http from '../utils/axios';
 export const login = (email, password) =>
   http(`/login`, { method: 'POST', data: { email, password } });
 
+export const signup = (email, username, password) =>
+  http(`/v1/users/signup/${email}/${username}/${password}`, { method: 'POST' });
+
 export const resetPasswordemail = (email) =>
   http(`/v1/users/reset-password/${email}`, { method: 'GET' });
 

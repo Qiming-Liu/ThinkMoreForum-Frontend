@@ -1,10 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-
 import {
   Box,
   Button,
@@ -15,9 +12,12 @@ import {
   Typography,
   Divider,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import hotToast from '../../utils/hotToast';
+import { signIn } from 'next-auth/react';
 
 const Register = ({ login }) => {
-  const router = useRouter();
+  const [isLoading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -31,36 +31,40 @@ const Register = ({ login }) => {
         .email('Must be a valid email')
         .max(255)
         .required('Email is required'),
-      password: Yup.string().min(8).max(16).required('Password is required'),
+      password: Yup.string()
+        .min(6, 'must be at least 6 characters long')
+        .max(255)
+        .required('Password is required'),
     }),
-    onSubmit: async (values, helpers) => {
-      axios
-        .post(
-          `http://3.26.60.225:8080/v1/users/signup/${values.email}/${values.username}/${values.password}`,
-        )
-        .then(() => {
-          router.push('/profile');
-        })
-        .catch((error) => {
-          if (
-            error.response &&
-            error.response.status === 503 &&
-            error.response.data.message ===
-              'could not execute statement; SQL [n/a]; constraint [users_email_key]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement'
-          ) {
-            helpers.setErrors({ submit: 'Email address already exists.' });
-          }
-          if (
-            error.response &&
-            error.response.status === 503 &&
-            error.response.data.message ===
-              'could not execute statement; SQL [n/a]; constraint [users_username_key]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement'
-          ) {
-            helpers.setErrors({ submit: 'Username already exists.' });
-          }
-          helpers.setStatus({ success: false });
-          helpers.setSubmitting(false);
-        });
+    onSubmit: async (values) => {
+      const { username, email, password } = values;
+      setLoading(true);
+      // signIn(username, email, password)
+      // .then(() => {
+
+      //   .then(() => {
+      //     router.push('/profile');
+      //   })
+      //   .catch((error) => {
+      //     if (
+      //       error.response &&
+      //       error.response.status === 503 &&
+      //       error.response.data.message ===
+      //         'could not execute statement; SQL [n/a]; constraint [users_email_key]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement'
+      //     ) {
+      //       helpers.setErrors({ submit: 'Email address already exists.' });
+      //     }
+      //     if (
+      //       error.response &&
+      //       error.response.status === 503 &&
+      //       error.response.data.message ===
+      //         'could not execute statement; SQL [n/a]; constraint [users_username_key]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement'
+      //     ) {
+      //       helpers.setErrors({ submit: 'Username already exists.' });
+      //     }
+      //     helpers.setStatus({ success: false });
+      //     helpers.setSubmitting(false);
+      //   });
     },
   });
 
