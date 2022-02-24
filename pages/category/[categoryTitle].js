@@ -38,8 +38,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const response = await getCategoryByCategoryTitle(params.categoryTitle);
-  if (typeof response === 'string') {
+  try {
+    await getCategoryByCategoryTitle(params.categoryTitle);
+  } catch (error) {
     return {
       notFound: true,
       revalidate: 10,
@@ -61,12 +62,7 @@ export async function getStaticProps({ params }) {
   };
 }
 
-const PostList = ({
-  categoryTitle,
-  initialPosts,
-  initialTotalPages,
-  noSuchCategory = false,
-}) => {
+const PostList = ({ categoryTitle, initialPosts, initialTotalPages }) => {
   const router = useRouter();
   const [posts, setPosts] = useState(initialPosts);
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -90,13 +86,6 @@ const PostList = ({
       fetchPageData();
     }
   }, [categoryTitle, currentPage, isComponentMounted, sizePerPage, totalPages]);
-  if (noSuchCategory) {
-    return (
-      <Typography variant="h3" sx={{ mt: 3 }}>
-        No such Category
-      </Typography>
-    );
-  }
   if (router.isFallback)
     return (
       <Typography variant="h3" sx={{ mt: 3 }}>
