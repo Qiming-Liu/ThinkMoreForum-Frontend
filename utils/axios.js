@@ -2,9 +2,15 @@ import axios from 'axios';
 import store from '../store/store';
 import { setJWTAction, logoutAction } from '../store/actions/signAction';
 
+<<<<<<< Updated upstream
 const getInstance = () => {
   const axiosInstance = axios.create();
   axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
+=======
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:443',
+});
+>>>>>>> Stashed changes
 
   axiosInstance.defaults.headers.common.Authorization =
     store.getState().sign.token || '';

@@ -26,9 +26,18 @@ export const setJWTAction = (token) => (dispatch) => {
   dispatch(setJWT(token));
 };
 
+<<<<<<< Updated upstream
 const loginOut = () => ({
   type: Action.LOGOUT,
 });
+=======
+export const loginAction = (email, password) => (dispatch) => {
+  dispatch(loginStart());
+  login(email, password)
+    .then((response) => dispatch(loginSuccess(response.headers.authorization)))
+    .catch((error) => dispatch(loginError(error.message)));
+};
+>>>>>>> Stashed changes
 
 export const logoutAction = () => (dispatch) => {
   dispatch(loginOut());
