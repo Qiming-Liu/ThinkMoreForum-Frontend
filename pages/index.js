@@ -1,38 +1,40 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import Category from '../components/Categroy';
+import { getAllCategories } from '../services/usersServices';
 
-const Index = () => {
+export async function getStaticProps() {
+  const { data: categoriesInfo } = await getAllCategories();
+  return {
+    props: { categoriesInfo },
+    revalidate: 60,
+  };
+}
+
+const Index = ({ categoriesInfo }) => {
   return (
     <Grid container spacing={4}>
-      <Category
-        type="A"
-        color="primary.main"
-        title="Default Category"
-        description="description description description"
-        postCount="10"
-      />
-      <Category
-        type="B"
-        color="neutral.900"
-        title="Second Category"
-        description="description description description"
-        postCount="10"
-      />
-      <Category
-        type="A"
-        color="primary.main"
-        title="Category Three"
-        description="description description description"
-        postCount="10"
-      />
-      <Category
-        type="B"
-        color="neutral.900"
-        title="Category Four"
-        description="description description description"
-        postCount="10"
-      />
+      {categoriesInfo.map(
+        ({
+          id,
+          type = 0,
+          color = 'primary.main',
+          title,
+          description = '',
+          postCount = 'N.A.',
+        }) => {
+          return (
+            <Category
+              key={id}
+              type={type}
+              color={color}
+              title={title}
+              description={description}
+              postCount={postCount}
+            />
+          );
+        },
+      )}
     </Grid>
   );
 };

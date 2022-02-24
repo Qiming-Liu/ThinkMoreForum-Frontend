@@ -42,8 +42,7 @@ export const getNotifications = () =>
 export const getPostCountByCategoryTitle = (categoryTitle) =>
   http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
 
-export const getAllCategoryTitles = () =>
-  http(`/v1/category/mini`, { method: 'GET' });
+export const getAllCategories = () => http(`/v1/category`, { method: 'GET' });
 
 export const getCategoryByCategoryTitle = (categoryTitle) =>
   http(`/v1/category/${categoryTitle}`, { method: 'GET' });

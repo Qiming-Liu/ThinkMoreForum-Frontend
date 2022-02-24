@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
-  getAllCategoryTitles,
+  getAllCategories,
   getPostsByCategoryTitle,
   getPostCountByCategoryTitle,
   getCategoryByCategoryTitle,
@@ -30,7 +30,7 @@ export const useComponentDidMount = () => {
 };
 
 export async function getStaticPaths() {
-  const { data: categoriesInfo } = await getAllCategoryTitles();
+  const { data: categoriesInfo } = await getAllCategories();
   const paths = categoriesInfo.map((categoryInfo) => ({
     params: { categoryTitle: categoryInfo.title },
   }));
