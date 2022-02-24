@@ -30,15 +30,9 @@ const PasswordRecovery = (props) => {
         .required('Email is required'),
     }),
     onSubmit: async (values) => {
-<<<<<<< Updated upstream
       setLoading(true);
       await resetPasswordemail(values.email);
       setLoading(false);
-=======
-      dispatch({ type: Action.EMAIL_START });
-      await resetPasswordemail(values.email);
-      dispatch({ type: Action.EMAIL_SUCCESS });
->>>>>>> Stashed changes
     },
   });
 

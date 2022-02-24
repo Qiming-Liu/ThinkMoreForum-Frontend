@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { passwordAction } from '../../store/actions/passwordAction';
-import { setJWTAction } from '../../store/actions/signAction';
 
 const getToken = () => {
   // const currentUrl = typeof window !== 'undefined' && window.location.href;
@@ -42,7 +41,7 @@ const PasswordReset = () => {
     validationSchema: Yup.object({
       password: Yup.string()
         .matches(
-          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{8,16}',
+          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{6,16}',
           `Make sure password is between 8 characters  16 characters 
           including a number, 
           a lowercase letter, 

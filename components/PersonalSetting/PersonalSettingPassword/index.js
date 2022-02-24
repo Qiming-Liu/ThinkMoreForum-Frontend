@@ -24,7 +24,7 @@ const PersonalSettingPassword = (props) => {
       oldPassword: Yup.string().required('Required'),
       newPassword: Yup.string()
         .matches(
-          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{8,16}',
+          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{6,16}',
           `Make sure password is between 8 characters  16 characters 
           including a number, 
           a lowercase letter, 
