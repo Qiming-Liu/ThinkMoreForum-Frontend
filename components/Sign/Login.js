@@ -35,10 +35,10 @@ const Login = ({ register }) => {
         .required('Email is required'),
       password: Yup.string()
         .min(6, 'must be at least 6 characters long')
-        .max(255)
+        .max(16)
         .required('Password is required'),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const { email, password } = values;
       setLoading(true);
       dispatch(

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   FormHelperText,
@@ -14,7 +14,8 @@ import {
   Card,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { passwordAction } from '../../store/actions/passwordAction';
+import { setJWTAction } from '../../store/actions/signAction';
+import resetPassword from '../../services/usersServices';
 
 const getToken = () => {
   // const currentUrl = typeof window !== 'undefined' && window.location.href;
@@ -26,11 +27,10 @@ const getToken = () => {
 };
 
 const PasswordReset = () => {
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { isLoading, errorMessage } = useSelector(
-    (state) => state.passwordReset,
-  );
   const jwtToken = getToken();
+  // dispatch(setJWTAction(jwt)); 这里是set jwt
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -42,21 +42,30 @@ const PasswordReset = () => {
       password: Yup.string()
         .matches(
           '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{6,16}',
-          `Make sure password is between 8 characters  16 characters 
+          `Make sure password is between 6 characters 16 characters 
           including a number, 
           a lowercase letter, 
           an upper case letter, 
           a special character, 
-          and no white space! `,
+          and no white space!`,
         )
-        .required('Required'),
+        .required('Password is required'),
       passwordConfirm: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Required'),
+        .required('Password is required'),
     }),
     onSubmit: async (values, helpers) => {
-      dispatch(passwordAction(values.password));
-      helpers.setErrors({ submit: errorMessage });
+      const { password } = values;
+      setLoading(true);
+      resetPassword(password)
+        .then((response) => {
+          setLoading(false);
+          // success
+        })
+        .catch((error) => {
+          setLoading(false);
+          helpers.setErrors({ submit: error.response.data.message });
+        });
     },
   });
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import {
   Typography,
   Card,
@@ -16,7 +15,6 @@ import { useFormik } from 'formik';
 import QuillEditor from '../../QuillEditor';
 
 const PostCreate = (props) => {
-  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       description: '',

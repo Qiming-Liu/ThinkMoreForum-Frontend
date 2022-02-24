@@ -36,3 +36,6 @@ export const getPostCountByCategoryTitle = (categoryTitle) =>
 
 export const getAllCategoryTitles = () =>
   http(`/v1/category/mini`, { method: 'GET' });
+
+export const getCategoryByCategoryTitle = (categoryTitle) =>
+  http(`/v1/category/${categoryTitle}`, { method: 'GET' });
