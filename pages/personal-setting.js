@@ -5,9 +5,6 @@ import PersonalSettingPassword from '../components/PersonalSetting/PersonalSetti
 const personalSetting = () => (
   <>
     <PersonalSetting />
-    <div className="personal__setting__header">
-      <PersonalSettingPassword />
-    </div>
   </>
 );
 

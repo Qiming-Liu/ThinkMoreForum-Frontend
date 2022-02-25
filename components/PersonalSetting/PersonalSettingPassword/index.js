@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {useState} from 'react';
+import { useState } from 'react';
 import {
   Button,
   Card,
@@ -14,9 +14,8 @@ import {
 } from '@mui/material';
 
 const PersonalSettingPassword = (props) => {
-
   const [isEditing, setIsEditing] = useState(false);
-  
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -43,7 +42,6 @@ const PersonalSettingPassword = (props) => {
     },
   });
 
-  
   return (
     <Card sx={{ mt: 4 }}>
       <CardContent>
@@ -76,7 +74,6 @@ const PersonalSettingPassword = (props) => {
                 error={Boolean(
                   formik.touched.newPassword && formik.errors.newPassword,
                 )}
-           
                 helperText={
                   formik.touched.newPassword && formik.errors.newPassword
                 }
