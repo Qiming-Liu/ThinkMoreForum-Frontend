@@ -14,9 +14,11 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { resetPasswordemail } from '../../services/usersServices';
+import hotToast from '../../utils/hotToast';
 
-const PasswordRecovery = (props) => {
+const PasswordRecovery = () => {
   const [isLoading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -32,7 +34,9 @@ const PasswordRecovery = (props) => {
     onSubmit: async (values) => {
       setLoading(true);
       await resetPasswordemail(values.email);
+      hotToast('success', 'Check your email for a reset link');
       setLoading(false);
+      setSent(true);
     },
   });
 
@@ -84,7 +88,7 @@ const PasswordRecovery = (props) => {
                 mt: 3,
               }}
             >
-              <form noValidate onSubmit={formik.handleSubmit} {...props}>
+              <form noValidate onSubmit={formik.handleSubmit}>
                 <TextField
                   autoFocus
                   error={Boolean(formik.touched.email && formik.errors.email)}
@@ -107,14 +111,16 @@ const PasswordRecovery = (props) => {
                 )}
                 <Box sx={{ mt: 3 }}>
                   <LoadingButton
-                    disabled={formik.isSubmitting}
+                    disabled={sent || formik.isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
                     variant="contained"
                     loading={isLoading}
                   >
-                    Reset Password
+                    {sent
+                      ? 'Please Check Your Email for the Link'
+                      : 'Send Reset Email'}
                   </LoadingButton>
                 </Box>
               </form>

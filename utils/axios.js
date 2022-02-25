@@ -2,6 +2,7 @@
 import axios from 'axios';
 import store from '../store/store';
 import { setJWTAction, logoutAction } from '../store/actions/signAction';
+import hotToast from './hotToast';
 
 const getInstance = () => {
   const axiosInstance = axios.create();
@@ -24,7 +25,9 @@ const getInstance = () => {
     (error) => {
       // jwt expired
       if (error && error.response && error.response.status === 401) {
+        hotToast('error', 'Login expired, please login again');
         store.dispatch(logoutAction());
+        return '';
       }
 
       // eslint-disable-next-line no-unused-expressions

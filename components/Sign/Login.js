@@ -52,8 +52,9 @@ const Login = ({ register }) => {
             setLoading(false);
             if (fail && fail.response && fail.response.status === 403) {
               hotToast('error', 'Invalid Email or Password');
+            } else {
+              hotToast('error', `something wrong${fail}`);
             }
-            hotToast('error', `something wrong${fail}`);
           },
         ),
       );

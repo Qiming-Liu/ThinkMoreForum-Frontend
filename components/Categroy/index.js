@@ -12,7 +12,6 @@ const Category = (props) => {
       <NextLink href={`/category/${title}`} passHref>
         <Link href={`/category/${title}`}>
           <Paper elevation={24}>
-            {console.log(`typs is ${type}`)}
             {type === 0 ? (
               <TypeOne
                 color={color}

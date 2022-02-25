@@ -1,6 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import {
   Avatar,
   Box,
@@ -20,6 +20,7 @@ import { logoutAction } from '../../store/actions/signAction';
 const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
   const dispatch = useDispatch();
+  const router = useRouter();
   const user = {
     avatar: '/logo.png',
     name: 'User name',
@@ -102,7 +103,7 @@ const AccountPopover = (props) => {
         <MenuItem
           onClick={() => {
             dispatch(logoutAction());
-            Router.push('/');
+            router.push('/');
             onClose();
           }}
         >

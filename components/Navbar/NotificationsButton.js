@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Badge, IconButton, Tooltip } from '@mui/material';
-import { NotificationsPopover } from './NotificationsPopover';
+import NotificationsPopover from './NotificationsPopover';
 import BellIcon from '../../icons/bell';
-import { getNotifications } from '../../services/usersServices';
 
 const NotificationsButton = () => {
   const anchorRef = useRef(null);
@@ -19,11 +18,7 @@ const NotificationsButton = () => {
         <IconButton
           ref={anchorRef}
           sx={{ ml: 1 }}
-          onClick={async () => {
-            const response = await getNotifications();
-            console.log(response);
-            setOpenPopover(true);
-          }}
+          onClick={async () => setOpenPopover(true)}
         >
           <Badge color="error" badgeContent={unread}>
             <BellIcon fontSize="small" />

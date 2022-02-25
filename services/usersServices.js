@@ -14,6 +14,15 @@ export const uniqueEmail = (email) =>
 export const uniqueUsername = (username) =>
   http(`/v1/users/unique-username/${username}`, { method: 'get' });
 
+export const getNotifications = () =>
+  http(`/v1/notification`, { method: 'GET' });
+
+export const markAsViewed = (notificationId) =>
+  http(`/v1/notification/viewed/${notificationId}`, { method: 'GET' });
+
+export const markAllAsViewed = () =>
+  http(`/v1/notification/viewed-all`, { method: 'GET' });
+
 export const resetPasswordemail = (email) =>
   http(`/v1/users/reset-password/${email}`, { method: 'GET' });
 
@@ -35,9 +44,6 @@ export const getPostsByCategoryTitle = (
 
 export const getPostByPostId = (postId) =>
   http(`/v1/post/${postId}`, { method: 'GET' });
-
-export const getNotifications = () =>
-  http(`/v1/notification`, { method: 'GET' });
 
 export const getPostCountByCategoryTitle = (categoryTitle) =>
   http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });

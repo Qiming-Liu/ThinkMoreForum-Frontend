@@ -12,26 +12,24 @@ import createTheme from '../theme';
 import '../styles/main.scss';
 import '../styles/personalSetting.scss';
 
-const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
-  return (
-    <ReduxProvider store={store}>
-      <Head>
-        <title>Home | ThinkMoreForum</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <SessionProvider session={session}>
-        <ThemeProvider theme={createTheme()}>
-          <Layout>
-            <NextClientOnly>
-              <Toaster position="top-center" reverseOrder={false} />
-              <Navbar />
-            </NextClientOnly>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </SessionProvider>
-    </ReduxProvider>
-  );
-};
+const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => (
+  <ReduxProvider store={store}>
+    <Head>
+      <title>Home | ThinkMoreForum</title>
+      <meta name="viewport" content="initial-scale=1, width=device-width" />
+    </Head>
+    <SessionProvider session={session}>
+      <ThemeProvider theme={createTheme()}>
+        <Layout>
+          <NextClientOnly>
+            <Toaster position="top-center" reverseOrder={false} />
+            <Navbar />
+          </NextClientOnly>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    </SessionProvider>
+  </ReduxProvider>
+);
 
 export default MyApp;
