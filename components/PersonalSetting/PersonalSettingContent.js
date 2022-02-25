@@ -174,7 +174,7 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  {/* new Ps */}
+                  {/* new ps */}
                   <TextField
                     disabled={!isEditingPs}
                     label="New Password"
