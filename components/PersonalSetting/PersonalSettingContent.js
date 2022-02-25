@@ -20,42 +20,37 @@ const Form = (props) => {
     name: 'Anika Visser',
   };
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [Email_state, setIsEditing__Emil] = useState('Edit');
-  const [isEditing__Ps, setIsEditing__Ps] = useState(false);
-  const [isEditing__FullName, setIsEditing__FullName] = useState(false);
+  const [emailState, setIsEditingEmail] = useState('Edit');
+  const [isEditingPs, setIsEditingPs] = useState(false);
+  const [isEditingFullname, setIsEditingFullname] = useState(false);
 
-  const handleEdit = () => {
-    setIsEditing(!isEditing);
+  // 是否成功验证邮箱
+  const ifEmilVerified = false;
+
+  const handleEditFullname = () => {
+    setIsEditingFullname(!isEditingFullname);
+  };
+  const handleEditPs = () => {
+    setIsEditingPs(!isEditingPs);
   };
 
-  const handleEdit__FullName = () => {
-    setIsEditing__FullName(!isEditing__FullName);
-  };
-  const handleEdit__Ps = () => {
-    setIsEditing__Ps(!isEditing__Ps);
-  };
-
-  const handleEdit__Emil = () => {
-    if (Email_state === 'Edit') {
-      if (if_Emil_verified) {
-        setIsEditing__Emil('Save');
+  const handleEditEmil = () => {
+    if (emailState === 'Edit') {
+      if (ifEmilVerified) {
+        setIsEditingEmail('Save');
       } else {
-        setIsEditing__Emil('Sent');
+        setIsEditingEmail('Sent');
       }
-    } else if (Email_state === 'Save') {
-      setIsEditing__Emil('Edit');
-    } else if (Email_state === 'Sent') {
-      setIsEditing__Emil('Send');
-    } else if (Email_state === 'Send') {
-      if (if_Emil_verified === true) {
-        setIsEditing__Emil('Save');
+    } else if (emailState === 'Save') {
+      setIsEditingEmail('Edit');
+    } else if (emailState === 'Sent') {
+      setIsEditingEmail('Send');
+    } else if (emailState === 'Send') {
+      if (ifEmilVerified === true) {
+        setIsEditingEmail('Save');
       }
     }
   };
-
-  //是否成功验证邮箱
-  let if_Emil_verified = false;
 
   return (
     <Grid sx={{ mt: 4 }} {...props} container direction="column" spacing={5}>
@@ -93,9 +88,9 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  {/*full name */}
+                  {/* full name */}
                   <TextField
-                    disabled={!isEditing__FullName}
+                    disabled={!isEditingFullname}
                     defaultValue={user.name}
                     label="Full Name"
                     size="small"
@@ -104,8 +99,8 @@ const Form = (props) => {
                       mr: 3,
                     }}
                   />
-                  <Button onClick={handleEdit__FullName}>
-                    {isEditing__FullName ? 'Save' : 'Edit'}
+                  <Button onClick={handleEditFullname}>
+                    {isEditingFullname ? 'Save' : 'Edit'}
                   </Button>
                 </Box>
                 <Box
@@ -115,9 +110,9 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  {/*email */}
+                  {/* email */}
                   <TextField
-                    disabled={Email_state === 'Edit' ? true : false}
+                    disabled={emailState === 'Edit'}
                     defaultValue="xxx@xxx.com"
                     label="Email Address"
                     required
@@ -130,7 +125,7 @@ const Form = (props) => {
                       },
                     }}
                   />
-                  <Button onClick={handleEdit__Emil}>{Email_state}</Button>
+                  <Button onClick={handleEditEmil}>{emailState}</Button>
                 </Box>
               </Grid>
             </Grid>
@@ -151,7 +146,7 @@ const Form = (props) => {
                     alignItems: 'center',
                     display: 'flex',
                   }}
-                ></Box>
+                />
 
                 <Box
                   sx={{
@@ -160,9 +155,9 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  {/*Old ps */}
+                  {/* Old ps */}
                   <TextField
-                    disabled={!isEditing__Ps}
+                    disabled={!isEditingPs}
                     label="Old Password"
                     required
                     size="small"
@@ -179,9 +174,9 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  {/*new ps */}
+                  {/* new ps */}
                   <TextField
-                    disabled={!isEditing__Ps}
+                    disabled={!isEditingPs}
                     label="New Password"
                     required
                     size="small"
@@ -193,8 +188,8 @@ const Form = (props) => {
                       },
                     }}
                   />
-                  <Button onClick={handleEdit__Ps}>
-                    {isEditing__Ps ? 'Save' : 'Edit'}
+                  <Button onClick={handleEditPs}>
+                    {isEditingPs ? 'Save' : 'Edit'}
                   </Button>
                 </Box>
               </Grid>

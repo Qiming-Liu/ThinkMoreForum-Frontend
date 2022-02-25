@@ -1,7 +1,6 @@
-import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, React } from 'react';
 import {
   Button,
   Card,
@@ -14,7 +13,7 @@ import {
 } from '@mui/material';
 
 const PersonalSettingPassword = (props) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing] = useState(false);
 
   const formik = useFormik({
     enableReinitialize: true,
