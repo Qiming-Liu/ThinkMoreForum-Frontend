@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import {useState} from 'react';
 import {
   Button,
   Card,
@@ -13,6 +14,9 @@ import {
 } from '@mui/material';
 
 const PersonalSettingPassword = (props) => {
+
+  const [isEditing, setIsEditing] = useState(false);
+  
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -38,8 +42,10 @@ const PersonalSettingPassword = (props) => {
       console.log('hi');
     },
   });
+
+  
   return (
-    <Card sx={{ width: '1000px' }}>
+    <Card sx={{ mt: 4 }}>
       <CardContent>
         <form noValidate onSubmit={formik.handleSubmit} {...props}>
           <Grid container spacing={3}>
@@ -57,6 +63,7 @@ const PersonalSettingPassword = (props) => {
                 helperText={
                   formik.touched.oldPassword && formik.errors.oldPassword
                 }
+                size="small"
                 label="Old Password"
                 margin="normal"
                 name="oldPassword"
@@ -69,10 +76,20 @@ const PersonalSettingPassword = (props) => {
                 error={Boolean(
                   formik.touched.newPassword && formik.errors.newPassword,
                 )}
-                fullWidth
+           
                 helperText={
                   formik.touched.newPassword && formik.errors.newPassword
                 }
+                sx={{
+                  flexGrow: 1,
+                  mr: 3,
+                  ...(!isEditing && {
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderStyle: 'dotted',
+                    },
+                  }),
+                }}
+                size="small"
                 label="New Password"
                 margin="normal"
                 name="newPassword"
