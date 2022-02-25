@@ -34,15 +34,8 @@ const PasswordReset = () => {
     },
     validationSchema: Yup.object({
       password: Yup.string()
-        .matches(
-          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{6,16}',
-          `Make sure password is between 6 characters 16 characters 
-          including a number, 
-          a lowercase letter, 
-          an upper case letter, 
-          a special character, 
-          and no white space!`,
-        )
+        .min(6, 'must be at least 6 characters long')
+        .max(16)
         .required('Password is required'),
       passwordConfirm: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -53,9 +46,8 @@ const PasswordReset = () => {
       setLoading(true);
       await resetPassword(password)
         .then(() => {
-          setLoading(false);
+          router.replace('/');
           hotToast('success', 'Reset Password Success');
-          // success
         })
         .catch((error) => {
           setLoading(false);
