@@ -21,43 +21,36 @@ const Form = (props) => {
   };
 
   const [isEditing, setIsEditing] = useState(false);
-  const [Email_state, setIsEditing__Emil] = useState("Edit");
+  const [Email_state, setIsEditing__Emil] = useState('Edit');
   const [isEditing__Ps, setIsEditing__Ps] = useState(false);
   const [isEditing__FullName, setIsEditing__FullName] = useState(false);
-
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
   };
 
- 
   const handleEdit__FullName = () => {
     setIsEditing__FullName(!isEditing__FullName);
   };
-    const handleEdit__Ps = () => {
+  const handleEdit__Ps = () => {
     setIsEditing__Ps(!isEditing__Ps);
   };
 
-
   const handleEdit__Emil = () => {
-
-    if(Email_state ==="Edit"){
-      if(if_Emil_verified){
-        setIsEditing__Emil("Save");
-      }else{
-        setIsEditing__Emil("Sent");
+    if (Email_state === 'Edit') {
+      if (if_Emil_verified) {
+        setIsEditing__Emil('Save');
+      } else {
+        setIsEditing__Emil('Sent');
       }
-    }else if(Email_state ==="Save"){
-      setIsEditing__Emil("Edit");
-    }else if(Email_state ==="Sent"){
-      setIsEditing__Emil("Send");
-    }else if(Email_state ==="Send"){
-      if(if_Emil_verified === true){
-        setIsEditing__Emil("Save");
+    } else if (Email_state === 'Save') {
+      setIsEditing__Emil('Edit');
+    } else if (Email_state === 'Sent') {
+      setIsEditing__Emil('Send');
+    } else if (Email_state === 'Send') {
+      if (if_Emil_verified === true) {
+        setIsEditing__Emil('Save');
       }
-      
-      
-      
     }
   };
 
@@ -65,7 +58,6 @@ const Form = (props) => {
   let if_Emil_verified = false;
 
   return (
-   
     <Grid sx={{ mt: 4 }} {...props} container direction="column" spacing={5}>
       <Grid item>
         <Card item>
@@ -93,7 +85,7 @@ const Form = (props) => {
                   </Avatar>
                   <Button>Change</Button>
                 </Box>
-                
+
                 <Box
                   sx={{
                     display: 'flex',
@@ -101,7 +93,7 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                {/*full name */}
+                  {/*full name */}
                   <TextField
                     disabled={!isEditing__FullName}
                     defaultValue={user.name}
@@ -123,9 +115,9 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                {/*email */}
+                  {/*email */}
                   <TextField
-                    disabled={Email_state === "Edit" ? true : false}
+                    disabled={Email_state === 'Edit' ? true : false}
                     defaultValue="xxx@xxx.com"
                     label="Email Address"
                     required
@@ -138,12 +130,7 @@ const Form = (props) => {
                       },
                     }}
                   />
-                  <Button onClick={handleEdit__Emil}>
-                    
-                      {Email_state }
-                     
-                    
-                  </Button>
+                  <Button onClick={handleEdit__Emil}>{Email_state}</Button>
                 </Box>
               </Grid>
             </Grid>
@@ -152,77 +139,70 @@ const Form = (props) => {
       </Grid>
 
       <Grid item>
-      <Card item>
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid item md={4} xs={12}>
-              <Typography variant="h6">Change Password</Typography>
-            </Grid>
-            <Grid item md={8} xs={12}>
-              <Box
-                sx={{
-                  alignItems: 'center',
-                  display: 'flex',
-                }}
-              >
-        
-              </Box>
-              
-              <Box
-                sx={{
-                  display: 'flex',
-                  mt: 3,
-                  alignItems: 'center',
-                }}
-              >
-              {/*Old ps */}
-                <TextField
-                  disabled={!isEditing__Ps}
-                  label="Old Password"
-                  required
-                  size="small"
+        <Card item>
+          <CardContent>
+            <Grid container spacing={3}>
+              <Grid item md={4} xs={12}>
+                <Typography variant="h6">Change Password</Typography>
+              </Grid>
+              <Grid item md={8} xs={12}>
+                <Box
                   sx={{
-                    flexGrow: 1,
-                    mr: 11,
+                    alignItems: 'center',
+                    display: 'flex',
                   }}
-                />
-             
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  mt: 3,
-                  alignItems: 'center',
-                }}
-              >
-              {/*new ps */}
-                <TextField
-                  disabled={!isEditing__Ps}
-                  label="New Password"
-                  required
-                  size="small"
+                ></Box>
+
+                <Box
                   sx={{
-                    flexGrow: 1,
-                    mr: 3,
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderStyle: 'dashed',
-                    },
+                    display: 'flex',
+                    mt: 3,
+                    alignItems: 'center',
                   }}
-                />
-                <Button onClick={handleEdit__Ps}>
-                {isEditing__Ps ? 'Save' : 'Edit'}
-              </Button>
-              </Box>
+                >
+                  {/*Old ps */}
+                  <TextField
+                    disabled={!isEditing__Ps}
+                    label="Old Password"
+                    required
+                    size="small"
+                    sx={{
+                      flexGrow: 1,
+                      mr: 11,
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    mt: 3,
+                    alignItems: 'center',
+                  }}
+                >
+                  {/*new ps */}
+                  <TextField
+                    disabled={!isEditing__Ps}
+                    label="New Password"
+                    required
+                    size="small"
+                    sx={{
+                      flexGrow: 1,
+                      mr: 3,
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderStyle: 'dashed',
+                      },
+                    }}
+                  />
+                  <Button onClick={handleEdit__Ps}>
+                    {isEditing__Ps ? 'Save' : 'Edit'}
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
-    </Grid>
-
-
-
-    
   );
 };
 
