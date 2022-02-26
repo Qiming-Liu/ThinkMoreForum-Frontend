@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import {
   Typography,
   Card,
@@ -10,7 +10,7 @@ import {
   Button,
   Box,
   FormHelperText,
-  MenuItem,
+  Grid,
 } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -19,51 +19,35 @@ import QuillEditor from '../../QuillEditor';
 import { createPost } from '../../../services/usersServices';
 import hotToast from '../../../utils/hotToast';
 
-const categoryOptions = [
-  {
-    label: 'Default',
-    value: 'Default Category',
-  },
-  {
-    label: '1',
-    value: 'category 1',
-  },
-  {
-    label: '2',
-    value: 'category2',
-  },
-];
-
-const PostCreate = (props) => {
+const PostCreate = () => {
   const [isLoading, setLoading] = useState(false);
-  const [context, setContext] = useState('write something');
+  const router = useRouter();
+  const { id, categoryTitle } = router.query;
   const formik = useFormik({
     initialValues: {
       context: '',
       title: '',
-      category: '',
     },
     validationSchema: Yup.object({
       context: Yup.string().max(5000),
       title: Yup.string().max(255).required(),
-      category: Yup.string().max(255),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async ({ title, context }) => {
       try {
         // NOTE: Make API request
         setLoading(true);
         const requestBody = {
           category: {
-            id: '03ce9d2e-949e-11ec-be16-8fbcfc042c46',
-            title: values.category,
+            id,
+            title: categoryTitle,
           },
-          title: values.title,
-          context: values.context,
+          title,
+          context: context.replace(/<p>|[</p>]/gi, ''),
+          headImg: '',
         };
-        console.log(context);
-        // await createPost(requestBody);
-        // setLoading(false);
-        // Router.push('/');
+        const response = await createPost(requestBody);
+        setLoading(false);
+        Router.push(`/post/${response.data}?categoryTitle=${categoryTitle}`);
       } catch (err) {
         setLoading(false);
         hotToast('failure', err.response.data.message);
@@ -79,41 +63,22 @@ const PostCreate = (props) => {
       </Head>
       <Container maxWidth="xl" sx={{ width: '900px' }} mx="300">
         <Typography variant="h4">Create a new post</Typography>
-        <form onSubmit={formik.handleSubmit} {...props}>
+        <form onSubmit={formik.handleSubmit}>
           <Card sx={{ mt: 3 }}>
-            <CardContent sx={{ width: '530px' }}>
-              <Typography variant="h6" sx={{ mb: 3 }}>
-                Category
-              </Typography>
-              <TextField
-                error={Boolean(
-                  formik.touched.category && formik.errors.category,
-                )}
-                fullWidth
-                label="Category"
-                name="category"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                select
-                value={formik.values.category}
-              >
-                {categoryOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                disabled
-                error={Boolean(formik.touched.barcode && formik.errors.barcode)}
-                fullWidth
-                label="Barcode"
-                name="barcode"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                sx={{ mt: 2 }}
-                value={formik.values.barcode}
-              />
+            <CardContent>
+              <Grid container spacing={3}>
+                <Grid item md={4} xs={12}>
+                  <Typography variant="h6">Head Image</Typography>
+                  <Typography
+                    color="textSecondary"
+                    variant="body2"
+                    sx={{ mt: 1 }}
+                  >
+                    Set up the head image for your new post.
+                  </Typography>
+                </Grid>
+                {/* upload image */}
+              </Grid>
             </CardContent>
           </Card>
           <Card>
@@ -143,9 +108,11 @@ const PostCreate = (props) => {
                 Context
               </Typography>
               <QuillEditor
-                onChange={setContext}
-                value={context}
-                style={{ height: '300px' }}
+                onChange={(value) => {
+                  formik.setFieldValue('context', value);
+                }}
+                placeholder="Write something"
+                value={formik.values.context}
               />
               {Boolean(formik.touched.context && formik.errors.context) && (
                 <Box sx={{ mt: 2 }}>
