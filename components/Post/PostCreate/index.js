@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import {
   Typography,
   Card,
@@ -19,10 +19,8 @@ import QuillEditor from '../../QuillEditor';
 import { createPost } from '../../../services/usersServices';
 import hotToast from '../../../utils/hotToast';
 
-const PostCreate = () => {
+const PostCreate = ({ categoryId, categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
-  const router = useRouter();
-  const { id, categoryTitle } = router.query;
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -38,12 +36,12 @@ const PostCreate = () => {
         setLoading(true);
         const requestBody = {
           category: {
-            id,
+            id: categoryId,
             title: categoryTitle,
           },
           title,
           context: context.replace(/<p>|[</p>]/gi, ''),
-          headImg: '',
+          // headImg: '',
         };
         const response = await createPost(requestBody);
         setLoading(false);
