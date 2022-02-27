@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Paper,
-} from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -54,9 +48,7 @@ const SignDialog = ({ children, isOpen, onOpen, onClose }) => {
         open={isOpen}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose} />
-        <DialogContent>
-          <Paper elevation={12}>{children}</Paper>
-        </DialogContent>
+        <DialogContent>{children}</DialogContent>
       </BootstrapDialog>
     </>
   );

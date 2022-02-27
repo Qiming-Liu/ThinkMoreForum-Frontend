@@ -93,11 +93,18 @@ const Register = ({ login }) => {
       <Container maxWidth="md">
         <form onSubmit={formik.handleSubmit}>
           <Typography align="center">
-            <Image src="/logo.svg" height="50" width="50" alt="logo" />
+            <Image src="/logo.png" height="55" width="55" alt="logo" />
           </Typography>
-          <br />
           <Typography color="textPrimary" variant="h4" align="center">
             Register
+          </Typography>
+          <Typography
+            color="textSecondary"
+            sx={{ mt: 2 }}
+            variant="body2"
+            align="center"
+          >
+            Where the Discovering Starts
           </Typography>
           <Box sx={{ my: 4 }}>
             <TextField
