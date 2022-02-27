@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import Image from 'next/image';
+import NextLink from 'next/link';
 import { useSelector } from 'react-redux';
 import { AppBar, Box, Toolbar } from '@mui/material';
 import AccountButton from './AccountButton';
@@ -33,6 +35,11 @@ const Navbar = () => {
           px: 2,
         }}
       >
+        <NextLink href="/" passHref>
+          <div style={{ cursor: 'pointer' }}>
+            <Image src="/logo.png" height="35" width="35" alt="logo" />
+          </div>
+        </NextLink>
         <Box sx={{ flexGrow: 1 }} />
         <>
           {isLogin || <Sign />}

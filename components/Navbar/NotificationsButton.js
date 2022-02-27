@@ -18,7 +18,7 @@ const NotificationsButton = () => {
         <IconButton
           ref={anchorRef}
           sx={{ ml: 1 }}
-          onClick={async () => setOpenPopover(true)}
+          onClick={() => setOpenPopover(true)}
         >
           <Badge color="error" badgeContent={unread}>
             <BellIcon fontSize="small" />

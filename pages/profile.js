@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import { blueGrey } from '@mui/material/colors';
-// import { format, subHours } from 'date-fns';
 import ProfilePost from '../components/Profile/ProfilePost';
 import ProfileComment from '../components/Profile/ProfileComment';
 import ProfileFollow from '../components/Profile/ProfileFollow';
