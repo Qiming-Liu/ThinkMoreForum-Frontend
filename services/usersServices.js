@@ -29,6 +29,9 @@ export const resetPasswordemail = (email) =>
 export const resetPassword = (password) =>
   http(`/v1/users/password-reset/${password}`, { method: 'PUT' });
 
+export const createPost = (requestBody) =>
+  http(`/v1/post`, { method: 'POST', data: requestBody });
+
 export const getPostsByCategoryTitle = (
   categoryTitle,
   currentPage,
@@ -52,3 +55,6 @@ export const getAllCategories = () => http(`/v1/category`, { method: 'GET' });
 
 export const getCategoryByCategoryTitle = (categoryTitle) =>
   http(`/v1/category/${categoryTitle}`, { method: 'GET' });
+
+export const getCommentByPost = (postId) =>
+  http(`/v1/comment?post_id=${postId}`, { method: 'GET' });

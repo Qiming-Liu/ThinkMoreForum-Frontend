@@ -45,6 +45,7 @@ const http = (endpoint, { method, data, headers, ...customConfig }) => {
     data,
     ...customConfig,
   };
+  console.log(data);
   const axiosInstance = getInstance();
   return axiosInstance(endpoint, { ...config });
 };
