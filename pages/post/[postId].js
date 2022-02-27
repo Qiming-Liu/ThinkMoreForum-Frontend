@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Container, Divider, Typography } from '@mui/material';
+import { Button, Container, Divider } from '@mui/material';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -18,14 +18,6 @@ const Post = () => {
   const rootComments = comments.filter(
     (comment) => comment.parentComment === null,
   );
-  const getReplies = (commentId) =>
-    comments
-      .filter((comment) => comment.id === commentId)
-      .sort(
-        (a, b) =>
-          new Date(a.createTimestamp).getTime() -
-          new Date(b.createTimestamp).getTime(),
-      );
   useEffect(() => {
     const getPostContent = async () => {
       const { data: responsePost } = await getPostByPostId(postId);
@@ -36,7 +28,6 @@ const Post = () => {
     getPostContent();
   }, [postId]);
   if (!post) return null;
-  console.log(comments.filter((comment) => comment.parentComment !== null));
   return (
     <Container maxWidth="md">
       <NextLink href={`/category/${categoryTitle}`} passHref>
@@ -48,13 +39,7 @@ const Post = () => {
       <PostContent post={post} />
       {rootComments &&
         rootComments.map((rootComment) => {
-          return (
-            <ProfileComment
-              key={rootComment.id}
-              comment={rootComment}
-              replies={getReplies(rootComment.id)}
-            />
-          );
+          return <ProfileComment key={rootComment.id} comment={rootComment} />;
         })}
     </Container>
   );
