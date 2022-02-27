@@ -46,3 +46,6 @@ export const getAllCategories = () => http(`/v1/category`, { method: 'GET' });
 
 export const getCategoryByCategoryTitle = (categoryTitle) =>
   http(`/v1/category/${categoryTitle}`, { method: 'GET' });
+
+export const getCommentByPost = (postId) =>
+  http(`/v1/comment?post_id=${postId}`, { method: 'GET' });

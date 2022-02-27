@@ -1,11 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
   Box,
-  Button,
   Chip,
   Container,
   Divider,
@@ -31,7 +28,7 @@ const PostContent = (props) => {
         }}
       >
         <Container maxWidth="md">
-          <Typography variant="h3" sx={{ mt: 3 }}>
+          <Typography variant="h3" sx={{ mt: 3, mb: 3 }}>
             {post.title}
           </Typography>
           <Chip label={post.category.title} />
@@ -60,26 +57,8 @@ const PostContent = (props) => {
             }}
           />
           <Box sx={{ py: 3 }}> {post.context}</Box>
+
           <Divider sx={{ my: 3 }} />
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              mt: 4,
-              mb: 8,
-            }}
-          >
-            <Button disabled startIcon={<ArrowBackIcon fontSize="small" />}>
-              Pervious Post
-            </Button>
-            <Button
-              endIcon={<ArrowForwardIcon fontSize="small" />}
-              sx={{ ml: 1 }}
-            >
-              Next Post
-            </Button>
-          </Box>
         </Container>
       </Box>
     </>
