@@ -16,10 +16,14 @@ import ProfilePost from '../components/Profile/ProfilePost';
 import ProfileComment from '../components/Profile/ProfileComment';
 import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
-import Chat from '../icons/chat';
+// import Chat from '../icons/chat';
+// 原来是import follow from '../services/followServices';
+// 但是这样写会报错，这两种写法有啥差别？
+import { follow } from '../services/followServices';
 
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState('posts');
+  const [followedStatus, setFollowedStatus] = useState('not_followed');
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
@@ -28,6 +32,25 @@ const Profile = () => {
   const profileimg = {
     cover: '/cover_1.jpg',
     avatar: '/avatar-cao-yu.png',
+  };
+
+  const profile = {
+    title: 'front-end developer',
+    name: 'verified_user',
+  };
+
+  const handleFollowAction = (name) => {
+    console.log(name);
+    follow(name)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setFollowedStatus((prevFollowedStatus) =>
+      prevFollowedStatus === 'not_followed' ? 'followed' : 'not_followed',
+    );
   };
 
   const tabs = [
@@ -40,7 +63,7 @@ const Profile = () => {
   const comments = [
     {
       id: 'd0ab3d02ef737fa6b007e35d',
-      authorAvatar: '/avatar-jie_yan_song.png',
+      authorAvatar: '/static/mock-images/avatars/avatar-alcides_antonio.png',
       authorName: 'Alcides Antonio',
       authorRole: 'Product Designer',
       content:
@@ -51,7 +74,7 @@ const Profile = () => {
     },
     {
       id: '3ac1e17289e38a84108efdf3',
-      authorAvatar: '/avatar-jie_yan_song.png',
+      authorAvatar: '/static/mock-images/avatars/avatar-jie_yan_song.png',
       authorName: 'Jie Yan Song',
       authorRole: 'Web Developer',
       content:
@@ -127,9 +150,9 @@ const Profile = () => {
           />
           <Box sx={{ ml: 2 }}>
             <Typography color="textSecondary" variant="overline">
-              front-end developer
+              {profile.title}
             </Typography>
-            <Typography variant="h6">Tydias</Typography>
+            <Typography variant="h6">{profile.name}</Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box
@@ -140,16 +163,39 @@ const Profile = () => {
               },
             }}
           >
-            <Button
-              // onClick={handleConnectToggle}
-              size="small"
-              startIcon={<UserAdd fontSize="small" />}
-              sx={{ ml: 2 }}
-              variant="outlined"
-            >
-              Follow
-            </Button>
-            <Button
+            {followedStatus === 'not_followed' && (
+              <Button
+                // onClick={handleFollowAction(profile.name)} 这是原来的写法
+                // 这样写的话就算不点击button也会执行，而且是执行两次，还没搞懂为啥
+                onClick={() => {
+                  handleFollowAction(profile.name);
+                }}
+                size="small"
+                startIcon={<UserAdd fontSize="small" />}
+                sx={{ ml: 2 }}
+                variant="outlined"
+              >
+                Follow
+              </Button>
+            )}
+            {followedStatus === 'followed' && (
+              <Button
+                // onClick={handleFollowAction(profile.name)} 这是原来的写法
+                // 这样写的话就算不点击button也会执行，而且是执行两次，还没搞懂为啥
+                color="primary"
+                onClick={() => {
+                  handleFollowAction(profile.name);
+                }}
+                size="small"
+                startIcon={<UserAdd fontSize="small" />}
+                sx={{ ml: 2 }}
+                variant="outlined"
+              >
+                Followed
+              </Button>
+            )}
+            {/* 这个功能后面看情况再加 */}
+            {/* <Button
               component="a"
               size="small"
               startIcon={<Chat fontSize="small" />}
@@ -157,7 +203,7 @@ const Profile = () => {
               variant="contained"
             >
               Send Message
-            </Button>
+            </Button> */}
           </Box>
         </Box>
       </Container>
@@ -182,8 +228,12 @@ const Profile = () => {
               comments.map((comment) => {
                 return <ProfileComment key={comment.id} {...comment} />;
               })}
-            {currentTab === 'following' && <ProfileFollow />}
-            {currentTab === 'follower' && <ProfileFollow />}
+            {currentTab === 'following' && (
+              <ProfileFollow title="Following" value="verified_user" />
+            )}
+            {currentTab === 'follower' && (
+              <ProfileFollow title="Follower" value="admin" />
+            )}
           </Box>
         </Container>
       </Box>
