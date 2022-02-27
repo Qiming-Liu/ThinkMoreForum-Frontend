@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
+import Router from 'next/router';
 import {
   Typography,
   Card,
@@ -9,34 +10,50 @@ import {
   Button,
   Box,
   FormHelperText,
+  Grid,
 } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import LoadingButton from '@mui/lab/LoadingButton';
 import QuillEditor from '../../QuillEditor';
+import { createPost } from '../../../services/usersServices';
+import hotToast from '../../../utils/hotToast';
 
-const PostCreate = (props) => {
+const PostCreate = ({ categoryId, categoryTitle }) => {
+  const [isLoading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
-      description: '',
-      name: '',
-      submit: null,
+      context: '',
+      title: '',
     },
     validationSchema: Yup.object({
-      description: Yup.string().max(5000),
-      name: Yup.string().max(255).required(),
+      context: Yup.string().max(5000),
+      title: Yup.string().max(255).required(),
     }),
-    onSubmit: async (values, helpers) => {
+    onSubmit: async ({ title, context }) => {
       try {
         // NOTE: Make API request
-        console.log('hi');
+        setLoading(true);
+        const requestBody = {
+          category: {
+            id: categoryId,
+            title: categoryTitle,
+          },
+          title,
+          context: context.replace(/<p>|[</p>]/gi, ''),
+          // headImg: '',
+        };
+        const response = await createPost(requestBody);
+        setLoading(false);
+        Router.push(`/post/${response.data}?categoryTitle=${categoryTitle}`);
       } catch (err) {
-        console.error(err);
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
+        setLoading(false);
+        hotToast('failure', err.response.data.message);
       }
     },
   });
+
+  const cancel = () => Router.back();
   return (
     <>
       <Head>
@@ -44,19 +61,38 @@ const PostCreate = (props) => {
       </Head>
       <Container maxWidth="xl" sx={{ width: '900px' }} mx="300">
         <Typography variant="h4">Create a new post</Typography>
-        <form onSubmit={formik.handleSubmit} {...props}>
+        <form onSubmit={formik.handleSubmit}>
+          <Card sx={{ mt: 3 }}>
+            <CardContent>
+              <Grid container spacing={3}>
+                <Grid item md={4} xs={12}>
+                  <Typography variant="h6">Head Image</Typography>
+                  <Typography
+                    color="textSecondary"
+                    variant="body2"
+                    sx={{ mt: 1 }}
+                  >
+                    Set up the head image for your new post.
+                  </Typography>
+                </Grid>
+                {/* upload image */}
+              </Grid>
+            </CardContent>
+          </Card>
           <Card>
             <CardContent>
-              <Typography variant="h6">Basic details</Typography>
+              <Typography variant="h6" sx={{ mb: 3 }}>
+                Basic details
+              </Typography>
               <TextField
-                error={Boolean(formik.touched.name && formik.errors.name)}
+                error={Boolean(formik.touched.title && formik.errors.title)}
                 fullWidth
-                helperText={formik.touched.name && formik.errors.name}
-                label="Post Name"
-                name="name"
+                helperText={formik.touched.title && formik.errors.title}
+                label="Post Title"
+                name="title"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                value={formik.values.name}
+                value={formik.values.title}
                 sx={{ width: '530px' }}
               />
               <Typography
@@ -67,23 +103,18 @@ const PostCreate = (props) => {
                 }}
                 variant="subtitle2"
               >
-                Description
+                Context
               </Typography>
               <QuillEditor
                 onChange={(value) => {
-                  formik.setFieldValue('description', value);
+                  formik.setFieldValue('context', value);
                 }}
                 placeholder="Write something"
-                sx={{ height: '300px' }}
-                value={formik.values.description}
+                value={formik.values.context}
               />
-              {Boolean(
-                formik.touched.description && formik.errors.description,
-              ) && (
+              {Boolean(formik.touched.context && formik.errors.context) && (
                 <Box sx={{ mt: 2 }}>
-                  <FormHelperText error>
-                    {formik.errors.description}
-                  </FormHelperText>
+                  <FormHelperText error>{formik.errors.context}</FormHelperText>
                 </Box>
               )}
             </CardContent>
@@ -98,12 +129,17 @@ const PostCreate = (props) => {
               mt: 3,
             }}
           >
-            <Button sx={{ m: 1 }} variant="outlined">
+            <Button sx={{ m: 1 }} variant="outlined" onClick={cancel}>
               Cancel
             </Button>
-            <Button sx={{ m: 1 }} type="submit" variant="contained">
+            <LoadingButton
+              sx={{ m: 1 }}
+              type="submit"
+              variant="contained"
+              loading={isLoading}
+            >
               Create
-            </Button>
+            </LoadingButton>
           </Box>
         </form>
       </Container>

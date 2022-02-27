@@ -29,6 +29,9 @@ export const resetPasswordemail = (email) =>
 export const resetPassword = (password) =>
   http(`/v1/users/password-reset/${password}`, { method: 'PUT' });
 
+export const createPost = (requestBody) =>
+  http(`/v1/post`, { method: 'POST', data: requestBody });
+
 export const getPostsByCategoryTitle = (
   categoryTitle,
   currentPage,

@@ -51,7 +51,7 @@ const PasswordReset = () => {
         })
         .catch((error) => {
           setLoading(false);
-          hotToast('success', error.response.data.message);
+          hotToast('failure', error.response.data.message);
         });
     },
   });
