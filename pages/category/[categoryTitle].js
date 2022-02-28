@@ -464,6 +464,15 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
               bottom: (theme) => theme.spacing(3),
               right: (theme) => theme.spacing(10),
             }}
+            onClick={() =>
+              router.push({
+                pathname: '/post/new-post',
+                query: {
+                  categoryId: categoryInfo.id,
+                  categoryTitle: categoryInfo.title,
+                },
+              })
+            }
           >
             <AddIcon />
           </Fab>
