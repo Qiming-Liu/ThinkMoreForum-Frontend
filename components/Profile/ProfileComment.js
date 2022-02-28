@@ -3,9 +3,14 @@ import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { Avatar, Box, Typography, Button, Stack } from '@mui/material';
 
-const ProfileComment = ({ comment }) => {
+const ProfileComment = ({ comment, replies }) => {
   const user = comment.postUsers;
   const timeStamp = new Date(comment.createTimestamp);
+  const replieStyle = {
+    marginTop: '15px',
+    marginLeft: '5px',
+    marginBottom: '-30px',
+  };
   return (
     <Box
       sx={{
@@ -53,6 +58,13 @@ const ProfileComment = ({ comment }) => {
         <Typography variant="body2" sx={{ mt: 1 }}>
           {comment.context}
         </Typography>
+        {replies !== null && (
+          <div style={replieStyle}>
+            {replies.map((reply) => (
+              <ProfileComment comment={reply} key={reply.id} replies={[]} />
+            ))}
+          </div>
+        )}
       </Box>
     </Box>
   );
