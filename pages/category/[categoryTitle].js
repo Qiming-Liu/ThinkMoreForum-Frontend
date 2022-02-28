@@ -23,6 +23,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AddIcon from '@mui/icons-material/Add';
+import Draggable from 'react-draggable';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -35,7 +36,6 @@ import {
 import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
-import Draggable from 'react-draggable';
 
 const validNumberInput = /[^0-9]/;
 

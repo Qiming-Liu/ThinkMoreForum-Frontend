@@ -6,8 +6,8 @@ import hotToast from './hotToast';
 
 const getInstance = () => {
   const axiosInstance = axios.create();
-  // axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
-  axiosInstance.defaults.baseURL = 'http://localhost:443';
+  axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
+  // axiosInstance.defaults.baseURL = 'http://localhost:443';
 
   axiosInstance.defaults.headers.common.Authorization =
     store.getState().sign.token || '';
