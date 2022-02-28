@@ -37,14 +37,16 @@ const PostCard = (props) => {
     <Card
       sx={{
         '& + &': {
-          mt: 6,
+          mt: 3,
         },
       }}
       {...other}
     >
-      <NextLink href={generatedUrl ?? ''} passHref>
-        <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
-      </NextLink>
+      {headImg && (
+        <NextLink href={generatedUrl ?? ''} passHref>
+          <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
+        </NextLink>
+      )}
       <CardContent>
         <NextLink href={generatedUrl ?? ''} passHref>
           <Link
@@ -56,20 +58,22 @@ const PostCard = (props) => {
             {title}
           </Link>
         </NextLink>
-        <Typography
-          color="textSecondary"
-          sx={{
-            height: 48,
-            mt: 1,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 2,
-          }}
-          variant="body1"
-        >
-          {abstract}
-        </Typography>
+        {abstract && (
+          <Typography
+            color="textSecondary"
+            sx={{
+              height: 48,
+              mt: 1,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
+            }}
+            variant="body1"
+          >
+            {abstract}
+          </Typography>
+        )}
         <Box
           sx={{
             alignItems: 'center',

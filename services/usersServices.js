@@ -36,14 +36,17 @@ export const getPostsByCategoryTitle = (
   categoryTitle,
   currentPage,
   sizePerPage,
-) =>
-  http(`/v1/category/${categoryTitle}/post`, {
+  sortParams = 'createTimestamp,DESC',
+) => {
+  return http(`/v1/category/${categoryTitle}/post`, {
     method: 'GET',
     params: {
       page: currentPage,
-      value: sizePerPage,
+      size: sizePerPage,
+      sort: sortParams,
     },
   });
+};
 
 export const getPostByPostId = (postId) =>
   http(`/v1/post/${postId}`, { method: 'GET' });

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import {
   Box,
@@ -7,8 +7,23 @@ import {
   Divider,
   Pagination,
   Typography,
+  Grid,
+  TextField,
+  MenuItem,
+  IconButton,
+  InputAdornment,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Fab,
+  Tooltip,
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import CheckIcon from '@mui/icons-material/Check';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import AddIcon from '@mui/icons-material/Add';
+import Draggable from 'react-draggable';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -16,17 +31,34 @@ import {
   getPostsByCategoryTitle,
   getPostCountByCategoryTitle,
   getCategoryByCategoryTitle,
+  getPostByPostId,
 } from '../../services/usersServices';
+import PinPostCard from '../../components/Post/PinPostCard';
+import CategoryIntro from '../../components/Categroy/CategoryIntro';
+import hotToast from '../../utils/hotToast';
 
-const initialPage = 0;
-const initialSizePerPage = 10;
+const validNumberInput = /[^0-9]/;
 
-export const useComponentDidMount = () => {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = true;
-  }, []);
-  return ref.current;
+const postSortColumns = [
+  {
+    value: 'View count',
+  },
+  {
+    value: 'Follow count',
+  },
+  {
+    value: 'Comment count',
+  },
+  {
+    value: 'Create time',
+  },
+];
+
+const sortColumnDict = {
+  'View count': 'viewCount',
+  'Follow count': 'followCount',
+  'Comment count': 'commentCount',
+  'Create time': 'createTimestamp',
 };
 
 export async function getStaticPaths() {
@@ -38,54 +70,110 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  let categoryInfo;
+
   try {
-    await getCategoryByCategoryTitle(params.categoryTitle);
+    ({ data: categoryInfo } = await getCategoryByCategoryTitle(
+      params.categoryTitle,
+    ));
   } catch (error) {
     return {
       notFound: true,
       revalidate: 10,
     };
   }
-  const { data: initialPosts } = await getPostsByCategoryTitle(
-    params.categoryTitle,
-    initialPage,
-    initialSizePerPage,
-  );
+
   const { data: initialTotalCount } = await getPostCountByCategoryTitle(
     params.categoryTitle,
   );
-  const initialTotalPages = Math.ceil(initialTotalCount / initialSizePerPage);
-  const { categoryTitle } = params;
+
+  let pinPostInfo = null;
+  if (categoryInfo.pinPost) {
+    const { data } = await getPostByPostId(categoryInfo.pinPost.id);
+    pinPostInfo = data;
+  }
+
   return {
-    props: { categoryTitle, initialPosts, initialTotalPages },
+    props: { categoryInfo, initialTotalCount, pinPostInfo },
     revalidate: 1,
   };
 }
 
-const PostList = ({ categoryTitle, initialPosts, initialTotalPages }) => {
+const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
+  const { title: categoryTitle, description } = categoryInfo;
+  let initialPinPostDisplay;
+  let initialHeadImgDisplay;
+  let initialSortColumn;
+  let initialSortDirection;
+  let initialSizePerPage;
+  let initialPage;
+  let initialDisplayAbstract;
+
+  try {
+    initialPinPostDisplay = localStorage.getItem(`pinPost display`) || true;
+    initialHeadImgDisplay = localStorage.getItem(`postHeadIgmDisplay`) || true;
+    initialSortColumn = localStorage.getItem(`sortColumn`) || 'Create time';
+    initialSortDirection = localStorage.getItem(`sortDirection`) || true;
+    initialSizePerPage =
+      parseInt(localStorage.getItem(`sizePerPage`), 10) || 10;
+    initialPage =
+      parseInt(sessionStorage.getItem(`${categoryTitle}_currentPage`), 10) || 0;
+    initialDisplayAbstract =
+      localStorage.getItem(`postAbstractDisplay`) || true;
+  } catch (error) {
+    initialPinPostDisplay = true;
+    initialHeadImgDisplay = true;
+    initialSortColumn = 'Create time';
+    initialSortDirection = true;
+    initialSizePerPage = 10;
+    initialPage = 0;
+    initialDisplayAbstract = true;
+  }
+
   const router = useRouter();
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const sizePerPage = initialSizePerPage;
-  const [totalPages, setTotalPages] = useState(initialTotalPages);
-  const isComponentMounted = useComponentDidMount();
+  let inputCurrentPage = currentPage;
+  const [sizePerPage, setSizePerPage] = useState(initialSizePerPage);
+  let inputSizePerPage = initialSizePerPage;
+  const [totalPages, setTotalPages] = useState(
+    Math.ceil(initialTotalCount / initialSizePerPage),
+  );
+  const [displayPinPost, setDisplayPinPost] = useState(initialPinPostDisplay);
+  const [displayHeadImg, setDisplayHeadImg] = useState(initialHeadImgDisplay);
+  const [displayAbstract, setDisplayAbstract] = useState(
+    initialDisplayAbstract,
+  );
+  const [sortColumn, setSortColumn] = useState(initialSortColumn);
+  const [sortDirection, setSortDirection] = useState(initialSortDirection);
+
   useEffect(() => {
-    if (isComponentMounted) {
-      const fetchPageData = async () => {
-        const { data: responsePosts } = await getPostsByCategoryTitle(
-          categoryTitle,
-          currentPage,
-          sizePerPage,
-        );
-        const { data: responseTotalPages } = await getPostCountByCategoryTitle(
-          categoryTitle,
-        );
-        setTotalPages(Math.ceil(responseTotalPages / sizePerPage));
-        setPosts(responsePosts);
-      };
-      fetchPageData();
-    }
-  }, [categoryTitle, currentPage, isComponentMounted, sizePerPage, totalPages]);
+    const sortParams = `${sortColumnDict[sortColumn]},${
+      sortDirection ? 'desc' : 'asc'
+    }`;
+    const fetchPageData = async () => {
+      const { data: responsePosts } = await getPostsByCategoryTitle(
+        categoryTitle,
+        currentPage,
+        sizePerPage,
+        sortParams,
+      );
+      const { data: responseTotalCount } = await getPostCountByCategoryTitle(
+        categoryTitle,
+      );
+      setTotalPages(Math.ceil(responseTotalCount / sizePerPage));
+      setPosts(responsePosts);
+    };
+    fetchPageData();
+  }, [
+    categoryTitle,
+    currentPage,
+    sizePerPage,
+    totalPages,
+    sortColumn,
+    sortDirection,
+  ]);
+
   if (router.isFallback)
     return (
       <Typography variant="h3" sx={{ mt: 3 }}>
@@ -94,20 +182,198 @@ const PostList = ({ categoryTitle, initialPosts, initialTotalPages }) => {
     );
 
   const handlePageChange = (event, page) => {
+    sessionStorage.setItem(`${categoryTitle}_currentPage`, page - 1);
     setCurrentPage(page - 1);
   };
+
+  const togglePinPostDisplay = () => {
+    localStorage.setItem(`pinPost display`, !displayPinPost);
+    setDisplayPinPost(!displayPinPost);
+  };
+
+  const toggleHeadImgDisplay = () => {
+    localStorage.setItem(`postHeadIgmDisplay`, !displayHeadImg);
+    setDisplayHeadImg(!displayHeadImg);
+  };
+
+  const toggleAbstractDisplay = () => {
+    localStorage.setItem(`postAbstractDisplay`, !displayAbstract);
+    setDisplayAbstract(!displayAbstract);
+  };
+
+  const toggleSortDirection = () => {
+    localStorage.setItem(`sortDirection`, !sortDirection);
+    setSortDirection(!sortDirection);
+  };
+
+  const handleSortColumn = (event) => {
+    localStorage.setItem(`sortColumn`, event.target.value);
+    setSortColumn(event.target.value);
+  };
+
+  const handleSizePerPage = () => {
+    if (validNumberInput.test(inputSizePerPage) || !inputSizePerPage) {
+      hotToast('error', 'Invalid input');
+    } else if (inputSizePerPage > 20 || inputSizePerPage < 1) {
+      hotToast('error', 'Please use a number between 1 and 20');
+    } else {
+      localStorage.setItem(`sizePerPage`, inputSizePerPage);
+      sessionStorage.setItem(`${categoryTitle}_currentPage`, 0);
+      setCurrentPage(0);
+      setSizePerPage(inputSizePerPage);
+    }
+  };
+
+  const handleCurrentPage = () => {
+    if (validNumberInput.test(inputCurrentPage) || !inputCurrentPage) {
+      hotToast('error', 'Invalid input');
+    } else if (inputCurrentPage > totalPages || inputCurrentPage < 1) {
+      hotToast('error', `Please use a number between 1 and ${totalPages}`);
+    } else {
+      sessionStorage.setItem(
+        `${categoryTitle}_currentPage`,
+        inputCurrentPage - 1,
+      );
+      setCurrentPage(inputCurrentPage - 1);
+    }
+  };
+
+  const handleInputSizePerPage = (event) => {
+    inputSizePerPage = event.target.value;
+  };
+
+  const handleInputCurrentPage = (event) => {
+    inputCurrentPage = event.target.value;
+  };
+
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="xl">
       <NextLink href="/" passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
           Back to Home
         </Button>
       </NextLink>
-      <Typography variant="h3" sx={{ mt: 3 }}>
-        {categoryTitle}
-      </Typography>
-      <Divider sx={{ my: 3 }} />
-      {Object.keys(posts).length === 0 ? (
+      <CategoryIntro categoryTitle={categoryTitle} description={description} />
+      <Divider sx={{ mt: 3, mb: 1 }} />
+      {pinPostInfo && (
+        <Box sx={{ display: displayPinPost ? undefined : 'none' }}>
+          <PinPostCard
+            title={pinPostInfo.title}
+            context={pinPostInfo.context}
+          />
+          <Divider sx={{ my: 1 }} />
+        </Box>
+      )}
+      <Grid container spacing={1} align="center">
+        <Grid item xs={2} justifyContent="center" sx={{ mt: 0.7 }}>
+          <Typography variant="h6" align="center">
+            Display setting:
+          </Typography>
+        </Grid>
+        <Grid item>
+          <FormGroup row>
+            <FormControlLabel
+              checked={displayPinPost}
+              control={<Switch color="primary" />}
+              label="PinPost"
+              labelPlacement="end"
+              onChange={togglePinPostDisplay}
+              sx={{ display: !pinPostInfo ? 'none' : undefined }}
+            />
+            <FormControlLabel
+              checked={displayHeadImg}
+              control={<Switch color="primary" />}
+              label="Cover"
+              labelPlacement="end"
+              onChange={toggleHeadImgDisplay}
+            />
+            <FormControlLabel
+              checked={displayAbstract}
+              control={<Switch color="primary" />}
+              label="Abstract"
+              labelPlacement="end"
+              onChange={toggleAbstractDisplay}
+            />
+          </FormGroup>
+        </Grid>
+        <Grid item>
+          <TextField
+            placeholder="1-20"
+            size="small"
+            id="outlined-basic"
+            label="Posts/page"
+            variant="outlined"
+            type="number"
+            defaultValue={sizePerPage}
+            onChange={handleInputSizePerPage}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleSizePerPage}
+                    size="small"
+                    color="primary"
+                  >
+                    <CheckIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              inputProps: {
+                max: 20,
+                min: 1,
+              },
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            size="small"
+            sx={{ ml: 1 }}
+            id="outlined-basic"
+            label="Sorted by"
+            variant="outlined"
+            select
+            value={sortColumn}
+            onChange={handleSortColumn}
+          >
+            {postSortColumns.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.value}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item>
+          <Button
+            size="small"
+            color="secondary"
+            variant="contained"
+            onClick={toggleSortDirection}
+            sx={{ mt: 0.2, ml: 1 }}
+            endIcon={
+              sortDirection ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
+            }
+          >
+            {sortDirection ? 'Descend' : 'Ascend'}
+          </Button>
+        </Grid>
+      </Grid>
+      <Divider sx={{ my: 1 }} />
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          my: 2,
+        }}
+      >
+        <Pagination
+          count={totalPages}
+          page={currentPage + 1}
+          onChange={handlePageChange}
+        />
+      </Box>
+      {!posts ? (
         <Typography variant="body1">No post in this category.</Typography>
       ) : (
         posts.map(
@@ -135,9 +401,9 @@ const PostList = ({ categoryTitle, initialPosts, initialTotalPages }) => {
                 generatedUrl={`/post/${id}?categoryTitle=${categoryTitle}`}
                 authorAvatar={authorAvatar || '/logo.png'}
                 authorName={authorName}
-                headImg={headImg || '/logo.png'}
+                headImg={displayHeadImg && (headImg || '/logo.png')}
                 createTimeStamp={concatedDateTime}
-                abstract={context}
+                abstract={displayAbstract && context}
                 title={title}
                 commentCount={commentCount}
                 viewCount={viewCount}
@@ -153,11 +419,56 @@ const PostList = ({ categoryTitle, initialPosts, initialTotalPages }) => {
           display: 'flex',
           justifyContent: 'center',
           mt: 4,
-          mb: 8,
         }}
       >
-        <Pagination count={totalPages} onChange={handlePageChange} />
+        <Pagination
+          count={totalPages}
+          page={currentPage + 1}
+          onChange={handlePageChange}
+        />
+        <Typography sx={{ mr: 1 }}>Go To Page</Typography>
+        <TextField
+          placeholder={`1-${totalPages}`}
+          size="small"
+          id="outlined-basic"
+          label="Number"
+          variant="outlined"
+          type="number"
+          onChange={handleInputCurrentPage}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end" sx={{ margin: 0 }}>
+                <IconButton
+                  onClick={handleCurrentPage}
+                  size="small"
+                  color="primary"
+                >
+                  <CheckIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+            inputProps: {
+              max: totalPages,
+              min: 1,
+            },
+          }}
+        />
       </Box>
+      <Draggable>
+        <Tooltip title="Make a post" placement="top">
+          <Fab
+            color="primary"
+            aria-label="add"
+            sx={{
+              position: 'fixed',
+              bottom: (theme) => theme.spacing(3),
+              right: (theme) => theme.spacing(10),
+            }}
+          >
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+      </Draggable>
     </Container>
   );
 };
