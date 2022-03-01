@@ -12,12 +12,8 @@ import {
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import { blueGrey } from '@mui/material/colors';
 import ProfilePost from '../components/Profile/ProfilePost';
-import ProfileComment from '../components/Profile/ProfileComment';
 import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
-// import Chat from '../icons/chat';
-// 原来是import follow from '../services/followServices';
-// 但是这样写会报错，这两种写法有啥差别？
 import { follow } from '../services/followServices';
 
 const Profile = () => {
@@ -54,34 +50,9 @@ const Profile = () => {
 
   const tabs = [
     { label: 'Posts', value: 'posts' },
-    { label: 'Comments', value: 'comments' },
+    { label: 'Favorite', value: 'favorite' },
     { label: 'Following', value: 'following' },
     { label: 'Follower', value: 'follower' },
-  ];
-
-  const comments = [
-    {
-      id: 'd0ab3d02ef737fa6b007e35d',
-      authorAvatar: '/static/mock-images/avatars/avatar-alcides_antonio.png',
-      authorName: 'Alcides Antonio',
-      authorRole: 'Product Designer',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      // createdAt: subHours(new Date(), 2).getTime(),
-      isLiked: true,
-      likes: 12,
-    },
-    {
-      id: '3ac1e17289e38a84108efdf3',
-      authorAvatar: '/static/mock-images/avatars/avatar-jie_yan_song.png',
-      authorName: 'Jie Yan Song',
-      authorRole: 'Web Developer',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
-      // createdAt: subHours(new Date(), 8).getTime(),
-      isLiked: false,
-      likes: 8,
-    },
   ];
 
   return (
@@ -165,7 +136,7 @@ const Profile = () => {
             {followedStatus === 'not_followed' && (
               <Button
                 // onClick={handleFollowAction(profile.name)} 这是原来的写法
-                // 这样写的话就算不点击button也会执行，而且是执行两次，还没搞懂为啥
+                // 这样写的话就算不点击button也会执行，而且是执行两次，还没搞懂为啥(这里还是标记一下)
                 onClick={() => {
                   handleFollowAction(profile.name);
                 }}
@@ -179,8 +150,6 @@ const Profile = () => {
             )}
             {followedStatus === 'followed' && (
               <Button
-                // onClick={handleFollowAction(profile.name)} 这是原来的写法
-                // 这样写的话就算不点击button也会执行，而且是执行两次，还没搞懂为啥
                 color="primary"
                 onClick={() => {
                   handleFollowAction(profile.name);
@@ -223,10 +192,7 @@ const Profile = () => {
           <Divider />
           <Box sx={{ py: 3 }}>
             {currentTab === 'posts' && <ProfilePost />}
-            {currentTab === 'comments' &&
-              comments.map((comment) => {
-                return <ProfileComment key={comment.id} {...comment} />;
-              })}
+            {currentTab === 'favorite' && <ProfilePost />}
             {currentTab === 'following' && (
               <ProfileFollow title="Following" value="verified_user" />
             )}
