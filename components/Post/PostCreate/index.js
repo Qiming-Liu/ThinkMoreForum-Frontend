@@ -10,7 +10,6 @@ import {
   Button,
   Box,
   FormHelperText,
-  Grid,
 } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -18,9 +17,12 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import QuillEditor from '../../QuillEditor';
 import { createPost } from '../../../services/usersServices';
 import hotToast from '../../../utils/hotToast';
+import FileDropZone from '../../ImageDropZone';
+import fileToBase64 from '../../../utils/fileToBase64';
 
 const PostCreate = ({ categoryId, categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
+  const [cover, setCover] = useState('/public/logo.svg');
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -34,6 +36,7 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
       try {
         // NOTE: Make API request
         setLoading(true);
+        console.log(cover);
         const requestBody = {
           category: {
             id: categoryId,
@@ -53,6 +56,15 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
     },
   });
 
+  const handleRemove = () => {
+    setCover(null);
+  };
+
+  const handleDropCover = async ([file]) => {
+    const data = await fileToBase64(file);
+    setCover(data);
+  };
+
   const cancel = () => Router.back();
   return (
     <>
@@ -62,21 +74,59 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
       <Container maxWidth="xl" sx={{ width: '900px' }} mx="300">
         <Typography variant="h4">Create a new post</Typography>
         <form onSubmit={formik.handleSubmit}>
-          <Card sx={{ mt: 3 }}>
+          <Card sx={{ mt: 4, mb: 4 }}>
             <CardContent>
-              <Grid container spacing={3}>
-                <Grid item md={4} xs={12}>
-                  <Typography variant="h6">Head Image</Typography>
-                  <Typography
-                    color="textSecondary"
-                    variant="body2"
-                    sx={{ mt: 1 }}
-                  >
-                    Set up the head image for your new post.
+              <Typography variant="h6">Post cover</Typography>
+              {cover ? (
+                <Box
+                  sx={{
+                    backgroundImage: `url(${cover})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    borderRadius: 1,
+                    height: 230,
+                    mt: 3,
+                  }}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    border: 1,
+                    borderRadius: 1,
+                    borderStyle: 'dashed',
+                    borderColor: 'divider',
+                    height: 230,
+                    mt: 3,
+                    p: 3,
+                  }}
+                >
+                  <Typography align="center" color="textSecondary" variant="h6">
+                    Select a cover image
                   </Typography>
-                </Grid>
-                {/* upload image */}
-              </Grid>
+                  <Typography
+                    align="center"
+                    color="textSecondary"
+                    sx={{ mt: 1 }}
+                    variant="subtitle1"
+                  >
+                    Image used for the post cover
+                  </Typography>
+                </Box>
+              )}
+              <Button onClick={handleRemove} sx={{ mt: 3 }} disabled={!cover}>
+                Remove photo
+              </Button>
+              <Box sx={{ mt: 3 }}>
+                <FileDropZone
+                  accept="image/*"
+                  maxFiles={1}
+                  onDrop={handleDropCover}
+                />
+              </Box>
             </CardContent>
           </Card>
           <Card>
