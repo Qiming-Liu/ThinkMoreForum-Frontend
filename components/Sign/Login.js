@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import {
   Box,
   Button,
