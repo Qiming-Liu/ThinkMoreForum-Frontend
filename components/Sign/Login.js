@@ -190,34 +190,28 @@ const Login = ({ register }) => {
                       session.user.name,
                       session.provider,
                       session.providerAccountId,
-                    )
-                      .then(() => {
-                        hotToast('success', 'Login Success');
-                        dispatch(
-                          loginAction(
-                            session.user.email,
-                            session.providerAccountId,
-                            () => {},
-                            (fail) => {
-                              setLoading(false);
-                              if (
-                                fail &&
-                                fail.response &&
-                                fail.response.status === 403
-                              ) {
-                                hotToast('error', 'Invalid Email or Password');
-                              } else {
-                                hotToast('error', `something wrong${fail}`);
-                              }
-                            },
-                          ),
-                        );
-                      })
-                      .catch((error) => {
-                        setLoading(false);
-                        hotToast('error', `Something wrong: ${error}`);
-                        signOut();
-                      });
+                    ).then(() => {
+                      hotToast('success', 'Login Success');
+                      dispatch(
+                        loginAction(
+                          session.user.email,
+                          session.providerAccountId,
+                          () => {},
+                          (fail) => {
+                            setLoading(false);
+                            if (
+                              fail &&
+                              fail.response &&
+                              fail.response.status === 403
+                            ) {
+                              hotToast('error', 'Invalid Email or Password');
+                            } else {
+                              hotToast('error', `something wrong${fail}`);
+                            }
+                          },
+                        ),
+                      );
+                    });
                   }
                 }}
                 fullWidth
