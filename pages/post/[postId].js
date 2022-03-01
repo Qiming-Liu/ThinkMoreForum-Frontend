@@ -18,6 +18,16 @@ const Post = () => {
   const rootComments = comments.filter(
     (comment) => comment.parentComment === null,
   );
+  const childComments = comments.filter(
+    (comment) => comment.parentComment !== null,
+  );
+  const getReplies = (commentId) =>
+    childComments
+      .filter((comment) => comment.parentComment.id === commentId)
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      );
   useEffect(() => {
     const getPostContent = async () => {
       const { data: responsePost } = await getPostByPostId(postId);
@@ -39,7 +49,13 @@ const Post = () => {
       <PostContent post={post} />
       {rootComments &&
         rootComments.map((rootComment) => {
-          return <ProfileComment key={rootComment.id} comment={rootComment} />;
+          return (
+            <ProfileComment
+              key={rootComment.id}
+              comment={rootComment}
+              replies={getReplies(rootComment.id)}
+            />
+          );
         })}
     </Container>
   );
