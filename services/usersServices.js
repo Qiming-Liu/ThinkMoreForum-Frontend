@@ -61,3 +61,9 @@ export const getCategoryByCategoryTitle = (categoryTitle) =>
 
 export const getCommentByPost = (postId) =>
   http(`/v1/comment?post_id=${postId}`, { method: 'GET' });
+
+export const getPostByUsername = (username) =>
+  http(`/v1/post/user/${username}`, { method: 'GET' });
+
+export const getFollowPostByUsername = (username) =>
+  http(`/v1/post/follows/findAllByUsername/${username}`, { method: 'GET' });

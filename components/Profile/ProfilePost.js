@@ -1,44 +1,59 @@
-import { React } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Divider } from '@mui/material';
 import PostCard from '../Post/PostCard';
+import {
+  getPostByUsername,
+  getFollowPostByUsername,
+} from '../../services/usersServices';
 
-const ProfilePost = () => {
-  const posts = [
-    {
-      authorAvatar: '/logo.png',
-      authorName: 'Adam',
-      headImg: '/logo.png',
-      createTimeStamp: '2022-02-02',
-      abstract: 'testtest',
-      title: 'test',
-    },
-    {
-      authorAvatar: '/logo.png',
-      authorName: 'Adam',
-      headImg: '/logo.png',
-      createTimeStamp: '2022-02-02',
-      abstract: 'testtest2',
-      title: 'test2',
-    },
-  ];
-
+const ProfilePost = (props) => {
+  const { title, value } = props;
+  const [posts, setPost] = useState(null);
+  useEffect(() => {
+    const getPosts = async () => {
+      const { data: responsepost } = await getPostByUsername(value);
+      setPost(responsepost);
+    };
+    const getFollowPosts = async () => {
+      const { data: responsepost } = await getFollowPostByUsername(value);
+      setPost(responsepost);
+    };
+    if (title === 'Posts') {
+      getPosts();
+    } else {
+      getFollowPosts();
+    }
+  }, [title, value]);
+  if (!posts) return null;
   return (
     <>
-      <Typography variant="h4">Followed Posts</Typography>
+      <Typography variant="h4">{title}</Typography>
       <Typography color="textSecondary" variant="subtitle1">
         These are the posts you have followed.
       </Typography>
       <Divider sx={{ my: 3 }} />
-      {posts.map((post) => (
-        <PostCard
-          authorAvatar={post.authorAvatar}
-          authorName={post.authorName}
-          headImg={post.headImg}
-          createTimeStamp={post.createTimeStamp}
-          abstract={post.abstract}
-          title={post.title}
-        />
-      ))}
+      {title === 'Posts' &&
+        posts.map((post) => (
+          <PostCard
+            authorAvatar={post.postUsers.profileImg}
+            authorName={post.postUsers.username}
+            headImg={post.headImg}
+            createTimeStamp={post.createTimestamp}
+            abstract={post.abstract}
+            title={post.title}
+          />
+        ))}
+      {title === 'Favorite' &&
+        posts.map((post) => (
+          <PostCard
+            authorAvatar={post.users.profileImg}
+            authorName={post.users.username}
+            headImg={post.headImg}
+            createTimeStamp={post.createTimestamp}
+            abstract={post.abstract}
+            title={post.title}
+          />
+        ))}
     </>
   );
 };

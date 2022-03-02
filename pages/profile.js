@@ -191,8 +191,12 @@ const Profile = () => {
           </Tabs>
           <Divider />
           <Box sx={{ py: 3 }}>
-            {currentTab === 'posts' && <ProfilePost />}
-            {currentTab === 'favorite' && <ProfilePost />}
+            {currentTab === 'posts' && (
+              <ProfilePost title="Posts" value="moderator" />
+            )}
+            {currentTab === 'favorite' && (
+              <ProfilePost title="Favorite" value="admin" />
+            )}
             {currentTab === 'following' && (
               <ProfileFollow title="Following" value="verified_user" />
             )}
