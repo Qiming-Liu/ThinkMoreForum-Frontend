@@ -4,27 +4,7 @@ import Image from 'next/image';
 import { Box, Link, Typography } from '@mui/material';
 
 const ImageDropZone = (props) => {
-  const {
-    accept,
-    disabled,
-    getFilesFromEvent,
-    maxFiles,
-    maxSize,
-    minSize,
-    noClick,
-    noDrag,
-    noDragEventsBubbling,
-    noKeyboard,
-    onDrop,
-    onDropAccepted,
-    onDropRejected,
-    onFileDialogCancel,
-    onRemove,
-    onRemoveAll,
-    onUpload,
-    preventDropOnDocument,
-    ...other
-  } = props;
+  const { accept, maxFiles, maxSize, minSize, onDrop, ...other } = props;
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept,
     maxFiles,
@@ -32,7 +12,6 @@ const ImageDropZone = (props) => {
     minSize,
     onDrop,
   });
-
   return (
     <div {...other}>
       <Box

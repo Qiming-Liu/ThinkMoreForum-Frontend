@@ -14,15 +14,17 @@ import {
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
+import md5 from 'md5';
 import QuillEditor from '../../QuillEditor';
-import { createPost } from '../../../services/usersServices';
+import { createPost, uploadImage } from '../../../services/usersServices';
 import hotToast from '../../../utils/hotToast';
-import FileDropZone from '../../ImageDropZone';
+import ImageDropZone from '../../ImageDropZone';
 import fileToBase64 from '../../../utils/fileToBase64';
 
 const PostCreate = ({ categoryId, categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
-  const [cover, setCover] = useState('/public/logo.svg');
+  const [cover, setCover] = useState('/logo.svg');
+  const [image, setImage] = useState('');
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -36,7 +38,10 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
       try {
         // NOTE: Make API request
         setLoading(true);
-        console.log(cover);
+        const imageFile = new FormData();
+        imageFile.append('file', image);
+        imageFile.append('md5', md5(image));
+        const responseImage = await uploadImage(imageFile);
         const requestBody = {
           category: {
             id: categoryId,
@@ -44,7 +49,7 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
           },
           title,
           context: context.replace(/<p>|[</p>]/gi, ''),
-          // headImg: '',
+          headImg: responseImage.data,
         };
         const response = await createPost(requestBody);
         setLoading(false);
@@ -62,6 +67,7 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
 
   const handleDropCover = async ([file]) => {
     const data = await fileToBase64(file);
+    setImage(file);
     setCover(data);
   };
 
@@ -121,10 +127,12 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
                 Remove photo
               </Button>
               <Box sx={{ mt: 3 }}>
-                <FileDropZone
-                  accept="image/*"
+                <ImageDropZone
+                  accept="image/jpeg,image/png"
                   maxFiles={1}
                   onDrop={handleDropCover}
+                  maxSize={5242880}
+                  minsize={0}
                 />
               </Box>
             </CardContent>
