@@ -8,6 +8,14 @@ export const register = (email, username, password) =>
     method: 'POST',
   });
 
+export const thirdpartylogin = (email, username, oauthtype, openid) =>
+  http(
+    `/v1/users/third-party-login/${email}/${username}/${oauthtype}/${openid}`,
+    {
+      method: 'POST',
+    },
+  );
+
 export const uniqueEmail = (email) =>
   http(`/v1/users/unique-email/${email}`, { method: 'get' });
 

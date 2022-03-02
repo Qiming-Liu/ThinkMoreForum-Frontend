@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { signIn } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import {
   Box,
   Button,
@@ -18,9 +18,11 @@ import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
 import loginAction from '../../store/actions/httpAction';
 import hotToast from '../../utils/hotToast';
+import { thirdpartylogin } from '../../services/usersServices';
 
 const Login = ({ register }) => {
   const [isLoading, setLoading] = useState(false);
+  const { data: session } = useSession();
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -136,7 +138,39 @@ const Login = ({ register }) => {
             <Grid item xs={12} md={6}>
               <Button
                 startIcon={<FacebookIcon />}
-                onClick={() => signIn('facebook')}
+                loading={isLoading}
+                onClick={async () => {
+                  signIn('facebook');
+                  if (session) {
+                    thirdpartylogin(
+                      session.user.email,
+                      session.user.name,
+                      session.provider,
+                      session.providerAccountId,
+                    ).then(() => {
+                      hotToast('success', 'Login Success');
+                      dispatch(
+                        loginAction(
+                          session.user.email,
+                          session.providerAccountId,
+                          () => {},
+                          (fail) => {
+                            setLoading(false);
+                            if (
+                              fail &&
+                              fail.response &&
+                              fail.response.status === 403
+                            ) {
+                              hotToast('error', 'Invalid Email or Password');
+                            } else {
+                              hotToast('error', `something wrong${fail}`);
+                            }
+                          },
+                        ),
+                      );
+                    });
+                  }
+                }}
                 color="info"
                 fullWidth
                 size="large"
@@ -148,7 +182,38 @@ const Login = ({ register }) => {
             <Grid item xs={12} md={6}>
               <Button
                 startIcon={<GoogleIcon />}
-                onClick={() => signIn('google')}
+                onClick={async () => {
+                  signIn('google');
+                  if (session) {
+                    thirdpartylogin(
+                      session.user.email,
+                      session.user.name,
+                      session.provider,
+                      session.providerAccountId,
+                    ).then(() => {
+                      hotToast('success', 'Login Success');
+                      dispatch(
+                        loginAction(
+                          session.user.email,
+                          session.providerAccountId,
+                          () => {},
+                          (fail) => {
+                            setLoading(false);
+                            if (
+                              fail &&
+                              fail.response &&
+                              fail.response.status === 403
+                            ) {
+                              hotToast('error', 'Invalid Email or Password');
+                            } else {
+                              hotToast('error', `something wrong${fail}`);
+                            }
+                          },
+                        ),
+                      );
+                    });
+                  }
+                }}
                 fullWidth
                 color="error"
                 size="large"

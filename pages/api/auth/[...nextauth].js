@@ -17,4 +17,19 @@ export default NextAuth({
       clientSecret: global.env.GOOGLE_SECRET,
     }),
   ],
+
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        token.provider = account.provider;
+        token.providerAccountId = account.providerAccountId;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.provider = token.provider;
+      session.providerAccountId = token.providerAccountId;
+      return session;
+    },
+  },
 });
