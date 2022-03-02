@@ -40,6 +40,15 @@ export const resetPassword = (password) =>
 export const createPost = (requestBody) =>
   http(`/v1/post`, { method: 'POST', data: requestBody });
 
+export const uploadImage = (imageFile) =>
+  http(`/v1/img/upload`, {
+    method: 'POST',
+    data: imageFile,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 export const getPostsByCategoryTitle = (
   categoryTitle,
   currentPage,
