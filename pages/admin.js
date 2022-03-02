@@ -2,7 +2,27 @@ import * as React from 'react';
 import Head from 'next/head';
 import { Box, Container } from '@mui/material';
 import { AdminUser } from '../components/Admin/AdminUser';
-import users from './api/fake-users';
+
+const users = [
+  {
+    id: 1,
+    logintime: '13/01/2022',
+    avatarUrl: '/static/images/avatars/avatar_3.png',
+    createdAt: 1555016400000,
+    email: 'ekaterina.tankova@devias.io',
+    name: 'Ekaterina Tankova',
+    role: 'Admin',
+  },
+  {
+    id: 2,
+    logintime: '13/01/2022',
+    avatarUrl: '/static/images/avatars/avatar_4.png',
+    createdAt: 1555016400000,
+    email: 'cao.yu@devias.io',
+    name: 'Cao Yu',
+    role: 'Admin',
+  },
+];
 
 const Admin = () => (
   <>
