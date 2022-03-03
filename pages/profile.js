@@ -14,7 +14,8 @@ import { blueGrey } from '@mui/material/colors';
 import ProfilePost from '../components/Profile/ProfilePost';
 import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
-import { follow } from '../services/followServices';
+import { follow, createNotification } from '../services/followServices';
+import hotToast from '../utils/hotToast';
 
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState('posts');
@@ -34,18 +35,26 @@ const Profile = () => {
     name: 'verified_user',
   };
 
-  const handleFollowAction = (name) => {
-    console.log(name);
-    follow(name)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setFollowedStatus((prevFollowedStatus) =>
-      prevFollowedStatus === 'not_followed' ? 'followed' : 'not_followed',
-    );
+  const handleFollowAction = async (name) => {
+    try {
+      const response = await follow(name);
+      const data = {
+        users: response.data.users,
+        icon: 'follow',
+        context: `${name} followed you!`,
+        viewed: false,
+        createTimestamp: response.data.createTimestamp,
+      };
+      if (followedStatus === 'not_followed') {
+        await createNotification(data);
+        hotToast('success', `Follow ${name} successfully!`);
+      }
+      setFollowedStatus((prevFollowedStatus) =>
+        prevFollowedStatus === 'not_followed' ? 'followed' : 'not_followed',
+      );
+    } catch (err) {
+      hotToast('error', 'Something went wrong!');
+    }
   };
 
   const tabs = [
