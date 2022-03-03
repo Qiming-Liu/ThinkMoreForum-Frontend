@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
