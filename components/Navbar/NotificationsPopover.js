@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, forwardRef } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -11,22 +11,15 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import SimpleBar from 'simplebar-react';
 import MailOpenIcon from '../../icons/mail-open';
 import XIcon from '../../icons/x';
 import UserCircleIcon from '../../icons/user-circle';
-import 'simplebar/dist/simplebar.min.css';
 import {
   getNotifications,
   markAsViewed,
   markAllAsViewed,
 } from '../../services/usersServices';
-
-const ScrollbarRoot = styled(SimpleBar)``;
-const Scrollbar = forwardRef((props, ref) => {
-  return <ScrollbarRoot ref={ref} {...props} />;
-});
+import Scrollbar from '../Scrollbar';
 
 const NotificationsPopover = (props) => {
   const { anchorEl, onClose, onUpdateUnread, open, ...other } = props;

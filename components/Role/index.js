@@ -70,7 +70,12 @@ const Role = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="outlined" onClick={() => console.log(role)}>
+      <Button
+        variant="outlined"
+        onClick={() => {
+          // console.log(role);
+        }}
+      >
         Output
       </Button>
     </>
