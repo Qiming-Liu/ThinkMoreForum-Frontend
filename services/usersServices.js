@@ -84,3 +84,12 @@ export const getPostByUsername = (username) =>
 
 export const getFollowPostByUsername = (username) =>
   http(`/v1/post/follows/findAllByUsername/${username}`, { method: 'GET' });
+
+export const submitFavoritePost = (postId) =>
+  http(`/v1/post/follows/userFollowPost/${postId}`, { method: 'POST' });
+
+export const submitUnfavoritePost = (postId) =>
+  http(`/v1/post/follows/userUnfollowPost/${postId}`, { method: 'DELETE' });
+
+export const checkIsFavoringPost = (postId) =>
+  http(`/v1/post/follows/checkUserFollowingState/${postId}`, { method: 'GET' });
