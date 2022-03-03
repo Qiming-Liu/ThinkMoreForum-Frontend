@@ -14,6 +14,7 @@ import {
   InputAdornment,
   FormGroup,
   FormControlLabel,
+  Slide,
   Switch,
   Fab,
   Tooltip,
@@ -456,26 +457,35 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
       </Box>
       <Draggable>
         <Tooltip title="Make a post" placement="top">
-          <Fab
-            color="primary"
-            aria-label="add"
-            sx={{
-              position: 'fixed',
-              bottom: (theme) => theme.spacing(3),
-              right: (theme) => theme.spacing(10),
-            }}
-            onClick={() =>
-              router.push({
-                pathname: '/post/new-post',
-                query: {
-                  categoryId: categoryInfo.id,
-                  categoryTitle: categoryInfo.title,
-                },
-              })
-            }
+          <Slide
+            direction="left"
+            in
+            style={{ transitionDelay: '1000ms' }}
+            mountOnEnter
+            unmountOnExit
           >
-            <AddIcon />
-          </Fab>
+            <Fab
+              size="medium"
+              color="primary"
+              aria-label="add"
+              sx={{
+                position: 'fixed',
+                bottom: (theme) => theme.spacing(3),
+                right: (theme) => theme.spacing(10),
+              }}
+              onClick={() =>
+                router.push({
+                  pathname: '/post/make-post',
+                  query: {
+                    categoryId: categoryInfo.id,
+                    categoryTitle: categoryInfo.title,
+                  },
+                })
+              }
+            >
+              <AddIcon />
+            </Fab>
+          </Slide>
         </Tooltip>
       </Draggable>
     </Container>
