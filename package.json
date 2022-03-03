@@ -25,6 +25,7 @@
     "@mui/icons-material": "^5.4.1",
     "@mui/lab": "^5.0.0-alpha.69",
     "@mui/material": "^5.4.1",
+    "@mui/styles": "^5.4.4",
     "axios": "^0.25.0",
     "classnames": "^2.3.1",
     "cross-env": "^7.0.3",
