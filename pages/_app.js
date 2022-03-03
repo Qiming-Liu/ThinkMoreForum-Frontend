@@ -9,6 +9,7 @@ import store from '../store/store';
 import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
 import createTheme from '../theme';
+import 'antd/dist/antd.css';
 import '../styles/main.scss';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => (
