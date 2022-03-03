@@ -10,7 +10,6 @@ import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
 import createTheme from '../theme';
 import '../styles/main.scss';
-import '../styles/personalSetting.scss';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => (
   <ReduxProvider store={store}>

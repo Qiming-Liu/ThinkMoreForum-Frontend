@@ -1,5 +1,5 @@
 import React from 'react';
-import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import {
   Box,
@@ -12,6 +12,7 @@ import { useTheme } from '@mui/material/styles';
 
 const NotFound = () => {
   const theme = useTheme();
+  const router = useRouter();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -56,11 +57,13 @@ const NotFound = () => {
               mt: 6,
             }}
           >
-            <NextLink href="/" passHref>
-              <Button component="a" variant="outlined">
-                Back to Home
-              </Button>
-            </NextLink>
+            <Button
+              component="a"
+              variant="outlined"
+              onClick={() => router.back()}
+            >
+              Go Back
+            </Button>
           </Box>
         </Container>
       </Box>

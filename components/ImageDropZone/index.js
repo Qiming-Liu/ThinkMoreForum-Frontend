@@ -1,7 +1,7 @@
 import { useDropzone } from 'react-dropzone';
 import React from 'react';
 import Image from 'next/image';
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const ImageDropZone = (props) => {
   const { accept, maxFiles, maxSize, minSize, onDrop, ...other } = props;
@@ -53,8 +53,8 @@ const ImageDropZone = (props) => {
           </Typography>
           <Box sx={{ mt: 2 }}>
             <Typography variant="body1">
-              {`Drop image${maxFiles && maxFiles === 1 ? '' : 's'}`}{' '}
-              <Link underline="always">browse</Link> thorough your machine
+              {`Drop image${maxFiles && maxFiles === 1 ? '' : 's'}`} browse
+              thorough your machine
             </Typography>
           </Box>
         </Box>

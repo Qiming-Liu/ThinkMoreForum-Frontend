@@ -37,7 +37,7 @@ const PersonalSettingPassword = (props) => {
         .required('Required'),
     }),
     onSubmit: () => {
-      console.log('hi');
+      // console.log('hi');
     },
   });
 
