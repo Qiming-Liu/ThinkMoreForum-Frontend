@@ -24,13 +24,12 @@ import CheckIcon from '@mui/icons-material/Check';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AddIcon from '@mui/icons-material/Add';
-import Draggable from 'react-draggable';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
   getAllCategories,
-  getPostsByCategoryTitle,
-  getPostCountByCategoryTitle,
+  getVisiblePostsByCategoryTitle,
+  getVisiblePostCountByCategoryTitle,
   getCategoryByCategoryTitle,
   getPostByPostId,
 } from '../../services/usersServices';
@@ -84,14 +83,16 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  const { data: initialTotalCount } = await getPostCountByCategoryTitle(
+  const { data: initialTotalCount } = await getVisiblePostCountByCategoryTitle(
     params.categoryTitle,
   );
 
   let pinPostInfo = null;
   if (categoryInfo.pinPost) {
     const { data } = await getPostByPostId(categoryInfo.pinPost.id);
-    pinPostInfo = data;
+    if (data.visibility) {
+      pinPostInfo = data;
+    }
   }
 
   return {
@@ -111,16 +112,20 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   let initialDisplayAbstract;
 
   try {
-    initialPinPostDisplay = localStorage.getItem(`pinPost display`) || true;
-    initialHeadImgDisplay = localStorage.getItem(`postHeadIgmDisplay`) || true;
-    initialSortColumn = localStorage.getItem(`sortColumn`) || 'Create time';
-    initialSortDirection = localStorage.getItem(`sortDirection`) || true;
+    initialPinPostDisplay =
+      localStorage.getItem(`pinPost display`) === true || true;
+    initialHeadImgDisplay =
+      localStorage.getItem(`postHeadIgmDisplay`) === true || true;
+    initialSortColumn =
+      localStorage.getItem(`sortColumn`) === true || 'Create time';
+    initialSortDirection =
+      localStorage.getItem(`sortDirection`) === true || true;
     initialSizePerPage =
       parseInt(localStorage.getItem(`sizePerPage`), 10) || 10;
     initialPage =
       parseInt(sessionStorage.getItem(`${categoryTitle}_currentPage`), 10) || 0;
     initialDisplayAbstract =
-      localStorage.getItem(`postAbstractDisplay`) || true;
+      localStorage.getItem(`postAbstractDisplay`) === true || true;
   } catch (error) {
     initialPinPostDisplay = true;
     initialHeadImgDisplay = true;
@@ -153,15 +158,14 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
       sortDirection ? 'desc' : 'asc'
     }`;
     const fetchPageData = async () => {
-      const { data: responsePosts } = await getPostsByCategoryTitle(
+      const { data: responsePosts } = await getVisiblePostsByCategoryTitle(
         categoryTitle,
         currentPage,
         sizePerPage,
         sortParams,
       );
-      const { data: responseTotalCount } = await getPostCountByCategoryTitle(
-        categoryTitle,
-      );
+      const { data: responseTotalCount } =
+        await getVisiblePostCountByCategoryTitle(categoryTitle);
       setTotalPages(Math.ceil(responseTotalCount / sizePerPage));
       setPosts(responsePosts);
     };
@@ -359,21 +363,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
           </Button>
         </Grid>
       </Grid>
-      <Divider sx={{ my: 1 }} />
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-          my: 2,
-        }}
-      >
-        <Pagination
-          count={totalPages}
-          page={currentPage + 1}
-          onChange={handlePageChange}
-        />
-      </Box>
+      <Divider sx={{ mt: 1, mb: 4 }} />
       {!posts ? (
         <Typography variant="body1">No post in this category.</Typography>
       ) : (
@@ -455,39 +445,40 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
           }}
         />
       </Box>
-      <Draggable>
-        <Tooltip title="Make a post" placement="top">
-          <Slide
-            direction="left"
-            in
-            style={{ transitionDelay: '1000ms' }}
-            mountOnEnter
-            unmountOnExit
+      <Tooltip
+        title="Make a post"
+        placement="top"
+        sx={{
+          position: 'fixed',
+          bottom: (theme) => theme.spacing(3),
+          right: (theme) => theme.spacing(10),
+        }}
+      >
+        <Slide
+          direction="left"
+          in
+          style={{ transitionDelay: '1000ms' }}
+          mountOnEnter
+          unmountOnExit
+        >
+          <Fab
+            size="medium"
+            color="primary"
+            aria-label="add"
+            onClick={() =>
+              router.push({
+                pathname: '/post/make-post',
+                query: {
+                  categoryId: categoryInfo.id,
+                  categoryTitle: categoryInfo.title,
+                },
+              })
+            }
           >
-            <Fab
-              size="medium"
-              color="primary"
-              aria-label="add"
-              sx={{
-                position: 'fixed',
-                bottom: (theme) => theme.spacing(3),
-                right: (theme) => theme.spacing(10),
-              }}
-              onClick={() =>
-                router.push({
-                  pathname: '/post/make-post',
-                  query: {
-                    categoryId: categoryInfo.id,
-                    categoryTitle: categoryInfo.title,
-                  },
-                })
-              }
-            >
-              <AddIcon />
-            </Fab>
-          </Slide>
-        </Tooltip>
-      </Draggable>
+            <AddIcon />
+          </Fab>
+        </Slide>
+      </Tooltip>
     </Container>
   );
 };

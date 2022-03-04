@@ -37,11 +37,9 @@ const Post = () => {
 
   const handleFavPost = async () => {
     if (postFaved) {
-      const { data: response } = await submitUnfavoritePost(postId);
-      console.log(response);
+      await submitUnfavoritePost(postId);
     } else {
-      const { data: response } = await submitFavoritePost(postId);
-      console.log(response);
+      await submitFavoritePost(postId);
     }
     setPostFaved(!postFaved);
   };

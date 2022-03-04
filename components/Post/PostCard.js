@@ -71,7 +71,9 @@ const PostCard = (props) => {
             }}
             variant="body1"
           >
-            {abstract}
+            {abstract.length > 200
+              ? `${abstract.substring(0, 200)}...`
+              : abstract}
           </Typography>
         )}
         <Box
