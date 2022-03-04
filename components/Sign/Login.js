@@ -138,7 +138,6 @@ const Login = ({ register }) => {
             <Grid item xs={12} md={6}>
               <Button
                 startIcon={<FacebookIcon />}
-                loading={isLoading}
                 onClick={async () => {
                   signIn('facebook');
                   if (session) {

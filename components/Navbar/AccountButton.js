@@ -24,7 +24,7 @@ const AccountButton = ({ isLogin }) => {
             height: 40,
             width: 40,
           }}
-          src={isLogin ? '/avatar-cao-yu.png' : ''}
+          src={isLogin ? '/logo.png' : ''}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>
