@@ -32,7 +32,7 @@ const FollowCard = (props) => {
                   <NextLink href="/" passHref>
                     <Avatar
                       component="a"
-                      src="/avatar-cao-yu.png"
+                      src="/logo.png"
                       sx={{
                         height: 56,
                         width: 56,

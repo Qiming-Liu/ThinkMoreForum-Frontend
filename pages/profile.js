@@ -27,7 +27,7 @@ const Profile = () => {
 
   const profileimg = {
     cover: '/cover_1.jpg',
-    avatar: '/avatar-cao-yu.png',
+    avatar: '/logo.png',
   };
 
   const profile = {

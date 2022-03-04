@@ -6,7 +6,7 @@ import hotToast from './hotToast';
 
 const getInstance = () => {
   const axiosInstance = axios.create();
-  axiosInstance.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+  axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_ENV_VARIABLE;
 
   axiosInstance.defaults.headers.common.Authorization =
     store.getState().sign.token || '';
