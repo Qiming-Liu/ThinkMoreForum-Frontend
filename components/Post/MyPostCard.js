@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NextLink from 'next/link';
 import {
   Avatar,
@@ -7,8 +7,12 @@ import {
   CardContent,
   CardMedia,
   Link,
+  Switch,
   Typography,
+  Grid,
 } from '@mui/material';
+import { changePostVisibility } from '../../services/usersServices';
+import hotToast from '../../utils/hotToast';
 
 const getInitials = (name = '') =>
   name
@@ -18,8 +22,9 @@ const getInitials = (name = '') =>
     .map((v) => v && v[0].toUpperCase())
     .join('');
 
-const PostCard = (props) => {
+const MyPostCard = (props) => {
   const {
+    id,
     generatedUrl,
     authorAvatar,
     authorName,
@@ -30,8 +35,20 @@ const PostCard = (props) => {
     commentCount,
     viewCount,
     followCount,
+    visibility,
     ...other
   } = props;
+
+  const [invisible, setInvisible] = useState(!visibility);
+
+  const handleVisibility = async () => {
+    const { data: response } = await changePostVisibility(id);
+    if (!response) {
+      hotToast('error', 'Failed to change the visibility of this post.');
+    } else {
+      setInvisible(!invisible);
+    }
+  };
 
   return (
     <Card
@@ -39,6 +56,7 @@ const PostCard = (props) => {
         '& + &': {
           mt: 3,
         },
+        position: 'relative',
       }}
       {...other}
     >
@@ -48,16 +66,33 @@ const PostCard = (props) => {
         </NextLink>
       )}
       <CardContent>
-        <NextLink href={generatedUrl ?? ''} passHref>
-          <Link
-            href={generatedUrl ?? ''}
-            color="textPrimary"
-            component="a"
-            variant="h5"
+        <Grid container xs={12} justifyContent="space-between">
+          <NextLink href={generatedUrl ?? ''} passHref>
+            <Link
+              href={generatedUrl ?? ''}
+              color="textPrimary"
+              component="a"
+              variant="h5"
+            >
+              {title}
+            </Link>
+          </NextLink>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
           >
-            {title}
-          </Link>
-        </NextLink>
+            <Typography variant="subtitle1" sx={{ mb: 0.2 }}>
+              {invisible ? 'Set Post to visible' : 'Set Post to invisible'}
+            </Typography>
+            <Switch
+              checked={invisible}
+              onChange={handleVisibility}
+              color="primary"
+            />
+          </Box>
+        </Grid>
         {abstract && (
           <Typography
             color="textSecondary"
@@ -111,4 +146,4 @@ const PostCard = (props) => {
   );
 };
 
-export default PostCard;
+export default MyPostCard;
