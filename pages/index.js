@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import Category from '../components/Categroy';
-import { getAllCategories } from '../services/usersServices';
+import { getAllCategories } from '../services/Category';
 
 export async function getStaticProps() {
   const { data: categoriesInfo } = await getAllCategories();

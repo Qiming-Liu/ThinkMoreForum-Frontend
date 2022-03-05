@@ -6,11 +6,11 @@ import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
   getPostByPostId,
-  getCommentByPost,
   checkIsFavoringPost,
   submitUnfavoritePost,
   submitFavoritePost,
-} from '../../services/usersServices';
+} from '../../services/Post';
+import { getCommentByPost } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import ProfileComment from '../../components/Profile/ProfileComment';
 

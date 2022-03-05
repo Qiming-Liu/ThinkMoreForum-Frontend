@@ -14,11 +14,7 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import Yup from '../../utils/yupValidation';
 import hotToast from '../../utils/hotToast';
-import {
-  register,
-  uniqueUsername,
-  uniqueEmail,
-} from '../../services/usersServices';
+import { register, uniqueUsername, uniqueEmail } from '../../services/Users';
 import loginAction from '../../store/actions/httpAction';
 
 const Register = ({ login }) => {

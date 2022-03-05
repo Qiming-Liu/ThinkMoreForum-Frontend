@@ -28,33 +28,20 @@ import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
   getAllCategories,
+  getCategoryByCategoryTitle,
+} from '../../services/Category';
+import {
   getVisiblePostsByCategoryTitle,
   getVisiblePostCountByCategoryTitle,
-  getCategoryByCategoryTitle,
   getPostByPostId,
-} from '../../services/usersServices';
+} from '../../services/Post';
 import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
 
 const validNumberInput = /[^0-9]/;
 
-const postSortColumns = [
-  {
-    value: 'View count',
-  },
-  {
-    value: 'Follow count',
-  },
-  {
-    value: 'Comment count',
-  },
-  {
-    value: 'Create time',
-  },
-];
-
-const sortColumnDict = {
+const sortColumnList = {
   'View count': 'viewCount',
   'Follow count': 'followCount',
   'Comment count': 'commentCount',
@@ -154,7 +141,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   const [sortDirection, setSortDirection] = useState(initialSortDirection);
 
   useEffect(() => {
-    const sortParams = `${sortColumnDict[sortColumn]},${
+    const sortParams = `${sortColumnList[sortColumn]},${
       sortDirection ? 'desc' : 'asc'
     }`;
     const fetchPageData = async () => {
@@ -341,9 +328,9 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             value={sortColumn}
             onChange={handleSortColumn}
           >
-            {postSortColumns.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.value}
+            {Object.keys(sortColumnList).map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
               </MenuItem>
             ))}
           </TextField>
@@ -375,7 +362,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
               profileImg: authorAvatar = '/logo.png',
               username: authorName = 'N.A.',
             },
-            headImg = 'logo.png',
+            headImg = '/logo.png',
             context,
             title,
             commentCount,

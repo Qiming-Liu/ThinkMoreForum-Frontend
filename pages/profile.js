@@ -14,7 +14,7 @@ import { blueGrey } from '@mui/material/colors';
 import ProfilePost from '../components/Profile/ProfilePost';
 import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
-import { follow, createNotification } from '../services/followServices';
+import { follow, createNotification } from '../services/Follow';
 import hotToast from '../utils/hotToast';
 
 const Profile = () => {

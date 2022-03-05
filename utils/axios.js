@@ -5,9 +5,6 @@ import store from '../store/store';
 import { setJWTAction, logoutAction } from '../store/actions/signAction';
 import hotToast from './hotToast';
 
-// comment out this if you want connect online backend
-// const online = true;
-
 const getInstance = () => {
   const axiosInstance = axios.create();
 
@@ -16,9 +13,9 @@ const getInstance = () => {
   } else {
     axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
   }
-  if (online) {
-    axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
-  }
+
+  // comment out next line if you want connect online backend
+  // axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
 
   axiosInstance.defaults.headers.common.Authorization =
     store.getState().sign.token || '';
