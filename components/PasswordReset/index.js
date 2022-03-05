@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { setJWTAction } from '../../store/actions/signAction';
-import { resetPassword } from '../../services/usersServices';
+import { resetPassword } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
 
 const PasswordReset = () => {

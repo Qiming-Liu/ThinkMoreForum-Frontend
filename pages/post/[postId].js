@@ -7,12 +7,12 @@ import ArrowLeftIcon from '../../icons/arrow-left';
 import newNotification from '../../utils/newNotification';
 import {
   getPostByPostId,
-  getCommentByPost,
   checkIsFavoringPost,
   submitUnfavoritePost,
   submitFavoritePost,
-  getUser,
-} from '../../services/usersServices';
+} from '../../services/Post';
+import { getUserById } from '../../services/Users';
+import { getCommentByPost } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import ProfileComment from '../../components/Profile/ProfileComment';
 
@@ -43,7 +43,7 @@ const Post = () => {
       await submitUnfavoritePost(postId);
     } else {
       await submitFavoritePost(postId);
-      const { data: user } = await getUser(userId);
+      const { data: user } = await getUserById(userId);
       const type = 'follow_post';
       await newNotification({ user, type });
     }

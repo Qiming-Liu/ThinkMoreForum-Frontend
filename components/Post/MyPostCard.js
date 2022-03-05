@@ -11,7 +11,7 @@ import {
   Typography,
   Grid,
 } from '@mui/material';
-import { changePostVisibility } from '../../services/usersServices';
+import { changePostVisibility } from '../../services/Post';
 import hotToast from '../../utils/hotToast';
 
 const getInitials = (name = '') =>

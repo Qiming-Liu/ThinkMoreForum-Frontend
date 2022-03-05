@@ -1,6 +1,6 @@
 import http from '../utils/axios';
 
-export const follow = (username) =>
+export const followUser = (username) =>
   http(`/v1/users/follow/${username}`, { method: 'POST' });
 
 export const getFollowing = (username) =>

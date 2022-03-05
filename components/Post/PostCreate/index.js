@@ -16,7 +16,7 @@ import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import md5 from 'md5';
 import QuillEditor from '../../QuillEditor';
-import { createPost, uploadImage } from '../../../services/usersServices';
+import { createPost, uploadImage } from '../../../services/Post';
 import hotToast from '../../../utils/hotToast';
 import ImageDropZone from '../../ImageDropZone';
 import fileToBase64 from '../../../utils/fileToBase64';

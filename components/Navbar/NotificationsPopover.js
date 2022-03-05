@@ -18,7 +18,7 @@ import {
   getNotifications,
   markAsViewed,
   markAllAsViewed,
-} from '../../services/usersServices';
+} from '../../services/Notification';
 import Scrollbar from '../Scrollbar';
 import MyTime from '../../utils/myTime';
 
