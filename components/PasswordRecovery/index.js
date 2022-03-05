@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { resetPasswordemail } from '../../services/usersServices';
+import { sendResetPasswordEmail } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
 
 const PasswordRecovery = () => {
@@ -33,7 +33,7 @@ const PasswordRecovery = () => {
     }),
     onSubmit: async (values) => {
       setLoading(true);
-      await resetPasswordemail(values.email);
+      await sendResetPasswordEmail(values.email);
       hotToast('success', 'Check your email for a reset link');
       setLoading(false);
       setSent(true);

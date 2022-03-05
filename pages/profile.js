@@ -14,7 +14,7 @@ import { blueGrey } from '@mui/material/colors';
 import ProfilePost from '../components/Profile/ProfilePost';
 import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
-import { follow } from '../services/followServices';
+import { followUser } from '../services/Follow';
 import hotToast from '../utils/hotToast';
 import newNotification from '../utils/newNotification';
 
@@ -38,7 +38,7 @@ const Profile = () => {
 
   const handleFollowAction = async (name) => {
     try {
-      const response = await follow(name);
+      const response = await followUser(name);
       const type = 'follow_user';
       const user = response.data.users;
       if (followedStatus === 'not_followed') {
@@ -140,8 +140,6 @@ const Profile = () => {
           >
             {followedStatus === 'not_followed' && (
               <Button
-                // onClick={handleFollowAction(profile.name)} 这是原来的写法
-                // 这样写的话就算不点击button也会执行，而且是执行两次，还没搞懂为啥(这里还是标记一下)
                 onClick={() => {
                   handleFollowAction(profile.name);
                 }}
