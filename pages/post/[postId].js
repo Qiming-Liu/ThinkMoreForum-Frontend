@@ -4,12 +4,14 @@ import { useRouter } from 'next/router';
 import { Button, Divider } from '@mui/material';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
+import newNotification from '../../utils/newNotification';
 import {
   getPostByPostId,
   getCommentByPost,
   checkIsFavoringPost,
   submitUnfavoritePost,
   submitFavoritePost,
+  getUser,
 } from '../../services/usersServices';
 import PostContent from '../../components/Post/PostContent';
 import ProfileComment from '../../components/Profile/ProfileComment';
@@ -21,6 +23,7 @@ const Post = () => {
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
   const { isLogin } = useSelector((state) => state.sign);
+  const [userId, setUserId] = useState();
   const rootComments = comments.filter(
     (comment) => comment.parentComment === null,
   );
@@ -40,6 +43,9 @@ const Post = () => {
       await submitUnfavoritePost(postId);
     } else {
       await submitFavoritePost(postId);
+      const { data: user } = await getUser(userId);
+      const type = 'follow_post';
+      await newNotification({ user, type });
     }
     setPostFaved(!postFaved);
   };
@@ -49,6 +55,7 @@ const Post = () => {
       const getPostContent = async () => {
         const { data: responsePost } = await getPostByPostId(postId);
         setPost(responsePost);
+        setUserId(responsePost.postUsers.id);
         const { data: responseComments } = await getCommentByPost(postId);
         setComments(responseComments);
         if (isLogin) {
