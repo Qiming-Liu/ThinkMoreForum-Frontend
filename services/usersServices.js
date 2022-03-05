@@ -22,6 +22,9 @@ export const uniqueEmail = (email) =>
 export const getUser = (id) =>
   http(`/v1/users/user-details/${id}`, { method: 'get' });
 
+export const getCurrentUser = () =>
+  http(`/v1/users/user-details`, { method: 'get' });
+
 export const uniqueUsername = (username) =>
   http(`/v1/users/unique-username/${username}`, { method: 'get' });
 
