@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import hotToast from '../../utils/hotToast';
+import MyTime from '../../utils/myTime';
 
 const useStyles = makeStyles({
   favFab: {
@@ -47,10 +48,6 @@ const PostContent = (props) => {
   const { isLogin } = useSelector((state) => state.sign);
   const classes = useStyles();
   const { post, isFavored, toggleFav } = props;
-  const timeStamp = new Date(post.createTimestamp);
-  const createDate = timeStamp.toLocaleDateString('en-AU');
-  const createTime = timeStamp.toLocaleTimeString('en-AU');
-  const DateTime = `${createDate.toString()} ${createTime.toString()}`;
 
   const handleClick = () => {
     toggleFav();
@@ -83,7 +80,8 @@ const PostContent = (props) => {
                 <Avatar src={post.postUsers.profileImg} />
                 <Box sx={{ ml: 2 }}>
                   <Typography variant="subtitle2">
-                    By {post.postUsers.username} • {DateTime}
+                    By {post.postUsers.username} •{' '}
+                    {MyTime(post.createTimestamp)}
                   </Typography>
                 </Box>
               </Box>

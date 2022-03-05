@@ -70,15 +70,4 @@ const ProfileComment = ({ comment, replies }) => {
   );
 };
 
-// ProfileComment.propTypes = {
-//   authorAvatar: PropTypes.string.isRequired,
-//   authorName: PropTypes.string.isRequired,
-//   authorRole: PropTypes.string.isRequired,
-//   content: PropTypes.string.isRequired,
-//   createdAt: PropTypes.number.isRequired,
-//   isLiked: PropTypes.bool.isRequired,
-//   likes: PropTypes.number.isRequired,
-//             {formatDistanceToNow(timeStamp, { addSuffix: true })}
-// };
-
 export default ProfileComment;

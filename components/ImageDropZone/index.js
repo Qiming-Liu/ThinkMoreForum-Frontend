@@ -42,7 +42,7 @@ const ImageDropZone = (props) => {
         <Box>
           <Image
             alt="Select image"
-            src="/undraw_add_file2_gvbb.svg"
+            src="/file_upload.svg"
             width={100}
             height={80}
           />
