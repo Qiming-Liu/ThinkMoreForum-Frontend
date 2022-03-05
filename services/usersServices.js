@@ -19,6 +19,9 @@ export const thirdpartylogin = (email, username, oauthtype, openid) =>
 export const uniqueEmail = (email) =>
   http(`/v1/users/unique-email/${email}`, { method: 'get' });
 
+export const getUser = (id) =>
+  http(`/v1/users/user-details/${id}`, { method: 'get' });
+
 export const uniqueUsername = (username) =>
   http(`/v1/users/unique-username/${username}`, { method: 'get' });
 

@@ -14,8 +14,9 @@ import { blueGrey } from '@mui/material/colors';
 import ProfilePost from '../components/Profile/ProfilePost';
 import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
-import { follow, createNotification } from '../services/followServices';
+import { follow } from '../services/followServices';
 import hotToast from '../utils/hotToast';
+import newNotification from '../utils/newNotification';
 
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState('posts');
@@ -38,15 +39,10 @@ const Profile = () => {
   const handleFollowAction = async (name) => {
     try {
       const response = await follow(name);
-      const data = {
-        users: response.data.users,
-        icon: 'follow',
-        context: `${name} followed you!`,
-        viewed: false,
-        createTimestamp: response.data.createTimestamp,
-      };
+      const type = 'follow_user';
+      const user = response.data.users;
       if (followedStatus === 'not_followed') {
-        await createNotification(data);
+        await newNotification({ user, type });
         hotToast('success', `Follow ${name} successfully!`);
       }
       setFollowedStatus((prevFollowedStatus) =>
