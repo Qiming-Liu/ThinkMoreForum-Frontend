@@ -20,6 +20,7 @@ import {
   markAllAsViewed,
 } from '../../services/usersServices';
 import Scrollbar from '../Scrollbar';
+import MyTime from '../../utils/myTime';
 
 const NotificationsPopover = (props) => {
   const { anchorEl, onClose, onUpdateUnread, open, ...other } = props;
@@ -110,7 +111,7 @@ const NotificationsPopover = (props) => {
       ) : (
         <Scrollbar sx={{ maxHeight: 400 }}>
           <List disablePadding>
-            {notifications.map(({ id, createTimestamp, context, icon }) => (
+            {notifications.map(({ id, createTimestamp, context, imgUrl }) => (
               <ListItem
                 divider
                 key={id}
@@ -137,7 +138,7 @@ const NotificationsPopover = (props) => {
               >
                 <>
                   <ListItemAvatar sx={{ mt: 0.5 }}>
-                    <Avatar src={icon}>
+                    <Avatar src={imgUrl}>
                       <UserCircleIcon fontSize="small" />
                     </Avatar>
                   </ListItemAvatar>
@@ -157,7 +158,7 @@ const NotificationsPopover = (props) => {
                     }
                     secondary={
                       <Typography color="textSecondary" variant="caption">
-                        {createTimestamp}
+                        {MyTime(createTimestamp)}
                       </Typography>
                     }
                     sx={{ my: 0 }}
