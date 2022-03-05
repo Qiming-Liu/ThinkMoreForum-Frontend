@@ -65,11 +65,30 @@ export const getPostsByCategoryTitle = (
   });
 };
 
+export const getVisiblePostsByCategoryTitle = (
+  categoryTitle,
+  currentPage,
+  sizePerPage,
+  sortParams = 'createTimestamp,DESC',
+) => {
+  return http(`/v1/category/${categoryTitle}/visible-post`, {
+    method: 'GET',
+    params: {
+      page: currentPage,
+      size: sizePerPage,
+      sort: sortParams,
+    },
+  });
+};
+
 export const getPostByPostId = (postId) =>
   http(`/v1/post/${postId}`, { method: 'GET' });
 
 export const getPostCountByCategoryTitle = (categoryTitle) =>
   http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
+
+export const getVisiblePostCountByCategoryTitle = (categoryTitle) =>
+  http(`/v1/category/${categoryTitle}/visible-count`, { method: 'GET' });
 
 export const getAllCategories = () => http(`/v1/category`, { method: 'GET' });
 
@@ -93,3 +112,6 @@ export const submitUnfavoritePost = (postId) =>
 
 export const checkIsFavoringPost = (postId) =>
   http(`/v1/post/follows/checkUserFollowingState/${postId}`, { method: 'GET' });
+
+export const changePostVisibility = (postId) =>
+  http(`/v1/post/${postId}/visibility`, { method: 'PUT' });

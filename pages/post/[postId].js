@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Button, Container, Divider } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -37,11 +37,9 @@ const Post = () => {
 
   const handleFavPost = async () => {
     if (postFaved) {
-      const { data: response } = await submitUnfavoritePost(postId);
-      console.log(response);
+      await submitUnfavoritePost(postId);
     } else {
-      const { data: response } = await submitFavoritePost(postId);
-      console.log(response);
+      await submitFavoritePost(postId);
     }
     setPostFaved(!postFaved);
   };
@@ -65,7 +63,7 @@ const Post = () => {
   }, [postId, postFaved, isLogin]);
   if (!post) return null;
   return (
-    <Container maxWidth="md">
+    <>
       <NextLink href={`/category/${categoryTitle}`} passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
           Back to {categoryTitle}
@@ -87,7 +85,7 @@ const Post = () => {
             />
           );
         })}
-    </Container>
+    </>
   );
 };
 

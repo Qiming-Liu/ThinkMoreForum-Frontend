@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Divider } from '@mui/material';
 import PostCard from '../Post/PostCard';
+import MyPostCard from '../Post/MyPostCard';
 import {
   getPostByUsername,
   getFollowPostByUsername,
@@ -34,13 +35,15 @@ const ProfilePost = (props) => {
       <Divider sx={{ my: 3 }} />
       {title === 'Posts' &&
         posts.map((post) => (
-          <PostCard
+          <MyPostCard
+            id={post.id}
             authorAvatar={post.postUsers.profileImg}
             authorName={post.postUsers.username}
             headImg={post.headImg}
             createTimeStamp={post.createTimestamp}
             abstract={post.abstract}
             title={post.title}
+            visibility={post.visibility}
           />
         ))}
       {title === 'Favorite' &&
