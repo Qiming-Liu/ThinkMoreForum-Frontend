@@ -11,3 +11,6 @@ export const createNotification = (type, data) =>
     method: 'POST',
     data,
   });
+
+export const getFollowedStatus = (username) =>
+  http(`/v1/users/followedStatus/${username}`, { method: 'GET' });

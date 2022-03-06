@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -14,13 +14,46 @@ import { blueGrey } from '@mui/material/colors';
 import ProfilePost from '../components/Profile/ProfilePost';
 import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
-import { followUser } from '../services/Follow';
+import { followUser, getFollowedStatus } from '../services/Follow';
+import { getCurrentUser } from '../services/Users';
 import hotToast from '../utils/hotToast';
 import newNotification from '../utils/newNotification';
 
-const Profile = () => {
+const Profile = (props) => {
+  const { username } = props;
   const [currentTab, setCurrentTab] = useState('posts');
   const [followedStatus, setFollowedStatus] = useState('not_followed');
+  const [currentName, setCurrentName] = useState('null');
+  // const [role, setRole] = useState('null');
+  const [currentRole, setCurrentRole] = useState('null');
+
+  // Get current user details
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await getCurrentUser();
+      console.log(response.data);
+      setCurrentName(response.data.username);
+      setCurrentRole(response.data.role.roleName);
+      if (username === undefined) {
+        setFollowedStatus('current_user');
+      }
+    };
+    getUser();
+  }, [username]);
+
+  // Check follow status
+  useEffect(() => {
+    const checkStatus = async (name) => {
+      const response = await getFollowedStatus(name);
+      if (response.data === true) {
+        console.log('you have followed this user');
+        setFollowedStatus('followed');
+      }
+    };
+    if (username !== undefined) {
+      checkStatus(username);
+    }
+  }, [username]);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
@@ -124,10 +157,23 @@ const Profile = () => {
             }}
           />
           <Box sx={{ ml: 2 }}>
-            <Typography color="textSecondary" variant="overline">
-              {profile.title}
-            </Typography>
-            <Typography variant="h6">{profile.name}</Typography>
+            {username === undefined && (
+              <Typography color="textSecondary" variant="overline">
+                {currentRole}
+              </Typography>
+            )}
+            {/* 这里还有待修改 */}
+            {username !== undefined && (
+              <Typography color="textSecondary" variant="overline">
+                {profile.title}
+              </Typography>
+            )}
+            {username === undefined && (
+              <Typography variant="h6">{currentName}</Typography>
+            )}
+            {username !== undefined && (
+              <Typography variant="h6">{username}</Typography>
+            )}
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box
@@ -163,6 +209,17 @@ const Profile = () => {
                 variant="outlined"
               >
                 Followed
+              </Button>
+            )}
+            {followedStatus === 'current_user' && (
+              <Button
+                color="primary"
+                size="small"
+                startIcon={<UserAdd fontSize="small" />}
+                sx={{ ml: 2 }}
+                variant="outlined"
+              >
+                This is you!
               </Button>
             )}
             {/* 这个功能后面看情况再加 */}
