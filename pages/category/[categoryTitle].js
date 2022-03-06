@@ -456,7 +456,6 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
               router.push({
                 pathname: '/post/make-post',
                 query: {
-                  categoryId: categoryInfo.id,
                   categoryTitle: categoryInfo.title,
                 },
               })

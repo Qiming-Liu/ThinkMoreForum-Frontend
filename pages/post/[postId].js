@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Button, Divider } from '@mui/material';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
-import newNotification from '../../utils/newNotification';
+import { createNotification } from '../../services/Notification';
 import {
   getPostByPostId,
   checkIsFavoringPost,
@@ -45,7 +45,7 @@ const Post = () => {
       await submitFavoritePost(postId);
       const { data: user } = await getUserById(userId);
       const type = 'follow_post';
-      await newNotification({ user, type });
+      await createNotification({ user, type });
     }
     setPostFaved(!postFaved);
   };

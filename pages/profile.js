@@ -16,7 +16,7 @@ import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
 import { followUser } from '../services/Follow';
 import hotToast from '../utils/hotToast';
-import newNotification from '../utils/newNotification';
+import { createNotification } from '../services/Notification';
 
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState('posts');
@@ -42,7 +42,7 @@ const Profile = () => {
       const type = 'follow_user';
       const user = response.data.users;
       if (followedStatus === 'not_followed') {
-        await newNotification({ user, type });
+        await createNotification({ user, type });
         hotToast('success', `Follow ${name} successfully!`);
       }
       setFollowedStatus((prevFollowedStatus) =>

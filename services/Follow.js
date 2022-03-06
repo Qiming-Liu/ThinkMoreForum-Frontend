@@ -5,9 +5,3 @@ export const followUser = (username) =>
 
 export const getFollowing = (username) =>
   http(`/v1/users/followed/${username}`, { method: 'GET' });
-
-export const createNotification = (type, data) =>
-  http(`/v1/notification/new-notification/${type}`, {
-    method: 'POST',
-    data,
-  });
