@@ -16,7 +16,6 @@ import ProfileFollow from '../components/Profile/ProfileFollow';
 import UserAdd from '../icons/user-add';
 import { followUser } from '../services/Follow';
 import hotToast from '../utils/hotToast';
-import { createNotification } from '../services/Notification';
 
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState('posts');
@@ -38,11 +37,8 @@ const Profile = () => {
 
   const handleFollowAction = async (name) => {
     try {
-      const response = await followUser(name);
-      const type = 'follow_user';
-      const user = response.data.users;
+      const { data } = await followUser(name);
       if (followedStatus === 'not_followed') {
-        await createNotification({ user, type });
         hotToast('success', `Follow ${name} successfully!`);
       }
       setFollowedStatus((prevFollowedStatus) =>
@@ -165,7 +161,6 @@ const Profile = () => {
                 Followed
               </Button>
             )}
-            {/* 这个功能后面看情况再加 */}
             {/* <Button
               component="a"
               size="small"

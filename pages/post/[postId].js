@@ -4,48 +4,29 @@ import { useRouter } from 'next/router';
 import { Button, Divider } from '@mui/material';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
-import { createNotification } from '../../services/Notification';
 import {
   getPostByPostId,
   checkIsFavoringPost,
   submitUnfavoritePost,
   submitFavoritePost,
 } from '../../services/Post';
-import { getUserById } from '../../services/Users';
-import { getCommentByPost } from '../../services/Comment';
+import { getPostCommentsByPostId } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
-import ProfileComment from '../../components/Profile/ProfileComment';
+import AntComment from '../../components/AntComment';
 
 const Post = () => {
   const router = useRouter();
-  const { categoryTitle, postId } = router.query;
+  const { postId } = router.query;
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
   const { isLogin } = useSelector((state) => state.sign);
-  const [userId, setUserId] = useState();
-  const rootComments = comments.filter(
-    (comment) => comment.parentComment === null,
-  );
-  const childComments = comments.filter(
-    (comment) => comment.parentComment !== null,
-  );
-  const getReplies = (commentId) =>
-    childComments
-      .filter((comment) => comment.parentComment.id === commentId)
-      .sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-      );
 
   const handleFavPost = async () => {
     if (postFaved) {
       await submitUnfavoritePost(postId);
     } else {
       await submitFavoritePost(postId);
-      const { data: user } = await getUserById(userId);
-      const type = 'follow_post';
-      await createNotification({ user, type });
     }
     setPostFaved(!postFaved);
   };
@@ -55,8 +36,9 @@ const Post = () => {
       const getPostContent = async () => {
         const { data: responsePost } = await getPostByPostId(postId);
         setPost(responsePost);
-        setUserId(responsePost.postUsers.id);
-        const { data: responseComments } = await getCommentByPost(postId);
+        const { data: responseComments } = await getPostCommentsByPostId(
+          postId,
+        );
         setComments(responseComments);
         if (isLogin) {
           const { data: responseIsFavoringPost } = await checkIsFavoringPost(
@@ -69,11 +51,31 @@ const Post = () => {
     }
   }, [postId, postFaved, isLogin]);
   if (!post) return null;
+
+  const rootComment = comments.filter(
+    (comment) => comment.parentComment === null,
+  );
+
+  rootComment.forEach((comment) => {
+    // eslint-disable-next-line no-param-reassign
+    comment.childComments = [];
+  });
+
+  if (rootComment) {
+    comments
+      .filter((comment) => comment.parentComment !== null)
+      .forEach((childComment) => {
+        rootComment
+          .find((pComment) => pComment.id === childComment.parentComment.id)
+          .childComments.push(childComment);
+      });
+  }
+
   return (
     <>
-      <NextLink href={`/category/${categoryTitle}`} passHref>
+      <NextLink href={`/category/${post.category.title}`} passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
-          Back to {categoryTitle}
+          Back to {post.category.title}
         </Button>
       </NextLink>
       <Divider sx={{ my: 3 }} />
@@ -82,16 +84,14 @@ const Post = () => {
         isFavored={postFaved}
         toggleFav={handleFavPost}
       />
-      {rootComments &&
-        rootComments.map((rootComment) => {
-          return (
-            <ProfileComment
-              key={rootComment.id}
-              comment={rootComment}
-              replies={getReplies(rootComment.id)}
-            />
-          );
-        })}
+      {rootComment &&
+        rootComment.map((comment) => (
+          <AntComment comment={comment} key={comment.id}>
+            {comment.childComments.map((childComment) => (
+              <AntComment comment={childComment} key={childComment.id} />
+            ))}
+          </AntComment>
+        ))}
     </>
   );
 };
