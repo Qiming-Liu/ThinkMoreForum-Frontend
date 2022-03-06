@@ -1,24 +1,18 @@
 import React from 'react';
 import { Comment, Tooltip, Avatar } from 'antd';
-import moment from 'moment';
+import myTime from '../../utils/myTime';
 
-const AntComment = ({ children }) => {
+const AntComment = ({ children, comment }) => {
+  const { commentUsers, context, createTimestamp } = comment;
   return (
     <Comment
-      actions={[<span key="comment-nested-reply-to">Reply to</span>]}
-      author="Han Solo"
-      avatar={
-        <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
-      }
-      content={
-        <p>
-          We supply a series of design principles, practical patterns and high
-          quality design resources (Sketch and Axure).
-        </p>
-      }
+      actions={[<span key="comment-nested-reply-to">Reply</span>]}
+      author={commentUsers.username}
+      avatar={<Avatar src={commentUsers.profileImgUrl} />}
+      content={context}
       datetime={
-        <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().fromNow()}</span>
+        <Tooltip>
+          <span>{myTime(createTimestamp)}</span>
         </Tooltip>
       }
     >

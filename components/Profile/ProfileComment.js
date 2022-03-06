@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 import { Avatar, Box, Typography, Button, Stack } from '@mui/material';
 
@@ -21,7 +20,7 @@ const ProfileComment = ({ comment, replies }) => {
       }}
     >
       <Stack>
-        <Avatar src={user.profileImg} />
+        <Avatar src={user.profileImgUrl} />
         <Button
           onClick={() => {}}
           sx={{
