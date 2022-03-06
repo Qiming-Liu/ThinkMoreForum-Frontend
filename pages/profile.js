@@ -18,22 +18,21 @@ import { followUser, getFollowedStatus } from '../services/Follow';
 import { getCurrentUser } from '../services/Users';
 import hotToast from '../utils/hotToast';
 
-const Profile = (props) => {
-  const { username } = props;
+const Profile = ({ username }) => {
   const [currentTab, setCurrentTab] = useState('posts');
   const [followedStatus, setFollowedStatus] = useState('not_followed');
-  const [currentName, setCurrentName] = useState('null');
+  const [currentName, setCurrentName] = useState('');
   // const [role, setRole] = useState('null');
-  const [currentRole, setCurrentRole] = useState('null');
+  const [currentRole, setCurrentRole] = useState('');
 
   // Get current user details
   useEffect(() => {
     const getUser = async () => {
-      const response = await getCurrentUser();
-      console.log(response.data);
-      setCurrentName(response.data.username);
-      setCurrentRole(response.data.role.roleName);
-      if (username === undefined) {
+      const { data } = await getCurrentUser();
+      console.log(data);
+      setCurrentName(data.username);
+      setCurrentRole(data.role.roleName);
+      if (!username) {
         setFollowedStatus('current_user');
       }
     };
@@ -43,13 +42,13 @@ const Profile = (props) => {
   // Check follow status
   useEffect(() => {
     const checkStatus = async (name) => {
-      const response = await getFollowedStatus(name);
-      if (response.data === true) {
+      const { data } = await getFollowedStatus(name);
+      if (data === true) {
         console.log('you have followed this user');
         setFollowedStatus('followed');
       }
     };
-    if (username !== undefined) {
+    if (username) {
       checkStatus(username);
     }
   }, [username]);
