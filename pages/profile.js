@@ -37,7 +37,7 @@ const Profile = () => {
 
   const handleFollowAction = async (name) => {
     try {
-      const { data } = await followUser(name);
+      await followUser(name);
       if (followedStatus === 'not_followed') {
         hotToast('success', `Follow ${name} successfully!`);
       }
