@@ -1,12 +1,20 @@
 import http from '../utils/axios';
 
-export const createPost = (requestBody) =>
-  http(`/v1/post`, { method: 'POST', data: requestBody });
+export const postPost = (categoryTitle, title, context, headImgUrl) =>
+  http(`/v1/post`, {
+    method: 'POST',
+    data: {
+      categoryTitle,
+      title,
+      context,
+      headImgUrl,
+    },
+  });
 
-export const uploadImage = (imageFile) =>
+export const upload = (img) =>
   http(`/v1/img/upload`, {
     method: 'POST',
-    data: imageFile,
+    data: new FormData().append('img', img),
     headers: {
       'Content-Type': 'multipart/form-data',
     },

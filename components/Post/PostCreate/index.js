@@ -14,17 +14,16 @@ import {
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
-import md5 from 'md5';
 import QuillEditor from '../../QuillEditor';
-import { createPost, uploadImage } from '../../../services/Post';
+import { postPost, upload } from '../../../services/Post';
 import hotToast from '../../../utils/hotToast';
 import ImageDropZone from '../../ImageDropZone';
 import fileToBase64 from '../../../utils/fileToBase64';
 
-const PostCreate = ({ categoryId, categoryTitle }) => {
+const PostCreate = ({ categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
   const [cover, setCover] = useState('/logo.svg');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(undefined);
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -35,29 +34,21 @@ const PostCreate = ({ categoryId, categoryTitle }) => {
       title: Yup.string().max(255).required(),
     }),
     onSubmit: async ({ title, context }) => {
-      try {
-        // NOTE: Make API request
-        setLoading(true);
-        const imageFile = new FormData();
-        imageFile.append('file', image);
-        imageFile.append('md5', md5(image));
-        const responseImage = await uploadImage(imageFile);
-        const requestBody = {
-          category: {
-            id: categoryId,
-            title: categoryTitle,
-          },
-          title,
-          context: context.replace(/<p>|[</p>]/gi, ''),
-          headImg: responseImage.data,
-        };
-        const response = await createPost(requestBody);
-        setLoading(false);
-        Router.push(`/post/${response.data}?categoryTitle=${categoryTitle}`);
-      } catch (err) {
-        setLoading(false);
-        hotToast('failure', err.response.data.message);
+      if (!image) {
+        hotToast('error', 'Please upload an image');
+        return;
       }
+      setLoading(true);
+      const { data: headImg } = await upload(image);
+      const response = await postPost({
+        categoryTitle,
+        title,
+        context: context.replace(/<p>|[</p>]/gi, ''),
+        headImgUrl: headImg.url,
+      });
+      setLoading(false);
+      Router.push(`/post/${response.data}?categoryTitle=${categoryTitle}`);
+      hotToast('success', 'Post created successfully');
     },
   });
 

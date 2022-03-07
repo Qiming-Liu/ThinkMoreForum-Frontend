@@ -376,7 +376,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             return (
               <PostCard
                 key={id}
-                generatedUrl={`/post/${id}?categoryTitle=${categoryTitle}`}
+                generatedUrl={`/post/${id}`}
                 authorAvatar={authorAvatar || '/logo.png'}
                 authorName={authorName}
                 headImg={displayHeadImg && (headImg || '/logo.png')}
@@ -456,7 +456,6 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
               router.push({
                 pathname: '/post/make-post',
                 query: {
-                  categoryId: categoryInfo.id,
                   categoryTitle: categoryInfo.title,
                 },
               })
