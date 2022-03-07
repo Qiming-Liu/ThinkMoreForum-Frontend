@@ -44,7 +44,6 @@ const Profile = ({ username }) => {
     const checkStatus = async (name) => {
       const { data } = await getFollowedStatus(name);
       if (data === true) {
-        console.log('you have followed this user');
         setFollowedStatus('followed');
       }
     };

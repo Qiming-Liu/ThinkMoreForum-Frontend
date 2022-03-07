@@ -1,6 +1,6 @@
 import http from '../utils/axios';
 
-export const postPost = (categoryTitle, title, context, headImgUrl) =>
+export const postPost = ({ categoryTitle, title, context, headImgUrl }) =>
   http(`/v1/post`, {
     method: 'POST',
     data: {

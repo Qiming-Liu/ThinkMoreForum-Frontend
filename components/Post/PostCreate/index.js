@@ -31,7 +31,7 @@ const PostCreate = ({ categoryTitle }) => {
       title: '',
     },
     validationSchema: Yup.object({
-      context: Yup.string().max(5000),
+      context: Yup.string().max(65535),
       title: Yup.string().max(255).required(),
     }),
     onSubmit: async ({ title, context }) => {
@@ -120,7 +120,7 @@ const PostCreate = ({ categoryTitle }) => {
               </Button>
               <Box sx={{ mt: 3 }}>
                 <ImageDropZone
-                  accept="image/jpeg,image/png"
+                  accept="image/jpg,image/png"
                   maxFiles={1}
                   onDrop={handleDropCover}
                   maxSize={5242880}
