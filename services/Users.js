@@ -37,7 +37,7 @@ export const getUserById = (usersId) =>
 
 export const getCurrentUser = () =>
   http(`/v1/users//my-details`, { method: 'GET' });
-//changeUsername
-//sendVerificationEmail
-//changeEmail
-//changePassword
+// changeUsername
+// sendVerificationEmail
+// changeEmail
+// changePassword
