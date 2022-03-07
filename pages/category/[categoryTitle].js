@@ -28,13 +28,11 @@ import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
   getAllCategories,
-  getCategoryByCategoryTitle,
-} from '../../services/Category';
-import {
+  getCategoryByTitle,
   getVisiblePostsByCategoryTitle,
   getVisiblePostCountByCategoryTitle,
-  getPostByPostId,
-} from '../../services/Post';
+  getPostById,
+} from '../../services/Public';
 import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
@@ -60,9 +58,7 @@ export async function getStaticProps({ params }) {
   let categoryInfo;
 
   try {
-    ({ data: categoryInfo } = await getCategoryByCategoryTitle(
-      params.categoryTitle,
-    ));
+    ({ data: categoryInfo } = await getCategoryByTitle(params.categoryTitle));
   } catch (error) {
     return {
       notFound: true,
@@ -76,7 +72,7 @@ export async function getStaticProps({ params }) {
 
   let pinPostInfo = null;
   if (categoryInfo.pinPost) {
-    const { data } = await getPostByPostId(categoryInfo.pinPost.id);
+    const { data } = await getPostById(categoryInfo.pinPost.id);
     if (data.visibility) {
       pinPostInfo = data;
     }

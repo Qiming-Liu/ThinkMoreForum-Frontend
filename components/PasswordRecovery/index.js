@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { sendResetPasswordEmail } from '../../services/Users';
+import { sendResetPasswordEmail } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
 
 const PasswordRecovery = () => {

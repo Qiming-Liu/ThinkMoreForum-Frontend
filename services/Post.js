@@ -11,56 +11,6 @@ export const postPost = (categoryTitle, title, context, headImgUrl) =>
     },
   });
 
-export const upload = (img) =>
-  http(`/v1/img/upload`, {
-    method: 'POST',
-    data: new FormData().append('img', img),
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
-export const getPostsByCategoryTitle = (
-  categoryTitle,
-  currentPage,
-  sizePerPage,
-  sortParams = 'createTimestamp,DESC',
-) => {
-  return http(`/v1/category/${categoryTitle}/post`, {
-    method: 'GET',
-    params: {
-      page: currentPage,
-      size: sizePerPage,
-      sort: sortParams,
-    },
-  });
-};
-
-export const getVisiblePostsByCategoryTitle = (
-  categoryTitle,
-  currentPage,
-  sizePerPage,
-  sortParams = 'createTimestamp,DESC',
-) => {
-  return http(`/v1/category/${categoryTitle}/visible-post`, {
-    method: 'GET',
-    params: {
-      page: currentPage,
-      size: sizePerPage,
-      sort: sortParams,
-    },
-  });
-};
-
-export const getPostByPostId = (postId) =>
-  http(`/v1/post/${postId}`, { method: 'GET' });
-
-export const getPostCountByCategoryTitle = (categoryTitle) =>
-  http(`/v1/category/${categoryTitle}/count`, { method: 'GET' });
-
-export const getVisiblePostCountByCategoryTitle = (categoryTitle) =>
-  http(`/v1/category/${categoryTitle}/visible-count`, { method: 'GET' });
-
 export const getPostByUsername = (username) =>
   http(`/v1/post/user/${username}`, { method: 'GET' });
 

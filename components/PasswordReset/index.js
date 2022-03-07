@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { setJWTAction } from '../../store/actions/signAction';
-import { resetPassword } from '../../services/Users';
+import { passwordReset } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
 
 const PasswordReset = () => {
@@ -44,7 +44,7 @@ const PasswordReset = () => {
     onSubmit: async (values) => {
       const { password } = values;
       setLoading(true);
-      await resetPassword(password)
+      await passwordReset(password)
         .then(() => {
           router.replace('/');
           hotToast('success', 'Reset Password Success');

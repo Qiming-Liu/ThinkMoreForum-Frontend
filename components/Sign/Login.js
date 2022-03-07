@@ -18,7 +18,7 @@ import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
 import loginAction from '../../store/actions/httpAction';
 import hotToast from '../../utils/hotToast';
-import { thirdpartylogin } from '../../services/Users';
+import { thirdpartylogin } from '../../services/Public';
 
 const Login = ({ register }) => {
   const [isLoading, setLoading] = useState(false);

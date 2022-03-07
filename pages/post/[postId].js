@@ -5,12 +5,11 @@ import { Button, Divider } from '@mui/material';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
-  getPostByPostId,
   checkIsFavoringPost,
   submitUnfavoritePost,
   submitFavoritePost,
 } from '../../services/Post';
-import { getPostCommentsByPostId } from '../../services/Comment';
+import { getPostById, getCommentsByPostId } from '../../services/Public';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
 
@@ -34,11 +33,10 @@ const Post = () => {
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
-        const { data: responsePost } = await getPostByPostId(postId);
+        const { data: responsePost } = await getPostById(postId);
         setPost(responsePost);
-        const { data: responseComments } = await getPostCommentsByPostId(
-          postId,
-        );
+        const { data: responseComments } = await getCommentsByPostId(postId);
+
         setComments(responseComments);
         if (isLogin) {
           const { data: responseIsFavoringPost } = await checkIsFavoringPost(
