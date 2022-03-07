@@ -152,23 +152,18 @@ const Profile = ({ username }) => {
             }}
           />
           <Box sx={{ ml: 2 }}>
-            {username === undefined && (
+            {!username && (
               <Typography color="textSecondary" variant="overline">
                 {currentRole}
               </Typography>
             )}
             {/* 这里还有待修改 */}
-            {username !== undefined && (
+            {username && (
               <Typography color="textSecondary" variant="overline">
                 {profile.title}
               </Typography>
             )}
-            {username === undefined && (
-              <Typography variant="h6">{currentName}</Typography>
-            )}
-            {username !== undefined && (
-              <Typography variant="h6">{username}</Typography>
-            )}
+            <Typography variant="h6">{username || currentName}</Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box
