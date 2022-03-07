@@ -369,13 +369,18 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             const createDate = timeStamp.toLocaleDateString('en-AU');
             const createTime = timeStamp.toLocaleTimeString('en-AU');
             const concatedDateTime = `${createDate.toString()} ${createTime.toString()}`;
+            let headImgUrl;
+            if (headImg) {
+              headImgUrl = headImg.url;
+            }
             return (
               <PostCard
                 key={id}
+                id={id}
                 generatedUrl={`/post/${id}`}
                 authorAvatar={authorAvatar || '/logo.png'}
                 authorName={authorName}
-                headImg={displayHeadImg && (headImg || '/logo.png')}
+                headImg={displayHeadImg && (headImgUrl || '/logo.png')}
                 createTimeStamp={concatedDateTime}
                 abstract={displayAbstract && context}
                 title={title}
