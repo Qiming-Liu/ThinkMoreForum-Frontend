@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '@mui/material';
-import { getFollowing } from '../../services/Follow';
+import { getFollowing, getFollower } from '../../services/Follow';
 import FollowCard from './FollowCard';
 
 const ProfileFollow = (props) => {
@@ -11,8 +11,16 @@ const ProfileFollow = (props) => {
       const { data: responsefollow } = await getFollowing(value);
       setFollow(responsefollow);
     };
-    getFollow();
-  }, [value]);
+    const getFans = async () => {
+      const { data: responsefollow } = await getFollower(value);
+      setFollow(responsefollow);
+    };
+    if (title === 'Following') {
+      getFollow();
+    } else {
+      getFans();
+    }
+  }, [title, value]);
   if (!follow) return null;
   return (
     <Card {...props}>
