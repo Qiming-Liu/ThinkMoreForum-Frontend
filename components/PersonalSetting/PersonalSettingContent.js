@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
 import {
   Avatar,
   Box,
@@ -10,8 +11,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import Yup from '../../utils/yupValidation';
+import hotToast from '../../utils/hotToast';
 import PersonalSettingPassword from './PersonalSettingPassword';
-import { getMyUser } from '../../services/Users';
+import { uniqueUsername, uniqueEmail } from '../../services/Public';
+import {
+  getMyUser,
+  changeUsername,
+  sendVerificationEmail,
+} from '../../services/Users';
 
 const Form = (props) => {
   const [details, setDetails] = useState([]);
@@ -22,40 +30,55 @@ const Form = (props) => {
     })();
   });
 
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      username: details.username,
+      submit: null,
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().sequence([
+        () => Yup.string().max(20),
+        () => Yup.string().unique('Username is already taken', uniqueUsername),
+      ]),
+    }),
+    onSubmit: async (values) => {
+      await changeUsername(values.username)
+        .then(() => {
+          hotToast('success', 'Change Username Success');
+        })
+        .catch((error) => {
+          hotToast('error', `Something wrong: ${error}`);
+        });
+    },
+  });
+
+  const formikEmail = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      email: details.email,
+      submit: null,
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().sequence([
+        () => Yup.string().email('Must be a valid email').max(255),
+        () => Yup.string().unique('Email is already in use', uniqueEmail),
+      ]),
+    }),
+    onSubmit: async (values) => {
+      await sendVerificationEmail(values.email)
+        .then(() => {
+          hotToast('success', 'Verification Email Sent');
+        })
+        .catch((error) => {
+          hotToast('error', `Something wrong: ${error}`);
+        });
+    },
+  });
+
   const user = {
     avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: details.username,
-    email: details.email,
   };
-
-  const [emailState, setIsEditingEmail] = useState('Edit');
-  const [isEditingUsername, setIsEditingUsername] = useState(false);
-
-  // 是否成功验证邮箱
-  const ifEmailVerified = false;
-
-  const handleEditUsername = () => {
-    setIsEditingUsername(!isEditingUsername);
-  };
-
-  const handleEditEmail = () => {
-    if (emailState === 'Edit') {
-      if (ifEmailVerified) {
-        setIsEditingEmail('Save');
-      } else {
-        setIsEditingEmail('Send');
-      }
-    } else if (emailState === 'Save') {
-      setIsEditingEmail('Edit');
-    } else if (emailState === 'Send') {
-      setIsEditingEmail('Sent');
-    } else if (emailState === 'Sent') {
-      if (ifEmailVerified === true) {
-        setIsEditingEmail('Save');
-      }
-    }
-  };
-
   return (
     <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
       <Grid item>
@@ -88,50 +111,71 @@ const Form = (props) => {
                   <Button>Change</Button>
                 </Box>
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    mt: 3,
-                    alignItems: 'center',
-                  }}
-                >
-                  <TextField
-                    disabled={!isEditingUsername}
-                    value={user.name}
-                    InputLabelProps={{ shrink: !!details }}
-                    // defaultValue={user.name}
-                    label="Username"
-                    size="small"
+                <form onSubmit={formik.handleSubmit}>
+                  <Box
                     sx={{
-                      flexGrow: 1,
-                      mr: 3,
+                      display: 'flex',
+                      mt: 3,
+                      alignItems: 'center',
                     }}
-                  />
-                  <Button onClick={handleEditUsername}>
-                    {isEditingUsername ? 'Save' : 'Edit'}
-                  </Button>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    mt: 3,
-                    alignItems: 'center',
-                  }}
-                >
-                  <TextField
-                    disabled={emailState === 'Edit'}
-                    value={user.email}
-                    InputLabelProps={{ shrink: !!details }}
-                    label="Email Address"
-                    required
-                    size="small"
+                  >
+                    <TextField
+                      error={Boolean(
+                        formik.touched.username && formik.errors.username,
+                      )}
+                      helperText={
+                        formik.touched.username && formik.errors.username
+                      }
+                      InputLabelProps={{ shrink: !!details }}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.username}
+                      name="username"
+                      label="Username"
+                      size="small"
+                      sx={{
+                        flexGrow: 1,
+                        mr: 3,
+                      }}
+                    />
+                    <Button disabled={formik.isSubmitting} type="submit">
+                      Save
+                    </Button>
+                  </Box>
+                </form>
+                <form onSubmit={formikEmail.handleSubmit}>
+                  <Box
                     sx={{
-                      flexGrow: 1,
-                      mr: 3,
+                      display: 'flex',
+                      mt: 3,
+                      alignItems: 'center',
                     }}
-                  />
-                  <Button onClick={handleEditEmail}>{emailState}</Button>
-                </Box>
+                  >
+                    <TextField
+                      error={Boolean(
+                        formikEmail.touched.email && formikEmail.errors.email,
+                      )}
+                      helperText={
+                        formikEmail.touched.email && formikEmail.errors.email
+                      }
+                      // disabled={emailState === 'Edit'}
+                      InputLabelProps={{ shrink: !!details }}
+                      onBlur={formikEmail.handleBlur}
+                      onChange={formikEmail.handleChange}
+                      value={formikEmail.values.email}
+                      label="Email Address"
+                      name="email"
+                      size="small"
+                      sx={{
+                        flexGrow: 1,
+                        mr: 3,
+                      }}
+                    />
+                    <Button disabled={formikEmail.isSubmitting} type="submit">
+                      Send
+                    </Button>
+                  </Box>
+                </form>
               </Grid>
             </Grid>
           </CardContent>
