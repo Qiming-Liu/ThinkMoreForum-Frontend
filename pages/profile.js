@@ -29,7 +29,6 @@ const Profile = ({ username }) => {
   useEffect(() => {
     const getUser = async () => {
       const { data } = await getCurrentUser();
-      console.log(data);
       setCurrentName(data.username);
       setCurrentRole(data.role.roleName);
       if (!username) {

@@ -16,7 +16,7 @@ import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import QuillEditor from '../../QuillEditor';
 import { postPost } from '../../../services/Post';
-import { upload } from '../../../services/Img';
+import upload from '../../../services/Img';
 import hotToast from '../../../utils/hotToast';
 import ImageDropZone from '../../ImageDropZone';
 import fileToBase64 from '../../../utils/fileToBase64';
@@ -120,7 +120,7 @@ const PostCreate = ({ categoryTitle }) => {
               </Button>
               <Box sx={{ mt: 3 }}>
                 <ImageDropZone
-                  accept="image/jpg,image/png"
+                  accept="image/jpg,image/png, image/jpeg"
                   maxFiles={1}
                   onDrop={handleDropCover}
                   maxSize={5242880}
