@@ -1,20 +1,21 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState, React } from 'react';
+import React, { useState } from 'react';
 import {
-  Button,
+  FormHelperText,
   Card,
   CardContent,
   Grid,
   TextField,
   Typography,
   Box,
-  FormHelperText,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import hotToast from '../../utils/hotToast';
+import { changePassword } from '../../services/Users';
 
-const PersonalSettingPassword = (props) => {
-  const [isEditing] = useState(false);
-
+const PersonalSettingPassword = () => {
+  const [isLoading, setLoading] = useState(false);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -25,46 +26,38 @@ const PersonalSettingPassword = (props) => {
     validationSchema: Yup.object({
       oldPassword: Yup.string().required('Required'),
       newPassword: Yup.string()
-        .matches(
-          '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{6,16}',
-          `Make sure password is between 8 characters  16 characters 
-          including a number, 
-          a lowercase letter, 
-          an upper case letter, 
-          a special character, 
-          and no white space! `,
-        )
+        .min(6, 'must be at least 6 characters long')
+        .max(16)
         .required('Required'),
     }),
-    onSubmit: () => {
-      // console.log('hi');
+    onSubmit: async (values) => {
+      setLoading(true);
+      await changePassword(values.oldPassword, values.newPassword)
+        .then(() => {
+          hotToast('success', 'Change Password Success');
+        })
+        .catch((error) => {
+          setLoading(false);
+          hotToast('error', `Something wrong: ${error}`);
+        });
     },
   });
 
   return (
-    <Card sx={{ mt: 5 }}>
+    <Card>
       <CardContent>
-        <form noValidate onSubmit={formik.handleSubmit} {...props}>
+        <form noValidate onSubmit={formik.handleSubmit}>
           <Grid container spacing={3}>
             <Grid item md={4} xs={12}>
-              <Typography variant="h6"> Change password</Typography>
+              <Typography variant="h6">Change password</Typography>
             </Grid>
             <Grid item md={8} xs={12}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  mt: 3,
-                  alignItems: 'center',
-                }}
-              >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <TextField
                   error={Boolean(
                     formik.touched.oldPassword && formik.errors.oldPassword,
                   )}
-                  sx={{
-                    flexGrow: 1,
-                    mr: 11,
-                  }}
+                  sx={{ flexGrow: 1, mr: 11 }}
                   helperText={
                     formik.touched.oldPassword && formik.errors.oldPassword
                   }
@@ -78,13 +71,7 @@ const PersonalSettingPassword = (props) => {
                   value={formik.values.oldPassword}
                 />
               </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  mt: 3,
-                  alignItems: 'center',
-                }}
-              >
+              <Box sx={{ display: 'flex', mt: 1, alignItems: 'center' }}>
                 <TextField
                   error={Boolean(
                     formik.touched.newPassword && formik.errors.newPassword,
@@ -92,15 +79,7 @@ const PersonalSettingPassword = (props) => {
                   helperText={
                     formik.touched.newPassword && formik.errors.newPassword
                   }
-                  sx={{
-                    flexGrow: 1,
-                    mr: 3,
-                    ...(!isEditing && {
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderStyle: 'dotted',
-                      },
-                    }),
-                  }}
+                  sx={{ flexGrow: 1, mr: 3 }}
                   size="small"
                   label="New Password"
                   name="newPassword"
@@ -109,19 +88,22 @@ const PersonalSettingPassword = (props) => {
                   type="password"
                   value={formik.values.newPassword}
                 />
-                <Button
+                {formik.errors.submit && (
+                  <Box sx={{ mt: 3 }}>
+                    <FormHelperText error>
+                      {formik.errors.submit}
+                    </FormHelperText>
+                  </Box>
+                )}
+                <LoadingButton
+                  loading={isLoading}
                   disabled={formik.isSubmitting}
                   type="submit"
                   sx={{ marginTop: '10px' }}
                 >
-                  Edit
-                </Button>
+                  Save
+                </LoadingButton>
               </Box>
-              {formik.errors.submit && (
-                <Box sx={{ mt: 3 }}>
-                  <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                </Box>
-              )}
             </Grid>
           </Grid>
         </form>
