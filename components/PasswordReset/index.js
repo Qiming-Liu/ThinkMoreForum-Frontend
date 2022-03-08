@@ -49,9 +49,9 @@ const PasswordReset = () => {
           router.replace('/');
           hotToast('success', 'Reset Password Success');
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
-          hotToast('error', error.response.data.message);
+          hotToast('error', 'Something went wrong!');
         });
     },
   });

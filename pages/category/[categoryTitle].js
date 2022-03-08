@@ -358,7 +358,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
               profileImg: authorAvatar = '/logo.png',
               username: authorName = 'N.A.',
             },
-            headImg = '/logo.png',
+            headImgUrl,
             context,
             title,
             commentCount,
@@ -375,7 +375,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
                 generatedUrl={`/post/${id}`}
                 authorAvatar={authorAvatar || '/logo.png'}
                 authorName={authorName}
-                headImg={displayHeadImg && (headImg || '/logo.png')}
+                headImg={displayHeadImg && (headImgUrl || '/logo.png')}
                 createTimeStamp={concatedDateTime}
                 abstract={displayAbstract && context}
                 title={title}
