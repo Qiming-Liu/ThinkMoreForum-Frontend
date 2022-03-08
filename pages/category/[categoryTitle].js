@@ -359,7 +359,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
               profileImg: authorAvatar = '/logo.png',
               username: authorName = 'N.A.',
             },
-            headImg = '/logo.png',
+            headImgUrl,
             context,
             title,
             commentCount,

@@ -2,6 +2,7 @@ import * as React from 'react';
 import Head from 'next/head';
 import { Box, Container } from '@mui/material';
 import { AdminUser } from '../components/Admin/AdminUser';
+import Role from '../components/Role';
 
 const users = [
   {
@@ -41,6 +42,7 @@ const Admin = () => (
         </Box>
       </Container>
     </Box>
+    <Role />
   </>
 );
 

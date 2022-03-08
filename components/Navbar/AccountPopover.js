@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import UserCircleIcon from '../../icons/user-circle';
@@ -23,10 +23,11 @@ const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = {
-    avatar: '/logo.png',
-    name: 'User name',
-  };
+  const { myDetail } = useSelector((state) => state.sign);
+
+  if (!myDetail) {
+    return null;
+  }
 
   return (
     <Popover
@@ -50,7 +51,7 @@ const AccountPopover = (props) => {
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={myDetail.profileImgUrl}
           sx={{
             height: 40,
             width: 40,
@@ -63,24 +64,26 @@ const AccountPopover = (props) => {
             ml: 1,
           }}
         >
-          <Typography variant="body1">{user.name}</Typography>
+          <Typography variant="body1">{myDetail.username}</Typography>
           <Typography color="textSecondary" variant="body2">
-            Role Name
+            {myDetail.role.roleName}
           </Typography>
         </Box>
       </Box>
       <Divider />
       <Box sx={{ my: 1 }}>
-        <NextLink href="/admin" passHref>
-          <MenuItem component="a">
-            <ListItemIcon>
-              <ManageAccountsIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="body1">Admin</Typography>}
-            />
-          </MenuItem>
-        </NextLink>
+        {myDetail.role.roleName === 'admin' && (
+          <NextLink href="/admin" passHref>
+            <MenuItem component="a">
+              <ListItemIcon>
+                <ManageAccountsIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography variant="body1">Admin</Typography>}
+              />
+            </MenuItem>
+          </NextLink>
+        )}
         <NextLink href="/profile" passHref>
           <MenuItem component="a">
             <ListItemIcon>
