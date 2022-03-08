@@ -1,4 +1,5 @@
 import http from '../utils/axios';
 
-export const getPostCommentsByPostId = (postId) =>
-  http(`/v1/comment/${postId}`, { method: 'GET' });
+// eslint-disable-next-line import/prefer-default-export
+export const createComment = (requestBody) =>
+  http(`/v1/comment`, { method: 'POST', data: requestBody });

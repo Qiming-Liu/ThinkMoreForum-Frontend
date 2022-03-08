@@ -9,16 +9,19 @@ import {
   Tab,
   Divider,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import { blueGrey } from '@mui/material/colors';
-import ProfilePost from '../components/Profile/ProfilePost';
-import ProfileFollow from '../components/Profile/ProfileFollow';
-import UserAdd from '../icons/user-add';
-import { followUser, getFollowedStatus } from '../services/Follow';
-import { getCurrentUser } from '../services/Users';
-import hotToast from '../utils/hotToast';
+import ProfilePost from '../../components/Profile/ProfilePost';
+import ProfileFollow from '../../components/Profile/ProfileFollow';
+import UserAdd from '../../icons/user-add';
+import { followUser, getFollowedStatus } from '../../services/Follow';
+import { getCurrentUser } from '../../services/Users';
+import hotToast from '../../utils/hotToast';
 
-const Profile = ({ username }) => {
+const Profile = () => {
+  const router = useRouter();
+  const { username } = router.query;
   const [currentTab, setCurrentTab] = useState('posts');
   const [followedStatus, setFollowedStatus] = useState('not_followed');
   const [currentName, setCurrentName] = useState('');
@@ -33,10 +36,12 @@ const Profile = ({ username }) => {
       setCurrentRole(data.role.roleName);
       if (!username) {
         setFollowedStatus('current_user');
+      } else if (username[0] === currentName) {
+        setFollowedStatus('current_user');
       }
     };
     getUser();
-  }, [username]);
+  }, [currentName, username]);
 
   // Check follow status
   useEffect(() => {
@@ -46,10 +51,10 @@ const Profile = ({ username }) => {
         setFollowedStatus('followed');
       }
     };
-    if (username) {
+    if (username && username[0] !== currentName) {
       checkStatus(username);
     }
-  }, [username]);
+  }, [currentName, username]);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
@@ -239,17 +244,29 @@ const Profile = ({ username }) => {
           </Tabs>
           <Divider />
           <Box sx={{ py: 3 }}>
-            {currentTab === 'posts' && (
-              <ProfilePost title="Posts" value="moderator" />
+            {currentTab === 'posts' && !username && (
+              <ProfilePost title="Posts" value={currentName} />
             )}
-            {currentTab === 'favorite' && (
-              <ProfilePost title="Favorite" value="admin" />
+            {currentTab === 'posts' && username && (
+              <ProfilePost title="Posts" value={username} />
             )}
-            {currentTab === 'following' && (
-              <ProfileFollow title="Following" value="verified_user" />
+            {currentTab === 'favorite' && !username && (
+              <ProfilePost title="Favorite" value={currentName} />
             )}
-            {currentTab === 'follower' && (
-              <ProfileFollow title="Follower" value="admin" />
+            {currentTab === 'favorite' && username && (
+              <ProfilePost title="Favorite" value={username} />
+            )}
+            {currentTab === 'following' && !username && (
+              <ProfileFollow title="Following" value={currentName} />
+            )}
+            {currentTab === 'following' && username && (
+              <ProfileFollow title="Following" value={username} />
+            )}
+            {currentTab === 'follower' && !username && (
+              <ProfileFollow title="Follower" value={currentName} />
+            )}
+            {currentTab === 'follower' && username && (
+              <ProfileFollow title="Follower" value={username} />
             )}
           </Box>
         </Container>
