@@ -15,6 +15,20 @@ export const getUserById = (usersId) =>
 
 export const getCurrentUser = () =>
   http(`/v1/users/my-details`, { method: 'GET' });
+
+export const changeUsersRoles = (usersInfo) => {
+  const usersProtoInfo = usersInfo.map((userInfo) => {
+    const newUser = {
+      id: userInfo.id,
+      profileImgUrl: userInfo.avatarUrl,
+      email: userInfo.email,
+      username: userInfo.name,
+      role: { roleName: userInfo.role },
+    };
+    return newUser;
+  });
+  http(`/v1/users/roles`, { method: 'PUT', data: usersProtoInfo });
+};
 // changeUsername
 // sendVerificationEmail
 // changeEmail
