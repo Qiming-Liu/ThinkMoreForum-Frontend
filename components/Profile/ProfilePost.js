@@ -5,7 +5,7 @@ import MyPostCard from '../Post/MyPostCard';
 import {
   getPostByUsername,
   getFollowPostByUsername,
-} from '../../services/Post';
+} from '../../services/Public';
 
 const ProfilePost = (props) => {
   const { title, value } = props;
