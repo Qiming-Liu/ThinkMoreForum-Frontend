@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Button, Divider } from '@mui/material';
+// eslint-disable-next-line camelcase
+import jwt_decode from 'jwt-decode';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -10,8 +12,11 @@ import {
   submitFavoritePost,
 } from '../../services/Post';
 import { getPostById, getCommentsByPostId } from '../../services/Public';
+import { createComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
+import CommentForm from '../../components/Post/CommentForm';
+import hotToast from '../../utils/hotToast';
 
 const Post = () => {
   const router = useRouter();
@@ -19,7 +24,14 @@ const Post = () => {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const { isLogin } = useSelector((state) => state.sign);
+  const rootComments = comments.filter(
+    (comment) => comment.parentComment === null,
+  );
+  const childComments = comments.filter(
+    (comment) => comment.parentComment !== null,
+  );
 
   const handleFavPost = async () => {
     if (postFaved) {
@@ -29,13 +41,61 @@ const Post = () => {
     }
     setPostFaved(!postFaved);
   };
-
+  const sendComment = async (context) => {
+    try {
+      const requestBody = {
+        context,
+        post: {
+          id: postId,
+          title: post.title,
+        },
+        parentComment: null,
+        commentUsers: {
+          id: currentUser.jti,
+        },
+        visibility: true,
+      };
+      await createComment(requestBody);
+    } catch (err) {
+      hotToast('error', err.response.data.error);
+    }
+  };
+  const sendChildComment = async (context, parentId) => {
+    try {
+      const requestBody = {
+        context,
+        post: {
+          id: postId,
+          title: post.title,
+        },
+        commentUsers: {
+          id: currentUser.jti,
+        },
+        parentComment: {
+          id: parentId,
+        },
+        visibility: true,
+      };
+      await createComment(requestBody);
+      setComments([requestBody, ...comments]);
+    } catch (err) {
+      hotToast('error', err.response.data.error);
+    }
+  };
+  const getReplies = (commentId) =>
+    childComments
+      .filter((comment) => comment.parentComment.id === commentId)
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      );
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
         const { data: responsePost } = await getPostById(postId);
         setPost(responsePost);
-        const { data: responseComments } = await getCommentsByPostId(postId);
+        const { data: responseComments, headers: userInfo } =
+          await getCommentsByPostId(postId);
 
         setComments(responseComments);
         if (isLogin) {
@@ -44,31 +104,16 @@ const Post = () => {
           );
           setPostFaved(responseIsFavoringPost);
         }
+        if (isLogin) {
+          setCurrentUser(
+            jwt_decode(userInfo.authorization.replace('Bearer ', '')),
+          );
+        }
       };
       getPostContent();
     }
   }, [postId, postFaved, isLogin]);
   if (!post) return null;
-
-  const rootComment = comments.filter(
-    (comment) => comment.parentComment === null,
-  );
-
-  rootComment.forEach((comment) => {
-    // eslint-disable-next-line no-param-reassign
-    comment.childComments = [];
-  });
-
-  if (rootComment) {
-    comments
-      .filter((comment) => comment.parentComment !== null)
-      .forEach((childComment) => {
-        rootComment
-          .find((pComment) => pComment.id === childComment.parentComment.id)
-          .childComments.push(childComment);
-      });
-  }
-
   return (
     <>
       <NextLink href={`/category/${post.category.title}`} passHref>
@@ -82,14 +127,20 @@ const Post = () => {
         isFavored={postFaved}
         toggleFav={handleFavPost}
       />
-      {rootComment &&
-        rootComment.map((comment) => (
-          <AntComment comment={comment} key={comment.id}>
-            {comment.childComments.map((childComment) => (
-              <AntComment comment={childComment} key={childComment.id} />
-            ))}
-          </AntComment>
-        ))}
+      {rootComments &&
+        rootComments.map((rootComment) => {
+          return (
+            <AntComment
+              key={rootComment.id}
+              comment={rootComment}
+              replies={getReplies(rootComment.id)}
+              sendComment={sendComment}
+              sendChildComment={sendChildComment}
+              login={isLogin}
+            />
+          );
+        })}
+      <CommentForm handleSubmit={sendComment} login={isLogin} />
     </>
   );
 };

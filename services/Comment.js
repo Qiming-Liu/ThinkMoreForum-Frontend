@@ -1,7 +1,6 @@
 import http from '../utils/axios';
-<<<<<<< HEAD
 
 export const getPostCommentsByPostId = (postId) =>
   http(`/v1/comment/${postId}`, { method: 'GET' });
-=======
->>>>>>> 2a00e1d (fix: url)
+  export const createComment = (requestBody) =>
+  http(`/v1/comment`, { method: 'POST', data: requestBody });
