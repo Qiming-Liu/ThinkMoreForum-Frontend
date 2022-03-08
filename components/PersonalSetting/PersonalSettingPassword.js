@@ -35,8 +35,8 @@ const PersonalSettingPassword = () => {
         .then(() => {
           hotToast('success', 'Password is changed');
         })
-        .catch((error) => {
-          hotToast('error', `Something wrong: ${error}`);
+        .catch(() => {
+          hotToast('error', `Old password does not match`);
         });
     },
   });

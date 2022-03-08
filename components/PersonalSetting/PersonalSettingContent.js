@@ -32,8 +32,13 @@ import ChangePicButton from './ChangePicButton';
 const Form = (props) => {
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
+  if (!myDetail) {
+    return null;
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [profileImg, setProfileImg] = useState(myDetail.profileImgUrl);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formikUsername = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -66,6 +71,7 @@ const Form = (props) => {
     },
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formikEmail = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -98,9 +104,7 @@ const Form = (props) => {
   const handleDropImg = async ([file]) => {
     const data = await fileToBase64(file);
     setProfileImg(data);
-    const { data: img } = await upload(file).catch((error) => {
-      hotToast('error', `Something wrong: ${error}`);
-    });
+    const { data: img } = await upload(file);
     changeProfileImg({ profileImgUrl: img.url })
       .then(() => {
         hotToast('success', 'Profile picture is changed');
@@ -118,6 +122,7 @@ const Form = (props) => {
         hotToast('error', `Something wrong: ${error}`);
       });
   };
+
   return (
     <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
       <Grid item>
