@@ -32,12 +32,19 @@ const Navbar = () => {
         sx={{
           minHeight: 64,
           left: 0,
-          px: 2,
+          pl: 3,
+          pr: 4,
         }}
       >
         <NextLink href="/" passHref>
           <div style={{ cursor: 'pointer' }}>
-            <Image src="/logo.png" height="35" width="35" alt="logo" />
+            <Image
+              src="/logo.svg"
+              height="35"
+              width="35"
+              alt="logo"
+              className="shadow"
+            />
           </div>
         </NextLink>
         <Box sx={{ flexGrow: 1 }} />

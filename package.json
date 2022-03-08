@@ -49,6 +49,7 @@
     "secure-env": "^1.2.0",
     "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
+    "socket.io": "^4.4.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
