@@ -11,27 +11,36 @@ const ProfilePost = (props) => {
   const { title, value } = props;
   const [posts, setPost] = useState(null);
   useEffect(() => {
-    const getPosts = async () => {
-      const { data: responsepost } = await getPostByUsername(value);
-      setPost(responsepost);
-    };
-    const getFollowPosts = async () => {
-      const { data: responsepost } = await getFollowPostByUsername(value);
-      setPost(responsepost);
-    };
-    if (title === 'Posts') {
-      getPosts();
-    } else {
-      getFollowPosts();
+    if (value) {
+      const getPosts = async () => {
+        const { data: responsepost } = await getPostByUsername(value);
+        setPost(responsepost);
+      };
+      const getFollowPosts = async () => {
+        const { data: responsepost } = await getFollowPostByUsername(value);
+        setPost(responsepost);
+      };
+      if (title === 'Posts') {
+        getPosts();
+      } else {
+        getFollowPosts();
+      }
     }
   }, [title, value]);
   if (!posts) return null;
   return (
     <>
       <Typography variant="h4">{title}</Typography>
-      <Typography color="textSecondary" variant="subtitle1">
-        These are the posts you have followed.
-      </Typography>
+      {title === 'Posts' && (
+        <Typography color="textSecondary" variant="subtitle1">
+          These are your posts.
+        </Typography>
+      )}
+      {title === 'Favorite' && (
+        <Typography color="textSecondary" variant="subtitle1">
+          These are the posts you have followed.
+        </Typography>
+      )}
       <Divider sx={{ my: 3 }} />
       {title === 'Posts' &&
         posts.map((post) => (
