@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -12,20 +12,30 @@ import {
   Typography,
 } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import UserCircleIcon from '../../icons/user-circle';
 import CogIcon from '../../icons/cog';
 import { logoutAction } from '../../store/actions/signAction';
+import { getMyUser } from '../../services/Users';
 
 const AccountPopover = (props) => {
+  const { isLogin } = useSelector((state) => state.sign);
   const { anchorEl, onClose, open, ...other } = props;
   const dispatch = useDispatch();
   const router = useRouter();
+  const [details, setDetails] = useState({});
+  if (isLogin) {
+    (async () => {
+      const { data } = await getMyUser();
+      setDetails(data);
+    })();
+  }
   const user = {
     avatar: '/logo.png',
-    name: 'User name',
+    name: details.username,
+    role: details && details.role ? details.role.roleName : null,
   };
 
   return (
@@ -65,7 +75,7 @@ const AccountPopover = (props) => {
         >
           <Typography variant="body1">{user.name}</Typography>
           <Typography color="textSecondary" variant="body2">
-            Role Name
+            {user.role}
           </Typography>
         </Box>
       </Box>

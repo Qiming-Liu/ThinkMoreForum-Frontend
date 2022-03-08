@@ -1,6 +1,6 @@
 import React from 'react';
-import PersonalSetting from '../components/PersonalSetting';
+import PersonalSettingContent from '../components/PersonalSetting/PersonalSettingContent';
 
-const personalSetting = () => <PersonalSetting />;
+const personalSetting = () => <PersonalSettingContent />;
 
 export default personalSetting;

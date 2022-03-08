@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -11,29 +11,36 @@ import {
   Typography,
 } from '@mui/material';
 import PersonalSettingPassword from './PersonalSettingPassword';
-// import { UserCircle as UserCircleIcon } from '../../../icons/user-circle';
+import { getMyUser } from '../../services/Users';
 
 const Form = (props) => {
-  // To get the user from the authContext, you can use
-  // `const { user } = useAuth();`
+  const [details, setDetails] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const { data } = await getMyUser();
+      setDetails(data);
+    })();
+  });
+
   const user = {
     avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: 'Anika Visser',
+    name: details.username,
+    email: details.email,
   };
 
   const [emailState, setIsEditingEmail] = useState('Edit');
-  const [isEditingFullname, setIsEditingFullname] = useState(false);
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
 
   // 是否成功验证邮箱
-  const ifEmilVerified = false;
+  const ifEmailVerified = false;
 
-  const handleEditFullname = () => {
-    setIsEditingFullname(!isEditingFullname);
+  const handleEditUsername = () => {
+    setIsEditingUsername(!isEditingUsername);
   };
 
-  const handleEditEmil = () => {
+  const handleEditEmail = () => {
     if (emailState === 'Edit') {
-      if (ifEmilVerified) {
+      if (ifEmailVerified) {
         setIsEditingEmail('Save');
       } else {
         setIsEditingEmail('Send');
@@ -43,15 +50,18 @@ const Form = (props) => {
     } else if (emailState === 'Send') {
       setIsEditingEmail('Sent');
     } else if (emailState === 'Sent') {
-      if (ifEmilVerified === true) {
+      if (ifEmailVerified === true) {
         setIsEditingEmail('Save');
       }
     }
   };
 
   return (
-    <Grid sx={{ mt: 4 }} {...props} container direction="column" spacing={5}>
+    <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
       <Grid item>
+        <Typography sx={{ mb: 3 }} variant="h4">
+          Settings
+        </Typography>
         <Card item>
           <CardContent>
             <Grid container spacing={3}>
@@ -85,19 +95,20 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  {/* full name */}
                   <TextField
-                    disabled={!isEditingFullname}
-                    defaultValue={user.name}
-                    label="Full Name"
+                    disabled={!isEditingUsername}
+                    value={user.name}
+                    InputLabelProps={{ shrink: !!details }}
+                    // defaultValue={user.name}
+                    label="Username"
                     size="small"
                     sx={{
                       flexGrow: 1,
                       mr: 3,
                     }}
                   />
-                  <Button onClick={handleEditFullname}>
-                    {isEditingFullname ? 'Save' : 'Edit'}
+                  <Button onClick={handleEditUsername}>
+                    {isEditingUsername ? 'Save' : 'Edit'}
                   </Button>
                 </Box>
                 <Box
@@ -107,22 +118,19 @@ const Form = (props) => {
                     alignItems: 'center',
                   }}
                 >
-                  {/* email */}
                   <TextField
                     disabled={emailState === 'Edit'}
-                    defaultValue="xxx@xxx.com"
+                    value={user.email}
+                    InputLabelProps={{ shrink: !!details }}
                     label="Email Address"
                     required
                     size="small"
                     sx={{
                       flexGrow: 1,
                       mr: 3,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderStyle: 'dashed',
-                      },
                     }}
                   />
-                  <Button onClick={handleEditEmil}>{emailState}</Button>
+                  <Button onClick={handleEditEmail}>{emailState}</Button>
                 </Box>
               </Grid>
             </Grid>
