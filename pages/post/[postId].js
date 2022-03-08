@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Button, Divider } from '@mui/material';
-// eslint-disable-next-line camelcase
-import jwt_decode from 'jwt-decode';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -24,8 +22,7 @@ const Post = () => {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const { isLogin } = useSelector((state) => state.sign);
+  const { isLogin, myDetail } = useSelector((state) => state.sign);
   const rootComments = comments.filter(
     (comment) => comment.parentComment === null,
   );
@@ -51,7 +48,9 @@ const Post = () => {
         },
         parentComment: null,
         commentUsers: {
-          id: currentUser.jti,
+          id: myDetail.id,
+          headImgUrl: myDetail.headImgUrl,
+          username: myDetail.username,
         },
         visibility: true,
       };
@@ -69,7 +68,9 @@ const Post = () => {
           title: post.title,
         },
         commentUsers: {
-          id: currentUser.jti,
+          id: myDetail.id,
+          headImgUrl: myDetail.headImgUrl,
+          username: myDetail.username,
         },
         parentComment: {
           id: parentId,
@@ -94,8 +95,7 @@ const Post = () => {
       const getPostContent = async () => {
         const { data: responsePost } = await getPostById(postId);
         setPost(responsePost);
-        const { data: responseComments, headers: userInfo } =
-          await getCommentsByPostId(postId);
+        const { data: responseComments } = await getCommentsByPostId(postId);
 
         setComments(responseComments);
         if (isLogin) {
@@ -103,11 +103,6 @@ const Post = () => {
             postId,
           );
           setPostFaved(responseIsFavoringPost);
-        }
-        if (isLogin) {
-          setCurrentUser(
-            jwt_decode(userInfo.authorization.replace('Bearer ', '')),
-          );
         }
       };
       getPostContent();

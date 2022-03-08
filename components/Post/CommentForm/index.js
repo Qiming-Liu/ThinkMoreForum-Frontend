@@ -33,7 +33,14 @@ const CommentForm = ({ initialText = '', handleSubmit, login }) => {
         >
           <div>
             {login ? (
-              <Button sx={{ m: 1 }} type="submit" variant="contained">
+              <Button
+                sx={{ m: 1 }}
+                type="submit"
+                variant="contained"
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
                 Post
               </Button>
             ) : (
