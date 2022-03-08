@@ -29,7 +29,6 @@ const Profile = ({ username }) => {
   useEffect(() => {
     const getUser = async () => {
       const { data } = await getCurrentUser();
-      console.log(data);
       setCurrentName(data.username);
       setCurrentRole(data.role.roleName);
       if (!username) {
@@ -44,7 +43,6 @@ const Profile = ({ username }) => {
     const checkStatus = async (name) => {
       const { data } = await getFollowedStatus(name);
       if (data === true) {
-        console.log('you have followed this user');
         setFollowedStatus('followed');
       }
     };

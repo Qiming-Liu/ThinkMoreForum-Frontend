@@ -16,7 +16,7 @@ import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import QuillEditor from '../../QuillEditor';
 import { postPost } from '../../../services/Post';
-import { upload } from '../../../services/Img';
+import upload from '../../../services/Img';
 import hotToast from '../../../utils/hotToast';
 import ImageDropZone from '../../ImageDropZone';
 import fileToBase64 from '../../../utils/fileToBase64';
@@ -31,7 +31,7 @@ const PostCreate = ({ categoryTitle }) => {
       title: '',
     },
     validationSchema: Yup.object({
-      context: Yup.string().max(5000),
+      context: Yup.string().max(65535),
       title: Yup.string().max(255).required(),
     }),
     onSubmit: async ({ title, context }) => {
@@ -120,7 +120,7 @@ const PostCreate = ({ categoryTitle }) => {
               </Button>
               <Box sx={{ mt: 3 }}>
                 <ImageDropZone
-                  accept="image/jpeg,image/png"
+                  accept="image/jpg,image/png, image/jpeg"
                   maxFiles={1}
                   onDrop={handleDropCover}
                   maxSize={5242880}

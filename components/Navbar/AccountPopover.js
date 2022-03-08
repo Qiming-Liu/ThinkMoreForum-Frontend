@@ -25,18 +25,11 @@ const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
   const dispatch = useDispatch();
   const router = useRouter();
-  const [details, setDetails] = useState({});
-  if (isLogin) {
-    (async () => {
-      const { data } = await getMyUser();
-      setDetails(data);
-    })();
+  const { myDetail } = useSelector((state) => state.sign);
+
+  if (!myDetail) {
+    return null;
   }
-  const user = {
-    avatar: '/logo.png',
-    name: details.username,
-    role: details && details.role ? details.role.roleName : null,
-  };
 
   return (
     <Popover
@@ -60,7 +53,7 @@ const AccountPopover = (props) => {
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={myDetail.profileImgUrl}
           sx={{
             height: 40,
             width: 40,
@@ -73,24 +66,26 @@ const AccountPopover = (props) => {
             ml: 1,
           }}
         >
-          <Typography variant="body1">{user.name}</Typography>
+          <Typography variant="body1">{myDetail.username}</Typography>
           <Typography color="textSecondary" variant="body2">
-            {user.role}
+            {myDetail.role.roleName}
           </Typography>
         </Box>
       </Box>
       <Divider />
       <Box sx={{ my: 1 }}>
-        <NextLink href="/admin" passHref>
-          <MenuItem component="a">
-            <ListItemIcon>
-              <ManageAccountsIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="body1">Admin</Typography>}
-            />
-          </MenuItem>
-        </NextLink>
+        {myDetail.role.roleName === 'admin' && (
+          <NextLink href="/admin" passHref>
+            <MenuItem component="a">
+              <ListItemIcon>
+                <ManageAccountsIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography variant="body1">Admin</Typography>}
+              />
+            </MenuItem>
+          </NextLink>
+        )}
         <NextLink href="/profile" passHref>
           <MenuItem component="a">
             <ListItemIcon>
