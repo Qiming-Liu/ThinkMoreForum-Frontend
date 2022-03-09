@@ -36,6 +36,7 @@ import {
 import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
+import MyTime from '../../utils/myTime';
 
 const validNumberInput = /[^0-9]/;
 
@@ -365,10 +366,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             viewCount,
             followCount,
           }) => {
-            const timeStamp = new Date(createTimestamp);
-            const createDate = timeStamp.toLocaleDateString('en-AU');
-            const createTime = timeStamp.toLocaleTimeString('en-AU');
-            const concatedDateTime = `${createDate.toString()} ${createTime.toString()}`;
+            const concatedDateTime = MyTime(createTimestamp).toString;
             return (
               <PostCard
                 key={id}

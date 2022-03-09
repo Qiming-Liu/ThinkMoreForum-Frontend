@@ -7,4 +7,4 @@ export const getFollowing = (username) =>
   http(`/v1/users/followed/${username}`, { method: 'GET' });
 
 export const getFollowedStatus = (username) =>
-  http(`/v1/users/followedStatus/${username}`, { method: 'GET' });
+  http(`/v1/users/followed_status/${username}`, { method: 'GET' });
