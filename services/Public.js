@@ -64,7 +64,7 @@ export const getVisiblePostCountByCategoryTitle = (categoryTitle) =>
 export const getPostById = (postId) =>
   http(`/v1/public/post/${postId}`, { method: 'GET' });
 
-export const getAllPosts = () => http(`/v1/public/post/`, { method: 'GET' });
+export const getAllPosts = () => http(`/v1/public/post`, { method: 'GET' });
 
 // Comment
 export const getCommentsByPostId = (postId) =>
