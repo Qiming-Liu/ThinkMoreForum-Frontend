@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -18,8 +18,10 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import UserCircleIcon from '../../icons/user-circle';
 import CogIcon from '../../icons/cog';
 import { logoutAction } from '../../store/actions/signAction';
+import { getMyUser } from '../../services/Users';
 
 const AccountPopover = (props) => {
+  const { isLogin } = useSelector((state) => state.sign);
   const { anchorEl, onClose, open, ...other } = props;
   const dispatch = useDispatch();
   const router = useRouter();
