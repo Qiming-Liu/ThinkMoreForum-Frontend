@@ -7,4 +7,4 @@ export const markAsViewed = (notificationId) =>
   http(`/v1/notification/viewed/${notificationId}`, { method: 'GET' });
 
 export const markAllAsViewed = () =>
-  http(`/v1/notification/viewed-all`, { method: 'GET' });
+  http(`/v1/notification/viewed_all`, { method: 'GET' });
