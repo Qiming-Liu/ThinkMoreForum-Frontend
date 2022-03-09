@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
   Avatar,
@@ -11,29 +10,22 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 import Yup from '../../utils/yupValidation';
 import hotToast from '../../utils/hotToast';
 import PersonalSettingPassword from './PersonalSettingPassword';
 import { uniqueUsername, uniqueEmail } from '../../services/Public';
-import {
-  getMyUser,
-  changeUsername,
-  sendVerificationEmail,
-} from '../../services/Users';
+import { changeUsername, sendVerificationEmail } from '../../services/Users';
+import { setUsernameAction } from '../../store/actions/signAction';
 
 const Form = (props) => {
-  const [details, setDetails] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const { data } = await getMyUser();
-      setDetails(data);
-    })();
-  });
+  const dispatch = useDispatch();
+  const { myDetail } = useSelector((state) => state.sign);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      username: details.username,
+      username: myDetail.username || '',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -43,9 +35,19 @@ const Form = (props) => {
       ]),
     }),
     onSubmit: async (values) => {
-      await changeUsername(values.username)
+      const { username } = values;
+      changeUsername(username)
         .then(() => {
           hotToast('success', 'Change Username Success');
+          dispatch(
+            setUsernameAction(
+              username,
+              () => {},
+              (fail) => {
+                hotToast('error', `something wrong${fail}`);
+              },
+            ),
+          );
         })
         .catch((error) => {
           hotToast('error', `Something wrong: ${error}`);
@@ -56,7 +58,7 @@ const Form = (props) => {
   const formikEmail = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: details.email,
+      email: myDetail.email || '',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -126,7 +128,7 @@ const Form = (props) => {
                       helperText={
                         formik.touched.username && formik.errors.username
                       }
-                      InputLabelProps={{ shrink: !!details }}
+                      InputLabelProps={{ shrink: !!myDetail }}
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       value={formik.values.username}
@@ -158,7 +160,7 @@ const Form = (props) => {
                       helperText={
                         formikEmail.touched.email && formikEmail.errors.email
                       }
-                      InputLabelProps={{ shrink: !!details }}
+                      InputLabelProps={{ shrink: !!myDetail }}
                       onBlur={formikEmail.handleBlur}
                       onChange={formikEmail.handleChange}
                       value={formikEmail.values.email}

@@ -67,6 +67,24 @@ const signReducer = (state = initialState, { type, payload }) => {
         myDetail: payload,
       };
 
+    case Action.SET_USERNAME:
+      return {
+        ...state,
+        myDetail: {
+          ...state.myDetail,
+          username: payload,
+        },
+      };
+
+    case Action.SET_EMAIL:
+      return {
+        ...state,
+        myDetail: {
+          ...state.myDetail,
+          email: payload,
+        },
+      };
+
     case Action.LOGOUT:
       return initialState;
 

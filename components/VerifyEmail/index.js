@@ -6,10 +6,13 @@ import NextLink from 'next/link';
 import { useFormik } from 'formik';
 import { Box, TextField, Typography, Container, Card } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useDispatch } from 'react-redux';
 import { changeEmail } from '../../services/Users';
+import { setEmailAction } from '../../store/actions/signAction';
 import hotToast from '../../utils/hotToast';
 
 const VerifyEmail = () => {
+  const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const { token } = router.query;
@@ -20,15 +23,25 @@ const VerifyEmail = () => {
       submit: null,
     },
     onSubmit: async (values) => {
+      const { email } = values;
       setLoading(true);
-      await changeEmail(values.email)
+      changeEmail(email)
         .then(() => {
           router.replace('/');
           hotToast('success', 'Verify New Email Success');
+          dispatch(
+            setEmailAction(
+              email,
+              () => {},
+              (fail) => {
+                hotToast('error', `something wrong${fail}`);
+              },
+            ),
+          );
         })
         .catch((error) => {
           setLoading(false);
-          hotToast('error', error.response.data.message);
+          hotToast('error', `Something wrong: ${error}`);
         });
     },
   });

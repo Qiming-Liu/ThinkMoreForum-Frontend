@@ -33,6 +33,16 @@ const setDetail = (myDetails) => ({
   payload: myDetails,
 });
 
+const setUsername = (username) => ({
+  type: Action.SET_USERNAME,
+  payload: username,
+});
+
+const setEmail = (email) => ({
+  type: Action.SET_EMAIL,
+  payload: email,
+});
+
 export const setJWTAction = (token) => (dispatch) => {
   dispatch(setJWT(token));
 };
@@ -43,6 +53,14 @@ export const setOpenIDAction = (openid) => (dispatch) => {
 
 export const setDetailAction = (myDetails) => (dispatch) => {
   dispatch(setDetail(myDetails));
+};
+
+export const setUsernameAction = (username) => (dispatch) => {
+  dispatch(setUsername(username));
+};
+
+export const setEmailAction = (email) => (dispatch) => {
+  dispatch(setEmail(email));
 };
 
 const loginOut = () => ({
