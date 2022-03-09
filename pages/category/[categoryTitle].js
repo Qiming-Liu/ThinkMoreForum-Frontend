@@ -356,7 +356,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             id,
             createTimestamp,
             postUsers: {
-              profileImg: authorAvatar = '/logo.png',
+              headImgUrl: authorAvatar = '/logo.png',
               username: authorName = 'N.A.',
             },
             headImgUrl,
@@ -366,11 +366,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             viewCount,
             followCount,
           }) => {
-            const concatedDateTime = MyTime(createTimestamp);
-            let headImgUrl;
-            if (headImg) {
-              headImgUrl = headImg.url;
-            }
+            const concatedDateTime = MyTime(createTimestamp).toString;
             return (
               <PostCard
                 key={id}
