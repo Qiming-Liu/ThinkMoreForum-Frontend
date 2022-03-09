@@ -356,7 +356,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             id,
             createTimestamp,
             postUsers: {
-              profileImg: authorAvatar = '/logo.png',
+              headImgUrl: authorAvatar = '/logo.png',
               username: authorName = 'N.A.',
             },
             headImgUrl,
@@ -370,6 +370,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             return (
               <PostCard
                 key={id}
+                id={id}
                 generatedUrl={`/post/${id}`}
                 authorAvatar={authorAvatar || '/logo.png'}
                 authorName={authorName}

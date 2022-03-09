@@ -45,11 +45,23 @@ const FollowCard = (props) => {
                       mx: 2,
                     }}
                   >
-                    <NextLink href="/" passHref>
-                      {/* <Link color="textPrimary" variant="subtitle2"> */}
-                      {fo.users.username}
-                      {/* </Link> */}
-                    </NextLink>
+                    {title === 'Following' && (
+                      <NextLink
+                        href={`/profile/${fo.followedUsers.username}`}
+                        passHref
+                      >
+                        {/* <Link color="textPrimary" variant="subtitle2"> */}
+                        {fo.followedUsers.username}
+                        {/* </Link> */}
+                      </NextLink>
+                    )}
+                    {title === 'Follower' && (
+                      <NextLink href={`/profile/${fo.users.username}`} passHref>
+                        {/* <Link color="textPrimary" variant="subtitle2"> */}
+                        {fo.users.username}
+                        {/* </Link> */}
+                      </NextLink>
+                    )}
                     {/* <Typography
                       color="textSecondary"
                       gutterBottom

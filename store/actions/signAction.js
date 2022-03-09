@@ -28,12 +28,21 @@ const setOpenID = (openid) => ({
   payload: openid,
 });
 
+const setDetail = (myDetails) => ({
+  type: Action.SET_DETAIL,
+  payload: myDetails,
+});
+
 export const setJWTAction = (token) => (dispatch) => {
   dispatch(setJWT(token));
 };
 
 export const setOpenIDAction = (openid) => (dispatch) => {
   dispatch(setOpenID(openid));
+};
+
+export const setDetailAction = (myDetails) => (dispatch) => {
+  dispatch(setDetail(myDetails));
 };
 
 const loginOut = () => ({

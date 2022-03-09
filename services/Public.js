@@ -41,6 +41,8 @@ export const getAllCategories = () =>
 export const getCategoryByTitle = (categoryTitle) =>
   http(`/v1/public/category/${categoryTitle}`, { method: 'GET' });
 
+export const getAllUsers = () => http(`/v1/public/users`, { method: 'GET' });
+
 export const getVisiblePostsByCategoryTitle = (
   categoryTitle,
   currentPage,
@@ -63,6 +65,17 @@ export const getVisiblePostCountByCategoryTitle = (categoryTitle) =>
 // Post
 export const getPostById = (postId) =>
   http(`/v1/public/post/${postId}`, { method: 'GET' });
+
+export const updatePostViewCount = (postId) =>
+  http(`/v1/public/post/${postId}/view-count`, { method: 'PUT' });
+
+export const getPostByUsername = (username) =>
+  http(`/v1/public/post/user/${username}`, { method: 'GET' });
+
+export const getFollowPostByUsername = (username) =>
+  http(`/v1/public/post/follows/findAllByUsername/${username}`, {
+    method: 'GET',
+  });
 
 // Comment
 export const getCommentsByPostId = (postId) =>

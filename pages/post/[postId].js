@@ -10,8 +10,11 @@ import {
   submitFavoritePost,
 } from '../../services/Post';
 import { getPostById, getCommentsByPostId } from '../../services/Public';
+import { createComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
+import CommentForm from '../../components/Post/CommentForm';
+import hotToast from '../../utils/hotToast';
 
 const Post = () => {
   const router = useRouter();
@@ -19,7 +22,13 @@ const Post = () => {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
-  const { isLogin } = useSelector((state) => state.sign);
+  const { isLogin, myDetail } = useSelector((state) => state.sign);
+  const rootComments = comments.filter(
+    (comment) => comment.parentComment === null,
+  );
+  const childComments = comments.filter(
+    (comment) => comment.parentComment !== null,
+  );
 
   const handleFavPost = async () => {
     if (postFaved) {
@@ -29,7 +38,58 @@ const Post = () => {
     }
     setPostFaved(!postFaved);
   };
-
+  const sendComment = async (context) => {
+    try {
+      const requestBody = {
+        context,
+        post: {
+          id: postId,
+          title: post.title,
+        },
+        parentComment: null,
+        commentUsers: {
+          id: myDetail.id,
+          headImgUrl: myDetail.headImgUrl,
+          username: myDetail.username,
+        },
+        visibility: true,
+      };
+      await createComment(requestBody);
+    } catch (err) {
+      hotToast('error', err.response.data.error);
+    }
+  };
+  const sendChildComment = async (context, parentId) => {
+    try {
+      const requestBody = {
+        context,
+        post: {
+          id: postId,
+          title: post.title,
+        },
+        commentUsers: {
+          id: myDetail.id,
+          headImgUrl: myDetail.headImgUrl,
+          username: myDetail.username,
+        },
+        parentComment: {
+          id: parentId,
+        },
+        visibility: true,
+      };
+      await createComment(requestBody);
+      setComments([requestBody, ...comments]);
+    } catch (err) {
+      hotToast('error', err.response.data.error);
+    }
+  };
+  const getReplies = (commentId) =>
+    childComments
+      .filter((comment) => comment.parentComment.id === commentId)
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      );
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
@@ -49,26 +109,6 @@ const Post = () => {
     }
   }, [postId, postFaved, isLogin]);
   if (!post) return null;
-
-  const rootComment = comments.filter(
-    (comment) => comment.parentComment === null,
-  );
-
-  rootComment.forEach((comment) => {
-    // eslint-disable-next-line no-param-reassign
-    comment.childComments = [];
-  });
-
-  if (rootComment) {
-    comments
-      .filter((comment) => comment.parentComment !== null)
-      .forEach((childComment) => {
-        rootComment
-          .find((pComment) => pComment.id === childComment.parentComment.id)
-          .childComments.push(childComment);
-      });
-  }
-
   return (
     <>
       <NextLink href={`/category/${post.category.title}`} passHref>
@@ -82,14 +122,20 @@ const Post = () => {
         isFavored={postFaved}
         toggleFav={handleFavPost}
       />
-      {rootComment &&
-        rootComment.map((comment) => (
-          <AntComment comment={comment} key={comment.id}>
-            {comment.childComments.map((childComment) => (
-              <AntComment comment={childComment} key={childComment.id} />
-            ))}
-          </AntComment>
-        ))}
+      {rootComments &&
+        rootComments.map((rootComment) => {
+          return (
+            <AntComment
+              key={rootComment.id}
+              comment={rootComment}
+              replies={getReplies(rootComment.id)}
+              sendComment={sendComment}
+              sendChildComment={sendChildComment}
+              login={isLogin}
+            />
+          );
+        })}
+      <CommentForm handleSubmit={sendComment} login={isLogin} />
     </>
   );
 };
