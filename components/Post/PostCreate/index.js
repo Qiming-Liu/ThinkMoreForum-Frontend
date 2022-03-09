@@ -44,7 +44,7 @@ const PostCreate = ({ categoryTitle }) => {
       const response = await postPost({
         categoryTitle,
         title,
-        context: context.replace(/<p>|[</p>]/gi, ''),
+        context,
         headImgUrl: headImg.url,
       });
       setLoading(false);

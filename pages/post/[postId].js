@@ -9,14 +9,37 @@ import {
   submitUnfavoritePost,
   submitFavoritePost,
 } from '../../services/Post';
-import { getPostById, getCommentsByPostId } from '../../services/Public';
+import {
+  getPostById,
+  getCommentsByPostId,
+  getAllPosts,
+} from '../../services/Public';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
 
-const Post = () => {
+export const getStaticPaths = async () => {
+  const { data: posts } = await getAllPosts();
+  const paths = posts.map((post) => ({
+    params: { postId: post.id },
+  }));
+  return { paths, fallback: 'blocking' };
+};
+
+export const getStaticProps = async ({ params }) => {
+  try {
+    const { data: post } = await getPostById(params.postId);
+    return { props: { post } };
+  } catch {
+    return {
+      notFound: true,
+      revalidate: 10,
+    };
+  }
+};
+
+const Post = ({ post }) => {
   const router = useRouter();
   const { postId } = router.query;
-  const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
   const { isLogin } = useSelector((state) => state.sign);
@@ -33,8 +56,6 @@ const Post = () => {
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
-        const { data: responsePost } = await getPostById(postId);
-        setPost(responsePost);
         const { data: responseComments } = await getCommentsByPostId(postId);
 
         setComments(responseComments);

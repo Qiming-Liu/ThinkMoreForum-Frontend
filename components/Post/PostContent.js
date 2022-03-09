@@ -117,7 +117,7 @@ const PostContent = (props) => {
           </Grid>
           <Box
             sx={{
-              backgroundImage: `url('/logo.png')`,
+              backgroundImage: `url(${post.headImgUrl})`,
               backgroundPosition: 'center',
               backgroundSize: 'cover',
               borderRadius: 1,

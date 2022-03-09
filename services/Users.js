@@ -8,11 +8,13 @@ export const passwordReset = (password) =>
     data: { new_password: password },
   });
 
+export const getMyUser = () => http(`/v1/users/my_details`, { method: 'GET' });
+
 export const getUserById = (usersId) =>
   http(`/v1/users/details/${usersId}`, { method: 'GET' });
 
 export const getCurrentUser = () =>
-  http(`/v1/users//my_details`, { method: 'GET' });
+  http(`/v1/users/my_details`, { method: 'GET' });
 // changeUsername
 // sendVerificationEmail
 // changeEmail
