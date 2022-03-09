@@ -158,7 +158,6 @@ const Form = (props) => {
                       helperText={
                         formikEmail.touched.email && formikEmail.errors.email
                       }
-                      // disabled={emailState === 'Edit'}
                       InputLabelProps={{ shrink: !!details }}
                       onBlur={formikEmail.handleBlur}
                       onChange={formikEmail.handleChange}
