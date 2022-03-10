@@ -66,7 +66,7 @@ const PostCreate = ({ categoryTitle }) => {
   return (
     <>
       <Head>
-        <title>Create A New Post| ThinkMoreForum</title>
+        <title>Create A New Post | ThinkMoreForum</title>
       </Head>
       <Container maxWidth="xl" sx={{ width: '900px' }} mx="300">
         <Typography variant="h4">Create a new post</Typography>

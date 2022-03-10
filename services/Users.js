@@ -29,7 +29,25 @@ export const changeUsersRoles = (usersInfo) => {
   });
   http(`/v1/users/roles`, { method: 'PUT', data: usersProtoInfo });
 };
-// changeUsername
-// sendVerificationEmail
-// changeEmail
-// changePassword
+
+export const changePassword = ({ oldPassword, newPassword }) =>
+  http(`/v1/users/password`, {
+    method: 'PUT',
+    data: {
+      oldPassword,
+      newPassword,
+    },
+  });
+
+export const changeUsername = (newUsername) =>
+  http(`/v1/users/username/${newUsername}`, { method: 'PUT' });
+
+export const changeProfileImg = (newProfileImg) =>
+  http(`/v1/users/profileimg/${newProfileImg}`, { method: 'PUT' });
+
+export const changeEmail = (newEmail) =>
+  http(`/v1/users/email/${newEmail}`, { method: 'PUT' });
+
+export const sendVerificationEmail = (newEmail) =>
+  http(`/v1/users/email/${newEmail}`, { method: 'GET' });
+

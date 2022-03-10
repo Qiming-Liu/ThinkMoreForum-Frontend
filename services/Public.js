@@ -4,7 +4,7 @@ import http from '../utils/axios';
 export const login = (email, password) =>
   http(`/login`, { method: 'POST', data: { email, password } });
 
-export const register = (email, username, password) =>
+export const register = ({ email, username, password }) =>
   http(`/v1/public/users/register`, {
     method: 'POST',
     data: {
@@ -14,12 +14,10 @@ export const register = (email, username, password) =>
     },
   });
 
-export const thirdpartylogin = (email, username, oauthtype, openid) =>
-  http(`/v1/public/users/third_party_login`, {
+export const thirdpartylogin = (email, username, { oauthtype, openid }) =>
+  http(`/v1/public/users/third_party_login/${email}/${username}`, {
     method: 'POST',
     data: {
-      email,
-      username,
       oauthtype,
       openid,
     },
@@ -82,3 +80,4 @@ export const getFollowPostByUsername = (username) =>
 // Comment
 export const getCommentsByPostId = (postId) =>
   http(`/v1/public/comment/${postId}`, { method: 'GET' });
+
