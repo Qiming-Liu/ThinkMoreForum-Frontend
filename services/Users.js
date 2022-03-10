@@ -14,7 +14,7 @@ export const getUserById = (usersId) =>
   http(`/v1/users/details/${usersId}`, { method: 'GET' });
 
 export const getCurrentUser = () =>
-  http(`/v1/users//my_details`, { method: 'GET' });
+  http(`/v1/users/my_details`, { method: 'GET' });
 
 export const changeUsersRoles = (usersInfo) => {
   const usersProtoInfo = usersInfo.map((userInfo) => {

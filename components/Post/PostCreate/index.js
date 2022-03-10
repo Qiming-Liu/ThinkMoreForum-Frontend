@@ -31,7 +31,6 @@ const PostCreate = ({ categoryTitle }) => {
       title: '',
     },
     validationSchema: Yup.object({
-      context: Yup.string().max(65535),
       title: Yup.string().max(255).required(),
     }),
     onSubmit: async ({ title, context }) => {
@@ -44,7 +43,7 @@ const PostCreate = ({ categoryTitle }) => {
       const response = await postPost({
         categoryTitle,
         title,
-        context: context.replace(/<p>|[</p>]/gi, ''),
+        context,
         headImgUrl: headImg.url,
       });
       setLoading(false);
@@ -129,7 +128,7 @@ const PostCreate = ({ categoryTitle }) => {
               </Box>
             </CardContent>
           </Card>
-          <Card>
+          <Card sx={{ overflow: 'visible' }}>
             <CardContent>
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Basic details

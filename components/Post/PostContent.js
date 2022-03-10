@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import parse from 'html-react-parser';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
 import {
@@ -81,7 +82,7 @@ const PostContent = (props) => {
                 <Box sx={{ ml: 2 }}>
                   <Typography variant="subtitle2">
                     By {post.postUsers.username} •{' '}
-                    {MyTime(post.createTimestamp)}
+                    {MyTime(post.createTimestamp).toString}
                   </Typography>
                 </Box>
               </Box>
@@ -117,7 +118,7 @@ const PostContent = (props) => {
           </Grid>
           <Box
             sx={{
-              backgroundImage: `url('/logo.png')`,
+              backgroundImage: `url(${post.headImgUrl})`,
               backgroundPosition: 'center',
               backgroundSize: 'cover',
               borderRadius: 1,
@@ -125,7 +126,7 @@ const PostContent = (props) => {
               mt: 3,
             }}
           />
-          <Box sx={{ py: 3 }}> {post.context}</Box>
+          <Box sx={{ py: 3 }}> {parse(post.context)}</Box>
 
           <Divider sx={{ my: 3 }} />
         </Container>
