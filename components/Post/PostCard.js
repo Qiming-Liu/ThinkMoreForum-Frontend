@@ -10,6 +10,7 @@ import {
   Link,
   Typography,
 } from '@mui/material';
+import { updatePostViewCount } from '../../services/Public';
 
 const getInitials = (name = '') =>
   name
@@ -21,6 +22,7 @@ const getInitials = (name = '') =>
 
 const PostCard = (props) => {
   const {
+    id,
     generatedUrl,
     authorAvatar,
     authorName,
@@ -34,6 +36,10 @@ const PostCard = (props) => {
     ...other
   } = props;
 
+  const handleClick = () => {
+    updatePostViewCount(id);
+  };
+
   return (
     <Card
       sx={{
@@ -44,7 +50,7 @@ const PostCard = (props) => {
       {...other}
     >
       {headImg && (
-        <NextLink href={generatedUrl ?? ''} passHref>
+        <NextLink href={generatedUrl ?? ''} onClick={handleClick} passHref>
           <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
         </NextLink>
       )}
@@ -55,6 +61,7 @@ const PostCard = (props) => {
             color="textPrimary"
             component="a"
             variant="h5"
+            onClick={handleClick}
           >
             {title}
           </Link>
@@ -91,11 +98,22 @@ const PostCard = (props) => {
               display: 'flex',
             }}
           >
-            <Avatar src={authorAvatar} sx={{ mr: 2 }}>
-              {getInitials(authorName)}
-            </Avatar>
-            <Typography variant="subtitle2">
-              {`By ${authorName} • ${createTimeStamp}`}
+            <NextLink href="/" passHref>
+              <Link href="/">
+                <Avatar src={authorAvatar} sx={{ mr: 2 }}>
+                  {getInitials(authorName)}
+                </Avatar>
+              </Link>
+            </NextLink>
+            <NextLink href="/" passHref>
+              <Link href="/">
+                <Typography variant="subtitle2">
+                  {`By ${authorName}`}
+                </Typography>
+              </Link>
+            </NextLink>
+            <Typography variant="subtitle2" sx={{ ml: 2 }}>
+              {createTimeStamp}
             </Typography>
           </Box>
           <Typography
