@@ -1,5 +1,7 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 import {
   Avatar,
   Box,
@@ -10,19 +12,29 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
-import Yup from '../../utils/yupValidation';
 import hotToast from '../../utils/hotToast';
 import PersonalSettingPassword from './PersonalSettingPassword';
+import upload from '../../services/Img';
 import { uniqueUsername, uniqueEmail } from '../../services/Public';
-import { changeUsername, sendVerificationEmail } from '../../services/Users';
-import { setUsernameAction } from '../../store/actions/signAction';
+import {
+  changeUsername,
+  changeProfileImg,
+  sendVerificationEmail,
+} from '../../services/Users';
+import {
+  setProfileImgAction,
+  setUsernameAction,
+} from '../../store/actions/signAction';
+import UserCircleIcon from '../../icons/user-circle';
+import fileToBase64 from '../../utils/fileToBase64';
+import ChangePicButton from './ChangePicButton';
 
 const Form = (props) => {
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
+  const [profileImg, setProfileImg] = useState(myDetail.profileImgUrl);
 
-  const formik = useFormik({
+  const formikUsername = useFormik({
     enableReinitialize: true,
     initialValues: {
       username: myDetail.username || '',
@@ -78,8 +90,28 @@ const Form = (props) => {
     },
   });
 
-  const user = {
-    avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
+  const handleDropCover = async ([file]) => {
+    const data = await fileToBase64(file);
+    setProfileImg(data);
+    const { data: img } = await upload(file).catch((error) => {
+      hotToast('error', `Something wrong: ${error}`);
+    });
+    changeProfileImg(img.url)
+      .then(() => {
+        hotToast('success', 'Change Profile Picture Success');
+        dispatch(
+          setProfileImgAction(
+            img.url,
+            () => {},
+            (fail) => {
+              hotToast('error', `something wrong${fail}`);
+            },
+          ),
+        );
+      })
+      .catch((error) => {
+        hotToast('error', `Something wrong: ${error}`);
+      });
   };
   return (
     <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
@@ -101,19 +133,25 @@ const Form = (props) => {
                   }}
                 >
                   <Avatar
-                    src={user.avatar}
+                    src={profileImg}
                     sx={{
                       height: 64,
                       mr: 2,
                       width: 64,
                     }}
                   >
-                    <div>goodddd</div>
+                    <UserCircleIcon fontSize="small" />
                   </Avatar>
-                  <Button>Change</Button>
+                  <ChangePicButton
+                    accept="image/jpg,image/png, image/jpeg"
+                    maxFiles={1}
+                    onDrop={handleDropCover}
+                    maxSize={5242880}
+                    minsize={0}
+                  />
                 </Box>
 
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formikUsername.handleSubmit}>
                   <Box
                     sx={{
                       display: 'flex',
@@ -123,15 +161,17 @@ const Form = (props) => {
                   >
                     <TextField
                       error={Boolean(
-                        formik.touched.username && formik.errors.username,
+                        formikUsername.touched.username &&
+                          formikUsername.errors.username,
                       )}
                       helperText={
-                        formik.touched.username && formik.errors.username
+                        formikUsername.touched.username &&
+                        formikUsername.errors.username
                       }
                       InputLabelProps={{ shrink: !!myDetail }}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={formik.values.username}
+                      onBlur={formikUsername.handleBlur}
+                      onChange={formikUsername.handleChange}
+                      value={formikUsername.values.username}
                       name="username"
                       label="Username"
                       size="small"
@@ -140,7 +180,10 @@ const Form = (props) => {
                         mr: 3,
                       }}
                     />
-                    <Button disabled={formik.isSubmitting} type="submit">
+                    <Button
+                      disabled={formikUsername.isSubmitting}
+                      type="submit"
+                    >
                       Save
                     </Button>
                   </Box>

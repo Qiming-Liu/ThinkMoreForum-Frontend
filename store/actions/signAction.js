@@ -33,6 +33,11 @@ const setDetail = (myDetails) => ({
   payload: myDetails,
 });
 
+const setProfileImg = (profileImgUrl) => ({
+  type: Action.SET_PROFILEIMG,
+  payload: profileImgUrl,
+});
+
 const setUsername = (username) => ({
   type: Action.SET_USERNAME,
   payload: username,
@@ -53,6 +58,10 @@ export const setOpenIDAction = (openid) => (dispatch) => {
 
 export const setDetailAction = (myDetails) => (dispatch) => {
   dispatch(setDetail(myDetails));
+};
+
+export const setProfileImgAction = (profileImgUrl) => (dispatch) => {
+  dispatch(setProfileImg(profileImgUrl));
 };
 
 export const setUsernameAction = (username) => (dispatch) => {

@@ -4,7 +4,7 @@ import http from '../utils/axios';
 export const login = (email, password) =>
   http(`/login`, { method: 'POST', data: { email, password } });
 
-export const register = (email, username, password) =>
+export const register = ({ email, username, password }) =>
   http(`/v1/public/users/register`, {
     method: 'POST',
     data: {
@@ -14,25 +14,23 @@ export const register = (email, username, password) =>
     },
   });
 
-export const thirdpartylogin = (email, username, oauthtype, openid) =>
-  http(`/v1/public/users/third-party-login`, {
+export const thirdpartylogin = (email, username, { oauthtype, openid }) =>
+  http(`/v1/public/users/third_party_login/${email}/${username}`, {
     method: 'POST',
     data: {
-      email,
-      username,
       oauthtype,
       openid,
     },
   });
 
 export const uniqueEmail = (email) =>
-  http(`/v1/public/users/unique-email/${email}`, { method: 'get' });
+  http(`/v1/public/users/unique_email/${email}`, { method: 'get' });
 
 export const uniqueUsername = (username) =>
-  http(`/v1/public/users/unique-username/${username}`, { method: 'get' });
+  http(`/v1/public/users/unique_username/${username}`, { method: 'get' });
 
 export const sendResetPasswordEmail = (email) =>
-  http(`/v1/public/users/reset-password/${email}`, { method: 'GET' });
+  http(`/v1/public/users/reset_password/${email}`, { method: 'GET' });
 
 // Category
 export const getAllCategories = () =>

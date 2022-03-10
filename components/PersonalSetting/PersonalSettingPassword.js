@@ -1,8 +1,9 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FormHelperText,
+  Button,
   Card,
   CardContent,
   Grid,
@@ -10,12 +11,10 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
 import hotToast from '../../utils/hotToast';
 import { changePassword } from '../../services/Users';
 
 const PersonalSettingPassword = () => {
-  const [isLoading, setLoading] = useState(false);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -31,13 +30,12 @@ const PersonalSettingPassword = () => {
         .required('Required'),
     }),
     onSubmit: async (values) => {
-      setLoading(true);
-      await changePassword(values.oldPassword, values.newPassword)
+      const { oldPassword, newPassword } = values;
+      await changePassword({ oldPassword, newPassword })
         .then(() => {
           hotToast('success', 'Change Password Success');
         })
         .catch((error) => {
-          setLoading(false);
           hotToast('error', `Something wrong: ${error}`);
         });
     },
@@ -95,14 +93,13 @@ const PersonalSettingPassword = () => {
                     </FormHelperText>
                   </Box>
                 )}
-                <LoadingButton
-                  loading={isLoading}
+                <Button
                   disabled={formik.isSubmitting}
                   type="submit"
                   sx={{ marginTop: '10px' }}
                 >
                   Save
-                </LoadingButton>
+                </Button>
               </Box>
             </Grid>
           </Grid>

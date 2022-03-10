@@ -67,6 +67,15 @@ const signReducer = (state = initialState, { type, payload }) => {
         myDetail: payload,
       };
 
+    case Action.SET_PROFILEIMG:
+      return {
+        ...state,
+        myDetail: {
+          ...state.myDetail,
+          profileImgUrl: payload,
+        },
+      };
+
     case Action.SET_USERNAME:
       return {
         ...state,

@@ -48,10 +48,9 @@ const Register = ({ login }) => {
     onSubmit: async (values) => {
       const { email, username, password } = values;
       setLoading(true);
-      register(email, username, password)
+      register({ email, username, password })
         .then(() => {
           hotToast('success', 'Register Success');
-          // auto login
           dispatch(
             loginAction(
               email,
