@@ -46,17 +46,16 @@ const Form = (props) => {
         () => Yup.string().unique('Username is already taken', uniqueUsername),
       ]),
     }),
-    onSubmit: async (values) => {
-      const { username } = values;
+    onSubmit: async (username) => {
       changeUsername(username)
         .then(() => {
-          hotToast('success', 'Change Username Success');
+          hotToast('success', 'Username is changed');
           dispatch(
             setUsernameAction(
               username,
               () => {},
               (fail) => {
-                hotToast('error', `something wrong${fail}`);
+                hotToast('error', `Something wrong: ${fail}`);
               },
             ),
           );
@@ -79,10 +78,10 @@ const Form = (props) => {
         () => Yup.string().unique('Email is already in use', uniqueEmail),
       ]),
     }),
-    onSubmit: async (values) => {
-      await sendVerificationEmail(values.email)
+    onSubmit: async (email) => {
+      await sendVerificationEmail(email)
         .then(() => {
-          hotToast('success', 'Verification Email Sent');
+          hotToast('success', 'Verification email is sent');
         })
         .catch((error) => {
           hotToast('error', `Something wrong: ${error}`);
@@ -98,7 +97,7 @@ const Form = (props) => {
     });
     changeProfileImg(img.url)
       .then(() => {
-        hotToast('success', 'Change Profile Picture Success');
+        hotToast('success', 'Profile picture is changed');
         dispatch(
           setProfileImgAction(
             img.url,

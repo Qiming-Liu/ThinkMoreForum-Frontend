@@ -33,7 +33,7 @@ const PersonalSettingPassword = () => {
       const { oldPassword, newPassword } = values;
       await changePassword({ oldPassword, newPassword })
         .then(() => {
-          hotToast('success', 'Change Password Success');
+          hotToast('success', 'Password is changed');
         })
         .catch((error) => {
           hotToast('error', `Something wrong: ${error}`);
