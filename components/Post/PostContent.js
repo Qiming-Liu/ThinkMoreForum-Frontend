@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import parse from 'html-react-parser';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
 import {
@@ -125,7 +126,7 @@ const PostContent = (props) => {
               mt: 3,
             }}
           />
-          <Box sx={{ py: 3 }}> {post.context}</Box>
+          <Box sx={{ py: 3 }}> {parse(post.context)}</Box>
 
           <Divider sx={{ my: 3 }} />
         </Container>
