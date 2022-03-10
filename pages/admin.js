@@ -11,9 +11,9 @@ export const getServerSideProps = async () => {
   const users = responseAllUsersInfo.map((protoUserInfo) => {
     const user = {
       id: protoUserInfo.id,
-      logintime: MyTime(protoUserInfo.lastLoginTimestamp).toString(),
+      logintime: MyTime(protoUserInfo.lastLoginTimestamp),
       avatarUrl: protoUserInfo.profileImgUrl,
-      createdAt: MyTime(protoUserInfo.createTimestamp).toString(),
+      createdAt: MyTime(protoUserInfo.createTimestamp),
       email: protoUserInfo.email,
       name: protoUserInfo.username,
       role: protoUserInfo.role.roleName,

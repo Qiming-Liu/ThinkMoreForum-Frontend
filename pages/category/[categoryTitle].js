@@ -366,7 +366,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             viewCount,
             followCount,
           }) => {
-            const concatedDateTime = MyTime(createTimestamp).toString;
+            const concatedDateTime = MyTime(createTimestamp);
             return (
               <PostCard
                 key={id}

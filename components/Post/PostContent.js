@@ -82,7 +82,7 @@ const PostContent = (props) => {
                 <Box sx={{ ml: 2 }}>
                   <Typography variant="subtitle2">
                     By {post.postUsers.username} •{' '}
-                    {MyTime(post.createTimestamp).toString}
+                    {MyTime(post.createTimestamp)}
                   </Typography>
                 </Box>
               </Box>
