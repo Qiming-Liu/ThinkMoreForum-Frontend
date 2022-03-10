@@ -1,9 +1,9 @@
 import http from '../utils/axios';
 
-export const hasOpenid = () => http(`/v1/users/openid`, { method: 'GET' });
+export const hasOpenid = () => http(`/v1/users/open_id`, { method: 'GET' });
 
 export const passwordReset = (password) =>
-  http(`/v1/users/password-reset`, {
+  http(`/v1/users/password_reset`, {
     method: 'PUT',
     data: { new_password: password },
   });
@@ -50,3 +50,4 @@ export const changeEmail = (newEmail) =>
 
 export const sendVerificationEmail = (newEmail) =>
   http(`/v1/users/email/${newEmail}`, { method: 'GET' });
+
