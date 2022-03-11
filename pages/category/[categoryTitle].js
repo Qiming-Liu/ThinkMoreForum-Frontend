@@ -20,6 +20,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -123,6 +124,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
 
   const router = useRouter();
   const [posts, setPosts] = useState(null);
+  const { isLogin } = useSelector((state) => state.sign);
   const [currentPage, setCurrentPage] = useState(initialPage);
   let inputCurrentPage = currentPage;
   const [sizePerPage, setSizePerPage] = useState(initialSizePerPage);
@@ -234,6 +236,27 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
 
   const handleInputCurrentPage = (event) => {
     inputCurrentPage = event.target.value;
+  };
+
+  const handleMakeNewPost = () => {
+    // if (isLogin) {
+    //   router.push({
+    //     pathname: '/post/make-post',
+    //     query: {
+    //       categoryTitle: categoryInfo.title,
+    //     },
+    //   });
+    // } else {
+    //   hotToast('error', 'Login in to make a new post!');
+    // }
+    return isLogin
+      ? router.push({
+          pathname: '/post/make-post',
+          query: {
+            categoryTitle: categoryInfo.title,
+          },
+        })
+      : hotToast('error', 'Login in to make a new post!');
   };
 
   return (
@@ -449,14 +472,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             size="medium"
             color="primary"
             aria-label="add"
-            onClick={() =>
-              router.push({
-                pathname: '/post/make-post',
-                query: {
-                  categoryTitle: categoryInfo.title,
-                },
-              })
-            }
+            onClick={() => handleMakeNewPost()}
           >
             <AddIcon />
           </Fab>
