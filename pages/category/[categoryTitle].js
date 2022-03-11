@@ -238,16 +238,6 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   };
 
   const handleMakeNewPost = () => {
-    // if (isLogin) {
-    //   router.push({
-    //     pathname: '/post/make-post',
-    //     query: {
-    //       categoryTitle: categoryInfo.title,
-    //     },
-    //   });
-    // } else {
-    //   hotToast('error', 'Login in to make a new post!');
-    // }
     return isLogin
       ? router.push({
           pathname: '/post/make-post',
