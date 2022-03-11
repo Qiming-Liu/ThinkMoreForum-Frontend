@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
+import { useSelector } from 'react-redux';
 import {
   Typography,
   Card,
@@ -25,6 +26,7 @@ const PostCreate = ({ categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
   const [cover, setCover] = useState('/logo.svg');
   const [image, setImage] = useState(undefined);
+  const { isLogin } = useSelector((state) => state.sign);
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -34,6 +36,10 @@ const PostCreate = ({ categoryTitle }) => {
       title: Yup.string().max(255).required(),
     }),
     onSubmit: async ({ title, context }) => {
+      if (!isLogin) {
+        hotToast('error', 'Login in to make a new post!');
+        return;
+      }
       if (!image) {
         hotToast('error', 'Please upload an image');
         return;
