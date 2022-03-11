@@ -42,12 +42,16 @@ export const changePassword = ({ oldPassword, newPassword }) =>
 export const changeUsername = (newUsername) =>
   http(`/v1/users/username/${newUsername}`, { method: 'PUT' });
 
-export const changeProfileImg = (newProfileImg) =>
-  http(`/v1/users/profileimg/${newProfileImg}`, { method: 'PUT' });
+export const changeProfileImg = ({ profileImgUrl }) =>
+  http(`/v1/users/profileimg`, {
+    method: 'PUT',
+    data: {
+      profileImgUrl,
+    },
+  });
 
 export const changeEmail = (newEmail) =>
   http(`/v1/users/email/${newEmail}`, { method: 'PUT' });
 
 export const sendVerificationEmail = (newEmail) =>
   http(`/v1/users/email/${newEmail}`, { method: 'GET' });
-
