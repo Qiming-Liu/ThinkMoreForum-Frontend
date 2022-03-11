@@ -18,7 +18,6 @@ import {
   Grid,
   Select,
   MenuItem,
-  InputLabel,
   FormControl,
 } from '@mui/material';
 import PublishIcon from '@mui/icons-material/Publish';

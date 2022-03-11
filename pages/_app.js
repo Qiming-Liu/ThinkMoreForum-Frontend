@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';

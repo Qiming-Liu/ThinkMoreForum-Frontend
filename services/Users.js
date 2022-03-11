@@ -50,4 +50,3 @@ export const changeEmail = (newEmail) =>
 
 export const sendVerificationEmail = (newEmail) =>
   http(`/v1/users/email/${newEmail}`, { method: 'GET' });
-
