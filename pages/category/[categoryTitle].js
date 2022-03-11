@@ -240,16 +240,14 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
     inputCurrentPage = event.target.value;
   };
 
-  const handleMakeNewPost = () => {
-    return isLogin
-      ? router.push({
-          pathname: '/post/make-post',
-          query: {
-            categoryTitle: categoryInfo.title,
-          },
-        })
-      : dispatch(openSignDialog());
-  };
+  const handleMakeNewPost = () => isLogin
+    ? router.push({
+      pathname: '/post/make-post',
+      query: {
+        categoryTitle: categoryInfo.title,
+      },
+    })
+    : dispatch(openSignDialog());
 
   return (
     <Container maxWidth="xl">
