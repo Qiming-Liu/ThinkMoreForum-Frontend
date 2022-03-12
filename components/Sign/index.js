@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from '@mui/material';
 import SignDialog from './SignDialog';
 import Login from './Login';
 import Register from './Register';
@@ -14,17 +15,18 @@ const Sign = () => {
   const { isOpen, content } = useSelector((state) => state.sign);
   const dispatch = useDispatch();
   return (
-    <SignDialog
-      isOpen={isOpen}
-      onOpen={() => dispatch(openSignDialog())}
-      onClose={() => dispatch(closeSignDialog())}
-    >
-      {content === 'login' ? (
-        <Login register={() => dispatch(registerSignDialog())} />
-      ) : (
-        <Register login={() => dispatch(loginSignDialog())} />
-      )}
-    </SignDialog>
+    <>
+      <Button variant="outlined" onClick={() => dispatch(openSignDialog())}>
+        Login
+      </Button>
+      <SignDialog isOpen={isOpen} onClose={() => dispatch(closeSignDialog())}>
+        {content === 'login' ? (
+          <Login register={() => dispatch(registerSignDialog())} />
+        ) : (
+          <Register login={() => dispatch(loginSignDialog())} />
+        )}
+      </SignDialog>
+    </>
   );
 };
 

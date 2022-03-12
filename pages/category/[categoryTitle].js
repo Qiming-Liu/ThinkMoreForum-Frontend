@@ -20,11 +20,13 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AddIcon from '@mui/icons-material/Add';
 import Head from 'next/head';
+import { openSignDialog } from '../../store/actions/signAction';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -88,6 +90,8 @@ export async function getStaticProps({ params }) {
 
 const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   const { title: categoryTitle, description, id: categoryId } = categoryInfo;
+  const dispatch = useDispatch();
+  const { isLogin } = useSelector((state) => state.sign);
   let initialPinPostDisplay;
   let initialHeadImgDisplay;
   let initialSortColumn;
@@ -234,6 +238,17 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
 
   const handleInputCurrentPage = (event) => {
     inputCurrentPage = event.target.value;
+  };
+
+  const handleMakeNewPost = () => {
+    return isLogin
+      ? router.push({
+          pathname: '/post/make-post',
+          query: {
+            categoryTitle: categoryInfo.title,
+          },
+        })
+      : dispatch(openSignDialog());
   };
 
   return (
@@ -449,14 +464,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             size="medium"
             color="primary"
             aria-label="add"
-            onClick={() =>
-              router.push({
-                pathname: '/post/make-post',
-                query: {
-                  categoryTitle: categoryInfo.title,
-                },
-              })
-            }
+            onClick={() => handleMakeNewPost()}
           >
             <AddIcon />
           </Fab>

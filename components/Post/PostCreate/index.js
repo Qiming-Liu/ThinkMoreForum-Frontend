@@ -31,6 +31,7 @@ const PostCreate = ({ categoryTitle }) => {
       title: '',
     },
     validationSchema: Yup.object({
+      context: Yup.string().required(),
       title: Yup.string().max(255).required(),
     }),
     onSubmit: async ({ title, context }) => {
