@@ -32,8 +32,13 @@ import ChangePicButton from './ChangePicButton';
 const Form = (props) => {
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
+  if (!myDetail) {
+    return null;
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [profileImg, setProfileImg] = useState(myDetail.profileImgUrl);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formikUsername = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -46,13 +51,13 @@ const Form = (props) => {
         () => Yup.string().unique('Username is already taken', uniqueUsername),
       ]),
     }),
-    onSubmit: async (username) => {
-      changeUsername(username)
+    onSubmit: async (values) => {
+      changeUsername(values.username)
         .then(() => {
           hotToast('success', 'Username is changed');
           dispatch(
             setUsernameAction(
-              username,
+              values.username,
               () => {},
               (fail) => {
                 hotToast('error', `Something wrong: ${fail}`);
@@ -66,6 +71,7 @@ const Form = (props) => {
     },
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formikEmail = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -78,8 +84,8 @@ const Form = (props) => {
         () => Yup.string().unique('Email is already in use', uniqueEmail),
       ]),
     }),
-    onSubmit: async (email) => {
-      await sendVerificationEmail(email)
+    onSubmit: async (values) => {
+      await sendVerificationEmail(values.email)
         .then(() => {
           hotToast('success', 'Verification email is sent');
         })
@@ -89,13 +95,21 @@ const Form = (props) => {
     },
   });
 
-  const handleDropCover = async ([file]) => {
+  const handleRemove = () => {
+    setProfileImg(null);
+    changeProfileImg('').then(() => {
+      hotToast('success', 'Profile picture is removed');
+      dispatch(setProfileImgAction(null));
+    });
+  };
+
+  const handleDropImg = async ([file]) => {
     const data = await fileToBase64(file);
     setProfileImg(data);
     const { data: img } = await upload(file).catch((error) => {
       hotToast('error', `Something wrong: ${error}`);
     });
-    changeProfileImg(img.url)
+    changeProfileImg({ profileImgUrl: img.url })
       .then(() => {
         hotToast('success', 'Profile picture is changed');
         dispatch(
@@ -112,6 +126,7 @@ const Form = (props) => {
         hotToast('error', `Something wrong: ${error}`);
       });
   };
+
   return (
     <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
       <Grid item>
@@ -144,10 +159,13 @@ const Form = (props) => {
                   <ChangePicButton
                     accept="image/jpg,image/png, image/jpeg"
                     maxFiles={1}
-                    onDrop={handleDropCover}
+                    onDrop={handleDropImg}
                     maxSize={5242880}
                     minsize={0}
                   />
+                  <Button onClick={handleRemove} disabled={!profileImg}>
+                    Remove
+                  </Button>
                 </Box>
 
                 <form onSubmit={formikUsername.handleSubmit}>
