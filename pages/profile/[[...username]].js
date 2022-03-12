@@ -16,7 +16,7 @@ import ProfilePost from '../../components/Profile/ProfilePost';
 import ProfileFollow from '../../components/Profile/ProfileFollow';
 import UserAdd from '../../icons/user-add';
 import { followUser, getFollowedStatus } from '../../services/Follow';
-import { getCurrentUser } from '../../services/Users';
+import { getCurrentUser, getUserByUsername } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
 
 const Profile = () => {
@@ -25,8 +25,10 @@ const Profile = () => {
   const [currentTab, setCurrentTab] = useState('posts');
   const [followedStatus, setFollowedStatus] = useState('not_followed');
   const [currentName, setCurrentName] = useState('');
-  // const [role, setRole] = useState('null');
+  const [role, setRole] = useState('');
   const [currentRole, setCurrentRole] = useState('');
+  const [Img, setImg] = useState('');
+  const [CurrentImg, setCurrentImg] = useState('');
 
   // Get current user details
   useEffect(() => {
@@ -34,6 +36,7 @@ const Profile = () => {
       const { data } = await getCurrentUser();
       setCurrentName(data.username);
       setCurrentRole(data.role.roleName);
+      setCurrentImg(data.headImgUrl);
       if (!username) {
         setFollowedStatus('current_user');
       } else if (username[0] === currentName) {
@@ -42,6 +45,18 @@ const Profile = () => {
     };
     getUser();
   }, [currentName, username]);
+
+  // Get other users details
+  useEffect(() => {
+    const getOtherUser = async () => {
+      const { data } = await getUserByUsername(username);
+      setRole(data.role.roleName);
+      setImg(data.headImgUrl);
+    };
+    if (username) {
+      getOtherUser();
+    }
+  }, [username]);
 
   // Check follow status
   useEffect(() => {
@@ -63,11 +78,6 @@ const Profile = () => {
   const profileimg = {
     cover: '/cover_1.jpg',
     avatar: '/logo.png',
-  };
-
-  const profile = {
-    title: 'front-end developer',
-    name: 'verified_user',
   };
 
   const handleFollowAction = async (name) => {
@@ -147,23 +157,33 @@ const Profile = () => {
             mt: 5,
           }}
         >
-          <Avatar
-            src={profileimg.avatar}
-            sx={{
-              height: 64,
-              width: 64,
-            }}
-          />
+          {!username && (
+            <Avatar
+              src={Img}
+              sx={{
+                height: 64,
+                width: 64,
+              }}
+            />
+          )}
+          {username && (
+            <Avatar
+              src={CurrentImg}
+              sx={{
+                height: 64,
+                width: 64,
+              }}
+            />
+          )}
           <Box sx={{ ml: 2 }}>
             {!username && (
               <Typography color="textSecondary" variant="overline">
                 {currentRole}
               </Typography>
             )}
-            {/* 这里还有待修改 */}
             {username && (
               <Typography color="textSecondary" variant="overline">
-                {profile.title}
+                {role}
               </Typography>
             )}
             <Typography variant="h6">{username || currentName}</Typography>
@@ -180,7 +200,7 @@ const Profile = () => {
             {followedStatus === 'not_followed' && (
               <Button
                 onClick={() => {
-                  handleFollowAction(profile.name);
+                  handleFollowAction(username[0]);
                 }}
                 size="small"
                 startIcon={<UserAdd fontSize="small" />}
@@ -193,9 +213,6 @@ const Profile = () => {
             {followedStatus === 'followed' && (
               <Button
                 color="primary"
-                onClick={() => {
-                  handleFollowAction(profile.name);
-                }}
                 size="small"
                 startIcon={<UserAdd fontSize="small" />}
                 sx={{ ml: 2 }}

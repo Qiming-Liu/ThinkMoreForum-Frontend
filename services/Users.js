@@ -13,6 +13,9 @@ export const getMyUser = () => http(`/v1/users/my_details`, { method: 'GET' });
 export const getUserById = (usersId) =>
   http(`/v1/users/details/${usersId}`, { method: 'GET' });
 
+export const getUserByUsername = (username) =>
+  http(`/v1/users/detail/${username}`, { method: 'GET' });
+
 export const getCurrentUser = () =>
   http(`/v1/users/my_details`, { method: 'GET' });
 
