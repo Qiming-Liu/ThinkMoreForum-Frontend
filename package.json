@@ -21,6 +21,8 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
     "@mui/icons-material": "^5.4.1",
     "@mui/lab": "^5.0.0-alpha.69",
     "@mui/material": "^5.4.1",
@@ -37,6 +39,7 @@
     "next-auth": "^4.2.1",
     "nextjs-progressbar": "^0.0.14",
     "react": "17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "17.0.2",
     "react-draggable": "^4.4.4",
     "react-dropzone": "^12.0.4",
@@ -53,6 +56,7 @@
     "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
     "socket.io": "^4.4.1",
+    "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
