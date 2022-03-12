@@ -26,12 +26,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AddIcon from '@mui/icons-material/Add';
 import Head from 'next/head';
-import Login from '../../components/Sign/Login';
-import {
-  registerSignDialog,
-  closeSignDialog,
-  openSignDialog,
-} from '../../store/actions/signAction';
+import { openSignDialog } from '../../store/actions/signAction';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -43,7 +38,6 @@ import {
 } from '../../services/Public';
 import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
-import SignDialog from '../../components/Sign/SignDialog';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 
@@ -97,7 +91,7 @@ export async function getStaticProps({ params }) {
 const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   const { title: categoryTitle, description, id: categoryId } = categoryInfo;
   const dispatch = useDispatch();
-  const { isOpen, isLogin } = useSelector((state) => state.sign);
+  const { isLogin } = useSelector((state) => state.sign);
   let initialPinPostDisplay;
   let initialHeadImgDisplay;
   let initialSortColumn;
