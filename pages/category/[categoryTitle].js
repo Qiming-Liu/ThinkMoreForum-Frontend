@@ -26,7 +26,9 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AddIcon from '@mui/icons-material/Add';
 import Head from 'next/head';
-import { openSignDialog } from '../../store/actions/signAction';
+import {
+  openSignDialog,
+} from '../../store/actions/signAction';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
