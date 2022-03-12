@@ -1,10 +1,11 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { Box, Container, Typography, Tabs, Tab, Divider } from '@mui/material';
+import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Public';
 import MyTime from '../utils/myTime';
 import { UsersRoleContextProvider } from '../contexts/UsersRoleContext';
+import Categories from './categoryTable/Categories';
 
 const tabs = [
   { label: 'Users', value: 'users' },
@@ -41,38 +42,30 @@ const Admin = ({ users }) => {
       <Head>
         <title>Administration | ThinkMoreForum</title>
       </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          minWidth: '1000px',
-        }}
-      >
-        <Container maxWidth="md">
-          <Typography variant="h4">Admin</Typography>
-          <Tabs
-            indicatorColor="primary"
-            onChange={handleTabsChange}
-            scrollButtons="auto"
-            textColor="primary"
-            value={currentTab}
-            variant="scrollable"
-            sx={{ mt: 3 }}
-          >
-            {tabs.map((tab) => (
-              <Tab
-                key={tab.value}
-                label={tab.label}
-                value={tab.value}
-                sx={{ fontSize: 15 }}
-              />
-            ))}
-          </Tabs>
-          <Divider sx={{ mb: 3 }} />
-          {currentTab === 'users' && <AdminUser allUsers={users} />}
-          {currentTab === 'categories' && <div>Categories</div>}
-          {currentTab === 'roles' && <div>roles</div>}
-        </Container>
+      <Box>
+        <Typography variant="h4">Admin</Typography>
+        <Tabs
+          indicatorColor="primary"
+          onChange={handleTabsChange}
+          scrollButtons="auto"
+          textColor="primary"
+          value={currentTab}
+          variant="scrollable"
+          sx={{ mt: 3 }}
+        >
+          {tabs.map((tab) => (
+            <Tab
+              key={tab.value}
+              label={tab.label}
+              value={tab.value}
+              sx={{ fontSize: 15 }}
+            />
+          ))}
+        </Tabs>
+        <Divider sx={{ mb: 3 }} />
+        {currentTab === 'users' && <AdminUser allUsers={users} />}
+        {currentTab === 'categories' && <Categories />}
+        {currentTab === 'roles' && <div>roles</div>}
       </Box>
     </UsersRoleContextProvider>
   );

@@ -13,8 +13,10 @@ import {
   Tooltip,
   Grid,
   Fab,
+  Link,
 } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
+import NextLink from 'next/link';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 
@@ -49,6 +51,7 @@ const PostContent = (props) => {
   const { isLogin } = useSelector((state) => state.sign);
   const classes = useStyles();
   const { post, isFavored, toggleFav } = props;
+  const userProfileUrl = `/profile/${post.postUsers.username}`;
 
   const handleClick = () => {
     toggleFav();
@@ -78,11 +81,21 @@ const PostContent = (props) => {
                   mt: 3,
                 }}
               >
-                <Avatar src={post.postUsers.profileImg} />
-                <Box sx={{ ml: 2 }}>
-                  <Typography variant="subtitle2">
-                    By {post.postUsers.username} •{' '}
-                    {MyTime(post.createTimestamp)}
+                <NextLink href={userProfileUrl} passHref>
+                  <Link href={userProfileUrl}>
+                    <Avatar src={post.postUsers.profileImg} />
+                  </Link>
+                </NextLink>
+                <Box sx={{ ml: 2, display: 'flex', flexDirection: 'row' }}>
+                  <NextLink href={userProfileUrl} passHref>
+                    <Link href={userProfileUrl}>
+                      <Typography variant="subtitle2">
+                        By {post.postUsers.username}
+                      </Typography>
+                    </Link>
+                  </NextLink>
+                  <Typography variant="subtitle2" sx={{ ml: 0.8 }}>
+                    • {MyTime(post.createTimestamp)}
                   </Typography>
                 </Box>
               </Box>

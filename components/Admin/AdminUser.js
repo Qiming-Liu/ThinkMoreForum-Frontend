@@ -19,9 +19,11 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Link,
 } from '@mui/material';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import { useUsersRoleContext } from '../../contexts/UsersRoleContext';
 import { changeUsersRoles } from '../../services/Users';
 
@@ -191,6 +193,7 @@ export const AdminUser = ({ allUsers, ...rest }) => {
                     customer,
                     usersToSubmit,
                   );
+                  const userProfileUrl = `/profile/${customer.name}`;
                   return (
                     <TableRow
                       hover
@@ -214,10 +217,18 @@ export const AdminUser = ({ allUsers, ...rest }) => {
                             display: 'flex',
                           }}
                         >
-                          <Avatar src={customer.avatarUrl} sx={{ mr: 2 }} />
-                          <Typography color="textPrimary" variant="body1">
-                            {customer.name}
-                          </Typography>
+                          <NextLink href={userProfileUrl} passHref>
+                            <Link href={userProfileUrl}>
+                              <Avatar src={customer.avatarUrl} sx={{ mr: 2 }} />
+                            </Link>
+                          </NextLink>
+                          <NextLink href={userProfileUrl} passHref>
+                            <Link href={userProfileUrl}>
+                              <Typography color="textPrimary" variant="body1">
+                                {customer.name}
+                              </Typography>
+                            </Link>
+                          </NextLink>
                         </Box>
                       </TableCell>
                       <TableCell>{customer.email}</TableCell>

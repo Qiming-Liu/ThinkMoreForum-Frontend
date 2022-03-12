@@ -41,13 +41,13 @@ export const getCategoryByTitle = (categoryTitle) =>
 
 export const getAllUsers = () => http(`/v1/public/users`, { method: 'GET' });
 
-export const getVisiblePostsByCategoryTitle = (
-  categoryTitle,
+export const getVisiblePostsByCategoryId = (
+  categoryId,
   currentPage,
   sizePerPage,
   sortParams = 'createTimestamp,DESC',
 ) => {
-  return http(`/v1/public/category/${categoryTitle}/visible_post`, {
+  return http(`/v1/public/category/${categoryId}/visible_post`, {
     method: 'GET',
     params: {
       page: currentPage,
@@ -57,8 +57,8 @@ export const getVisiblePostsByCategoryTitle = (
   });
 };
 
-export const getVisiblePostCountByCategoryTitle = (categoryTitle) =>
-  http(`/v1/public/category/${categoryTitle}/visible_count`, { method: 'GET' });
+export const getVisiblePostCountByCategoryId = (categoryId) =>
+  http(`/v1/public/category/${categoryId}/visible_count`, { method: 'GET' });
 
 // Post
 export const getPostById = (postId) =>
@@ -80,4 +80,3 @@ export const getFollowPostByUsername = (username) =>
 // Comment
 export const getCommentsByPostId = (postId) =>
   http(`/v1/public/comment/${postId}`, { method: 'GET' });
-
