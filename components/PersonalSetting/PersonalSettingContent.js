@@ -32,17 +32,12 @@ import ChangePicButton from './ChangePicButton';
 const Form = (props) => {
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
-  if (!myDetail) {
-    return null;
-  }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [profileImg, setProfileImg] = useState(myDetail.profileImgUrl);
+  const [profileImg, setProfileImg] = useState('');
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formikUsername = useFormik({
     enableReinitialize: true,
     initialValues: {
-      username: myDetail.username || '',
+      username: '',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -71,11 +66,10 @@ const Form = (props) => {
     },
   });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const formikEmail = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: myDetail.email || '',
+      email: '',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -94,14 +88,6 @@ const Form = (props) => {
         });
     },
   });
-
-  const handleRemove = () => {
-    setProfileImg(null);
-    changeProfileImg('').then(() => {
-      hotToast('success', 'Profile picture is removed');
-      dispatch(setProfileImgAction(null));
-    });
-  };
 
   const handleDropImg = async ([file]) => {
     const data = await fileToBase64(file);
@@ -127,6 +113,10 @@ const Form = (props) => {
       });
   };
 
+  if (!myDetail) {
+    return null;
+  }
+
   return (
     <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
       <Grid item>
@@ -147,7 +137,7 @@ const Form = (props) => {
                   }}
                 >
                   <Avatar
-                    src={profileImg}
+                    src={profileImg || myDetail.profileImgUrl}
                     sx={{
                       height: 64,
                       mr: 2,
@@ -163,9 +153,6 @@ const Form = (props) => {
                     maxSize={5242880}
                     minsize={0}
                   />
-                  <Button onClick={handleRemove} disabled={!profileImg}>
-                    Remove
-                  </Button>
                 </Box>
 
                 <form onSubmit={formikUsername.handleSubmit}>
@@ -188,7 +175,9 @@ const Form = (props) => {
                       InputLabelProps={{ shrink: !!myDetail }}
                       onBlur={formikUsername.handleBlur}
                       onChange={formikUsername.handleChange}
-                      value={formikUsername.values.username}
+                      value={
+                        formikUsername.values.username || myDetail.username
+                      }
                       name="username"
                       label="Username"
                       size="small"
@@ -223,7 +212,7 @@ const Form = (props) => {
                       InputLabelProps={{ shrink: !!myDetail }}
                       onBlur={formikEmail.handleBlur}
                       onChange={formikEmail.handleChange}
-                      value={formikEmail.values.email}
+                      value={formikEmail.values.email || myDetail.email}
                       label="Email Address"
                       name="email"
                       size="small"
