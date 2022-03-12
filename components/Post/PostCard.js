@@ -53,7 +53,9 @@ const PostCard = (props) => {
     >
       {headImg && (
         <NextLink href={generatedUrl ?? ''} onClick={handleClick} passHref>
-          <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
+          <Link href={generatedUrl ?? ''} onClick={handleClick}>
+            <CardMedia component="a" image={headImg} sx={{ height: 280 }} />
+          </Link>
         </NextLink>
       )}
       <CardContent>
