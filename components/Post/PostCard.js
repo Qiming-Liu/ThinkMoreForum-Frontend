@@ -23,7 +23,6 @@ const getInitials = (name = '') =>
 const PostCard = (props) => {
   const {
     id,
-    generatedUrl,
     authorAvatar,
     authorName,
     headImg,
@@ -39,6 +38,9 @@ const PostCard = (props) => {
   const handleClick = () => {
     updatePostViewCount(id);
   };
+
+  const generatedUrl = `/post/${id}`;
+  const userProfileUrl = `/profile/${authorName}`;
 
   return (
     <Card
@@ -98,15 +100,15 @@ const PostCard = (props) => {
               display: 'flex',
             }}
           >
-            <NextLink href="/" passHref>
-              <Link href="/">
+            <NextLink href={userProfileUrl} passHref>
+              <Link href={userProfileUrl}>
                 <Avatar src={authorAvatar} sx={{ mr: 2 }}>
                   {getInitials(authorName)}
                 </Avatar>
               </Link>
             </NextLink>
-            <NextLink href="/" passHref>
-              <Link href="/">
+            <NextLink href={userProfileUrl} passHref>
+              <Link href={userProfileUrl}>
                 <Typography variant="subtitle2">
                   {`By ${authorName}`}
                 </Typography>

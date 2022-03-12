@@ -25,23 +25,6 @@ import Popup from '../../components/CategoryManager/Popup';
 import Notification from '../../components/CategoryManager/Notification';
 import ConfirmDialog from '../../components/CategoryManager/ConfirmDialog';
 
-const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
-  searchInput: {
-    width: '75%',
-  },
-  newButton: {
-    position: 'absolute',
-    right: '10px',
-  },
-  savBtn: {
-    width: '100%',
-  },
-}));
-
 const headCells = [
   { id: 'order', disablePadding: true, label: 'Order', disableSorting: true },
   { id: 'title', label: 'Category Title', disableSorting: true },
@@ -52,7 +35,6 @@ const headCells = [
 ];
 
 const Category = () => {
-  const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   // const [singleRecord, setSingleRecord] = useState(recordForEdit);
@@ -183,11 +165,11 @@ const Category = () => {
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <Paper className={classes.pageContent}>
+        <Paper>
           <Toolbar>
             <Controls.Input
               label="Search Category"
-              className={classes.searchInput}
+              style={{ width: '75%' }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -200,8 +182,11 @@ const Category = () => {
             <Controls.Button
               text="Add Category"
               variant="outlined"
+              style={{
+                position: 'absolute',
+                right: '10px',
+              }}
               startIcon={<AddIcon />}
-              className={classes.newButton}
               onClick={() => {
                 setOpenPopup(true);
                 setRecordForEdit(null);
@@ -275,7 +260,7 @@ const Category = () => {
           <Controls.Button
             text="Save All Changes."
             variant="outlined"
-            className={classes.savBtn}
+            style={{ width: '100%' }}
             onClick={handleSaveChanges}
           />
         </Paper>

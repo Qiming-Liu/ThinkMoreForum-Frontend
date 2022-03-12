@@ -24,13 +24,14 @@ import CheckIcon from '@mui/icons-material/Check';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AddIcon from '@mui/icons-material/Add';
+import Head from 'next/head';
 import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
   getAllCategories,
   getCategoryByTitle,
-  getVisiblePostsByCategoryTitle,
-  getVisiblePostCountByCategoryTitle,
+  getVisiblePostsByCategoryId,
+  getVisiblePostCountByCategoryId,
   getPostById,
 } from '../../services/Public';
 import PinPostCard from '../../components/Post/PinPostCard';
@@ -67,8 +68,8 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  const { data: initialTotalCount } = await getVisiblePostCountByCategoryTitle(
-    params.categoryTitle,
+  const { data: initialTotalCount } = await getVisiblePostCountByCategoryId(
+    categoryInfo.id,
   );
 
   let pinPostInfo = null;
@@ -86,7 +87,7 @@ export async function getStaticProps({ params }) {
 }
 
 const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
-  const { title: categoryTitle, description } = categoryInfo;
+  const { title: categoryTitle, description, id: categoryId } = categoryInfo;
   let initialPinPostDisplay;
   let initialHeadImgDisplay;
   let initialSortColumn;
@@ -142,20 +143,20 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
       sortDirection ? 'desc' : 'asc'
     }`;
     const fetchPageData = async () => {
-      const { data: responsePosts } = await getVisiblePostsByCategoryTitle(
-        categoryTitle,
+      const { data: responsePosts } = await getVisiblePostsByCategoryId(
+        categoryId,
         currentPage,
         sizePerPage,
         sortParams,
       );
       const { data: responseTotalCount } =
-        await getVisiblePostCountByCategoryTitle(categoryTitle);
+        await getVisiblePostCountByCategoryId(categoryId);
       setTotalPages(Math.ceil(responseTotalCount / sizePerPage));
       setPosts(responsePosts);
     };
     fetchPageData();
   }, [
-    categoryTitle,
+    categoryId,
     currentPage,
     sizePerPage,
     totalPages,
@@ -237,6 +238,9 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
 
   return (
     <Container maxWidth="xl">
+      <Head>
+        <title>{categoryTitle} | ThinkMoreForum</title>
+      </Head>
       <NextLink href="/" passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
           Back to Home
@@ -366,16 +370,14 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             viewCount,
             followCount,
           }) => {
-            const concatedDateTime = MyTime(createTimestamp);
             return (
               <PostCard
                 key={id}
                 id={id}
-                generatedUrl={`/post/${id}`}
                 authorAvatar={authorAvatar || '/logo.png'}
                 authorName={authorName}
                 headImg={displayHeadImg && (headImgUrl || '/logo.png')}
-                createTimeStamp={concatedDateTime}
+                createTimeStamp={MyTime(createTimestamp)}
                 abstract={displayAbstract && context}
                 title={title}
                 commentCount={commentCount}
