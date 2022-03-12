@@ -29,16 +29,33 @@ const FollowCard = (props) => {
                     p: 2,
                   }}
                 >
-                  <NextLink href="/" passHref>
-                    <Avatar
-                      component="a"
-                      src="/logo.png"
-                      sx={{
-                        height: 56,
-                        width: 56,
-                      }}
-                    />
-                  </NextLink>
+                  {title === 'Following' && (
+                    <NextLink
+                      href={`/profile/${fo.followedUsers.username}`}
+                      passHref
+                    >
+                      <Avatar
+                        component="a"
+                        src="/logo.png"
+                        sx={{
+                          height: 56,
+                          width: 56,
+                        }}
+                      />
+                    </NextLink>
+                  )}
+                  {title === 'Follower' && (
+                    <NextLink href={`/profile/${fo.users.username}`} passHref>
+                      <Avatar
+                        component="a"
+                        src="/logo.png"
+                        sx={{
+                          height: 56,
+                          width: 56,
+                        }}
+                      />
+                    </NextLink>
+                  )}
                   <Box
                     sx={{
                       flexGrow: 1,
