@@ -83,7 +83,7 @@ const PostContent = (props) => {
               >
                 <NextLink href={userProfileUrl} passHref>
                   <Link href={userProfileUrl}>
-                    <Avatar src={post.postUsers.profileImg} />
+                    <Avatar src={post.postUsers.headImgUrl} />
                   </Link>
                 </NextLink>
                 <Box sx={{ ml: 2, display: 'flex', flexDirection: 'row' }}>
