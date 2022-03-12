@@ -476,9 +476,6 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
           </Fab>
         </Slide>
       </Tooltip>
-      <SignDialog isOpen={isOpen} onClose={() => dispatch(closeSignDialog())}>
-        <Login register={() => dispatch(registerSignDialog())} />
-      </SignDialog>
     </Container>
   );
 };
