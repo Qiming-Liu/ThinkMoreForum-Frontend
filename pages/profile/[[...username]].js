@@ -18,7 +18,6 @@ import UserAdd from '../../icons/user-add';
 import { followUser, getFollowedStatus } from '../../services/Follow';
 import { getCurrentUser, getUserByUsername } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
-import { setProfileImgAction } from '../../store/actions/signAction';
 
 const Profile = () => {
   const router = useRouter();
