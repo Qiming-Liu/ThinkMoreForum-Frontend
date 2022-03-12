@@ -1,10 +1,16 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Public';
 import MyTime from '../utils/myTime';
 import { UsersRoleContextProvider } from '../contexts/UsersRoleContext';
+
+const tabs = [
+  { label: 'Users', value: 'users' },
+  { label: 'Categories', value: 'categories' },
+  { label: 'Roles', value: 'roles' },
+];
 
 export const getServerSideProps = async () => {
   const { data: responseAllUsersInfo } = await getAllUsers();
@@ -24,6 +30,12 @@ export const getServerSideProps = async () => {
 };
 
 const Admin = ({ users }) => {
+  const [currentTab, setCurrentTab] = React.useState('users');
+
+  const handleTabsChange = (event, value) => {
+    setCurrentTab(value);
+  };
+
   return (
     <UsersRoleContextProvider>
       <Head>
@@ -36,10 +48,30 @@ const Admin = ({ users }) => {
           minWidth: '1000px',
         }}
       >
-        <Container>
-          <Box sx={{ mt: 2 }}>
-            <AdminUser users={users} />
-          </Box>
+        <Container maxWidth="md">
+          <Typography variant="h4">Admin</Typography>
+          <Tabs
+            indicatorColor="primary"
+            onChange={handleTabsChange}
+            scrollButtons="auto"
+            textColor="primary"
+            value={currentTab}
+            variant="scrollable"
+            sx={{ mt: 3 }}
+          >
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.value}
+                label={tab.label}
+                value={tab.value}
+                sx={{ fontSize: 15 }}
+              />
+            ))}
+          </Tabs>
+          <Divider sx={{ mb: 3 }} />
+          {currentTab === 'users' && <AdminUser allUsers={users} />}
+          {currentTab === 'categories' && <div>Categories</div>}
+          {currentTab === 'roles' && <div>roles</div>}
         </Container>
       </Box>
     </UsersRoleContextProvider>

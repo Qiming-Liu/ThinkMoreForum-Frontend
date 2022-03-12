@@ -15,25 +15,25 @@ import {
   TableRow,
   CardContent,
   TextField,
-  InputAdornment,
-  IconButton,
   Grid,
   Select,
   MenuItem,
+  FormControl,
 } from '@mui/material';
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useRouter } from 'next/router';
 import { useUsersRoleContext } from '../../contexts/UsersRoleContext';
 import { changeUsersRoles } from '../../services/Users';
 
-export const AdminUser = ({ users, ...rest }) => {
+export const AdminUser = ({ allUsers, ...rest }) => {
+  const [users, setUsers] = useState(allUsers);
   const router = useRouter();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [displayingUsers, setDisplayingUsers] = useState(
     users.slice(0, rowsPerPage),
   );
+
   const {
     usersToSubmit,
     setUsersToSubmit,
@@ -85,8 +85,18 @@ export const AdminUser = ({ users, ...rest }) => {
     return targetUserInList;
   };
 
-  const handleClickSearch = () => {
-    console.log(`search? heheh`);
+  const lookFor = (text, textArray) => {
+    const regex = new RegExp(text, 'i');
+    return textArray.filter((element) => {
+      const compareResult = regex.test(element.name);
+      return compareResult;
+    });
+  };
+
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    const newUsersPool = lookFor(e.target.value, allUsers);
+    setUsers(newUsersPool);
   };
 
   const handleSubmit = () => {
@@ -123,45 +133,30 @@ export const AdminUser = ({ users, ...rest }) => {
 
   return (
     <>
-      <Typography sx={{ m: 1 }} variant="h4">
-        Users
-      </Typography>
-      <Box sx={{ mt: 3 }}>
-        <Card>
-          <CardContent>
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item>
-                <TextField
-                  placeholder="Search User"
-                  variant="outlined"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="search user"
-                          onClick={handleClickSearch}
-                        >
-                          <PersonSearchIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item>
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  endIcon={<PublishIcon />}
-                  onClick={handleSubmit}
-                >
-                  Submit changes
-                </Button>
-              </Grid>
+      <Card>
+        <CardContent>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <TextField
+                label="Search User"
+                placeholder="By Username"
+                variant="outlined"
+                onChange={(e) => handleSearchChange(e)}
+              />
             </Grid>
-          </CardContent>
-        </Card>
-      </Box>
+            <Grid item>
+              <Button
+                color="secondary"
+                variant="contained"
+                endIcon={<PublishIcon />}
+                onClick={handleSubmit}
+              >
+                Submit changes
+              </Button>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
       <Card {...rest}>
         <PerfectScrollbar>
           <Box sx={{ minWidth: 400 }}>
@@ -170,7 +165,10 @@ export const AdminUser = ({ users, ...rest }) => {
                 <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={numOfPreSelectedUsers === displayingUsers.length}
+                      checked={
+                        numOfPreSelectedUsers === displayingUsers.length &&
+                        displayingUsers.length !== 0
+                      }
                       color="primary"
                       indeterminate={
                         numOfPreSelectedUsers > 0 &&
@@ -227,25 +225,26 @@ export const AdminUser = ({ users, ...rest }) => {
                         {customer.logintime}
                       </TableCell>
                       <TableCell style={{ width: '13rem' }}>
-                        <Select
-                          labelId="role selector"
-                          id={customer.id}
-                          value={userEdited ? userEdited.role : customer.role}
-                          label="Role"
-                          onChange={(event) =>
-                            handleRoleChange(event, customer)
-                          }
-                        >
-                          <MenuItem value="admin">admin</MenuItem>
-                          <MenuItem value="moderator">moderator</MenuItem>
-                          <MenuItem value="verified_user">
-                            verified user
-                          </MenuItem>
-                          <MenuItem value="unverified_user">
-                            unverified user
-                          </MenuItem>
-                          <MenuItem value="banned_user">banned user</MenuItem>
-                        </Select>
+                        <FormControl id={customer.id} variant="standard">
+                          <Select
+                            label="Role"
+                            id={customer.id}
+                            value={userEdited ? userEdited.role : customer.role}
+                            onChange={(event) =>
+                              handleRoleChange(event, customer)
+                            }
+                          >
+                            <MenuItem value="admin">admin</MenuItem>
+                            <MenuItem value="moderator">moderator</MenuItem>
+                            <MenuItem value="verified_user">
+                              verified user
+                            </MenuItem>
+                            <MenuItem value="unverified_user">
+                              unverified user
+                            </MenuItem>
+                            <MenuItem value="banned_user">banned user</MenuItem>
+                          </Select>
+                        </FormControl>
                       </TableCell>
                     </TableRow>
                   );
