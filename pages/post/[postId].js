@@ -45,7 +45,7 @@ const Post = ({ post }) => {
   const { postId } = router.query;
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
-  const { isLogin, myDetail } = useSelector((state) => state.sign);
+  const { isLogin } = useSelector((state) => state.sign);
   const rootComments = comments.filter(
     (comment) => comment.parentComment === null,
   );
@@ -70,11 +70,6 @@ const Post = ({ post }) => {
           title: post.title,
         },
         parentComment: null,
-        commentUsers: {
-          id: myDetail.id,
-          headImgUrl: myDetail.headImgUrl,
-          username: myDetail.username,
-        },
         visibility: true,
       };
       await createComment(requestBody);
@@ -90,18 +85,12 @@ const Post = ({ post }) => {
           id: postId,
           title: post.title,
         },
-        commentUsers: {
-          id: myDetail.id,
-          headImgUrl: myDetail.headImgUrl,
-          username: myDetail.username,
-        },
         parentComment: {
           id: parentId,
         },
         visibility: true,
       };
       await createComment(requestBody);
-      setComments([requestBody, ...comments]);
     } catch (err) {
       hotToast('error', err.response.data.error);
     }

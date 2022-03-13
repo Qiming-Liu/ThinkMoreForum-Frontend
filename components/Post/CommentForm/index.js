@@ -3,12 +3,12 @@ import { Button, Box, TextField } from '@mui/material';
 
 const CommentForm = ({ initialText = '', handleSubmit, login }) => {
   const [context, setContext] = useState(initialText);
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = () => {
     handleSubmit(context);
-    setContext('');
   };
-
+  if (!login) {
+    return null;
+  }
   return (
     <form onSubmit={onSubmit}>
       <Box sx={{ flexGrow: 1 }}>
@@ -31,24 +31,9 @@ const CommentForm = ({ initialText = '', handleSubmit, login }) => {
             mt: 2,
           }}
         >
-          <div>
-            {login ? (
-              <Button
-                sx={{ m: 1 }}
-                type="submit"
-                variant="contained"
-                onClick={() => {
-                  window.location.reload();
-                }}
-              >
-                Post
-              </Button>
-            ) : (
-              <Button sx={{ m: 1 }} type="submit" variant="contained" disabled>
-                Login First
-              </Button>
-            )}
-          </div>
+          <Button sx={{ m: 1 }} type="submit" variant="contained">
+            Post
+          </Button>
         </Box>
       </Box>
     </form>

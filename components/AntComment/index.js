@@ -27,7 +27,7 @@ const AntComment = ({ comment, replies, sendChildComment, login }) => {
         ),
       ]}
       author={commentUsers.username}
-      avatar={<Avatar src={commentUsers.profileImgUrl} />}
+      avatar={<Avatar src={commentUsers.headImgUrl} />}
       content={comment.context}
       datetime={
         <Tooltip>
