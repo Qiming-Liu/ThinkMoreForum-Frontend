@@ -141,12 +141,14 @@ const Login = ({ register }) => {
                 onClick={async () => {
                   signIn('facebook');
                   if (session) {
-                    const { email, name, provider, providerAccountId } =
-                      session;
-                    thirdpartylogin(email, name, {
-                      provider,
-                      providerAccountId,
-                    }).then(() => {
+                    thirdpartylogin(
+                      {
+                        oauthType: session.provider,
+                        openid: session.providerAccountId,
+                      },
+                      session.user.email,
+                      session.user.name,
+                    ).then(() => {
                       hotToast('success', 'Login Success');
                       dispatch(
                         loginAction(
@@ -184,12 +186,14 @@ const Login = ({ register }) => {
                 onClick={async () => {
                   signIn('google');
                   if (session) {
-                    const { email, name, provider, providerAccountId } =
-                      session;
-                    thirdpartylogin(email, name, {
-                      provider,
-                      providerAccountId,
-                    }).then(() => {
+                    thirdpartylogin(
+                      {
+                        oauthType: session.provider,
+                        openid: session.providerAccountId,
+                      },
+                      session.user.email,
+                      session.user.name,
+                    ).then(() => {
                       hotToast('success', 'Login Success');
                       dispatch(
                         loginAction(

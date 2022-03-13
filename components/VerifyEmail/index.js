@@ -70,9 +70,9 @@ const VerifyEmail = () => {
                   <Image src="/logo.svg" height="50" width="50" alt="logo" />
                 </Typography>
               </NextLink>
-              <Typography variant="h4">New Email Address</Typography>
-              <Typography color="textSecondary" sx={{ mt: 2 }} variant="body2">
-                Changing to {token}
+              <Typography variant="h4">Email Verified</Typography>
+              <Typography color="textSecondary" sx={{ mt: 2 }} variant="body1">
+                New email address: {token}
               </Typography>
             </Box>
             <Box
@@ -88,7 +88,7 @@ const VerifyEmail = () => {
                   onClick={handleSubmit}
                   variant="contained"
                 >
-                  Confirm
+                  Back to home page
                 </Button>
               </Box>
             </Box>
