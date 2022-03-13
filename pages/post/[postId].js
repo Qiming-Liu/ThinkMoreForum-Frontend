@@ -14,6 +14,10 @@ import {
   getCommentsByPostId,
   getAllPosts,
 } from '../../services/Public';
+import {
+  changeCategoryPinPost,
+  deleteCategoryPinPost,
+} from '../../services/categoryService';
 import { createComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
@@ -113,6 +117,20 @@ const Post = ({ post }) => {
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       );
+  const handlePinPost = async (categoryId) => {
+    try {
+      await changeCategoryPinPost(categoryId, postId);
+    } catch (err) {
+      hotToast('error', err.response.message);
+    }
+  };
+  const handleUnpinPost = async (categoryId) => {
+    try {
+      await deleteCategoryPinPost(categoryId);
+    } catch (err) {
+      hotToast('error', err.response.message);
+    }
+  };
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
@@ -142,6 +160,8 @@ const Post = ({ post }) => {
         post={post}
         isFavored={postFaved}
         toggleFav={handleFavPost}
+        handlePinPost={handlePinPost}
+        handleUnpinPost={handleUnpinPost}
       />
       {rootComments &&
         rootComments.map((rootComment) => {
