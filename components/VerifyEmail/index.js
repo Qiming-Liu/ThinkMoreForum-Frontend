@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useFormik } from 'formik';
-import { Box, TextField, Typography, Container, Card } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Box, Button, Typography, Container, Card } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { changeEmail } from '../../services/Users';
 import { setEmailAction } from '../../store/actions/signAction';
@@ -13,38 +11,27 @@ import hotToast from '../../utils/hotToast';
 
 const VerifyEmail = () => {
   const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const { token } = router.query;
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      email: token,
-      submit: null,
-    },
-    onSubmit: async (values) => {
-      const { email } = values;
-      setLoading(true);
-      changeEmail(email)
-        .then(() => {
-          router.replace('/');
-          hotToast('success', 'Verify New Email Success');
-          dispatch(
-            setEmailAction(
-              email,
-              () => {},
-              (fail) => {
-                hotToast('error', `something wrong${fail}`);
-              },
-            ),
-          );
-        })
-        .catch((error) => {
-          setLoading(false);
-          hotToast('error', `Something wrong: ${error}`);
-        });
-    },
-  });
+  const handleSubmit = () => {
+    changeEmail(token)
+      .then(() => {
+        router.replace('/');
+        hotToast('success', 'Email address has changed.');
+        dispatch(
+          setEmailAction(
+            token,
+            () => {},
+            (fail) => {
+              hotToast('error', `something wrong${fail}`);
+            },
+          ),
+        );
+      })
+      .catch((error) => {
+        hotToast('error', `Something wrong: ${error}`);
+      });
+  };
 
   return (
     <>
@@ -83,9 +70,9 @@ const VerifyEmail = () => {
                   <Image src="/logo.svg" height="50" width="50" alt="logo" />
                 </Typography>
               </NextLink>
-              <Typography variant="h4">Verify Email</Typography>
+              <Typography variant="h4">New Email Address</Typography>
               <Typography color="textSecondary" sx={{ mt: 2 }} variant="body2">
-                Confirm your new email address
+                Changing to {token}
               </Typography>
             </Box>
             <Box
@@ -94,29 +81,16 @@ const VerifyEmail = () => {
                 mt: 3,
               }}
             >
-              <form noValidate onSubmit={formik.handleSubmit}>
-                <TextField
+              <Box sx={{ mt: 3 }}>
+                <Button
                   fullWidth
-                  label="New Email Address"
-                  margin="normal"
-                  name="email"
-                  type="email"
-                  InputLabelProps={{ shrink: !!token }}
-                  value={formik.values.email}
-                />
-                <Box sx={{ mt: 3 }}>
-                  <LoadingButton
-                    disabled={formik.isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    loading={isLoading}
-                  >
-                    Verify Email
-                  </LoadingButton>
-                </Box>
-              </form>
+                  size="large"
+                  onClick={handleSubmit}
+                  variant="contained"
+                >
+                  Confirm
+                </Button>
+              </Box>
             </Box>
           </Card>
         </Container>
