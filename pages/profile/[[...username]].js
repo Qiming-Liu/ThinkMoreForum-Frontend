@@ -18,6 +18,7 @@ import UserAdd from '../../icons/user-add';
 import { followUser, getFollowedStatus } from '../../services/Follow';
 import { getCurrentUser, getUserByUsername } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
+import UserCircleIcon from '../../icons/user-circle';
 
 const Profile = () => {
   const router = useRouter();
@@ -27,8 +28,8 @@ const Profile = () => {
   const [currentName, setCurrentName] = useState('');
   const [role, setRole] = useState('');
   const [currentRole, setCurrentRole] = useState('');
-  const [Img, setImg] = useState('');
-  const [CurrentImg, setCurrentImg] = useState('');
+  const [img, setImg] = useState('');
+  const [currentImg, setCurrentImg] = useState('');
 
   // Get current user details
   useEffect(() => {
@@ -36,7 +37,7 @@ const Profile = () => {
       const { data } = await getCurrentUser();
       setCurrentName(data.username);
       setCurrentRole(data.role.roleName);
-      setCurrentImg(data.headImgUrl);
+      setCurrentImg(data.profileImgUrl);
       if (!username) {
         setFollowedStatus('current_user');
       } else if (username[0] === currentName) {
@@ -51,7 +52,7 @@ const Profile = () => {
     const getOtherUser = async () => {
       const { data } = await getUserByUsername(username);
       setRole(data.role.roleName);
-      setImg(data.headImgUrl);
+      setImg(data.profileImgUrl);
     };
     if (username) {
       getOtherUser();
@@ -157,24 +158,15 @@ const Profile = () => {
             mt: 5,
           }}
         >
-          {!username && (
-            <Avatar
-              src={Img}
-              sx={{
-                height: 64,
-                width: 64,
-              }}
-            />
-          )}
-          {username && (
-            <Avatar
-              src={CurrentImg}
-              sx={{
-                height: 64,
-                width: 64,
-              }}
-            />
-          )}
+          <Avatar
+            sx={{
+              height: 64,
+              width: 64,
+            }}
+            src={username ? img : currentImg}
+          >
+            <UserCircleIcon fontSize="small" />
+          </Avatar>
           <Box sx={{ ml: 2 }}>
             {!username && (
               <Typography color="textSecondary" variant="overline">
