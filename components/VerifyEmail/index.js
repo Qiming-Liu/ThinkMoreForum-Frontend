@@ -70,9 +70,9 @@ const VerifyEmail = () => {
                   <Image src="/logo.svg" height="50" width="50" alt="logo" />
                 </Typography>
               </NextLink>
-              <Typography variant="h4">Email Verified</Typography>
+              <Typography variant="h4">New Email Address</Typography>
               <Typography color="textSecondary" sx={{ mt: 2 }} variant="body1">
-                New email address: {token}
+                Changing to {token}
               </Typography>
             </Box>
             <Box

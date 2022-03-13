@@ -23,7 +23,7 @@ import fileToBase64 from '../../../utils/fileToBase64';
 
 const PostCreate = ({ categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
-  const [cover, setCover] = useState('/logo.svg');
+  const [cover, setCover] = useState();
   const [image, setImage] = useState(undefined);
   const formik = useFormik({
     initialValues: {
@@ -52,10 +52,6 @@ const PostCreate = ({ categoryTitle }) => {
       hotToast('success', 'Post created successfully');
     },
   });
-
-  const handleRemove = () => {
-    setCover(null);
-  };
 
   const handleDropCover = async ([file]) => {
     const data = await fileToBase64(file);
@@ -115,9 +111,6 @@ const PostCreate = ({ categoryTitle }) => {
                   </Typography>
                 </Box>
               )}
-              <Button onClick={handleRemove} sx={{ mt: 3 }} disabled={!cover}>
-                Remove photo
-              </Button>
               <Box sx={{ mt: 3 }}>
                 <ImageDropZone
                   accept="image/jpg,image/png, image/jpeg"
