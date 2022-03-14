@@ -31,3 +31,17 @@ export const updateCategory = (categoryData) => {
 export const deleteCategory = (id) => {
   return http(`/v1/category?category_id=${id}`, { method: 'DELETE' });
 };
+
+export const changeCategoryPinPost = (categoryId, postId) => {
+  http(`/v1/category/${categoryId}/pin/${postId}`, {
+    method: 'PUT',
+    data: { categoryId, postId },
+  });
+};
+
+export const deleteCategoryPinPost = (categoryId) => {
+  http(`/v1/category/${categoryId}/unpin`, {
+    method: 'PUT',
+    data: { categoryId },
+  });
+};

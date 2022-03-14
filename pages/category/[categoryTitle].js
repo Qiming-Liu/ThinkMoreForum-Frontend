@@ -268,6 +268,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
           <PinPostCard
             title={pinPostInfo.title}
             context={pinPostInfo.context}
+            id={pinPostInfo.id}
           />
           <Divider sx={{ my: 1 }} />
         </Box>
