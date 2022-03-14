@@ -121,14 +121,14 @@ const Post = ({ post }) => {
     try {
       await changeCategoryPinPost(categoryId, postId);
     } catch (err) {
-      hotToast('error', err.response.message);
+      hotToast('error', err.message);
     }
   };
   const handleUnpinPost = async (categoryId) => {
     try {
       await deleteCategoryPinPost(categoryId);
     } catch (err) {
-      hotToast('error', err.response.message);
+      hotToast('error', err.message);
     }
   };
   useEffect(() => {

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import parse from 'html-react-parser';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -53,13 +53,19 @@ const useStyles = makeStyles({
   },
 });
 
-const PostContent = (props) => {
+const PostContent = ({
+  post,
+  isFavored,
+  toggleFav,
+  handlePinPost,
+  handleUnpinPost,
+}) => {
   const { isLogin, myDetail } = useSelector((state) => state.sign);
   const classes = useStyles();
-  const { post, isFavored, toggleFav, handlePinPost, handleUnpinPost } = props;
   const [pinPost, setPinPost] = useState(null);
   const [isPinned, setIsPinned] = useState(null);
   const userProfileUrl = `/profile/${post.postUsers.username}`;
+
   useEffect(() => {
     const categoryInfo = async () => {
       const { data: responsedata } = await getCategoryByTitle(
@@ -114,6 +120,24 @@ const PostContent = (props) => {
       </Button>
     );
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const checkAuth = () => {
+    if (
+      isLogin &&
+      (myDetail.role.roleName === 'admin' ||
+        myDetail.role.roleName === 'moderator')
+    ) {
+      if (isPinned) {
+        return PinnedPost();
+      }
+      return UnPinnedPost();
+    }
+    return '';
+  };
+  const isPinViewable = useMemo(() => {
+    return checkAuth();
+  }, [checkAuth]);
   return (
     <>
       <Head>
@@ -134,14 +158,7 @@ const PostContent = (props) => {
             <Typography variant="h3" sx={{ mt: 3, mb: 3 }}>
               {post.title}
             </Typography>
-            {isLogin
-              ? myDetail.role !== null &&
-                myDetail.role.roleName === ('admin' || 'moderator')
-                ? isPinned
-                  ? PinnedPost()
-                  : UnPinnedPost()
-                : ''
-              : ''}
+            {isPinViewable}
           </Stack>
           <Chip label={post.category.title} />
           <Grid container alignItems="center" justifyContent="space-between">
