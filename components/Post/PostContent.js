@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import parse from 'html-react-parser';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -120,24 +120,6 @@ const PostContent = ({
       </Button>
     );
   };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const checkAuth = () => {
-    if (
-      isLogin &&
-      (myDetail.role.roleName === 'admin' ||
-        myDetail.role.roleName === 'moderator')
-    ) {
-      if (isPinned) {
-        return PinnedPost();
-      }
-      return UnPinnedPost();
-    }
-    return '';
-  };
-  const isPinViewable = useMemo(() => {
-    return checkAuth();
-  }, [checkAuth]);
   return (
     <>
       <Head>
@@ -158,7 +140,14 @@ const PostContent = ({
             <Typography variant="h3" sx={{ mt: 3, mb: 3 }}>
               {post.title}
             </Typography>
-            {isPinViewable}
+            {isLogin
+              ? myDetail.role !== null &&
+                myDetail.role.roleName === ('admin' || 'moderator')
+                ? isPinned
+                  ? PinnedPost()
+                  : UnPinnedPost()
+                : ''
+              : ''}
           </Stack>
           <Chip label={post.category.title} />
           <Grid container alignItems="center" justifyContent="space-between">
