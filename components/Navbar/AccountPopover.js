@@ -23,6 +23,11 @@ const AccountPopover = (props) => {
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
 
+  const handleLogout = () => {
+    dispatch(logoutAction());
+    onClose();
+  };
+
   if (!myDetail) {
     return null;
   }
@@ -104,12 +109,7 @@ const AccountPopover = (props) => {
         </NextLink>
         <Divider />
         <NextLink href="/" passHref>
-          <MenuItem
-            onClick={() => {
-              dispatch(logoutAction());
-              onClose();
-            }}
-          >
+          <MenuItem onClick={handleLogout}>
             <ListItemIcon>
               <LogoutIcon fontSize="small" />
             </ListItemIcon>
