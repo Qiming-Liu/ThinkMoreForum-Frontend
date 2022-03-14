@@ -1,6 +1,5 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import {
   Avatar,
   Box,
@@ -22,8 +21,12 @@ import { logoutAction } from '../../store/actions/signAction';
 const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
   const dispatch = useDispatch();
-  const router = useRouter();
   const { myDetail } = useSelector((state) => state.sign);
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
+    onClose();
+  };
 
   if (!myDetail) {
     return null;
@@ -105,20 +108,16 @@ const AccountPopover = (props) => {
           </MenuItem>
         </NextLink>
         <Divider />
-        <MenuItem
-          onClick={() => {
-            dispatch(logoutAction());
-            router.push('/');
-            onClose();
-          }}
-        >
-          <ListItemIcon>
-            <LogoutIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText
-            primary={<Typography variant="body1">Logout</Typography>}
-          />
-        </MenuItem>
+        <NextLink href="/" passHref>
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <LogoutIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Typography variant="body1">Logout</Typography>}
+            />
+          </MenuItem>
+        </NextLink>
       </Box>
     </Popover>
   );

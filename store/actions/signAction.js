@@ -77,7 +77,7 @@ const loginOut = () => ({
 });
 
 export const logoutAction = () => (dispatch) => {
-  signOut();
+  signOut({ redirect: false });
   dispatch(loginOut());
   saveState(store.getState());
 };
