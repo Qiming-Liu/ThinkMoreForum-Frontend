@@ -125,6 +125,7 @@ const PostContent = ({
   const checkAuth = () => {
     if (
       isLogin &&
+      myDetail &&
       (myDetail.role.roleName === 'admin' ||
         myDetail.role.roleName === 'moderator')
     ) {
