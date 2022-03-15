@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Button, Divider } from '@mui/material';
+import { Button, Divider, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
@@ -35,7 +35,10 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   try {
     const { data: post } = await getPostById(params.postId);
-    return { props: { post } };
+    const date = new Date();
+    const versionDate = date.toLocaleDateString('en-AU');
+    const versionTime = date.toLocaleTimeString('en-AU');
+    return { props: { post, versionDate, versionTime } };
   } catch {
     return {
       notFound: true,
@@ -44,7 +47,7 @@ export const getStaticProps = async ({ params }) => {
   }
 };
 
-const Post = ({ post }) => {
+const Post = ({ post, versionDate, versionTime }) => {
   const router = useRouter();
   const { postId } = router.query;
   const [comments, setComments] = useState([]);
@@ -139,6 +142,8 @@ const Post = ({ post }) => {
   if (!post) return null;
   return (
     <>
+      <Typography>{versionDate}</Typography>
+      <Typography>{versionTime}</Typography>
       <NextLink href={`/category/${post.category.title}`} passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
           Back to {post.category.title}
