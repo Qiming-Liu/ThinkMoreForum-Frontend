@@ -9,9 +9,7 @@ import {
   TextField,
   Button,
   Box,
-  FormHelperText,
 } from '@mui/material';
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import QuillEditor from '../../QuillEditor';
@@ -30,11 +28,19 @@ const PostCreate = ({ categoryTitle }) => {
       context: '',
       title: '',
     },
-    validationSchema: Yup.object({
-      context: Yup.string().required(),
-      title: Yup.string().max(255).required(),
-    }),
     onSubmit: async ({ title, context }) => {
+      if (!title) {
+        hotToast('error', 'Title is required ! ');
+        return;
+      }
+      if (title.length > 255) {
+        hotToast('error', 'Title is too long ! ');
+        return;
+      }
+      if (!context.replace(/<.*?>| [</].*?>/gi, '')) {
+        hotToast('error', 'Context is required !');
+        return;
+      }
       if (!image) {
         hotToast('error', 'Please upload an image');
         return;
@@ -128,9 +134,7 @@ const PostCreate = ({ categoryTitle }) => {
                 Basic details
               </Typography>
               <TextField
-                error={Boolean(formik.touched.title && formik.errors.title)}
                 fullWidth
-                helperText={formik.touched.title && formik.errors.title}
                 label="Post Title"
                 name="title"
                 onBlur={formik.handleBlur}
@@ -155,11 +159,6 @@ const PostCreate = ({ categoryTitle }) => {
                 placeholder="Write something"
                 value={formik.values.context}
               />
-              {Boolean(formik.touched.context && formik.errors.context) && (
-                <Box sx={{ mt: 2 }}>
-                  <FormHelperText error>{formik.errors.context}</FormHelperText>
-                </Box>
-              )}
             </CardContent>
           </Card>
           <Box
