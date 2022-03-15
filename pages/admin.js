@@ -5,7 +5,7 @@ import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Public';
 import MyTime from '../utils/myTime';
 import { UsersRoleContextProvider } from '../contexts/UsersRoleContext';
-import Categories from './categoryTable/Categories';
+import Categories from '../components/CategoryManager/categoryTable/Categories';
 
 const tabs = [
   { label: 'Users', value: 'users' },

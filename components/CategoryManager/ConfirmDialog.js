@@ -5,65 +5,72 @@ import {
   DialogContent,
   DialogActions,
   Typography,
-  makeStyles,
+  // makeStyles,
   IconButton,
-} from '@material-ui/core';
+} from '@mui/material';
+import styled from 'styled-components';
 import Controls from './controls/Controls';
 
-const useStyles = makeStyles((theme) => ({
-  dialog: {
-    padding: theme.spacing(2),
-    position: 'absolute',
-    top: theme.spacing(5),
-  },
-  dialogTitle: {
-    textAlign: 'center',
-  },
-  dialogContent: {
-    textAlign: 'center',
-  },
-  dialogAction: {
-    justifyContent: 'center',
-  },
-  titleIcon: {
-    backgroundColor: theme.palette.secondary.light,
-    color: theme.palette.secondary.main,
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.light,
-      cursor: 'default',
-    },
-    '& .MuiSvgIcon-root': {
-      fontSize: '8rem',
-    },
-  },
-}));
+const StyedDialog = styled(Dialog)`
+  padding: 16px;
+  position: absolute;
+  top: 40px;
+`;
+
+const StyDialogTitle = styled(DialogTitle)`
+  text-align: center;
+`;
+
+const StyDialogContent = styled(DialogContent)`
+  text-align: center;
+`;
+
+const StyDialogActions = styled(DialogActions)`
+  justify-content: center;
+`;
+
+// const StyIconButton = styled(IconButton)`
+//   /* background-color: #5acce5;
+//   color: #5accff; */
+//   &:hover {
+//     /* background-color: #2e0d7c; */
+//     cursor: default;
+//     & .MuiSvgIcon-root {
+//       font-size: 8rem;
+//     }
+//   }
+// `;
 
 const ConfirmDialog = (props) => {
   const { confirmDialog, setConfirmDialog } = props;
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
-    <Dialog open={confirmDialog.isOpen} classes={{ paper: classes.dialog }}>
-      <DialogTitle className={classes.dialogTitle}>
-        <IconButton disableRipple className={classes.titleIcon} />
-      </DialogTitle>
-      <DialogContent className={classes.dialogContent}>
+    <StyedDialog open={confirmDialog.isOpen}>
+      <StyDialogTitle>
+        <IconButton disableRipple />
+      </StyDialogTitle>
+      <StyDialogContent>
         <Typography variant="h6">{confirmDialog.title}</Typography>
         <Typography variant="subtitle2">{confirmDialog.subTitle}</Typography>
-      </DialogContent>
-      <DialogActions className={classes.dialogAction}>
+      </StyDialogContent>
+      <StyDialogActions>
         <Controls.Button
           text="No"
-          color="default"
+          color="secondary"
+          text-align="center"
+          justify-content="center"
           onClick={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
         />
         <Controls.Button
           text="Yes"
           color="secondary"
+          text-align="center"
+          justify-content="center"
           onClick={confirmDialog.onConfirm}
         />
-      </DialogActions>
-    </Dialog>
+      </StyDialogActions>
+    </StyedDialog>
   );
 };
 

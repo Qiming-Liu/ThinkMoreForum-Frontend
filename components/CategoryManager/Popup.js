@@ -3,33 +3,33 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  makeStyles,
+  // makeStyles,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
+import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import Controls from './controls/Controls';
 
-const useStyles = makeStyles((theme) => ({
-  dialogWrapper: {
-    padding: theme.spacing(2),
-    position: 'absolute',
-    top: theme.spacing(5),
-  },
-  dialogTitle: {
-    paddingRight: '0px',
-  },
-}));
+const StyDialog = styled(Dialog)`
+  padding: 16px;
+  position: absolute;
+  top: 40px;
+`;
+
+const DialogWrapper = styled(DialogTitle)`
+  padding-right: 0px;
+`;
 
 const Popup = (props) => {
   const { children, openPopup, setOpenPopup } = props;
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
-    <Dialog
+    <StyDialog
       open={openPopup}
       maxWidth="md"
-      classes={{ paper: classes.dialogWrapper }}
+      // classes={{ paper: classes.dialogWrapper }}
     >
-      <DialogTitle className={classes.dialogTitle}>
+      <DialogWrapper>
         <div style={{ display: 'flex' }}>
           <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
             llll
@@ -43,9 +43,9 @@ const Popup = (props) => {
             <CloseIcon />
           </Controls.ActionButton>
         </div>
-      </DialogTitle>
+      </DialogWrapper>
       <DialogContent dividers>{children}</DialogContent>
-    </Dialog>
+    </StyDialog>
   );
 };
 

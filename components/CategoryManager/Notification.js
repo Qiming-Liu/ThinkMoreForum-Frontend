@@ -1,16 +1,17 @@
 import React from 'react';
-import { Snackbar, makeStyles } from '@material-ui/core';
+import { Snackbar } from '@mui/material';
+import styled from 'styled-components';
 import { Alert } from '@material-ui/lab';
 
-const useStyles = makeStyles((theme) => ({
+const StySnackbar = styled(Snackbar)`
   root: {
-    top: theme.spacing(9),
-  },
-}));
+    top: 40px;
+  }
+`;
 
 const Notification = (props) => {
   const { notify, setNotify } = props;
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const handleClose = (reason) => {
     if (reason === 'clickaway') {
@@ -23,8 +24,8 @@ const Notification = (props) => {
   };
 
   return (
-    <Snackbar
-      className={classes.root}
+    <StySnackbar
+      // className={classes.root}
       open={notify.isOpen}
       autoHideDuration={3000}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -33,7 +34,7 @@ const Notification = (props) => {
       <Alert severity={notify.type} onClose={handleClose}>
         {notify.message}
       </Alert>
-    </Snackbar>
+    </StySnackbar>
   );
 };
 

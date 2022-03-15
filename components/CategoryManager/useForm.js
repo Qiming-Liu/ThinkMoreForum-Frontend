@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import styled from 'styled-components';
 
 export function useForm(
   initialFValues,
@@ -32,23 +32,20 @@ export function useForm(
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiFormControl-root': {
-      width: '80%',
-      margin: theme.spacing(1),
-    },
-  },
-}));
+const StyledForm = styled.form`
+  & .MuiFormControl-root {
+    width: 80%;
+    margin: 8px;
+  }
+`;
 
 const Form = (props) => {
   const { children, ...other } = props;
-  const classes = useStyles();
 
   return (
-    <form className={classes.root} autoComplete="off" {...other}>
+    <StyledForm autoComplete="off" {...other}>
       {children}
-    </form>
+    </StyledForm>
   );
 };
 
