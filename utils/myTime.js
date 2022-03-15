@@ -8,7 +8,7 @@ const MyTime = (timestamp) => {
   if (thatTime.isAfter(moment().subtract(1, 'day'), 'day')) {
     return thatTime.calendar().toString();
   }
-  return moment(timestamp).format('DD-MM-YYYY h:mm A').toString();
+  return moment(timestamp).format('MM-DD-YY h:mm A').toString();
 };
 
 export default MyTime;
