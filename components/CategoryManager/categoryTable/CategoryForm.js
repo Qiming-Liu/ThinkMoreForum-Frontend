@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
-import Form, { useForm } from '../../components/CategoryManager/useForm';
-import Controls from '../../components/CategoryManager/controls/Controls';
+import Form, { useForm } from '../useForm';
+import Controls from '../controls/Controls';
 // import { matches } from 'lodash';
 // import * as categoryServices from '../../services/categoryService';
 
@@ -36,8 +36,6 @@ const CategoryForm = (props) => {
         (x) => x.id !== fieldValues.id || x.fakeID !== fieldValues.fakeID,
       );
     if (temp.title === '') {
-      console.log(fieldValues);
-      console.log('recordsForValidate', recordsForValidate);
       const arr = recordsForValidate.map((x) => x.title);
       const findTitle = arr.indexOf(fieldValues.title);
       temp.title = findTitle === -1 ? '' : 'This title is already existed';
@@ -46,17 +44,19 @@ const CategoryForm = (props) => {
       temp.description = fieldValues.description
         ? ''
         : 'This field is required.';
-    if ('color' in fieldValues)
+    if ('color' in fieldValues && fieldValues.color.length > 0) {
+      console.log('fieldValues.color', fieldValues.color);
       temp.color = /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(fieldValues.color)
         ? ''
         : 'color is not valid.';
-    if ('pin_post_id' in fieldValues)
+    }
+    if ('pin_post_id' in fieldValues && fieldValues.pin_post_id.length > 0)
       temp.pin_post_id =
         /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
           fieldValues.pin_post_id,
         )
           ? ''
-          : 'This field is required.';
+          : 'pin_post_id is not valid.';
     setErrors({
       ...temp,
     });

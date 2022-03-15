@@ -7,11 +7,13 @@ import hotToast from './hotToast';
 const getInstance = () => {
   const axiosInstance = axios.create();
 
-  if (process && process.env.NODE_ENV === 'development') {
-    axiosInstance.defaults.baseURL = 'http://localhost:443';
-  } else {
-    axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
-  }
+  // if (process && process.env.NODE_ENV === 'development') {
+  //   axiosInstance.defaults.baseURL = 'http://localhost:443';
+  // } else {
+  //   axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
+  // }
+
+  axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
 
   // comment out next line if you want connect online backend
   // axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';

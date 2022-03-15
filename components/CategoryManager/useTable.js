@@ -1,31 +1,28 @@
 import {
-  makeStyles,
+  // makeStyles,
   Table,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
   TableSortLabel,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    marginTop: theme.spacing(3),
-    '& thead th': {
-      fontWeight: '600',
-      color: theme.palette.primary.main,
-      backgroundColor: theme.palette.primary.light,
-    },
-    '& tbody td': {
-      fontWeight: '300',
-    },
-    '& tbody tr:hover': {
-      backgroundColor: '#fffbf2',
-      cursor: 'pointer',
-    },
-  },
-}));
+const StyledTable = styled(Table)`
+  margin-top: 24px;
+  & thead th {
+    font-weight: 600;
+  }
+  & tbody td {
+    font-weight: 300;
+  }
+  & tbody tr:hover {
+    background-color: #fffbf2;
+    cursor: pointer;
+  }
+`;
 
 const useTable = (records, headCells, filterFn) => {
   const pages = [5, 10, 15, 20, 25, 30];
@@ -33,11 +30,9 @@ const useTable = (records, headCells, filterFn) => {
   const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
-  const classes = useStyles();
+  // const classes = useStyles();
 
-  const TblContainer = ({ children }) => (
-    <Table className={classes.table}>{children}</Table>
-  );
+  const TblContainer = ({ children }) => <StyledTable>{children}</StyledTable>;
 
   const TblHead = () => {
     const handleSortRequest = (cellId) => {

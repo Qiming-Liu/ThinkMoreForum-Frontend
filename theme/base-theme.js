@@ -226,6 +226,9 @@ const baseThemeOptions = {
       styleOverrides: {
         root: {
           borderBottom: 'none',
+          '& .MuiTableRow-head': {
+            color: '#828282',
+          },
           '& .MuiTableCell-root': {
             borderBottom: 'none',
             fontSize: '12px',

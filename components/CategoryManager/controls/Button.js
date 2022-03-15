@@ -1,29 +1,26 @@
 import React from 'react';
-import { Button as MuiButton, makeStyles } from '@material-ui/core';
+import { Button as MButton } from '@mui/material';
+import styled from 'styled-components';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: theme.spacing(0.5),
-  },
+const StyledMButton = styled(MButton)`
+  margin: 10px;
   label: {
-    textTransform: 'none',
-  },
-}));
+    text-transform: none;
+  }
+`;
 
 const Button = (props) => {
   const { text, size, color, variant, onClick, ...other } = props;
-  const classes = useStyles();
   return (
-    <MuiButton
+    <StyledMButton
       variant={variant || 'contained'}
       size={size || 'large'}
-      color={color || 'primary'}
+      // color={color || 'primary'}
       onClick={onClick}
       {...other}
-      classes={{ root: classes.root, label: classes.label }}
     >
       {text}
-    </MuiButton>
+    </StyledMButton>
   );
 };
 

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { v4 as uuidv4 } from 'uuid';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-// import CloseIcon from '@material-ui/icons/Close';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
@@ -9,38 +7,41 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { Search } from '@material-ui/icons';
 import {
   Paper,
-  makeStyles,
   TableBody,
   TableRow,
   TableCell,
   Toolbar,
   InputAdornment,
-} from '@material-ui/core';
+} from '@mui/material';
+import styled from 'styled-components';
 import CategoryForm from './CategoryForm';
-// import PageHeader from '../../components/CategoryManager/PageHeader';
-import useTable from '../../components/CategoryManager/useTable';
-import * as categoryServices from '../../services/categoryService';
-import Controls from '../../components/CategoryManager/controls/Controls';
-import Popup from '../../components/CategoryManager/Popup';
-import Notification from '../../components/CategoryManager/Notification';
-import ConfirmDialog from '../../components/CategoryManager/ConfirmDialog';
+import useTable from '../useTable';
+import * as categoryServices from '../../../services/categoryService';
+import Controls from '../controls/Controls';
+import Popup from '../Popup';
+import Notification from '../Notification';
+import ConfirmDialog from '../ConfirmDialog';
 
-const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
-  searchInput: {
-    width: '75%',
-  },
-  newButton: {
-    position: 'absolute',
-    right: '10px',
-  },
-  savBtn: {
-    width: '100%',
-  },
-}));
+const CategoriesPaper = styled(Paper)`
+  margin: 40px;
+  padding: 20px;
+`;
+
+const SearchInput = styled(Controls.Input)`
+  width: 75%;
+`;
+
+const NewButton = styled(Controls.Button)`
+  position: relative;
+  left: 15px;
+  right: 10px;
+  width: 25%;
+  align-items: right;
+`;
+
+const SavBtn = styled(Controls.Button)`
+  width: 100%;
+`;
 
 const headCells = [
   { id: 'order', disablePadding: true, label: 'Order', disableSorting: true },
@@ -52,7 +53,7 @@ const headCells = [
 ];
 
 const Category = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   // const [singleRecord, setSingleRecord] = useState(recordForEdit);
@@ -138,14 +139,6 @@ const Category = () => {
     });
     setRecords(records.filter((x) => x.title !== title));
     console.log(records);
-    // categoryServices.deleteCategory(id);
-    // const { data: categoriesInfo } = await categoryServices.getAllCategories();
-    // setRecords(categoriesInfo);
-    // setNotify({
-    //   isOpen: true,
-    //   message: 'Deleted Successfully',
-    //   type: 'error',
-    // });
   };
 
   const handleDragEnd = (e) => {
@@ -183,11 +176,10 @@ const Category = () => {
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <Paper className={classes.pageContent}>
+        <CategoriesPaper>
           <Toolbar>
-            <Controls.Input
+            <SearchInput
               label="Search Category"
-              className={classes.searchInput}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -197,11 +189,10 @@ const Category = () => {
               }}
               onChange={handleSearch}
             />
-            <Controls.Button
+            <NewButton
               text="Add Category"
               variant="outlined"
               startIcon={<AddIcon />}
-              className={classes.newButton}
               onClick={() => {
                 setOpenPopup(true);
                 setRecordForEdit(null);
@@ -272,13 +263,13 @@ const Category = () => {
             </Droppable>
           </TblContainer>
           <TblPagination />
-          <Controls.Button
+          <SavBtn
             text="Save All Changes."
             variant="outlined"
-            className={classes.savBtn}
+            // className={classes.savBtn}
             onClick={handleSaveChanges}
           />
-        </Paper>
+        </CategoriesPaper>
       </DragDropContext>
       <Popup
         title="Category Form"
