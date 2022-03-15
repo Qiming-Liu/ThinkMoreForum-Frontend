@@ -48,7 +48,7 @@ const headCells = [
   { id: 'title', label: 'Category Title', disableSorting: true },
   { id: 'description', label: 'Description', disableSorting: true },
   { id: 'color', label: 'Color', disableSorting: true },
-  { id: 'pin_post_id', label: 'pin_post_id', disableSorting: true },
+  { id: 'pinPost', label: 'pinPost', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -106,11 +106,13 @@ const Category = () => {
     resetForm();
     const updateCategories = (updatedCategory, oldRecords) => {
       const newCategoryID = updatedCategory.id || updatedCategory.fakeID;
-      console.log('newCategoryID', newCategoryID);
       return oldRecords.map((x) => {
         const newXID = x.id || x.fakeID;
         if (newXID === newCategoryID) {
-          return updatedCategory;
+          return {
+            ...updatedCategory,
+            pinPost: { id: updatedCategory.pinPost },
+          };
         }
         return x;
       });
@@ -150,7 +152,11 @@ const Category = () => {
   };
 
   const add = (category) => {
-    setRecords((prevState) => [...prevState, category]);
+    const formattedCategory = {
+      ...category,
+      pinPost: { id: category.pinPost },
+    };
+    setRecords((prevState) => [...prevState, formattedCategory]);
     setRecordForEdit(null);
     // resetForm();
     setOpenPopup(false);
@@ -226,7 +232,9 @@ const Category = () => {
                             <TableCell>{item.title}</TableCell>
                             <TableCell>{item.description}</TableCell>
                             <TableCell>{item.color}</TableCell>
-                            <TableCell>{item.pin_post_id}</TableCell>
+                            <TableCell>
+                              {item.pinPost && item.pinPost.id}
+                            </TableCell>
                             <TableCell>
                               <Controls.ActionButton
                                 color="primary"
