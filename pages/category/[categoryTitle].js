@@ -82,13 +82,29 @@ export async function getStaticProps({ params }) {
     }
   }
 
+  const date = new Date();
+  const versionDate = date.toLocaleDateString('en-AU');
+  const versionTime = date.toLocaleTimeString('en-AU');
+
   return {
-    props: { categoryInfo, initialTotalCount, pinPostInfo },
+    props: {
+      categoryInfo,
+      initialTotalCount,
+      pinPostInfo,
+      versionDate,
+      versionTime,
+    },
     revalidate: 1,
   };
 }
 
-const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
+const PostList = ({
+  categoryInfo,
+  initialTotalCount,
+  pinPostInfo,
+  versionDate,
+  versionTime,
+}) => {
   const { title: categoryTitle, description, id: categoryId } = categoryInfo;
   const dispatch = useDispatch();
   const { isLogin } = useSelector((state) => state.sign);
@@ -256,6 +272,8 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
       <Head>
         <title>{categoryTitle} | ThinkMoreForum</title>
       </Head>
+      <Typography>{versionDate}</Typography>
+      <Typography>{versionTime}</Typography>
       <NextLink href="/" passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
           Back to Home
