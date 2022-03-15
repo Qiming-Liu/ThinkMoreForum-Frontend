@@ -94,7 +94,7 @@ export async function getStaticProps({ params }) {
       versionDate,
       versionTime,
     },
-    revalidate: 1,
+    revalidate: 10,
   };
 }
 
