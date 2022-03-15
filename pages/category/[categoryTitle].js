@@ -422,9 +422,9 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
           placeholder={`1-${totalPages}`}
           size="small"
           id="outlined-basic"
-          label="Number"
-          variant="outlined"
+          label="Page"
           type="number"
+          defaultValue={1}
           onChange={handleInputCurrentPage}
           InputProps={{
             endAdornment: (
