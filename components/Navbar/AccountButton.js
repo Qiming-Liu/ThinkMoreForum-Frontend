@@ -1,26 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Box, ButtonBase } from '@mui/material';
 import UserCircleIcon from '../../icons/user-circle';
 import AccountPopover from './AccountPopover';
 import { getMyUser } from '../../services/Users';
 import { setDetailAction } from '../../store/actions/signAction';
+import store from '../../store/store';
 
 const AccountButton = ({ isLogin }) => {
   const anchorRef = useRef(null);
   const [openPopover, setOpenPopover] = useState(false);
-  const [myDetail, setMyDetail] = useState(undefined);
+  const [myDetails, setMyDetails] = useState(undefined);
+  const [profileImg, setProfileImg] = useState(undefined);
   const dispatch = useDispatch();
+  const { myDetail } = useSelector((state) => state.sign);
 
   useEffect(() => {
     if (isLogin) {
       (async () => {
         const { data } = await getMyUser();
         dispatch(setDetailAction(data));
-        setMyDetail(data);
+        setMyDetails(data);
+        setProfileImg(data.profileImgUrl);
       })();
     }
   }, [dispatch, isLogin]);
+
+  if (!myDetails) {
+    return null;
+  }
+
+  if (myDetail) {
+    const checkProfileImage = (state) => state.sign.myDetail.profileImgUrl;
+    const latestProfileImage = checkProfileImage(store.getState());
+    if (latestProfileImage !== profileImg) {
+      setProfileImg(latestProfileImage);
+    }
+  }
 
   return (
     <>
@@ -39,8 +55,7 @@ const AccountButton = ({ isLogin }) => {
             height: 40,
             width: 40,
           }}
-          // eslint-disable-next-line no-nested-ternary
-          src={isLogin ? (myDetail ? myDetail.profileImgUrl : '') : ''}
+          src={profileImg}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>

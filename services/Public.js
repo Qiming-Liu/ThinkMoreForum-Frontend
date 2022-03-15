@@ -14,11 +14,11 @@ export const register = ({ email, username, password }) =>
     },
   });
 
-export const thirdpartylogin = (email, username, { oauthtype, openid }) =>
+export const thirdpartylogin = ({ oauthType, openid }, email, username) =>
   http(`/v1/public/users/third_party_login/${email}/${username}`, {
     method: 'POST',
     data: {
-      oauthtype,
+      oauthType,
       openid,
     },
   });
