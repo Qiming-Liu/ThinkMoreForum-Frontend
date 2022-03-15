@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { useSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import {
   Box,
   Button,
@@ -18,11 +18,9 @@ import FacebookIcon from '../../icons/facebook';
 import GoogleIcon from '../../icons/google';
 import loginAction from '../../store/actions/httpAction';
 import hotToast from '../../utils/hotToast';
-import { thirdpartylogin } from '../../services/Public';
 
 const Login = ({ register }) => {
   const [isLoading, setLoading] = useState(false);
-  const { data: session } = useSession();
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -62,6 +60,14 @@ const Login = ({ register }) => {
       );
     },
   });
+
+  const handleFacebookLogin = async () => {
+    signIn('facebook', { callbackUrl: 'http://localhost:3000/facebook-login' });
+  };
+
+  const handleGoogleLogin = async () => {
+    signIn('google', { callbackUrl: 'http://localhost:3000/google-login' });
+  };
 
   return (
     <Box
@@ -138,40 +144,7 @@ const Login = ({ register }) => {
             <Grid item xs={12} md={6}>
               <Button
                 startIcon={<FacebookIcon />}
-                onClick={async () => {
-                  signIn('facebook');
-                  if (session) {
-                    thirdpartylogin(
-                      {
-                        oauthType: session.provider,
-                        openid: session.providerAccountId,
-                      },
-                      session.user.email,
-                      session.user.name,
-                    ).then(() => {
-                      hotToast('success', 'Login Success');
-                      dispatch(
-                        loginAction(
-                          session.user.email,
-                          session.providerAccountId,
-                          () => {},
-                          (fail) => {
-                            setLoading(false);
-                            if (
-                              fail &&
-                              fail.response &&
-                              fail.response.status === 403
-                            ) {
-                              hotToast('error', 'Invalid Email or Password');
-                            } else {
-                              hotToast('error', `something wrong${fail}`);
-                            }
-                          },
-                        ),
-                      );
-                    });
-                  }
-                }}
+                onClick={handleFacebookLogin}
                 color="info"
                 fullWidth
                 size="large"
@@ -183,40 +156,7 @@ const Login = ({ register }) => {
             <Grid item xs={12} md={6}>
               <Button
                 startIcon={<GoogleIcon />}
-                onClick={async () => {
-                  signIn('google');
-                  if (session) {
-                    thirdpartylogin(
-                      {
-                        oauthType: session.provider,
-                        openid: session.providerAccountId,
-                      },
-                      session.user.email,
-                      session.user.name,
-                    ).then(() => {
-                      hotToast('success', 'Login Success');
-                      dispatch(
-                        loginAction(
-                          session.user.email,
-                          session.providerAccountId,
-                          () => {},
-                          (fail) => {
-                            setLoading(false);
-                            if (
-                              fail &&
-                              fail.response &&
-                              fail.response.status === 403
-                            ) {
-                              hotToast('error', 'Invalid Email or Password');
-                            } else {
-                              hotToast('error', `something wrong${fail}`);
-                            }
-                          },
-                        ),
-                      );
-                    });
-                  }
-                }}
+                onClick={handleGoogleLogin}
                 fullWidth
                 color="error"
                 size="large"
