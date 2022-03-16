@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import Form, { useForm } from '../useForm';
 import Controls from '../controls/Controls';
@@ -12,7 +12,7 @@ const initialFValues = {
   title: '',
   description: '',
   color: '',
-  pin_post_id: '',
+  pinPost: '',
 };
 
 const CategoryForm = (props) => {
@@ -50,13 +50,17 @@ const CategoryForm = (props) => {
         ? ''
         : 'color is not valid.';
     }
-    if ('pin_post_id' in fieldValues && fieldValues.pin_post_id.length > 0)
-      temp.pin_post_id =
+    if (
+      'pinPost' in fieldValues &&
+      fieldValues.pinPost !== '' &&
+      fieldValues.pinPost !== null
+    )
+      temp.pinPost =
         /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
-          fieldValues.pin_post_id,
+          fieldValues.pinPost,
         )
           ? ''
-          : 'pin_post_id is not valid.';
+          : 'pinPost is not valid.';
     setErrors({
       ...temp,
     });
@@ -78,9 +82,9 @@ const CategoryForm = (props) => {
     if (validate()) {
       if (values.id === null && values.fakeID === null) {
         const newValues = { ...values, fakeID: uuidv4() };
-        addOrEdit(newValues, resetForm);
+        addOrEdit(newValues);
       } else {
-        addOrEdit(values, resetForm);
+        addOrEdit(values);
       }
     }
   };
@@ -90,6 +94,7 @@ const CategoryForm = (props) => {
       console.log('recordForEdit1', recordForEdit);
       setValues({
         ...recordForEdit,
+        pinPost: recordForEdit.pinPost ? recordForEdit.pinPost.id : null,
       });
     } else {
       console.log('recordForEdit2', recordForEdit);
@@ -130,12 +135,12 @@ const CategoryForm = (props) => {
             error={errors.color}
           />
           <Controls.Input
-            name="pin_post_id"
-            label="pin_post_id"
-            value={values.pin_post_id}
+            name="pinPost"
+            label="pinPost"
+            value={values.pinPost}
             onChange={handleInputChange}
-            // value={recordForEdit ? recordForEdit.pin_post_id : ''}
-            error={errors.pin_post_id}
+            // value={recordForEdit ? recordForEdit.pinPost : ''}
+            error={errors.pinPost}
           />
           <div>
             <Controls.Button
