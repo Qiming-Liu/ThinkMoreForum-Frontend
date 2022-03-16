@@ -22,7 +22,7 @@ import {
   sendVerificationEmail,
 } from '../../services/Users';
 import {
-  setProfileImgAction,
+  setHeadImgAction,
   setUsernameAction,
 } from '../../store/actions/signAction';
 import UserCircleIcon from '../../icons/user-circle';
@@ -91,7 +91,7 @@ const Form = (props) => {
       .then(() => {
         hotToast('success', 'Profile picture is changed');
         dispatch(
-          setProfileImgAction(
+          setHeadImgAction(
             img.url,
             () => {},
             (fail) => {

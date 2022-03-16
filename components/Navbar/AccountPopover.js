@@ -54,7 +54,7 @@ const AccountPopover = (props) => {
         }}
       >
         <Avatar
-          src={myDetail.profileImgUrl}
+          src={myDetail.headImgUrl}
           sx={{
             height: 40,
             width: 40,
