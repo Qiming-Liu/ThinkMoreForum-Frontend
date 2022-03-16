@@ -84,7 +84,9 @@ const PostCard = (props) => {
             variant="body1"
           >
             {abstract.length > 200
-              ? `${abstract.substring(0, 200)}...`
+              ? `${abstract
+                  .replace(/<.*?>| [</].*?>/gi, '')
+                  .substring(0, 200)}...`
               : parse(abstract)}
           </Typography>
         )}
