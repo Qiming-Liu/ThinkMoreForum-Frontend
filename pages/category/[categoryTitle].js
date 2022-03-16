@@ -376,7 +376,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             id,
             createTimestamp,
             postUsers: {
-              headImgUrl: authorAvatar = '/logo.png',
+              headImgUrl: authorAvatar,
               username: authorName = 'N.A.',
             },
             headImgUrl,
