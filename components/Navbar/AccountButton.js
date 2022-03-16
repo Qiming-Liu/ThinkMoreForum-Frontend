@@ -38,6 +38,10 @@ const AccountButton = ({ isLogin }) => {
     }
   }
 
+  if (!myDetail) {
+    return null;
+  }
+
   return (
     <>
       <Box
@@ -55,7 +59,7 @@ const AccountButton = ({ isLogin }) => {
             height: 40,
             width: 40,
           }}
-          src={profileImg}
+          src={profileImg || ''}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>
