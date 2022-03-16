@@ -50,18 +50,10 @@ const Form = (props) => {
       changeUsername(values.username)
         .then(() => {
           hotToast('success', 'Username is changed');
-          dispatch(
-            setUsernameAction(
-              values.username,
-              () => {},
-              (fail) => {
-                hotToast('error', `Something wrong: ${fail}`);
-              },
-            ),
-          );
+          dispatch(setUsernameAction(values.username));
         })
-        .catch((error) => {
-          hotToast('error', `Something wrong: ${error}`);
+        .catch(() => {
+          hotToast('error', 'Username is already taken');
         });
     },
   });
@@ -83,8 +75,8 @@ const Form = (props) => {
         .then(() => {
           hotToast('success', 'Verification email is sent');
         })
-        .catch((error) => {
-          hotToast('error', `Something wrong: ${error}`);
+        .catch(() => {
+          hotToast('error', 'Email is already in use');
         });
     },
   });
