@@ -1,6 +1,5 @@
 import React from 'react';
 import NextLink from 'next/link';
-import parse from 'html-react-parser';
 import {
   Avatar,
   Box,
@@ -87,7 +86,7 @@ const PostCard = (props) => {
               ? `${abstract
                   .replace(/<.*?>| [</].*?>/gi, '')
                   .substring(0, 200)}...`
-              : parse(abstract)}
+              : abstract.replace(/<.*?>| [</].*?>/gi, '')}
           </Typography>
         )}
         <Box
