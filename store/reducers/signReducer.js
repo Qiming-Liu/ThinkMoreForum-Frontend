@@ -67,12 +67,12 @@ const signReducer = (state = initialState, { type, payload }) => {
         myDetail: payload,
       };
 
-    case Action.SET_PROFILEIMG:
+    case Action.SET_HEADIMG:
       return {
         ...state,
         myDetail: {
           ...state.myDetail,
-          profileImgUrl: payload,
+          headImgUrl: payload,
         },
       };
 

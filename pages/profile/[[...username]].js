@@ -37,7 +37,7 @@ const Profile = () => {
       const { data } = await getCurrentUser();
       setCurrentName(data.username);
       setCurrentRole(data.role.roleName);
-      setCurrentImg(data.profileImgUrl);
+      setCurrentImg(data.headImgUrl);
       if (!username) {
         setFollowedStatus('current_user');
       } else if (username[0] === currentName) {
@@ -52,7 +52,7 @@ const Profile = () => {
     const getOtherUser = async () => {
       const { data } = await getUserByUsername(username);
       setRole(data.role.roleName);
-      setImg(data.profileImgUrl);
+      setImg(data.headImgUrl);
     };
     if (username) {
       getOtherUser();
