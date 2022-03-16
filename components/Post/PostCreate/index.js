@@ -37,7 +37,11 @@ const PostCreate = ({ categoryTitle }) => {
         hotToast('error', 'Title is too long ! ');
         return;
       }
-      if (!context.replace(/<.*?>| [</].*?>/gi, '')) {
+      if (
+        !context.replace(/<.*?>| [</].*?>/gi, '') &&
+        !context.includes('<iframe') &&
+        !context.includes('<img')
+      ) {
         hotToast('error', 'Context is required !');
         return;
       }
