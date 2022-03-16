@@ -62,11 +62,15 @@ const Login = ({ register }) => {
   });
 
   const handleFacebookLogin = async () => {
-    signIn('facebook', { callbackUrl: 'http://localhost:3000/facebook-login' });
+    signIn('facebook', {
+      callbackUrl: 'https://www.thinkmoreapp.com/facebook-login',
+    });
   };
 
   const handleGoogleLogin = async () => {
-    signIn('google', { callbackUrl: 'http://localhost:3000/google-login' });
+    signIn('google', {
+      callbackUrl: 'https://www.thinkmoreapp.com/google-login',
+    });
   };
 
   return (

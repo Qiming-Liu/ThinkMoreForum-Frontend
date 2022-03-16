@@ -11,7 +11,7 @@ const AccountButton = ({ isLogin }) => {
   const anchorRef = useRef(null);
   const [openPopover, setOpenPopover] = useState(false);
   const [myDetails, setMyDetails] = useState(undefined);
-  const [profileImg, setProfileImg] = useState(undefined);
+  const [headImg, setHeadImg] = useState(undefined);
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
 
@@ -21,7 +21,7 @@ const AccountButton = ({ isLogin }) => {
         const { data } = await getMyUser();
         dispatch(setDetailAction(data));
         setMyDetails(data);
-        setProfileImg(data.profileImgUrl);
+        setHeadImg(data.headImgUrl);
       })();
     }
   }, [dispatch, isLogin]);
@@ -31,10 +31,10 @@ const AccountButton = ({ isLogin }) => {
   }
 
   if (myDetail) {
-    const checkProfileImage = (state) => state.sign.myDetail.profileImgUrl;
-    const latestProfileImage = checkProfileImage(store.getState());
-    if (latestProfileImage !== profileImg) {
-      setProfileImg(latestProfileImage);
+    const checkHeadImg = (state) => state.sign.myDetail.headImgUrl;
+    const latestHeadImg = checkHeadImg(store.getState());
+    if (latestHeadImg !== headImg) {
+      setHeadImg(latestHeadImg);
     }
   }
 
@@ -59,7 +59,7 @@ const AccountButton = ({ isLogin }) => {
             height: 40,
             width: 40,
           }}
-          src={profileImg || ''}
+          src={headImg || ''}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>

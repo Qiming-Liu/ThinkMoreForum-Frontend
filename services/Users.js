@@ -45,11 +45,11 @@ export const changePassword = ({ oldPassword, newPassword }) =>
 export const changeUsername = (newUsername) =>
   http(`/v1/users/username/${newUsername}`, { method: 'PUT' });
 
-export const changeProfileImg = ({ profileImgUrl }) =>
-  http(`/v1/users/profileimg`, {
+export const changeHeadImg = ({ headImgUrl }) =>
+  http(`/v1/users/headimg`, {
     method: 'PUT',
     data: {
-      profileImgUrl,
+      headImgUrl,
     },
   });
 
