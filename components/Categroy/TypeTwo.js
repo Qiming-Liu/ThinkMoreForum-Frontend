@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Badge, Typography, Grid } from '@mui/material';
 
 const StyleB = (props) => {
-  const { color, title, description, postCount } = props;
+  const { color, title, description, postCount, headImgUrl } = props;
 
   return (
     <Grid
@@ -30,7 +30,7 @@ const StyleB = (props) => {
           {description}
         </Typography>
       </Grid>
-      <Image src="/logo.svg" height="200" width="200" alt="logo" />
+      <Image src={headImgUrl} height="200" width="200" alt="logo" />
     </Grid>
   );
 };

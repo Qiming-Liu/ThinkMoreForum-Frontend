@@ -6,4 +6,7 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   swcMinify: true,
+  images: {
+    domains: ['img.thinkmoreapp.com'],
+  },
 };

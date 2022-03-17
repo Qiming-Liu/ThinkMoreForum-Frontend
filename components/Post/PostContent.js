@@ -171,14 +171,36 @@ const PostContent = ({
                   mt: 3,
                 }}
               >
-                <NextLink href={userProfileUrl} passHref>
-                  <Link href={userProfileUrl}>
+                <NextLink
+                  href={{
+                    pathname: userProfileUrl,
+                    query: { userId: post.postUsers.id },
+                  }}
+                  passHref
+                >
+                  <Link
+                    href={{
+                      pathname: userProfileUrl,
+                      query: { userId: post.postUsers.id },
+                    }}
+                  >
                     <Avatar src={post.postUsers.headImgUrl} />
                   </Link>
                 </NextLink>
                 <Box sx={{ ml: 2, display: 'flex', flexDirection: 'row' }}>
-                  <NextLink href={userProfileUrl} passHref>
-                    <Link href={userProfileUrl}>
+                  <NextLink
+                    href={{
+                      pathname: userProfileUrl,
+                      query: { userId: post.postUsers.id },
+                    }}
+                    passHref
+                  >
+                    <Link
+                      href={{
+                        pathname: userProfileUrl,
+                        query: { userId: post.postUsers.id },
+                      }}
+                    >
                       <Typography variant="subtitle2">
                         By {post.postUsers.username}
                       </Typography>

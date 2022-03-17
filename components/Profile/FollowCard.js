@@ -14,6 +14,7 @@ import DotsHorizontal from '../../icons/dots-horizontal';
 
 const FollowCard = (props) => {
   const { follow, title } = props;
+
   return (
     <Card {...props}>
       <CardHeader title={title} />
@@ -31,12 +32,15 @@ const FollowCard = (props) => {
                 >
                   {title === 'Following' && (
                     <NextLink
-                      href={`/profile/${fo.followedUsers.username}`}
+                      href={{
+                        pathname: `/profile/${fo.followedUsers.username}`,
+                        query: { userId: fo.followedUsers.id },
+                      }}
                       passHref
                     >
                       <Avatar
                         component="a"
-                        src="/logo.png"
+                        src={fo.followedUsers.headImgUrl}
                         sx={{
                           height: 56,
                           width: 56,
@@ -45,10 +49,16 @@ const FollowCard = (props) => {
                     </NextLink>
                   )}
                   {title === 'Follower' && (
-                    <NextLink href={`/profile/${fo.users.username}`} passHref>
+                    <NextLink
+                      href={{
+                        pathname: `/profile/${fo.users.username}`,
+                        query: { userId: fo.users.id },
+                      }}
+                      passHref
+                    >
                       <Avatar
                         component="a"
-                        src="/logo.png"
+                        src={fo.users.headImgUrl}
                         sx={{
                           height: 56,
                           width: 56,
@@ -64,7 +74,10 @@ const FollowCard = (props) => {
                   >
                     {title === 'Following' && (
                       <NextLink
-                        href={`/profile/${fo.followedUsers.username}`}
+                        href={{
+                          pathname: `/profile/${fo.followedUsers.username}`,
+                          query: { userId: fo.followedUsers.id },
+                        }}
                         passHref
                       >
                         {/* <Link color="textPrimary" variant="subtitle2"> */}
@@ -73,7 +86,13 @@ const FollowCard = (props) => {
                       </NextLink>
                     )}
                     {title === 'Follower' && (
-                      <NextLink href={`/profile/${fo.users.username}`} passHref>
+                      <NextLink
+                        href={{
+                          pathname: `/profile/${fo.users.username}`,
+                          query: { userId: fo.users.id },
+                        }}
+                        passHref
+                      >
                         {/* <Link color="textPrimary" variant="subtitle2"> */}
                         {fo.users.username}
                         {/* </Link> */}

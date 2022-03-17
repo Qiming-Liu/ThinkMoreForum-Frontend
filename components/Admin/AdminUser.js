@@ -217,13 +217,35 @@ export const AdminUser = ({ allUsers, ...rest }) => {
                             display: 'flex',
                           }}
                         >
-                          <NextLink href={userProfileUrl} passHref>
-                            <Link href={userProfileUrl}>
+                          <NextLink
+                            href={{
+                              pathname: userProfileUrl,
+                              query: { userId: customer.id },
+                            }}
+                            passHref
+                          >
+                            <Link
+                              href={{
+                                pathname: userProfileUrl,
+                                query: { userId: customer.id },
+                              }}
+                            >
                               <Avatar src={customer.avatarUrl} sx={{ mr: 2 }} />
                             </Link>
                           </NextLink>
-                          <NextLink href={userProfileUrl} passHref>
-                            <Link href={userProfileUrl}>
+                          <NextLink
+                            href={{
+                              pathname: userProfileUrl,
+                              query: { userId: customer.id },
+                            }}
+                            passHref
+                          >
+                            <Link
+                              href={{
+                                pathname: userProfileUrl,
+                                query: { userId: customer.id },
+                              }}
+                            >
                               <Typography color="textPrimary" variant="body1">
                                 {customer.name}
                               </Typography>

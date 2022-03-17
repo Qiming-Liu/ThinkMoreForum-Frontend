@@ -21,7 +21,7 @@ const useStyles = makeStyles(
 
 const Category = (props) => {
   const classes = useStyles();
-  const { type, color, title, description, postCount } = props;
+  const { type, color, title, description, postCount, headImgUrl } = props;
 
   return (
     <Grid item xs={12}>
@@ -39,6 +39,7 @@ const Category = (props) => {
                     : description)
                 }
                 postCount={postCount}
+                headImgUrl={headImgUrl}
               />
             ) : (
               <TypeTwo
@@ -51,6 +52,7 @@ const Category = (props) => {
                     : description)
                 }
                 postCount={postCount}
+                headImgUrl={headImgUrl}
               />
             )}
           </Paper>

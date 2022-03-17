@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Badge, Box, Card, Grid, Typography } from '@mui/material';
 
 const StyleA = (props) => {
-  const { color, title, description, postCount } = props;
+  const { color, title, description, postCount, headImgUrl } = props;
 
   return (
     <Card
@@ -20,7 +20,7 @@ const StyleA = (props) => {
       }}
     >
       <Grid item xs={12} sm={3}>
-        <Image src="/logo.svg" height="200" width="200" alt="logo" />
+        <Image src={headImgUrl} height="200" width="200" alt="logo" />
       </Grid>
       <Box>
         <Badge color="secondary" badgeContent={`${postCount} Posts`}>

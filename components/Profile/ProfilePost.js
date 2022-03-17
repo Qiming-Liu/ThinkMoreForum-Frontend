@@ -5,10 +5,11 @@ import MyPostCard from '../Post/MyPostCard';
 import {
   getPostByUsername,
   getFollowPostByUsername,
+  getPostById,
 } from '../../services/Public';
 
 const ProfilePost = (props) => {
-  const { title, value } = props;
+  const { title, value, isMyself } = props;
   const [posts, setPost] = useState(null);
   useEffect(() => {
     if (value) {
@@ -18,7 +19,12 @@ const ProfilePost = (props) => {
       };
       const getFollowPosts = async () => {
         const { data: responsepost } = await getFollowPostByUsername(value);
-        setPost(responsepost);
+        const completePostsPromises = responsepost.map(async (post) => {
+          const { data: completePost } = await getPostById(post.post.id);
+          return completePost;
+        });
+        const completePosts = await Promise.all(completePostsPromises);
+        setPost(completePosts);
       };
       if (title === 'Posts') {
         getPosts();
@@ -43,12 +49,27 @@ const ProfilePost = (props) => {
       )}
       <Divider sx={{ my: 3 }} />
       {title === 'Posts' &&
+        !isMyself &&
+        posts.map((post) => (
+          <PostCard
+            id={post.id}
+            authorAvatar={post.postUsers.headImgUrl}
+            authorName={post.postUsers.username}
+            authorId={post.postUsers.id}
+            headImg={post.headImgUrl}
+            createTimeStamp={post.createTimestamp}
+            abstract={post.abstract}
+            title={post.title}
+          />
+        ))}
+      {title === 'Posts' &&
+        isMyself &&
         posts.map((post) => (
           <MyPostCard
             id={post.id}
             authorAvatar={post.postUsers.headImgUrl}
             authorName={post.postUsers.username}
-            headImg={post.headImg}
+            headImg={post.headImgUrl}
             createTimeStamp={post.createTimestamp}
             abstract={post.abstract}
             title={post.title}
@@ -58,9 +79,11 @@ const ProfilePost = (props) => {
       {title === 'Favorite' &&
         posts.map((post) => (
           <PostCard
-            authorAvatar={post.users.headImgUrl}
-            authorName={post.users.username}
-            headImg={post.headImg}
+            id={post.id}
+            authorAvatar={post.postUsers.headImgUrl}
+            authorName={post.postUsers.username}
+            authorId={post.postUsers.id}
+            headImg={post.headImgUrl}
             createTimeStamp={post.createTimestamp}
             abstract={post.abstract}
             title={post.title}
