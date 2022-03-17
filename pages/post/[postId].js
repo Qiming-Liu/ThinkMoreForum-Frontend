@@ -45,6 +45,7 @@ export const getStaticProps = async ({ params }) => {
 };
 
 const Post = ({ post }) => {
+  console.log(post.postUsers);
   const router = useRouter();
   const { postId } = router.query;
   const [comments, setComments] = useState([]);
@@ -115,7 +116,7 @@ const Post = ({ post }) => {
   };
   const handleUnpinPost = async (categoryId) => {
     try {
-      await deleteCategoryPinPost(categoryId);
+      deleteCategoryPinPost(categoryId);
     } catch (err) {
       hotToast('error', err.message);
     }

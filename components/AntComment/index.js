@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import { Comment, Tooltip, Avatar } from 'antd';
+import NextLink from 'next/link';
 import myTime from '../../utils/myTime';
 import CommentForm from '../Post/CommentForm';
 
@@ -27,7 +28,11 @@ const AntComment = ({ comment, replies, sendChildComment, login }) => {
         ),
       ]}
       author={commentUsers.username}
-      avatar={<Avatar src={commentUsers.headImgUrl} />}
+      avatar={
+        <NextLink href={`/profile/${commentUsers.username}`} passHref>
+          <Avatar src={commentUsers.headImgUrl} />
+        </NextLink>
+      }
       content={comment.context}
       datetime={
         <Tooltip>
