@@ -23,7 +23,7 @@ import Notification from '../Notification';
 import ConfirmDialog from '../ConfirmDialog';
 
 const CategoriesPaper = styled(Paper)`
-  margin: 40px;
+  margin: 60px;
   padding: 20px;
 `;
 
@@ -48,7 +48,8 @@ const headCells = [
   { id: 'title', label: 'Category Title', disableSorting: true },
   { id: 'description', label: 'Description', disableSorting: true },
   { id: 'color', label: 'Color', disableSorting: true },
-  { id: 'pin_post_id', label: 'pin_post_id', disableSorting: true },
+  { id: 'pinPost', label: 'pinPost', disableSorting: true },
+  { id: 'postCount', label: 'postCount', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -110,7 +111,10 @@ const Category = () => {
       return oldRecords.map((x) => {
         const newXID = x.id || x.fakeID;
         if (newXID === newCategoryID) {
-          return updatedCategory;
+          return {
+            ...updatedCategory,
+            pinPost: { id: updatedCategory.pinPost },
+          };
         }
         return x;
       });
@@ -145,7 +149,11 @@ const Category = () => {
   };
 
   const add = (category) => {
-    setRecords((prevState) => [...prevState, category]);
+    const formattedCategory = {
+      ...category,
+      pinPost: { id: category.pinPost },
+    };
+    setRecords((prevState) => [...prevState, formattedCategory]);
     setRecordForEdit(null);
     // resetForm();
     setOpenPopup(false);
@@ -153,13 +161,18 @@ const Category = () => {
   const handleSaveChanges = () => {
     const formattedRecords = records.map((x) => {
       const y = x;
+      if (y.color === null || y.color === '') delete y.color;
+      if (y.description === null || y.description === '') delete y.description;
+      if (!y.pinPost || y.pinPost.id === '') delete y.pinPost;
+      if (y.id === null || y.id === '') delete y.id;
       delete y.fakeID;
       return y;
     });
-    // formattedRecords.map((x) => {
-    //   categoryServices.putCategory(x.title, x.description, x.color);
-    //   return x;
-    // });
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    console.log('formattedRecords', formattedRecords);
     categoryServices.putCategories(formattedRecords);
     console.log(formattedRecords);
   };
@@ -167,7 +180,7 @@ const Category = () => {
   if (records === null) {
     return <div>Loading...</div>;
   }
-
+  console.log(records);
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -221,7 +234,10 @@ const Category = () => {
                             <TableCell>{item.title}</TableCell>
                             <TableCell>{item.description}</TableCell>
                             <TableCell>{item.color}</TableCell>
-                            <TableCell>{item.pin_post_id}</TableCell>
+                            <TableCell>
+                              {item.pinPost && item.pinPost.id}
+                            </TableCell>
+                            <TableCell>{item.postCount}</TableCell>
                             <TableCell>
                               <Controls.ActionButton
                                 color="primary"
@@ -262,7 +278,17 @@ const Category = () => {
             text="Save All Changes."
             variant="outlined"
             // className={classes.savBtn}
-            onClick={handleSaveChanges}
+            // onClick={handleSaveChanges}
+            onClick={() => {
+              setConfirmDialog({
+                isOpen: true,
+                title: 'Are you sure to save all changes?',
+                subTitle: "You can't undo this operation",
+                onConfirm: () => {
+                  handleSaveChanges();
+                },
+              });
+            }}
           />
         </CategoriesPaper>
       </DragDropContext>
