@@ -93,8 +93,6 @@ const Profile = () => {
     { label: 'Following', value: 'following' },
     { label: 'Follower', value: 'follower' },
   ];
-  console.log('img', img);
-  console.log('currentImg', currentImg);
   return (
     <Box
       component="main"

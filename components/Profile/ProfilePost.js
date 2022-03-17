@@ -11,7 +11,6 @@ import {
 const ProfilePost = (props) => {
   const { title, value, isMyself } = props;
   const [posts, setPost] = useState(null);
-  console.log(isMyself);
   useEffect(() => {
     if (value) {
       const getPosts = async () => {
