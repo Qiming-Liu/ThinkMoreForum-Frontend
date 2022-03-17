@@ -4,7 +4,7 @@ import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Public';
 import MyTime from '../utils/myTime';
-import { UsersRoleContextProvider } from '../contexts/UsersRoleContext';
+import { UsersRoleContextProvider } from '../components/Admin/UsersRoleContext';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
 
 const tabs = [
@@ -19,7 +19,7 @@ export const getServerSideProps = async () => {
     const user = {
       id: protoUserInfo.id,
       logintime: MyTime(protoUserInfo.lastLoginTimestamp),
-      avatarUrl: protoUserInfo.profileImgUrl,
+      avatarUrl: protoUserInfo.headImgUrl,
       createdAt: MyTime(protoUserInfo.createTimestamp),
       email: protoUserInfo.email,
       name: protoUserInfo.username,

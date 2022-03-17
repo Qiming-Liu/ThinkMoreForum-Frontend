@@ -16,7 +16,7 @@ import {
 import styled from 'styled-components';
 import CategoryForm from './CategoryForm';
 import useTable from '../useTable';
-import * as categoryServices from '../../../services/categoryService';
+import * as categoryServices from '../../../services/Category';
 import Controls from '../controls/Controls';
 import Popup from '../Popup';
 import Notification from '../Notification';

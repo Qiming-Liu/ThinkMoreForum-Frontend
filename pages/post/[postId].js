@@ -17,7 +17,7 @@ import {
 import {
   changeCategoryPinPost,
   deleteCategoryPinPost,
-} from '../../services/categoryService';
+} from '../../services/Category';
 import { createComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
@@ -45,7 +45,6 @@ export const getStaticProps = async ({ params }) => {
 };
 
 const Post = ({ post }) => {
-  console.log(post.postUsers);
   const router = useRouter();
   const { postId } = router.query;
   const [comments, setComments] = useState([]);

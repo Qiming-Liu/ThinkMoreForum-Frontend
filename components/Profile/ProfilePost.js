@@ -46,7 +46,7 @@ const ProfilePost = (props) => {
         posts.map((post) => (
           <MyPostCard
             id={post.id}
-            authorAvatar={post.postUsers.profileImg}
+            authorAvatar={post.postUsers.headImgUrl}
             authorName={post.postUsers.username}
             headImg={post.headImg}
             createTimeStamp={post.createTimestamp}
@@ -58,7 +58,7 @@ const ProfilePost = (props) => {
       {title === 'Favorite' &&
         posts.map((post) => (
           <PostCard
-            authorAvatar={post.users.profileImg}
+            authorAvatar={post.users.headImgUrl}
             authorName={post.users.username}
             headImg={post.headImg}
             createTimeStamp={post.createTimestamp}

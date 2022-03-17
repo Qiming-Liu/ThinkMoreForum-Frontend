@@ -24,7 +24,7 @@ import {
 import PublishIcon from '@mui/icons-material/Publish';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import { useUsersRoleContext } from '../../contexts/UsersRoleContext';
+import { useUsersRoleContext } from './UsersRoleContext';
 import { changeUsersRoles } from '../../services/Users';
 
 export const AdminUser = ({ allUsers, ...rest }) => {

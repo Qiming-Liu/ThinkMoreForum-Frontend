@@ -1,6 +1,6 @@
 import React from 'react';
-import { formatDistanceToNow } from 'date-fns';
 import { Avatar, Box, Typography, Button, Stack } from '@mui/material';
+import myTime from '../../utils/myTime';
 
 const ProfileComment = ({ comment, replies }) => {
   const user = comment.postUsers;
@@ -20,7 +20,7 @@ const ProfileComment = ({ comment, replies }) => {
       }}
     >
       <Stack>
-        <Avatar src={user.profileImgUrl} />
+        <Avatar src={user.headImgUrl} />
         <Button
           onClick={() => {}}
           sx={{
@@ -51,7 +51,7 @@ const ProfileComment = ({ comment, replies }) => {
         >
           <Typography variant="subtitle2">{user.username}</Typography>
           <Typography color="textSecondary" variant="caption">
-            {formatDistanceToNow(timeStamp, { addSuffix: true })}
+            {myTime(timeStamp)}
           </Typography>
         </Box>
         <Typography variant="body2" sx={{ mt: 1 }}>
