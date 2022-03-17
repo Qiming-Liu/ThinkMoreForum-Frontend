@@ -66,8 +66,6 @@ const Profile = () => {
         getOtherUser();
       }
       getUser();
-    } else {
-      return null;
     }
   }, [currentName, router.isReady, userId, username]);
 
