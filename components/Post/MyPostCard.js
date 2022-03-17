@@ -25,7 +25,6 @@ const getInitials = (name = '') =>
 const MyPostCard = (props) => {
   const {
     id,
-    generatedUrl,
     authorAvatar,
     authorName,
     headImg,
@@ -40,6 +39,7 @@ const MyPostCard = (props) => {
   } = props;
 
   const [invisible, setInvisible] = useState(!visibility);
+  const generatedUrl = `/post/${id}`;
 
   const handleVisibility = async () => {
     const { data: response } = await changePostVisibility(id);
@@ -81,6 +81,9 @@ const MyPostCard = (props) => {
             sx={{
               display: 'flex',
               alignItems: 'center',
+              position: 'absolute',
+              top: 0,
+              right: 0,
             }}
           >
             <Typography variant="subtitle1" sx={{ mb: 0.2 }}>

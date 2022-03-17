@@ -29,6 +29,7 @@ const Index = ({ categoriesInfo }) => {
           title,
           description = '',
           postCount = 'N.A.',
+          headImgUrl,
         }) => {
           return (
             <Category
@@ -38,6 +39,7 @@ const Index = ({ categoriesInfo }) => {
               title={title}
               description={description}
               postCount={postCount}
+              headImgUrl={headImgUrl}
             />
           );
         },

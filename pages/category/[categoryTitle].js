@@ -378,6 +378,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
             postUsers: {
               headImgUrl: authorAvatar,
               username: authorName = 'N.A.',
+              id: authorId,
             },
             headImgUrl,
             context,
@@ -392,6 +393,7 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
                 id={id}
                 authorAvatar={authorAvatar || '/logo.png'}
                 authorName={authorName}
+                authorId={authorId}
                 headImg={displayHeadImg && (headImgUrl || '/logo.png')}
                 createTimeStamp={MyTime(createTimestamp)}
                 abstract={displayAbstract && context}

@@ -24,6 +24,7 @@ const PostCard = (props) => {
     id,
     authorAvatar,
     authorName,
+    authorId,
     headImg,
     createTimeStamp,
     abstract,
@@ -34,12 +35,12 @@ const PostCard = (props) => {
     ...other
   } = props;
 
+  const generatedUrl = `/post/${id}`;
+  const userProfileUrl = `/profile/${authorName}`;
+
   const handleClick = () => {
     updatePostViewCount(id);
   };
-
-  const generatedUrl = `/post/${id}`;
-  const userProfileUrl = `/profile/${authorName}`;
 
   return (
     <Card
@@ -58,7 +59,7 @@ const PostCard = (props) => {
         </NextLink>
       )}
       <CardContent>
-        <NextLink href={generatedUrl ?? ''} passHref>
+        <NextLink href={generatedUrl ?? ''} onClick={handleClick} passHref>
           <Link
             href={generatedUrl ?? ''}
             color="textPrimary"
@@ -103,15 +104,37 @@ const PostCard = (props) => {
               display: 'flex',
             }}
           >
-            <NextLink href={userProfileUrl} passHref>
-              <Link href={userProfileUrl}>
+            <NextLink
+              href={{
+                pathname: userProfileUrl,
+                query: { userId: authorId },
+              }}
+              passHref
+            >
+              <Link
+                href={{
+                  pathname: userProfileUrl,
+                  query: { userId: authorId },
+                }}
+              >
                 <Avatar src={authorAvatar} sx={{ mr: 2 }}>
                   {getInitials(authorName)}
                 </Avatar>
               </Link>
             </NextLink>
-            <NextLink href={userProfileUrl} passHref>
-              <Link href={userProfileUrl}>
+            <NextLink
+              href={{
+                pathname: userProfileUrl,
+                query: { userId: authorId },
+              }}
+              passHref
+            >
+              <Link
+                href={{
+                  pathname: userProfileUrl,
+                  query: { userId: authorId },
+                }}
+              >
                 <Typography variant="subtitle2">
                   {`By ${authorName}`}
                 </Typography>
