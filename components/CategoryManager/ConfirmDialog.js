@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogActions,
   Typography,
-  // makeStyles,
   IconButton,
 } from '@mui/material';
 import styled from 'styled-components';
@@ -29,21 +28,8 @@ const StyDialogActions = styled(DialogActions)`
   justify-content: center;
 `;
 
-// const StyIconButton = styled(IconButton)`
-//   /* background-color: #5acce5;
-//   color: #5accff; */
-//   &:hover {
-//     /* background-color: #2e0d7c; */
-//     cursor: default;
-//     & .MuiSvgIcon-root {
-//       font-size: 8rem;
-//     }
-//   }
-// `;
-
 const ConfirmDialog = (props) => {
   const { confirmDialog, setConfirmDialog } = props;
-  // const classes = useStyles();
 
   return (
     <StyedDialog open={confirmDialog.isOpen}>

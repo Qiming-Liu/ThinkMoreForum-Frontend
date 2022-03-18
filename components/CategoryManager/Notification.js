@@ -11,7 +11,6 @@ const StySnackbar = styled(Snackbar)`
 
 const Notification = (props) => {
   const { notify, setNotify } = props;
-  // const classes = useStyles();
 
   const handleClose = (reason) => {
     if (reason === 'clickaway') {
@@ -25,7 +24,6 @@ const Notification = (props) => {
 
   return (
     <StySnackbar
-      // className={classes.root}
       open={notify.isOpen}
       autoHideDuration={3000}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}

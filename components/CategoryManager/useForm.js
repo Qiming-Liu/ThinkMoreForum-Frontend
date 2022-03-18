@@ -18,7 +18,6 @@ export function useForm(
 
   const resetForm = () => {
     setValues(initialFValues);
-    // setRecordForEdit(null);
     setErrors({});
   };
   return {

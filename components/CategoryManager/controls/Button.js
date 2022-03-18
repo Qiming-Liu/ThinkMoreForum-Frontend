@@ -15,7 +15,6 @@ const Button = (props) => {
     <StyledMButton
       variant={variant || 'contained'}
       size={size || 'large'}
-      // color={color || 'primary'}
       onClick={onClick}
       {...other}
     >

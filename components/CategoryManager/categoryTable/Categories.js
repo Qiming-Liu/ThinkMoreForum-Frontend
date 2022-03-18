@@ -6,7 +6,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { Search } from '@material-ui/icons';
 import {
-  Paper,
   TableBody,
   TableRow,
   TableCell,
@@ -21,11 +20,6 @@ import Controls from '../controls/Controls';
 import Popup from '../Popup';
 import Notification from '../Notification';
 import ConfirmDialog from '../ConfirmDialog';
-
-const CategoriesPaper = styled(Paper)`
-  margin: 60px;
-  padding: 20px;
-`;
 
 const SearchInput = styled(Controls.Input)`
   width: 75%;
@@ -54,11 +48,8 @@ const headCells = [
 ];
 
 const Category = () => {
-  // const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
-  // const [singleRecord, setSingleRecord] = useState(recordForEdit);
-  // false = add, true = edit
   const [records, setRecords] = useState(null);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -102,12 +93,8 @@ const Category = () => {
   };
 
   const edit = async (category) => {
-    // categoryServices.updateCategory(category);
-    // else categoryServices.updateEmployee(category);
-    // resetForm();
     const updateCategories = (updatedCategory, oldRecords) => {
       const newCategoryID = updatedCategory.id || updatedCategory.fakeID;
-      console.log('newCategoryID', newCategoryID);
       return oldRecords.map((x) => {
         const newXID = x.id || x.fakeID;
         if (newXID === newCategoryID) {
@@ -120,7 +107,6 @@ const Category = () => {
       });
     };
     const newCategories = updateCategories(category, records);
-    // const { data: categoriesInfo } = await categoryServices.getAllCategories();
     setRecords(newCategories);
     setRecordForEdit(null);
     setOpenPopup(false);
@@ -137,7 +123,6 @@ const Category = () => {
       isOpen: false,
     });
     setRecords(records.filter((x) => x.title !== title));
-    console.log(records);
   };
 
   const handleDragEnd = (e) => {
@@ -155,7 +140,6 @@ const Category = () => {
     };
     setRecords((prevState) => [...prevState, formattedCategory]);
     setRecordForEdit(null);
-    // resetForm();
     setOpenPopup(false);
   };
   const handleSaveChanges = () => {
@@ -172,125 +156,114 @@ const Category = () => {
       ...confirmDialog,
       isOpen: false,
     });
-    console.log('formattedRecords', formattedRecords);
     categoryServices.putCategories(formattedRecords);
-    console.log(formattedRecords);
   };
 
   if (records === null) {
     return <div>Loading...</div>;
   }
-  console.log(records);
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <CategoriesPaper>
-          <Toolbar>
-            <SearchInput
-              label="Search Category"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleSearch}
-            />
-            <NewButton
-              text="Add Category"
-              variant="outlined"
-              startIcon={<AddIcon />}
-              onClick={() => {
-                setOpenPopup(true);
-                setRecordForEdit(null);
-              }}
-            />
-          </Toolbar>
-          <TblContainer>
-            <TblHead />
-            <Droppable droppableId="droppable-1">
-              {(provided) => (
-                <TableBody ref={provided.innerRef} {...provided.droppableProps}>
-                  {recordsAfterPagingAndSorting().map((item, index) => {
-                    if (item.id) {
-                      console.log(item.id);
-                    }
-                    return (
-                      <Draggable
-                        key={item.id || item.fakeID}
-                        draggableId={item.id || item.fakeID}
-                        index={index}
-                      >
-                        {(provider) => (
-                          <TableRow
-                            key={item.id || item.fakeID}
-                            {...provider.draggableProps}
-                            ref={provider.innerRef}
-                          >
-                            <TableCell {...provider.dragHandleProps}>
-                              <DragHandleIcon />
-                            </TableCell>
-                            <TableCell>{item.title}</TableCell>
-                            <TableCell>{item.description}</TableCell>
-                            <TableCell>{item.color}</TableCell>
-                            <TableCell>
-                              {item.pinPost && item.pinPost.id}
-                            </TableCell>
-                            <TableCell>{item.postCount}</TableCell>
-                            <TableCell>
-                              <Controls.ActionButton
-                                color="primary"
-                                onClick={() => {
-                                  openInPopup(item);
-                                }}
-                              >
-                                <EditOutlinedIcon fontSize="small" />
-                              </Controls.ActionButton>
-                              <Controls.ActionButton
-                                color="secondary"
-                                onClick={() => {
-                                  setConfirmDialog({
-                                    isOpen: true,
-                                    title:
-                                      'Are you sure to delete this record?',
-                                    subTitle: "You can't undo this operation",
-                                    onConfirm: () => {
-                                      onDelete(item.title);
-                                    },
-                                  });
-                                }}
-                              >
-                                <CloseIcon fontSize="small" />
-                              </Controls.ActionButton>
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                </TableBody>
-              )}
-            </Droppable>
-          </TblContainer>
-          <TblPagination />
-          <SavBtn
-            text="Save All Changes."
+        <Toolbar>
+          <SearchInput
+            label="Search Category"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+          <NewButton
+            text="Add Category"
             variant="outlined"
-            // className={classes.savBtn}
-            // onClick={handleSaveChanges}
+            startIcon={<AddIcon />}
             onClick={() => {
-              setConfirmDialog({
-                isOpen: true,
-                title: 'Are you sure to save all changes?',
-                subTitle: "You can't undo this operation",
-                onConfirm: () => {
-                  handleSaveChanges();
-                },
-              });
+              setOpenPopup(true);
+              setRecordForEdit(null);
             }}
           />
-        </CategoriesPaper>
+        </Toolbar>
+        <TblContainer>
+          <TblHead />
+          <Droppable droppableId="droppable-1">
+            {(provided) => (
+              <TableBody ref={provided.innerRef} {...provided.droppableProps}>
+                {recordsAfterPagingAndSorting().map((item, index) => {
+                  return (
+                    <Draggable
+                      key={item.id || item.fakeID}
+                      draggableId={item.id || item.fakeID}
+                      index={index}
+                    >
+                      {(provider) => (
+                        <TableRow
+                          key={item.id || item.fakeID}
+                          {...provider.draggableProps}
+                          ref={provider.innerRef}
+                        >
+                          <TableCell {...provider.dragHandleProps}>
+                            <DragHandleIcon />
+                          </TableCell>
+                          <TableCell>{item.title}</TableCell>
+                          <TableCell>{item.description}</TableCell>
+                          <TableCell>{item.color}</TableCell>
+                          <TableCell>
+                            {item.pinPost && item.pinPost.title}
+                          </TableCell>
+                          <TableCell>{item.postCount}</TableCell>
+                          <TableCell>
+                            <Controls.ActionButton
+                              color="primary"
+                              onClick={() => {
+                                openInPopup(item);
+                              }}
+                            >
+                              <EditOutlinedIcon fontSize="small" />
+                            </Controls.ActionButton>
+                            <Controls.ActionButton
+                              color="secondary"
+                              onClick={() => {
+                                setConfirmDialog({
+                                  isOpen: true,
+                                  title: 'Are you sure to delete this record?',
+                                  subTitle: "You can't undo this operation",
+                                  onConfirm: () => {
+                                    onDelete(item.title);
+                                  },
+                                });
+                              }}
+                            >
+                              <CloseIcon fontSize="small" />
+                            </Controls.ActionButton>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </Draggable>
+                  );
+                })}
+              </TableBody>
+            )}
+          </Droppable>
+        </TblContainer>
+        <TblPagination />
+        <SavBtn
+          text="Save All Changes."
+          variant="outlined"
+          onClick={() => {
+            setConfirmDialog({
+              isOpen: true,
+              title: 'Are you sure to save all changes?',
+              subTitle: "You can't undo this operation",
+              onConfirm: () => {
+                handleSaveChanges();
+              },
+            });
+          }}
+        />
       </DragDropContext>
       <Popup
         title="Category Form"
