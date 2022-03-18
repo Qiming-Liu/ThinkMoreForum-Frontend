@@ -12,12 +12,30 @@ import styled from 'styled-components';
 
 const StyledTable = styled(Table)`
   margin-top: 24px;
+  position: relative;
+  overflow: auto;
+  max-width: 100%;
+  width: 1100px;
+  margin-right: 100px;
+  /* margin-right: 500px; */
+  & .MuiTable-root {
+    position: relative;
+    overflow: auto;
+    max-width: 100%;
+    width: 1100px;
+    margin-right: 100px;
+  }
   & thead th {
     font-weight: 600;
+    text-align: center;
   }
   & tbody td {
     font-weight: 300;
+    text-align: center;
   }
+  /* & tbody tr {
+    text-align: center;
+  } */
   & tbody tr:hover {
     background-color: #fffbf2;
     cursor: pointer;
