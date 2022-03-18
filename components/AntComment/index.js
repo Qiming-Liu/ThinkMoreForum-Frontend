@@ -29,7 +29,13 @@ const AntComment = ({ comment, replies, sendChildComment, login }) => {
       ]}
       author={commentUsers.username}
       avatar={
-        <NextLink href={`/profile/${commentUsers.username}`} passHref>
+        <NextLink
+          href={{
+            pathname: `/profile/${commentUsers.username}`,
+            query: { userId: commentUsers.id },
+          }}
+          passHref
+        >
           <Avatar src={commentUsers.headImgUrl} />
         </NextLink>
       }

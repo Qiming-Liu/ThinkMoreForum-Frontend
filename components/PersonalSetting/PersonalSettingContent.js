@@ -33,6 +33,7 @@ const Form = (props) => {
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
   const [headImg, setHeadImg] = useState('');
+  console.log(`myDetail`, myDetail);
 
   const formikUsername = useFormik({
     enableReinitialize: true,

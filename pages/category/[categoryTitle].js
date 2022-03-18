@@ -268,12 +268,15 @@ const PostList = () => {
         </Box>
       )}
       <Grid container spacing={1} align="center">
-        <Grid item xs={2} justifyContent="center" sx={{ mt: 0.7 }}>
-          <Typography variant="h6" align="center">
+        <Grid
+          item
+          justifyContent="center"
+          alignItems="center"
+          sx={{ display: 'flex', flexDirection: 'row' }}
+        >
+          <Typography variant="h6" align="center" sx={{ mr: 2 }}>
             Display setting:
           </Typography>
-        </Grid>
-        <Grid item>
           <FormGroup row>
             <FormControlLabel
               checked={displayHeadImg}
@@ -319,8 +322,6 @@ const PostList = () => {
               },
             }}
           />
-        </Grid>
-        <Grid item>
           <TextField
             size="small"
             sx={{ ml: 1 }}
@@ -337,8 +338,6 @@ const PostList = () => {
               </MenuItem>
             ))}
           </TextField>
-        </Grid>
-        <Grid item>
           <Button
             size="small"
             color="secondary"

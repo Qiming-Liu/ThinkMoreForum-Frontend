@@ -14,15 +14,12 @@ import {
   getCommentsByPostId,
   getAllPosts,
 } from '../../services/Public';
-import {
-  putCategoryPinPostById,
-  putCategoryPinPostNull,
-} from '../../services/Category';
 import { postComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
 import CommentForm from '../../components/Post/CommentForm';
 import hotToast from '../../utils/hotToast';
+import { PinPostContextProvider } from '../../components/Post/PinPostContext';
 
 export const getStaticPaths = async () => {
   const { data: posts } = await getAllPosts();
@@ -106,20 +103,6 @@ const Post = ({ post }) => {
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       );
-  const handlePinPost = async (categoryId) => {
-    try {
-      await putCategoryPinPostById(categoryId, postId);
-    } catch (err) {
-      hotToast('error', err.message);
-    }
-  };
-  const handleUnpinPost = async (categoryId) => {
-    try {
-      putCategoryPinPostNull(categoryId);
-    } catch (err) {
-      hotToast('error', err.message);
-    }
-  };
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
@@ -138,7 +121,7 @@ const Post = ({ post }) => {
   }, [postId, postFaved, isLogin]);
   if (!post) return null;
   return (
-    <>
+    <PinPostContextProvider thisPost={post}>
       <NextLink href={`/category/${post.category.title}`} passHref>
         <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
           Back to {post.category.title}
@@ -149,8 +132,6 @@ const Post = ({ post }) => {
         post={post}
         isFavored={postFaved}
         toggleFav={handleFavPost}
-        handlePinPost={handlePinPost}
-        handleUnpinPost={handleUnpinPost}
       />
       {rootComments &&
         rootComments.map((rootComment) => {
@@ -166,7 +147,7 @@ const Post = ({ post }) => {
           );
         })}
       <CommentForm handleSubmit={sendComment} login={isLogin} />
-    </>
+    </PinPostContextProvider>
   );
 };
 

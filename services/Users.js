@@ -12,6 +12,13 @@ export const passwordReset = (password) =>
     data: { new_password: password },
   });
 
+export const getMyUser = () => http(`/v1/users/me`, { method: 'GET' });
+
+export const getUserById = (usersId) =>
+  http(`/v1/public/users/id/${usersId}`, { method: 'GET' });
+
+export const getCurrentUser = () => http(`/v1/users/me`, { method: 'GET' });
+
 export const changePassword = ({ oldPassword, newPassword }) =>
   http(`/v1/users/password`, {
     method: 'PUT',

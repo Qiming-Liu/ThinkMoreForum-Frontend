@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect, useMemo } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import parse from 'html-react-parser';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -15,16 +15,13 @@ import {
   Grid,
   Fab,
   Link,
-  Button,
   Stack,
 } from '@mui/material';
-import PushPinIcon from '@mui/icons-material/PushPin';
-import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import NextLink from 'next/link';
-import { getCategoryByTitle } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
+import AdminTool from './AdminTool';
 
 const useStyles = makeStyles({
   favFab: {
@@ -53,92 +50,25 @@ const useStyles = makeStyles({
   },
 });
 
-const PostContent = ({
-  post,
-  isFavored,
-  toggleFav,
-  handlePinPost,
-  handleUnpinPost,
-}) => {
-  const { isLogin, myDetail } = useSelector((state) => state.sign);
+const PostContent = ({ post, isFavored, toggleFav }) => {
+  const { myDetail } = useSelector((state) => state.sign);
   const classes = useStyles();
-  const [pinPost, setPinPost] = useState(null);
-  const [isPinned, setIsPinned] = useState(null);
   const userProfileUrl = `/profile/${post.postUsers.username}`;
 
-  useEffect(() => {
-    const categoryInfo = async () => {
-      const { data: responsedata } = await getCategoryByTitle(
-        post.category.title,
-      );
-      setPinPost(responsedata.pinPost);
-      setIsPinned(
-        responsedata.pinPost !== null && responsedata.pinPost.id === post.id,
-      );
-    };
-    categoryInfo();
-  }, [post.category.title, post.id]);
   const handleClick = () => {
     toggleFav();
   };
-  // eslint-disable-next-line react/no-unstable-nested-components
-  const PinnedPost = () => {
-    return (
-      <Button
-        variant="outlined"
-        size="small"
-        startIcon={<PushPinIcon />}
-        onClick={() => {
-          setIsPinned(!isPinned);
-          handleUnpinPost(post.category.id);
-        }}
-      >
-        Pinned
-      </Button>
-    );
-  };
-  // eslint-disable-next-line react/no-unstable-nested-components
-  const UnPinnedPost = () => {
-    return (
-      <Button
-        variant="outlined"
-        size="small"
-        startIcon={<RadioButtonUncheckedRoundedIcon />}
-        onClick={() => {
-          if (pinPost === null) {
-            setIsPinned(!isPinned);
-            handlePinPost(post.category.id);
-          } else {
-            hotToast(
-              'error',
-              `${pinPost.title} is already pinned in ${post.category.title}, unpin it First.`,
-            );
-          }
-        }}
-      >
-        Pin Post
-      </Button>
-    );
-  };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkAuth = () => {
     if (
-      isLogin &&
       myDetail &&
       (myDetail.role.roleName === 'admin' ||
         myDetail.role.roleName === 'moderator')
-    ) {
-      if (isPinned) {
-        return PinnedPost();
-      }
-      return UnPinnedPost();
-    }
-    return '';
+    )
+      return true;
+    return false;
   };
-  const isPinViewable = useMemo(() => {
-    return checkAuth();
-  }, [checkAuth]);
+
   return (
     <>
       <Head>
@@ -159,7 +89,7 @@ const PostContent = ({
             <Typography variant="h3" sx={{ mt: 3, mb: 3 }}>
               {post.title}
             </Typography>
-            {isPinViewable}
+            {checkAuth() && <AdminTool />}
           </Stack>
           <Chip label={post.category.title} />
           <Grid container alignItems="center" justifyContent="space-between">
@@ -224,7 +154,7 @@ const PostContent = ({
                   size="small"
                   className={isFavored ? classes.unFavFab : classes.favFab}
                   onClick={
-                    isLogin
+                    myDetail
                       ? handleClick
                       : () => {
                           hotToast(
