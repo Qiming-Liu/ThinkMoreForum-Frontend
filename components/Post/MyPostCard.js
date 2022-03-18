@@ -43,7 +43,6 @@ const MyPostCard = (props) => {
 
   const handleVisibility = async () => {
     const { data: response } = await changePostVisibility(id);
-    console.log(response);
     if (!response) {
       hotToast('error', 'Failed to change the visibility of this post.');
     } else {
