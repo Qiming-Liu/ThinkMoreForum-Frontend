@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import NextLink from 'next/link';
 import {
   Box,
@@ -26,20 +26,19 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AddIcon from '@mui/icons-material/Add';
 import Head from 'next/head';
+import useSWR from 'swr';
 import { openSignDialog } from '../../store/actions/signAction';
-import PostCard from '../../components/Post/PostCard';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
-  getAllCategories,
   getCategoryByTitle,
-  getVisiblePostsByCategoryId,
-  getVisiblePostCountByCategoryId,
   getPostById,
+  getVisiblePostCountByCategoryId,
 } from '../../services/Public';
 import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
-import MyTime from '../../utils/myTime';
+import Loading from '../../components/Loading/Loading';
+import Posts from '../../components/Post/Posts';
 
 const validNumberInput = /[^0-9]/;
 
@@ -50,44 +49,39 @@ const sortColumnList = {
   'Create time': 'createTimestamp',
 };
 
-export async function getStaticPaths() {
-  const { data: categoriesInfo } = await getAllCategories();
-  const paths = categoriesInfo.map((categoryInfo) => ({
-    params: { categoryTitle: categoryInfo.title },
-  }));
-  return { paths, fallback: 'blocking' };
-}
+const getCategoryByTitleSWR = async (categoryTitle) => {
+  const { data } = await getCategoryByTitle(categoryTitle);
+  return data;
+};
 
-export async function getStaticProps({ params }) {
-  let categoryInfo;
+const getPostByIdSWR = async (pinPostId) => {
+  const { data } = await getPostById(pinPostId);
+  return data;
+};
 
-  try {
-    ({ data: categoryInfo } = await getCategoryByTitle(params.categoryTitle));
-  } catch (error) {
-    return {
-      notFound: true,
-      revalidate: 10,
-    };
-  }
+const getTotalPostsCountSWR = async (categoryId) => {
+  const { data } = await getVisiblePostCountByCategoryId(categoryId);
+  return data;
+};
 
-  return {
-    props: { categoryInfo },
-    revalidate: 60,
-  };
-}
-
-const PostList = ({ categoryInfo }) => {
+const PostList = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { categoryTitle } = router.query;
+  const { data: thisCategory, error: thisCategoryError } = useSWR(
+    categoryTitle,
+    getCategoryByTitleSWR,
+  );
+  const { data: pinPost, error: pinPostError } = useSWR(
+    () => thisCategory.pinPost.id,
+    getPostByIdSWR,
+  );
+  const { data: totalCount, error: totalCountError } = useSWR(
+    () => thisCategory.id,
+    getTotalPostsCountSWR,
+  );
 
   const { isLogin } = useSelector((state) => state.sign);
-
-  const [categoryId, setCategoryId] = useState(categoryInfo.id);
-  const [description, setDescription] = useState(categoryInfo.description);
-  const [initialTotalCount, setInitialTotalCount] = useState(0);
-  const [pinPost, setPinPost] = useState(categoryInfo.pinPost);
-  const [posts, setPosts] = useState(null);
 
   let initialHeadImgDisplay;
   let initialSortColumn;
@@ -97,51 +91,58 @@ const PostList = ({ categoryInfo }) => {
   let initialDisplayAbstract;
 
   try {
-    initialHeadImgDisplay =
-      localStorage.getItem(`postHeadIgmDisplay`) === 'true';
-  } catch (error) {
+    initialHeadImgDisplay = JSON.parse(
+      localStorage.getItem(`postHeadIgmDisplay`),
+    );
+    if (initialHeadImgDisplay === null) initialHeadImgDisplay = true;
+  } catch (e) {
     initialHeadImgDisplay = true;
   }
 
   try {
     initialSortColumn = localStorage.getItem(`sortColumn`);
-  } catch (error) {
+    if (initialSortColumn === null) initialSortColumn = 'Create time';
+  } catch (e) {
     initialSortColumn = 'Create time';
   }
 
   try {
-    initialSortDirection = localStorage.getItem(`sortDirection`) === 'true';
-  } catch (error) {
+    initialSortDirection = JSON.parse(localStorage.getItem(`sortDirection`));
+    if (initialSortDirection === null) initialSortDirection = true;
+  } catch (e) {
     initialSortDirection = true;
   }
 
   try {
     initialSizePerPage =
       parseInt(localStorage.getItem(`sizePerPage`), 10) || 10;
-  } catch (error) {
+  } catch (e) {
     initialSizePerPage = 10;
   }
 
   try {
     initialPage =
       parseInt(sessionStorage.getItem(`${categoryTitle}_currentPage`), 10) || 0;
-  } catch (error) {
+    if (initialPage === null) initialPage = 0;
+  } catch (e) {
     initialPage = 0;
   }
 
   try {
-    initialDisplayAbstract =
-      localStorage.getItem(`postAbstractDisplay`) === 'true';
-  } catch (error) {
+    initialDisplayAbstract = JSON.parse(
+      localStorage.getItem(`postAbstractDisplay`),
+    );
+    if (initialDisplayAbstract === null) initialDisplayAbstract = true;
+  } catch (e) {
     initialDisplayAbstract = true;
   }
 
   const [currentPage, setCurrentPage] = useState(initialPage);
-  let inputCurrentPage = currentPage;
+  const [inputCurrentPage, setInputCurrentPage] = useState(currentPage);
   const [sizePerPage, setSizePerPage] = useState(initialSizePerPage);
-  let inputSizePerPage = initialSizePerPage;
+  const [inputSizePerPage, setInputSizePerPage] = useState(initialSizePerPage);
   const [totalPages, setTotalPages] = useState(
-    Math.ceil(initialTotalCount / initialSizePerPage),
+    Math.ceil(totalCount / initialSizePerPage),
   );
   const [displayHeadImg, setDisplayHeadImg] = useState(initialHeadImgDisplay);
   const [displayAbstract, setDisplayAbstract] = useState(
@@ -149,88 +150,39 @@ const PostList = ({ categoryInfo }) => {
   );
   const [sortColumn, setSortColumn] = useState(initialSortColumn);
   const [sortDirection, setSortDirection] = useState(initialSortDirection);
+  const [sortParams, setSortParams] = useState(
+    `${sortColumnList[sortColumn]},${sortDirection ? 'desc' : 'asc'}`,
+  );
 
-  useEffect(() => {
-    const getInitialData = async () => {
-      const { data: updatedCategoryInfo } = await getCategoryByTitle(
-        categoryTitle,
-      );
-      const { data: totalPostCount } = await getVisiblePostCountByCategoryId(
-        updatedCategoryInfo.id,
-      );
-      if (updatedCategoryInfo.pinPost) {
-        const { data } = await getPostById(updatedCategoryInfo.pinPost.id);
-        if (data.visibility) {
-          setPinPost(data);
-        }
-      }
-      setCategoryId(updatedCategoryInfo.id);
-      setDescription(updatedCategoryInfo.description);
-      setInitialTotalCount(totalPostCount);
-    };
-
-    const sortParams = `${sortColumnList[sortColumn]},${
-      sortDirection ? 'desc' : 'asc'
-    }`;
-
-    const fetchPageData = async () => {
-      const { data: responsePosts } = await getVisiblePostsByCategoryId(
-        categoryId,
-        currentPage,
-        sizePerPage,
-        sortParams,
-      );
-      const { data: responseTotalCount } =
-        await getVisiblePostCountByCategoryId(categoryId);
-      setTotalPages(Math.ceil(responseTotalCount / sizePerPage));
-      setPosts(responsePosts);
-    };
-
-    getInitialData();
-    fetchPageData();
-  }, [
-    currentPage,
-    sizePerPage,
-    totalPages,
-    sortColumn,
-    sortDirection,
-    categoryTitle,
-    categoryId,
-  ]);
-
-  if (router.isFallback)
-    return (
-      <Typography variant="h3" sx={{ mt: 3 }}>
-        Loading...
-      </Typography>
-    );
-
-  const handlePageChange = (event, page) => {
-    sessionStorage.setItem(`${categoryTitle}_currentPage`, page - 1);
-    setCurrentPage(page - 1);
-  };
-
-  const toggleHeadImgDisplay = () => {
+  const toggleHeadImgDisplay = useCallback(() => {
     localStorage.setItem(`postHeadIgmDisplay`, !displayHeadImg);
     setDisplayHeadImg(!displayHeadImg);
-  };
+  }, [displayHeadImg]);
 
-  const toggleAbstractDisplay = () => {
+  const toggleAbstractDisplay = useCallback(() => {
     localStorage.setItem(`postAbstractDisplay`, !displayAbstract);
     setDisplayAbstract(!displayAbstract);
-  };
+  }, [displayAbstract]);
 
-  const toggleSortDirection = () => {
+  const toggleSortDirection = useCallback(() => {
     localStorage.setItem(`sortDirection`, !sortDirection);
     setSortDirection(!sortDirection);
-  };
+  }, [sortDirection]);
 
-  const handleSortColumn = (event) => {
+  const handlePageChange = useCallback(
+    (event, page) => {
+      sessionStorage.setItem(`${categoryTitle}_currentPage`, page - 1);
+      setCurrentPage(page - 1);
+    },
+    [categoryTitle],
+  );
+
+  const handleSortColumn = useCallback((event) => {
     localStorage.setItem(`sortColumn`, event.target.value);
     setSortColumn(event.target.value);
-  };
+  }, []);
 
-  const handleSizePerPage = () => {
+  const handleSizePerPage = useCallback(() => {
     if (validNumberInput.test(inputSizePerPage) || !inputSizePerPage) {
       hotToast('error', 'Invalid input');
     } else if (inputSizePerPage > 20 || inputSizePerPage < 1) {
@@ -241,9 +193,9 @@ const PostList = ({ categoryInfo }) => {
       setCurrentPage(0);
       setSizePerPage(inputSizePerPage);
     }
-  };
+  }, [categoryTitle, inputSizePerPage]);
 
-  const handleCurrentPage = () => {
+  const handleCurrentPage = useCallback(() => {
     if (validNumberInput.test(inputCurrentPage) || !inputCurrentPage) {
       hotToast('error', 'Invalid input');
     } else if (inputCurrentPage > totalPages || inputCurrentPage < 1) {
@@ -255,31 +207,41 @@ const PostList = ({ categoryInfo }) => {
       );
       setCurrentPage(inputCurrentPage - 1);
     }
-  };
+  }, [categoryTitle, inputCurrentPage, totalPages]);
 
-  const handleInputSizePerPage = (event) => {
-    inputSizePerPage = event.target.value;
-  };
+  const handleInputSizePerPage = useCallback((event) => {
+    setInputSizePerPage(event.target.value);
+  }, []);
 
-  const handleInputCurrentPage = (event) => {
-    inputCurrentPage = event.target.value;
-  };
+  const handleInputCurrentPage = useCallback((event) => {
+    setInputCurrentPage(event.target.value);
+  }, []);
 
-  const handleMakeNewPost = () => {
+  const handleMakeNewPost = useCallback(() => {
     return isLogin
       ? router.push({
           pathname: '/post/make-post',
           query: {
-            categoryTitle: categoryInfo.title,
+            categoryTitle,
           },
         })
       : dispatch(openSignDialog());
-  };
+  }, [categoryTitle, dispatch, isLogin, router]);
 
-  console.log(`displayHeadImg`, displayHeadImg);
-  console.log(`initialHeadImgDisplay`, initialHeadImgDisplay);
-  console.log(`displayAbstract`, displayAbstract);
-  console.log(`initialDisplayAbstract`, initialDisplayAbstract);
+  useEffect(() => {
+    setSortParams(
+      `${sortColumnList[sortColumn]},${sortDirection ? 'desc' : 'asc'}`,
+    );
+  }, [sortColumn, sortDirection]);
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(totalCount / sizePerPage));
+  }, [sizePerPage, totalCount]);
+
+  if (router.isFallback) return <Loading />;
+  if (thisCategoryError || pinPostError || totalCountError) router.push(`/404`);
+  if (!thisCategory) return <Loading />;
+
   return (
     <Container maxWidth="xl">
       <Head>
@@ -290,7 +252,10 @@ const PostList = ({ categoryInfo }) => {
           Back to Home
         </Button>
       </NextLink>
-      <CategoryIntro categoryTitle={categoryTitle} description={description} />
+      <CategoryIntro
+        categoryTitle={categoryTitle}
+        description={thisCategory.description}
+      />
       <Divider sx={{ mt: 3, mb: 1 }} />
       {pinPost && (
         <Box>
@@ -389,43 +354,17 @@ const PostList = ({ categoryInfo }) => {
         </Grid>
       </Grid>
       <Divider sx={{ mt: 1, mb: 4 }} />
-      {!posts ? (
+      {thisCategory.postCount === 0 ? (
         <Typography variant="body1">No post in this category.</Typography>
       ) : (
-        posts.map(
-          ({
-            id,
-            createTimestamp,
-            postUsers: {
-              headImgUrl: authorAvatar,
-              username: authorName = 'N.A.',
-              id: authorId,
-            },
-            headImgUrl,
-            context,
-            title,
-            commentCount,
-            viewCount,
-            followCount,
-          }) => {
-            return (
-              <PostCard
-                key={id}
-                id={id}
-                authorAvatar={authorAvatar || '/logo.png'}
-                authorName={authorName}
-                authorId={authorId}
-                headImg={displayHeadImg && (headImgUrl || '/logo.png')}
-                createTimeStamp={MyTime(createTimestamp)}
-                abstract={displayAbstract && context}
-                title={title}
-                commentCount={commentCount}
-                viewCount={viewCount}
-                followCount={followCount}
-              />
-            );
-          },
-        )
+        <Posts
+          categoryId={thisCategory.id}
+          currentPage={currentPage}
+          sizePerPage={sizePerPage}
+          sortParams={sortParams}
+          displayHeadImg={displayHeadImg}
+          displayAbstract={displayAbstract}
+        />
       )}
       <Box
         sx={{
