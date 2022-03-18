@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { AdminUser } from '../components/Admin/AdminUser';
-import { getAllUsers } from '../services/Public';
+import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
 import { UsersRoleContextProvider } from '../components/Admin/UsersRoleContext';
 import Categories from '../components/CategoryManager/categoryTable/Categories';

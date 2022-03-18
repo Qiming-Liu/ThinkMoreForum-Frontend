@@ -11,9 +11,6 @@ export const postPost = ({ categoryTitle, title, context, headImgUrl }) =>
     },
   });
 
-export const getPostByUsername = (username) =>
-  http(`/v1/public/post/user/${username}`, { method: 'GET' });
-
 export const getFollowPostByUsername = (username) =>
   http(`/v1/post/follows/find_all_by_username/${username}`, { method: 'GET' });
 

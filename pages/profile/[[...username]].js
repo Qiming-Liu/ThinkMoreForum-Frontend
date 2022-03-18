@@ -16,7 +16,7 @@ import ProfilePost from '../../components/Profile/ProfilePost';
 import ProfileFollow from '../../components/Profile/ProfileFollow';
 import UserAdd from '../../icons/user-add';
 import { followUser, getFollowedStatus } from '../../services/Follow';
-import { getCurrentUser, getUserById } from '../../services/Users';
+import { getUserById } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
 
 const Profile = () => {

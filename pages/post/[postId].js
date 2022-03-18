@@ -15,10 +15,10 @@ import {
   getAllPosts,
 } from '../../services/Public';
 import {
-  changeCategoryPinPost,
-  deleteCategoryPinPost,
+  putCategoryPinPostById,
+  putCategoryPinPostNull,
 } from '../../services/Category';
-import { createComment } from '../../services/Comment';
+import { postComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
 import CommentForm from '../../components/Post/CommentForm';
@@ -76,7 +76,7 @@ const Post = ({ post }) => {
         parentComment: null,
         visibility: true,
       };
-      await createComment(requestBody);
+      await postComment(requestBody);
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
@@ -94,7 +94,7 @@ const Post = ({ post }) => {
         },
         visibility: true,
       };
-      await createComment(requestBody);
+      await postComment(requestBody);
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
@@ -108,14 +108,14 @@ const Post = ({ post }) => {
       );
   const handlePinPost = async (categoryId) => {
     try {
-      await changeCategoryPinPost(categoryId, postId);
+      await putCategoryPinPostById(categoryId, postId);
     } catch (err) {
       hotToast('error', err.message);
     }
   };
   const handleUnpinPost = async (categoryId) => {
     try {
-      deleteCategoryPinPost(categoryId);
+      putCategoryPinPostNull(categoryId);
     } catch (err) {
       hotToast('error', err.message);
     }

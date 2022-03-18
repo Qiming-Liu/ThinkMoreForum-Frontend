@@ -1,5 +1,9 @@
 import http from '../utils/axios';
 
+export const getAllUsers = () => http(`/v1/users/all`, { method: 'GET' });
+
+export const getMe = () => http(`/v1/users/me`, { method: 'GET' });
+
 export const hasOpenid = () => http(`/v1/users/open_id`, { method: 'GET' });
 
 export const passwordReset = (password) =>
@@ -7,28 +11,6 @@ export const passwordReset = (password) =>
     method: 'PUT',
     data: { new_password: password },
   });
-
-export const getMyUser = () => http(`/v1/users/my_details`, { method: 'GET' });
-
-export const getUserById = (usersId) =>
-  http(`/v1/users/details/${usersId}`, { method: 'GET' });
-
-export const getCurrentUser = () =>
-  http(`/v1/users/my_details`, { method: 'GET' });
-
-export const changeUsersRoles = (usersInfo) => {
-  const usersProtoInfo = usersInfo.map((userInfo) => {
-    const newUser = {
-      id: userInfo.id,
-      profileImgUrl: userInfo.avatarUrl,
-      email: userInfo.email,
-      username: userInfo.name,
-      role: { roleName: userInfo.role },
-    };
-    return newUser;
-  });
-  http(`/v1/users/roles`, { method: 'PUT', data: usersProtoInfo });
-};
 
 export const changePassword = ({ oldPassword, newPassword }) =>
   http(`/v1/users/password`, {
@@ -50,8 +32,22 @@ export const changeHeadImg = ({ headImgUrl }) =>
     },
   });
 
+export const sendVerificationEmail = (newEmail) =>
+  http(`/v1/users/email/${newEmail}`, { method: 'GET' });
+
 export const changeEmail = (newEmail) =>
   http(`/v1/users/email/${newEmail}`, { method: 'PUT' });
 
-export const sendVerificationEmail = (newEmail) =>
-  http(`/v1/users/email/${newEmail}`, { method: 'GET' });
+export const changeUsersRoles = (usersInfo) => {
+  const usersProtoInfo = usersInfo.map((userInfo) => {
+    const newUser = {
+      id: userInfo.id,
+      profileImgUrl: userInfo.avatarUrl,
+      email: userInfo.email,
+      username: userInfo.name,
+      role: { roleName: userInfo.role },
+    };
+    return newUser;
+  });
+  http(`/v1/users/roles`, { method: 'PUT', data: usersProtoInfo });
+};
