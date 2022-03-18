@@ -29,11 +29,15 @@ import Head from 'next/head';
 import useSWR from 'swr';
 import { openSignDialog } from '../../store/actions/signAction';
 import ArrowLeftIcon from '../../icons/arrow-left';
-import { getCategoryByTitle, getPostById } from '../../services/Public';
+import {
+  getCategoryByTitle,
+  getPostById,
+  getVisiblePostCountByCategoryId,
+} from '../../services/Public';
 import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
-import Loading from '../components/Loading/Loading';
+import Loading from '../../components/Loading/Loading';
 import Posts from '../../components/Post/Posts';
 
 const validNumberInput = /[^0-9]/;
@@ -55,7 +59,7 @@ const getPostByIdSWR = async (pinPostId) => {
   return data;
 };
 
-const getTotalPostsCount = async (categoryId) => {
+const getTotalPostsCountSWR = async (categoryId) => {
   const { data } = await getVisiblePostCountByCategoryId(categoryId);
   return data;
 };
@@ -74,7 +78,7 @@ const PostList = () => {
   );
   const { data: totalCount, error: totalCountError } = useSWR(
     () => thisCategory.id,
-    getTotalPostsCount,
+    getTotalPostsCountSWR,
   );
 
   const { isLogin } = useSelector((state) => state.sign);
