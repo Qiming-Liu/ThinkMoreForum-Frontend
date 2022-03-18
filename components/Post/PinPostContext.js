@@ -7,8 +7,8 @@ import React, {
 } from 'react';
 import hotToast from '../../utils/hotToast';
 import {
-  changeCategoryPinPost,
-  deleteCategoryPinPost,
+  putCategoryPinPostById as changeCategoryPinPost,
+  putCategoryPinPostNull as deleteCategoryPinPost,
 } from '../../services/Category';
 import { getCategoryByTitle } from '../../services/Public';
 
