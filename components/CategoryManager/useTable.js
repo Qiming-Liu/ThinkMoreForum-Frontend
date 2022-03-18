@@ -1,5 +1,4 @@
 import {
-  // makeStyles,
   Table,
   TableCell,
   TableHead,
@@ -17,7 +16,6 @@ const StyledTable = styled(Table)`
   max-width: 100%;
   width: 1100px;
   margin-right: 100px;
-  /* margin-right: 500px; */
   & .MuiTable-root {
     position: relative;
     overflow: auto;
@@ -33,9 +31,6 @@ const StyledTable = styled(Table)`
     font-weight: 300;
     text-align: center;
   }
-  /* & tbody tr {
-    text-align: center;
-  } */
   & tbody tr:hover {
     background-color: #fffbf2;
     cursor: pointer;
@@ -48,8 +43,6 @@ const useTable = (records, headCells, filterFn) => {
   const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
-  // const classes = useStyles();
-
   const TblContainer = ({ children }) => <StyledTable>{children}</StyledTable>;
 
   const TblHead = () => {
@@ -131,8 +124,6 @@ const useTable = (records, headCells, filterFn) => {
   }
 
   const recordsAfterPagingAndSorting = () => {
-    console.log(typeof records);
-    console.log(records);
     return stableSort(
       Object.values(filterFn.fn(records)),
       getComparator(order, orderBy),

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  // makeStyles,
-  Typography,
-} from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
 import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import Controls from './controls/Controls';
@@ -22,13 +16,8 @@ const DialogWrapper = styled(DialogTitle)`
 
 const Popup = (props) => {
   const { children, openPopup, setOpenPopup } = props;
-  // const classes = useStyles();
   return (
-    <StyDialog
-      open={openPopup}
-      maxWidth="md"
-      // classes={{ paper: classes.dialogWrapper }}
-    >
+    <StyDialog open={openPopup} maxWidth="md">
       <DialogWrapper>
         <div style={{ display: 'flex' }}>
           <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>

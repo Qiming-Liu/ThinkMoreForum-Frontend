@@ -6,7 +6,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { Search } from '@material-ui/icons';
 import {
-  // Paper,
   TableBody,
   TableRow,
   TableCell,
@@ -21,12 +20,6 @@ import Controls from '../controls/Controls';
 import Popup from '../Popup';
 import Notification from '../Notification';
 import ConfirmDialog from '../ConfirmDialog';
-
-// const CategoriesPaper = styled(Paper)`
-//   margin: 60px;
-//   padding: 20px;
-//   width: 1000px;
-// `;
 
 const SearchInput = styled(Controls.Input)`
   width: 75%;
@@ -55,11 +48,8 @@ const headCells = [
 ];
 
 const Category = () => {
-  // const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
-  // const [singleRecord, setSingleRecord] = useState(recordForEdit);
-  // false = add, true = edit
   const [records, setRecords] = useState(null);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -90,12 +80,6 @@ const Category = () => {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
 
-  // const StyTblContainer = styled(TblContainer)`
-  //   position: relative;
-  //   width: 100%;
-  //   align-items: center;
-  // `;
-
   const handleSearch = (e) => {
     const { target } = e;
     setFilterFn({
@@ -109,12 +93,8 @@ const Category = () => {
   };
 
   const edit = async (category) => {
-    // categoryServices.updateCategory(category);
-    // else categoryServices.updateEmployee(category);
-    // resetForm();
     const updateCategories = (updatedCategory, oldRecords) => {
       const newCategoryID = updatedCategory.id || updatedCategory.fakeID;
-      console.log('newCategoryID', newCategoryID);
       return oldRecords.map((x) => {
         const newXID = x.id || x.fakeID;
         if (newXID === newCategoryID) {
@@ -127,7 +107,6 @@ const Category = () => {
       });
     };
     const newCategories = updateCategories(category, records);
-    // const { data: categoriesInfo } = await categoryServices.getAllCategories();
     setRecords(newCategories);
     setRecordForEdit(null);
     setOpenPopup(false);
@@ -144,7 +123,6 @@ const Category = () => {
       isOpen: false,
     });
     setRecords(records.filter((x) => x.title !== title));
-    console.log(records);
   };
 
   const handleDragEnd = (e) => {
@@ -162,7 +140,6 @@ const Category = () => {
     };
     setRecords((prevState) => [...prevState, formattedCategory]);
     setRecordForEdit(null);
-    // resetForm();
     setOpenPopup(false);
   };
   const handleSaveChanges = () => {
@@ -179,15 +156,12 @@ const Category = () => {
       ...confirmDialog,
       isOpen: false,
     });
-    console.log('formattedRecords', formattedRecords);
     categoryServices.putCategories(formattedRecords);
-    console.log(formattedRecords);
   };
 
   if (records === null) {
     return <div>Loading...</div>;
   }
-  console.log(records);
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -219,9 +193,6 @@ const Category = () => {
             {(provided) => (
               <TableBody ref={provided.innerRef} {...provided.droppableProps}>
                 {recordsAfterPagingAndSorting().map((item, index) => {
-                  if (item.id) {
-                    console.log(item.id);
-                  }
                   return (
                     <Draggable
                       key={item.id || item.fakeID}
@@ -282,8 +253,6 @@ const Category = () => {
         <SavBtn
           text="Save All Changes."
           variant="outlined"
-          // className={classes.savBtn}
-          // onClick={handleSaveChanges}
           onClick={() => {
             setConfirmDialog({
               isOpen: true,
