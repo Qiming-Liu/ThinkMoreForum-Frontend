@@ -70,29 +70,25 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  const { data: initialTotalCount } = await getVisiblePostCountByCategoryId(
-    categoryInfo.id,
-  );
-
-  let pinPostInfo = null;
-  if (categoryInfo.pinPost) {
-    const { data } = await getPostById(categoryInfo.pinPost.id);
-    if (data.visibility) {
-      pinPostInfo = data;
-    }
-  }
-
   return {
-    props: { categoryInfo, initialTotalCount, pinPostInfo },
-    revalidate: 1,
+    props: { categoryInfo },
+    revalidate: 60,
   };
 }
 
-const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
-  const { title: categoryTitle, description, id: categoryId } = categoryInfo;
+const PostList = ({ categoryInfo }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { categoryTitle } = router.query;
+
   const { isLogin } = useSelector((state) => state.sign);
-  let initialPinPostDisplay;
+
+  const [categoryId, setCategoryId] = useState(categoryInfo.id);
+  const [description, setDescription] = useState(categoryInfo.description);
+  const [initialTotalCount, setInitialTotalCount] = useState(0);
+  const [pinPost, setPinPost] = useState(categoryInfo.pinPost);
+  const [posts, setPosts] = useState(null);
+
   let initialHeadImgDisplay;
   let initialSortColumn;
   let initialSortDirection;
@@ -101,32 +97,45 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   let initialDisplayAbstract;
 
   try {
-    initialPinPostDisplay =
-      localStorage.getItem(`pinPost display`) === true || true;
     initialHeadImgDisplay =
-      localStorage.getItem(`postHeadIgmDisplay`) === true || true;
-    initialSortColumn =
-      localStorage.getItem(`sortColumn`) === true || 'Create time';
-    initialSortDirection =
-      localStorage.getItem(`sortDirection`) === true || true;
+      localStorage.getItem(`postHeadIgmDisplay`) === 'true';
+  } catch (error) {
+    initialHeadImgDisplay = true;
+  }
+
+  try {
+    initialSortColumn = localStorage.getItem(`sortColumn`);
+  } catch (error) {
+    initialSortColumn = 'Create time';
+  }
+
+  try {
+    initialSortDirection = localStorage.getItem(`sortDirection`) === 'true';
+  } catch (error) {
+    initialSortDirection = true;
+  }
+
+  try {
     initialSizePerPage =
       parseInt(localStorage.getItem(`sizePerPage`), 10) || 10;
+  } catch (error) {
+    initialSizePerPage = 10;
+  }
+
+  try {
     initialPage =
       parseInt(sessionStorage.getItem(`${categoryTitle}_currentPage`), 10) || 0;
-    initialDisplayAbstract =
-      localStorage.getItem(`postAbstractDisplay`) === true || true;
   } catch (error) {
-    initialPinPostDisplay = true;
-    initialHeadImgDisplay = true;
-    initialSortColumn = 'Create time';
-    initialSortDirection = true;
-    initialSizePerPage = 10;
     initialPage = 0;
+  }
+
+  try {
+    initialDisplayAbstract =
+      localStorage.getItem(`postAbstractDisplay`) === 'true';
+  } catch (error) {
     initialDisplayAbstract = true;
   }
 
-  const router = useRouter();
-  const [posts, setPosts] = useState(null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   let inputCurrentPage = currentPage;
   const [sizePerPage, setSizePerPage] = useState(initialSizePerPage);
@@ -134,7 +143,6 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   const [totalPages, setTotalPages] = useState(
     Math.ceil(initialTotalCount / initialSizePerPage),
   );
-  const [displayPinPost, setDisplayPinPost] = useState(initialPinPostDisplay);
   const [displayHeadImg, setDisplayHeadImg] = useState(initialHeadImgDisplay);
   const [displayAbstract, setDisplayAbstract] = useState(
     initialDisplayAbstract,
@@ -143,9 +151,28 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   const [sortDirection, setSortDirection] = useState(initialSortDirection);
 
   useEffect(() => {
+    const getInitialData = async () => {
+      const { data: updatedCategoryInfo } = await getCategoryByTitle(
+        categoryTitle,
+      );
+      const { data: totalPostCount } = await getVisiblePostCountByCategoryId(
+        updatedCategoryInfo.id,
+      );
+      if (updatedCategoryInfo.pinPost) {
+        const { data } = await getPostById(updatedCategoryInfo.pinPost.id);
+        if (data.visibility) {
+          setPinPost(data);
+        }
+      }
+      setCategoryId(updatedCategoryInfo.id);
+      setDescription(updatedCategoryInfo.description);
+      setInitialTotalCount(totalPostCount);
+    };
+
     const sortParams = `${sortColumnList[sortColumn]},${
       sortDirection ? 'desc' : 'asc'
     }`;
+
     const fetchPageData = async () => {
       const { data: responsePosts } = await getVisiblePostsByCategoryId(
         categoryId,
@@ -158,14 +185,17 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
       setTotalPages(Math.ceil(responseTotalCount / sizePerPage));
       setPosts(responsePosts);
     };
+
+    getInitialData();
     fetchPageData();
   }, [
-    categoryId,
     currentPage,
     sizePerPage,
     totalPages,
     sortColumn,
     sortDirection,
+    categoryTitle,
+    categoryId,
   ]);
 
   if (router.isFallback)
@@ -178,11 +208,6 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
   const handlePageChange = (event, page) => {
     sessionStorage.setItem(`${categoryTitle}_currentPage`, page - 1);
     setCurrentPage(page - 1);
-  };
-
-  const togglePinPostDisplay = () => {
-    localStorage.setItem(`pinPost display`, !displayPinPost);
-    setDisplayPinPost(!displayPinPost);
   };
 
   const toggleHeadImgDisplay = () => {
@@ -251,6 +276,10 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
       : dispatch(openSignDialog());
   };
 
+  console.log(`displayHeadImg`, displayHeadImg);
+  console.log(`initialHeadImgDisplay`, initialHeadImgDisplay);
+  console.log(`displayAbstract`, displayAbstract);
+  console.log(`initialDisplayAbstract`, initialDisplayAbstract);
   return (
     <Container maxWidth="xl">
       <Head>
@@ -263,12 +292,12 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
       </NextLink>
       <CategoryIntro categoryTitle={categoryTitle} description={description} />
       <Divider sx={{ mt: 3, mb: 1 }} />
-      {pinPostInfo && (
-        <Box sx={{ display: displayPinPost ? undefined : 'none' }}>
+      {pinPost && (
+        <Box>
           <PinPostCard
-            title={pinPostInfo.title}
-            context={pinPostInfo.context}
-            id={pinPostInfo.id}
+            title={pinPost.title}
+            context={pinPost.context}
+            id={pinPost.id}
           />
           <Divider sx={{ my: 1 }} />
         </Box>
@@ -281,14 +310,6 @@ const PostList = ({ categoryInfo, initialTotalCount, pinPostInfo }) => {
         </Grid>
         <Grid item>
           <FormGroup row>
-            <FormControlLabel
-              checked={displayPinPost}
-              control={<Switch color="primary" />}
-              label="PinPost"
-              labelPlacement="end"
-              onChange={togglePinPostDisplay}
-              sx={{ display: !pinPostInfo ? 'none' : undefined }}
-            />
             <FormControlLabel
               checked={displayHeadImg}
               control={<Switch color="primary" />}

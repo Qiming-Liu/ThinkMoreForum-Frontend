@@ -1,6 +1,5 @@
 import React from 'react';
 import NextLink from 'next/link';
-import parse from 'html-react-parser';
 import { Chip, Card, Typography, Link } from '@mui/material';
 import { updatePostViewCount } from '../../services/Public';
 
@@ -33,11 +32,13 @@ const PinPostCard = (props) => {
           </Typography>
         </Link>
       </NextLink>
-      <Typography color="inherit" sx={{ mt: 1 }} variant="subtitle2">
-        {context.length > 200
-          ? `${context.substring(0, 200)}...`
-          : parse(context)}
-      </Typography>
+      {context && (
+        <Typography color="inherit" sx={{ mt: 1 }} variant="subtitle2">
+          {context.length > 200
+            ? `${context.replace(/<.*?>| [</].*?>/gi, '').substring(0, 200)}...`
+            : context.replace(/<.*?>| [</].*?>/gi, '')}
+        </Typography>
+      )}
     </Card>
   );
 };

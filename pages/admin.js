@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
+import { useState, useEffect } from 'react';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Public';
 import MyTime from '../utils/myTime';
 import { UsersRoleContextProvider } from '../components/Admin/UsersRoleContext';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
+import Loading from '../components/Loading/Loading';
 
 const tabs = [
   { label: 'Users', value: 'users' },
@@ -13,29 +15,33 @@ const tabs = [
   { label: 'Roles', value: 'roles' },
 ];
 
-export const getServerSideProps = async () => {
-  const { data: responseAllUsersInfo } = await getAllUsers();
-  const users = responseAllUsersInfo.map((protoUserInfo) => {
-    const user = {
-      id: protoUserInfo.id,
-      logintime: MyTime(protoUserInfo.lastLoginTimestamp),
-      avatarUrl: protoUserInfo.headImgUrl,
-      createdAt: MyTime(protoUserInfo.createTimestamp),
-      email: protoUserInfo.email,
-      name: protoUserInfo.username,
-      role: protoUserInfo.role.roleName,
-    };
-    return user;
-  });
-  return { props: { users } };
-};
-
-const Admin = ({ users }) => {
+const Admin = () => {
   const [currentTab, setCurrentTab] = React.useState('users');
+  const [users, setUsers] = useState();
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { data: responseAllUsersInfo } = await getAllUsers();
+      const allUsers = responseAllUsersInfo.map((protoUserInfo) => {
+        const user = {
+          id: protoUserInfo.id,
+          logintime: MyTime(protoUserInfo.lastLoginTimestamp),
+          avatarUrl: protoUserInfo.headImgUrl,
+          createdAt: MyTime(protoUserInfo.createTimestamp),
+          email: protoUserInfo.email,
+          name: protoUserInfo.username,
+          role: protoUserInfo.role.roleName,
+        };
+        return user;
+      });
+      setUsers(allUsers);
+    };
+    fetchUsers();
+  });
 
   return (
     <UsersRoleContextProvider>
@@ -63,7 +69,8 @@ const Admin = ({ users }) => {
           ))}
         </Tabs>
         <Divider sx={{ mb: 3 }} />
-        {currentTab === 'users' && <AdminUser allUsers={users} />}
+        {currentTab === 'users' && users && <AdminUser allUsers={users} />}
+        {currentTab === 'users' && !users && <Loading />}
         {currentTab === 'categories' && <Categories />}
         {currentTab === 'roles' && <div>roles</div>}
       </Box>
