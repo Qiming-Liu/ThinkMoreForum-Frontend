@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Avatar, Box } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import Form, { useForm } from '../useForm';
 import Controls from '../controls/Controls';
+import UserCircleIcon from '../../../icons/user-circle';
+import ChangePicButton from '../../PersonalSetting/ChangePicButton';
 
 const initialFValues = {
   id: null,
   fakeID: null,
+  headImgUrl: '/logo.png',
   title: '',
   description: '',
   color: '',
@@ -14,9 +17,16 @@ const initialFValues = {
 };
 
 const CategoryForm = (props) => {
-  const { addOrEdit, recordForEdit, records, setRecordForEdit } = props;
-  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-    useForm(initialFValues, setRecordForEdit, true);
+  const { addOrEdit, recordForEdit, records } = props;
+  const {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleDropImg,
+    handleInputChange,
+    resetForm,
+  } = useForm(initialFValues);
 
   const validate = (fieldValues = values) => {
     let recordsForValidate = records;
@@ -104,6 +114,30 @@ const CategoryForm = (props) => {
             onChange={handleInputChange}
             error={errors.description}
           />
+          <Box
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+            }}
+          >
+            <Avatar
+              src={values.headImgUrl}
+              sx={{
+                height: 64,
+                mr: 2,
+                width: 64,
+              }}
+            >
+              <UserCircleIcon fontSize="small" />
+            </Avatar>
+            <ChangePicButton
+              accept="image/jpg,image/png, image/jpeg"
+              maxFiles={1}
+              onDrop={handleDropImg}
+              maxSize={5242880}
+              minsize={0}
+            />
+          </Box>
         </Grid>
         <Grid item xs={6}>
           <Controls.Input

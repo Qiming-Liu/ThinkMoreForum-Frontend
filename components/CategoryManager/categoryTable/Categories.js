@@ -6,6 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { Search } from '@material-ui/icons';
 import {
+  Avatar,
   TableBody,
   TableRow,
   TableCell,
@@ -15,7 +16,8 @@ import {
 import styled from 'styled-components';
 import CategoryForm from './CategoryForm';
 import useTable from '../useTable';
-import * as categoryServices from '../../../services/Category';
+import * as categoryServices from '../../../services/Public';
+import { putCategories } from '../../../services/Category';
 import Controls from '../controls/Controls';
 import Popup from '../Popup';
 import Notification from '../Notification';
@@ -39,6 +41,12 @@ const SavBtn = styled(Controls.Button)`
 
 const headCells = [
   { id: 'order', disablePadding: true, label: 'Order', disableSorting: true },
+  {
+    id: 'headImgUrl',
+    disablePadding: true,
+    label: 'headImgUrl',
+    disableSorting: true,
+  },
   { id: 'title', label: 'Category Title', disableSorting: true },
   { id: 'description', label: 'Description', disableSorting: true },
   { id: 'color', label: 'Color', disableSorting: true },
@@ -149,6 +157,7 @@ const Category = () => {
       if (y.description === null || y.description === '') delete y.description;
       if (!y.pinPost || y.pinPost.id === '') delete y.pinPost;
       if (y.id === null || y.id === '') delete y.id;
+      if (y.headImgUrl === null || y.headImgUrl === '') delete y.headImgUrl;
       delete y.fakeID;
       return y;
     });
@@ -156,7 +165,7 @@ const Category = () => {
       ...confirmDialog,
       isOpen: false,
     });
-    categoryServices.putCategories(formattedRecords);
+    putCategories(formattedRecords);
   };
 
   if (records === null) {
@@ -207,6 +216,9 @@ const Category = () => {
                         >
                           <TableCell {...provider.dragHandleProps}>
                             <DragHandleIcon />
+                          </TableCell>
+                          <TableCell>
+                            <Avatar src={item.headImgUrl} sx={{ mr: 2 }} />
                           </TableCell>
                           <TableCell>{item.title}</TableCell>
                           <TableCell>{item.description}</TableCell>
@@ -274,7 +286,6 @@ const Category = () => {
           recordForEdit={recordForEdit}
           addOrEdit={recordForEdit ? edit : add}
           records={records}
-          setRecordForEdit={setRecordForEdit}
         />
       </Popup>
       <Notification notify={notify} setNotify={setNotify} />
