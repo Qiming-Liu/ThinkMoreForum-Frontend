@@ -67,34 +67,35 @@ const MyPostCard = (props) => {
       )}
       <CardContent>
         <Grid container xs={12} justifyContent="space-between">
-          <NextLink href={generatedUrl ?? ''} passHref>
-            <Link
-              href={generatedUrl ?? ''}
-              color="textPrimary"
-              component="a"
-              variant="h5"
+          <Grid item xs={9}>
+            <NextLink href={generatedUrl ?? ''} passHref>
+              <Link
+                href={generatedUrl ?? ''}
+                color="textPrimary"
+                component="a"
+                variant="h5"
+              >
+                {title}
+              </Link>
+            </NextLink>
+          </Grid>
+          <Grid item xs={3}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
-              {title}
-            </Link>
-          </NextLink>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              position: 'absolute',
-              top: 0,
-              right: 0,
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mb: 0.2 }}>
-              {invisible ? 'Set Post to visible' : 'Set Post to invisible'}
-            </Typography>
-            <Switch
-              checked={invisible}
-              onChange={handleVisibility}
-              color="primary"
-            />
-          </Box>
+              <Typography variant="subtitle1" sx={{ mb: 0.2 }}>
+                {invisible ? 'Set Post to visible' : 'Set Post to invisible'}
+              </Typography>
+              <Switch
+                checked={invisible}
+                onChange={handleVisibility}
+                color="primary"
+              />
+            </Box>
+          </Grid>
         </Grid>
         {abstract && (
           <Typography
