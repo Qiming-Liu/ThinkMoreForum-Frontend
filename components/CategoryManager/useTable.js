@@ -43,6 +43,7 @@ const useTable = (records, headCells, filterFn) => {
   const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
+
   const TblContainer = ({ children }) => <StyledTable>{children}</StyledTable>;
 
   const TblHead = () => {
