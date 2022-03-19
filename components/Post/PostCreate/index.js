@@ -18,11 +18,15 @@ import upload from '../../../services/Img';
 import hotToast from '../../../utils/hotToast';
 import ImageDropZone from '../../ImageDropZone';
 import fileToBase64 from '../../../utils/fileToBase64';
+import ImageCropper from '../../ImageCropper';
+import SignDialog from '../../Sign/SignDialog';
 
 const PostCreate = ({ categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
   const [cover, setCover] = useState();
   const [image, setImage] = useState(undefined);
+  const [isOpen, setIsOpen] = useState(false);
+  const [filename, setFilename] = useState(null);
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -65,8 +69,11 @@ const PostCreate = ({ categoryTitle }) => {
 
   const handleDropCover = async ([file]) => {
     const data = await fileToBase64(file);
-    setImage(file);
     setCover(data);
+    setImage(file);
+  };
+  const handleCrop = () => {
+    setIsOpen(true);
   };
 
   const cancel = () => Router.back();
@@ -121,6 +128,9 @@ const PostCreate = ({ categoryTitle }) => {
                   </Typography>
                 </Box>
               )}
+              <Button onClick={handleCrop} sx={{ mt: 3 }} disabled={!cover}>
+                Crop photo
+              </Button>
               <Box sx={{ mt: 3 }}>
                 <ImageDropZone
                   accept="image/jpg,image/png, image/jpeg"
@@ -188,6 +198,16 @@ const PostCreate = ({ categoryTitle }) => {
             </LoadingButton>
           </Box>
         </form>
+        <SignDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <ImageCropper
+            src={cover}
+            alt="image"
+            setCover={setCover}
+            setIsOpen={setIsOpen}
+            setImage={setImage}
+            file={image}
+          />
+        </SignDialog>
       </Container>
     </>
   );
