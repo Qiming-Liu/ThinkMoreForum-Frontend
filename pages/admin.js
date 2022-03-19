@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
-import { UsersRoleContextProvider } from '../components/Admin/UsersRoleContext';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
 import Loading from '../components/Loading/Loading';
 
@@ -41,10 +40,10 @@ const Admin = () => {
       setUsers(allUsers);
     };
     fetchUsers();
-  });
+  }, []);
 
   return (
-    <UsersRoleContextProvider>
+    <>
       <Head>
         <title>Administration | ThinkMoreForum</title>
       </Head>
@@ -74,7 +73,7 @@ const Admin = () => {
         {currentTab === 'categories' && <Categories />}
         {currentTab === 'roles' && <div>roles</div>}
       </Box>
-    </UsersRoleContextProvider>
+    </>
   );
 };
 

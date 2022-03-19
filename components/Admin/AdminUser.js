@@ -1,105 +1,139 @@
-import React, { useEffect, useState } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import {
-  Box,
-  Button,
-  Card,
-  Typography,
-  Avatar,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  CardContent,
-  TextField,
-  Grid,
-  Select,
-  MenuItem,
-  FormControl,
-  Link,
-} from '@mui/material';
+/* eslint-disable no-lone-blocks */
+/* eslint-disable prettier/prettier */
+import React, { useState } from 'react';
+import { Button, Avatar, Link, Typography } from '@mui/material';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import { useUsersRoleContext } from './UsersRoleContext';
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
+} from '@mui/x-data-grid';
+import { makeStyles } from '@material-ui/core/styles';
 import { changeUsersRoles } from '../../services/Users';
+import useUsersToSubmit from './useUsersToSubmit';
 
-export const AdminUser = ({ allUsers, ...rest }) => {
-  const [users, setUsers] = useState(allUsers);
-  const router = useRouter();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [displayingUsers, setDisplayingUsers] = useState(
-    users.slice(0, rowsPerPage),
+const useStyles = makeStyles({
+  customDataGrid: {
+    '& .MuiTablePagination-selectLabel': {
+      marginBottom: '0.2rem',
+    },
+    '& .MuiTablePagination-displayedRows': {
+      marginBottom: 0,
+    },
+  },
+});
+
+const CustomToolbar = ({ handleSubmit }) => {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <Button
+        startIcon={<PublishIcon />}
+        style={{ fontSize: '0.8125rem', padding: '7px 12px' }}
+        onClick={handleSubmit}
+      >
+        Confirm
+      </Button>
+    </GridToolbarContainer>
   );
+};
 
-  const {
-    usersToSubmit,
-    setUsersToSubmit,
-    addUsersToSubmit,
-    deleteUsersToSubmit,
-    deleteUserToSubmit,
-    findInstanceByUserId,
-  } = useUsersRoleContext();
+export const AdminUser = ({ allUsers }) => {
+  const { usersToSubmit, setUsersToSubmit, addUsersToSubmit } =
+    useUsersToSubmit();
+  const classes = useStyles();
+  const router = useRouter();
+  const initialRows = allUsers.map((user) => {
+    const userForDataGrid = {
+      id: user.id,
+      avatarUrl: user.avatarUrl,
+      name: user.name,
+      email: user.email,
+      logintime: user.logintime,
+      role: user.role,
+    };
+    return userForDataGrid;
+  });
 
-  const numOfPreSelectedUsers = displayingUsers.filter((displayingUser) => {
-    if (
-      usersToSubmit.find(
-        (userToSubmit) => userToSubmit.id === displayingUser.id,
-      )
-    ) {
-      return true;
-    }
-    return false;
-  }).length;
+  const [rows, setRows] = useState(initialRows);
 
-  const handleSelectAll = (event) => {
-    const newUsersToSubmit = displayingUsers;
-    if (event.target.checked) {
-      addUsersToSubmit(newUsersToSubmit);
-    } else {
-      deleteUsersToSubmit(newUsersToSubmit);
-    }
-  };
-
-  const handleSelectOne = (_event, user) => {
-    if (_event.target.checked) {
-      addUsersToSubmit([user]);
-    } else {
-      deleteUserToSubmit(user);
-    }
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const getInstanceByUserId = (user, userList) => {
-    const targetUserInList = userList.find((item) => item.id === user.id);
-    return targetUserInList;
-  };
-
-  const lookFor = (text, textArray) => {
-    const regex = new RegExp(text, 'i');
-    return textArray.filter((element) => {
-      const compareResult = regex.test(element.name);
-      return compareResult;
-    });
-  };
-
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    const newUsersPool = lookFor(e.target.value, allUsers);
-    setUsers(newUsersPool);
-  };
+  const columns = [
+    {
+      field: 'avatarUrl',
+      headerName: 'Avatar',
+      width: 100,
+      renderCell: (params) => {
+        const userProfileUrl = `/profile/${params.row.name}`;
+        return (
+          <NextLink
+            href={{
+              pathname: userProfileUrl,
+              query: { userId: params.row.id },
+            }}
+            passHref
+          >
+            <Link
+              href={{
+                pathname: userProfileUrl,
+                query: { userId: params.row.id },
+              }}
+            >
+              <Avatar src={params.row.avatarUrl} sx={{ mr: 2 }} />
+            </Link>
+          </NextLink>
+        );
+      },
+    },
+    {
+      field: 'name',
+      headerName: 'Name',
+      width: 200,
+      renderCell: (params) => {
+        const userProfileUrl = `/profile/${params.row.name}`;
+        return (
+          <NextLink
+            href={{
+              pathname: userProfileUrl,
+              query: { userId: params.row.id },
+            }}
+            passHref
+          >
+            <Link
+              href={{
+                pathname: userProfileUrl,
+                query: { userId: params.row.id },
+              }}
+            >
+              <Typography color="textPrimary" sx={{ fontSize: '0.875rem' }}>
+                {params.row.name}
+              </Typography>
+            </Link>
+          </NextLink>
+        );
+      },
+    },
+    { field: 'email', headerName: 'Email', width: 250 },
+    { field: 'logintime', headerName: 'Last login', width: 200 },
+    {
+      field: 'role',
+      headerName: 'Role',
+      type: 'singleSelect',
+      valueOptions: [
+        'admin',
+        'verified_user',
+        'unverified_user',
+        'banned_user',
+      ],
+      width: 200,
+      editable: true,
+    },
+  ];
 
   const handleSubmit = () => {
     changeUsersRoles(usersToSubmit);
@@ -107,196 +141,33 @@ export const AdminUser = ({ allUsers, ...rest }) => {
     router.replace(router.asPath);
   };
 
-  const handleRoleChange = (event, user) => {
-    const updatedUser = { ...user, role: event.target.value };
-    setUsersToSubmit((prevUsersInfo) =>
-      prevUsersInfo.map((prevUserInfo) => {
-        if (prevUserInfo.id !== updatedUser.id) {
-          return prevUserInfo;
-        }
-        return updatedUser;
-      }),
-    );
-    setDisplayingUsers((prevUsersInfo) =>
-      prevUsersInfo.map((prevUserInfo) => {
-        if (prevUserInfo.id !== updatedUser.id) {
-          return prevUserInfo;
-        }
-        return updatedUser;
-      }),
+  const handleCellEditCommit = (params) => {
+    const updatedUser = {
+      id: params.id,
+      [params.field]: params.value,
+    };
+    addUsersToSubmit(updatedUser);
+    setRows((prev) =>
+      prev.map((row) =>
+        row.id === params.id ? { ...row, ...updatedUser } : row,
+      ),
     );
   };
 
-  useEffect(() => {
-    setDisplayingUsers(
-      users.slice(page * rowsPerPage, (page + 1) * rowsPerPage),
-    );
-  }, [page, rowsPerPage, users]);
-
   return (
-    <>
-      <Card>
-        <CardContent>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item>
-              <TextField
-                label="Search User"
-                placeholder="By Username"
-                variant="outlined"
-                onChange={(e) => handleSearchChange(e)}
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                color="secondary"
-                variant="contained"
-                endIcon={<PublishIcon />}
-                onClick={handleSubmit}
-              >
-                Submit changes
-              </Button>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-      <Card {...rest}>
-        <PerfectScrollbar>
-          <Box sx={{ minWidth: 400 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={
-                        numOfPreSelectedUsers === displayingUsers.length &&
-                        displayingUsers.length !== 0
-                      }
-                      color="primary"
-                      indeterminate={
-                        numOfPreSelectedUsers > 0 &&
-                        numOfPreSelectedUsers < displayingUsers.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell style={{ maxWidth: '10rem' }}>
-                    LastLoginTime
-                  </TableCell>
-                  <TableCell style={{ width: '13rem' }}>Role</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {displayingUsers.map((customer) => {
-                  const userEdited = getInstanceByUserId(
-                    customer,
-                    usersToSubmit,
-                  );
-                  const userProfileUrl = `/profile/${customer.name}`;
-                  return (
-                    <TableRow
-                      hover
-                      key={customer.id}
-                      selected={findInstanceByUserId(customer, usersToSubmit)}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={findInstanceByUserId(
-                            customer,
-                            usersToSubmit,
-                          )}
-                          onChange={(event) => handleSelectOne(event, customer)}
-                          value="true"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            alignItems: 'center',
-                            display: 'flex',
-                          }}
-                        >
-                          <NextLink
-                            href={{
-                              pathname: userProfileUrl,
-                              query: { userId: customer.id },
-                            }}
-                            passHref
-                          >
-                            <Link
-                              href={{
-                                pathname: userProfileUrl,
-                                query: { userId: customer.id },
-                              }}
-                            >
-                              <Avatar src={customer.avatarUrl} sx={{ mr: 2 }} />
-                            </Link>
-                          </NextLink>
-                          <NextLink
-                            href={{
-                              pathname: userProfileUrl,
-                              query: { userId: customer.id },
-                            }}
-                            passHref
-                          >
-                            <Link
-                              href={{
-                                pathname: userProfileUrl,
-                                query: { userId: customer.id },
-                              }}
-                            >
-                              <Typography color="textPrimary" variant="body1">
-                                {customer.name}
-                              </Typography>
-                            </Link>
-                          </NextLink>
-                        </Box>
-                      </TableCell>
-                      <TableCell>{customer.email}</TableCell>
-                      <TableCell style={{ width: '10rem' }}>
-                        {customer.logintime}
-                      </TableCell>
-                      <TableCell style={{ width: '13rem' }}>
-                        <FormControl id={customer.id} variant="standard">
-                          <Select
-                            label="Role"
-                            id={customer.id}
-                            value={userEdited ? userEdited.role : customer.role}
-                            onChange={(event) =>
-                              handleRoleChange(event, customer)
-                            }
-                          >
-                            <MenuItem value="admin">admin</MenuItem>
-                            <MenuItem value="moderator">moderator</MenuItem>
-                            <MenuItem value="verified_user">
-                              verified user
-                            </MenuItem>
-                            <MenuItem value="unverified_user">
-                              unverified user
-                            </MenuItem>
-                            <MenuItem value="banned_user">banned user</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </Box>
-        </PerfectScrollbar>
-        <TablePagination
-          component="div"
-          count={users.length}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 20]}
-        />
-      </Card>
-    </>
+    <div style={{ height: 600, width: '100%' }}>
+      <DataGrid
+        className={classes.customDataGrid}
+        rows={rows}
+        columns={columns}
+        onCellEditCommit={handleCellEditCommit}
+        components={{ Toolbar: CustomToolbar }}
+        componentsProps={{
+          toolbar: { handleSubmit },
+        }}
+      />
+    </div>
   );
 };
+
 export default AdminUser;

@@ -42,9 +42,6 @@ export const changeUsersRoles = (usersInfo) => {
   const usersProtoInfo = usersInfo.map((userInfo) => {
     const newUser = {
       id: userInfo.id,
-      profileImgUrl: userInfo.avatarUrl,
-      email: userInfo.email,
-      username: userInfo.name,
       role: { roleName: userInfo.role },
     };
     return newUser;
