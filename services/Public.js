@@ -32,14 +32,15 @@ export const uniqueUsername = (username) =>
 export const sendResetPasswordEmail = (email) =>
   http(`/v1/public/users/reset_password/${email}`, { method: 'GET' });
 
+export const getUserById = (usersId) =>
+  http(`/v1/public/users/id/${usersId}`, { method: 'GET' });
+
 // Category
 export const getAllCategories = () =>
   http(`/v1/public/category`, { method: 'GET' });
 
 export const getCategoryByTitle = (categoryTitle) =>
   http(`/v1/public/category/${categoryTitle}`, { method: 'GET' });
-
-export const getAllUsers = () => http(`/v1/public/users`, { method: 'GET' });
 
 export const getVisiblePostsByCategoryId = (
   categoryId,

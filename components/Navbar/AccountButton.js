@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Box, ButtonBase } from '@mui/material';
 import UserCircleIcon from '../../icons/user-circle';
 import AccountPopover from './AccountPopover';
-import { getMyUser } from '../../services/Users';
+import { getMe } from '../../services/Users';
 import { setDetailAction } from '../../store/actions/signAction';
 import store from '../../store/store';
 
@@ -18,7 +18,7 @@ const AccountButton = ({ isLogin }) => {
   useEffect(() => {
     if (isLogin) {
       (async () => {
-        const { data } = await getMyUser();
+        const { data } = await getMe();
         dispatch(setDetailAction(data));
         setMyDetails(data);
         setHeadImg(data.headImgUrl);
