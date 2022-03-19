@@ -12,6 +12,7 @@ const getInstance = () => {
   } else {
     axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
   }
+  // axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
 
   // comment out next line if you want connect online backend
   axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';

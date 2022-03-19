@@ -31,6 +31,9 @@ const StyledTable = styled(Table)`
     font-weight: 300;
     text-align: center;
   }
+  /* & tbody tr {
+    text-align: center;
+  } */
   & tbody tr:hover {
     background-color: #fffbf2;
     cursor: pointer;
