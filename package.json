@@ -42,6 +42,7 @@
     "react-draggable": "^4.4.4",
     "react-dropzone": "^12.0.4",
     "react-hot-toast": "^2.2.0",
+    "react-image-crop": "^9.1.1",
     "react-perfect-scrollbar": "^1.5.8",
     "react-quill": "^1.3.5",
     "react-redux": "^7.2.1",
