@@ -26,7 +26,6 @@ const PostCreate = ({ categoryTitle }) => {
   const [cover, setCover] = useState();
   const [image, setImage] = useState(undefined);
   const [isOpen, setIsOpen] = useState(false);
-  const [filename, setFilename] = useState(null);
   const formik = useFormik({
     initialValues: {
       context: '',
