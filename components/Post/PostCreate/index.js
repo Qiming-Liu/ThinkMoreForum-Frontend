@@ -202,7 +202,7 @@ const PostCreate = ({ categoryTitle }) => {
             src={cover}
             alt="image"
             setCover={setCover}
-            setIsOpen={setIsOpen}
+            setIsOpen={() => setIsOpen(false)}
             setImage={setImage}
             file={image}
           />
