@@ -1,9 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Head from 'next/head';
-import NextLink from 'next/link';
-import { Box, Button, Typography, Dialog } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import { thirdpartylogin } from '../../services/Public';
@@ -14,7 +10,7 @@ const LoginGoogle = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { data: session } = useSession();
-  const handleSubmit = () => {
+  const handleSubmit = useMemo(() => {
     if (session) {
       router.replace('/');
       const { user, provider, providerAccountId } = session;
@@ -36,56 +32,16 @@ const LoginGoogle = () => {
               if (fail && fail.response && fail.response.status === 403) {
                 hotToast('error', 'Invalid Email or Password');
               } else {
-                hotToast('error', `something wrong${fail}`);
+                hotToast('error', `Something wrong ${fail}`);
               }
             },
           ),
         );
       });
     }
-  };
+  }, [dispatch, router, session]);
 
-  return (
-    <>
-      <Head>
-        <title>Google Login | ThinkMoreForum</title>
-      </Head>
-      <Dialog open fullWidth>
-        <Box
-          sx={{
-            m: 3,
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-          }}
-        >
-          <NextLink href="/" passHref>
-            <Typography align="center">
-              <Image src="/logo.svg" height="50" width="50" alt="logo" />
-            </Typography>
-          </NextLink>
-          <Typography variant="h4">Google Login Success</Typography>
-        </Box>
-        <Box
-          sx={{
-            flexGrow: 1,
-          }}
-        >
-          <Box sx={{ m: 3 }}>
-            <Button
-              fullWidth
-              size="large"
-              onClick={handleSubmit}
-              variant="contained"
-            >
-              Back to Home Page
-            </Button>
-          </Box>
-        </Box>
-      </Dialog>
-    </>
-  );
+  return <div>{handleSubmit}</div>;
 };
 
 export default LoginGoogle;
