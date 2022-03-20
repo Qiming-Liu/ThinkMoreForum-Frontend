@@ -6,8 +6,10 @@ import { Button, Typography, Box } from '@mui/material';
 
 const Container = styledComponents.div`
   display: flex;
-  flexDirection: column;
-  height: 230px;
+  flex-direction: column;
+  height: 350px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ImageCropper = ({ src, setCover, setIsOpen, setImage, file }) => {
@@ -98,20 +100,20 @@ const ImageCropper = ({ src, setCover, setIsOpen, setImage, file }) => {
             onChange={(c) => setCrop(c)}
             onComplete={(c) => setCompleteCrop(c)}
             onImageLoaded={handleOnLoad}
-            style={{ height: '230px', width: '450px' }}
-          />
-          <canvas ref={canvasRef} />
+            style={{ height: '330px', width: '450px' }}
+          >
+            <canvas hidden ref={canvasRef} />
+          </ReactCrop>
+          <Button
+            sx={{ m: 1, width: '450px' }}
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={handleSave}
+          >
+            Save
+          </Button>
         </Container>
-        <Button
-          sx={{ m: 1 }}
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="large"
-          onClick={handleSave}
-        >
-          Save
-        </Button>
       </Box>
     </>
   );
