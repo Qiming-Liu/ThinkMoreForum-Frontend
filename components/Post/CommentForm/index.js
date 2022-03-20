@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Box, TextField } from '@mui/material';
 
-const CommentForm = ({ initialText = '', handleSubmit, login }) => {
+const CommentForm = ({
+  initialText = '',
+  handleSubmit,
+  login,
+  mentionUser,
+}) => {
   const [context, setContext] = useState(initialText);
   const onSubmit = () => {
-    handleSubmit(context);
+    if (mentionUser) {
+      handleSubmit(`@${mentionUser} ${context}`);
+    } else {
+      handleSubmit(context);
+    }
   };
   if (!login) {
     return null;
