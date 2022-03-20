@@ -53,21 +53,40 @@ const AccountPopover = (props) => {
           display: 'flex',
         }}
       >
-        <Avatar
-          src={myDetail.headImgUrl}
-          sx={{
-            height: 40,
-            width: 40,
+        <NextLink
+          href={{
+            pathname: `/profile/${myDetail.username}`,
+            query: { userId: myDetail.id },
           }}
+          passHref
         >
-          <UserCircleIcon fontSize="small" />
-        </Avatar>
+          <Avatar
+            src={myDetail.headImgUrl}
+            sx={{
+              height: 40,
+              width: 40,
+              cursor: 'pointer',
+            }}
+          >
+            <UserCircleIcon fontSize="small" />
+          </Avatar>
+        </NextLink>
         <Box
           sx={{
             ml: 1,
           }}
         >
-          <Typography variant="body1">{myDetail.username}</Typography>
+          <NextLink
+            href={{
+              pathname: `/profile/${myDetail.username}`,
+              query: { userId: myDetail.id },
+            }}
+            passHref
+          >
+            <Typography variant="body1" sx={{ cursor: 'pointer' }}>
+              {myDetail.username}
+            </Typography>
+          </NextLink>
           <Typography color="textSecondary" variant="body2">
             {myDetail.role.roleName}
           </Typography>
@@ -87,16 +106,6 @@ const AccountPopover = (props) => {
             </MenuItem>
           </NextLink>
         )}
-        <NextLink href="/profile" passHref>
-          <MenuItem component="a">
-            <ListItemIcon>
-              <UserCircleIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary={<Typography variant="body1">Profile</Typography>}
-            />
-          </MenuItem>
-        </NextLink>
         <NextLink href="/personal-setting" passHref>
           <MenuItem component="a">
             <ListItemIcon>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
+import Image from 'next/image';
 import {
   Typography,
   Card,
@@ -90,14 +91,13 @@ const PostCreate = ({ categoryTitle }) => {
               {cover ? (
                 <Box
                   sx={{
-                    backgroundImage: `url(${cover})`,
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
                     borderRadius: 1,
-                    height: 230,
+                    height: 330,
                     mt: 3,
                   }}
-                />
+                >
+                  <Image src={cover} width="650px" height="330px" />
+                </Box>
               ) : (
                 <Box
                   sx={{
@@ -202,7 +202,7 @@ const PostCreate = ({ categoryTitle }) => {
             src={cover}
             alt="image"
             setCover={setCover}
-            setIsOpen={setIsOpen}
+            setIsOpen={() => setIsOpen(false)}
             setImage={setImage}
             file={image}
           />
