@@ -143,9 +143,11 @@ const Post = ({ post }) => {
               sendComment={sendComment}
               sendChildComment={sendChildComment}
               login={isLogin}
+              parentId={rootComment.id}
             />
           );
         })}
+      {rootComments.length === 0 ? <div> </div> : <Divider sx={{ my: 3 }} />}
       <CommentForm handleSubmit={sendComment} login={isLogin} />
     </PinPostContextProvider>
   );

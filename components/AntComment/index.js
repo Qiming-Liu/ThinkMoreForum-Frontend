@@ -5,29 +5,40 @@ import NextLink from 'next/link';
 import myTime from '../../utils/myTime';
 import CommentForm from '../Post/CommentForm';
 
-const AntComment = ({ comment, replies, sendChildComment, login }) => {
+const AntComment = ({
+  comment,
+  replies,
+  sendChildComment,
+  login,
+  parentId,
+}) => {
   const { commentUsers, createTimestamp } = comment;
   const [showReplying, setShowReplying] = useState(false);
-  const parrentId = comment.parentComment;
+  const mentionUser = commentUsers.username;
+  const mentionUserId = commentUsers.id;
   return (
     <Comment
       key={comment.id}
       actions={[
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        parrentId === null ? (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <span
-            key="comment-nested-reply-to"
-            onClick={() => setShowReplying(!showReplying)}
-          >
-            Reply
-          </span>
-        ) : (
-          <span> </span>
-        ),
+        <span
+          key="comment-nested-reply-to"
+          onClick={() => setShowReplying(!showReplying)}
+        >
+          {showReplying ? 'Cancel' : 'Reply'}
+        </span>,
       ]}
-      author={commentUsers.username}
+      author={
+        <NextLink
+          href={{
+            pathname: `/profile/${commentUsers.username}`,
+            query: { userId: commentUsers.id },
+          }}
+          passHref
+        >
+          {commentUsers.username}
+        </NextLink>
+      }
       avatar={
         <NextLink
           href={{
@@ -48,13 +59,22 @@ const AntComment = ({ comment, replies, sendChildComment, login }) => {
     >
       {showReplying ? (
         <CommentForm
-          handleSubmit={(context) => sendChildComment(context, comment.id)}
+          handleSubmit={(context) => sendChildComment(context, parentId)}
           login={login}
+          mentionUser={mentionUser}
+          mentionUserId={mentionUserId}
         />
       ) : null}
-      {replies !== null &&
+      {replies &&
         replies.map((reply) => (
-          <AntComment comment={reply} key={reply.id} replies={[]} />
+          <AntComment
+            comment={reply}
+            key={reply.id}
+            replies={[]}
+            sendChildComment={sendChildComment}
+            login={login}
+            parentId={parentId}
+          />
         ))}
     </Comment>
   );
