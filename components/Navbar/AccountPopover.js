@@ -65,6 +65,7 @@ const AccountPopover = (props) => {
             sx={{
               height: 40,
               width: 40,
+              cursor: 'pointer',
             }}
           >
             <UserCircleIcon fontSize="small" />
@@ -82,7 +83,9 @@ const AccountPopover = (props) => {
             }}
             passHref
           >
-            <Typography variant="body1">{myDetail.username}</Typography>
+            <Typography variant="body1" sx={{ cursor: 'pointer' }}>
+              {myDetail.username}
+            </Typography>
           </NextLink>
           <Typography color="textSecondary" variant="body2">
             {myDetail.role.roleName}
