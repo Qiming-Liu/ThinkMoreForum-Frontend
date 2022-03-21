@@ -123,7 +123,9 @@ const Profile = () => {
       hotToast('error', 'Something went wrong!');
     }
   };
-  const handleDropImg = async ([file]) => {
+
+  // Here the [file] related to the problem of getting native object.
+  const handleImgChange = async ([file]) => {
     const data = await fileToBase64(file);
     setCurrentProfileImg(data);
     const { data: imgs } = await upload(file).catch((error) => {
@@ -142,8 +144,12 @@ const Profile = () => {
           ),
         );
       })
+      // eslint-disable-next-line no-unused-vars
       .catch((error) => {
-        hotToast('error', `Something wrong: ${error}`);
+        hotToast(
+          'error',
+          `Sorry, the profile image could not be updated, please contact support@thinkmoreapp.com.`,
+        );
       });
   };
 
@@ -213,7 +219,7 @@ const Profile = () => {
               <ChangePicButton
                 accept="image/jpg,image/png, image/jpeg"
                 maxFiles={1}
-                onDrop={handleDropImg}
+                onDrop={handleImgChange}
                 maxSize={5242880}
                 minsize={0}
               />

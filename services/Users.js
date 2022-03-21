@@ -33,7 +33,7 @@ export const changeHeadImg = ({ headImgUrl }) =>
   });
 
 export const changeProfileImg = ({ profileImgUrl }) =>
-  http(`/v1/users/profileimg`, {
+  http(`/v1/users/profile_img`, {
     method: 'PUT',
     data: {
       profileImgUrl,
