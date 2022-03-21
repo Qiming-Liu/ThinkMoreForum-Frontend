@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -33,15 +33,25 @@ const Form = (props) => {
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
   const [headImg, setHeadImg] = useState('');
+  const [name, setName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+
+  useEffect(() => {
+    if (myDetail) {
+      setName(myDetail.username);
+      setUserEmail(myDetail.email);
+    }
+  }, [myDetail]);
 
   const formikUsername = useFormik({
     enableReinitialize: true,
     initialValues: {
-      username: '',
+      username: name,
       submit: null,
     },
     validationSchema: Yup.object({
       username: Yup.string().sequence([
+        () => Yup.string().required('Required'),
         () => Yup.string().max(20),
         () => Yup.string().unique('Username is already taken', uniqueUsername),
       ]),
@@ -61,11 +71,12 @@ const Form = (props) => {
   const formikEmail = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: '',
+      email: userEmail,
       submit: null,
     },
     validationSchema: Yup.object({
       email: Yup.string().sequence([
+        () => Yup.string().required('Required'),
         () => Yup.string().email('Must be a valid email').max(255),
         () => Yup.string().unique('Email is already in use', uniqueEmail),
       ]),
@@ -108,7 +119,6 @@ const Form = (props) => {
   if (!myDetail) {
     return null;
   }
-
   return (
     <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
       <Grid item>
@@ -167,9 +177,8 @@ const Form = (props) => {
                       InputLabelProps={{ shrink: !!myDetail }}
                       onBlur={formikUsername.handleBlur}
                       onChange={formikUsername.handleChange}
-                      value={
-                        formikUsername.values.username || myDetail.username
-                      }
+                      defaultValue={formikUsername.initialValues}
+                      value={formikUsername.values.username}
                       name="username"
                       label="Username"
                       size="small"
@@ -204,7 +213,8 @@ const Form = (props) => {
                       InputLabelProps={{ shrink: !!myDetail }}
                       onBlur={formikEmail.handleBlur}
                       onChange={formikEmail.handleChange}
-                      value={formikEmail.values.email || myDetail.email}
+                      defaultValue={formikEmail.initialValues}
+                      value={formikEmail.values.email}
                       label="Email Address"
                       name="email"
                       size="small"
