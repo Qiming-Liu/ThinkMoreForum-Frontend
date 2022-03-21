@@ -10,6 +10,7 @@ import {
   Tab,
   Divider,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
@@ -24,9 +25,17 @@ import {
 } from '../../services/Follow';
 import { getUserById } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
-import { getMe as getCurrentUser } from '../../services/Users';
+import {
+  getMe as getCurrentUser,
+  changeProfileImg,
+} from '../../services/Users';
+import ChangePicButton from '../../components/PersonalSetting/ChangePicButton';
+import fileToBase64 from '../../utils/fileToBase64';
+import upload from '../../services/Img';
+import { setProfileImgAction } from '../../store/actions/signAction';
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const { username, userId } = router.query;
   const [currentTab, setCurrentTab] = useState('posts');
@@ -55,6 +64,9 @@ const Profile = () => {
         } else if (username[0] === currentName) {
           setFollowedStatus('current_user');
         }
+        if (profileImg !== currentProfileImg) {
+          setCurrentProfileImg(currentProfileImg);
+        }
       };
       const getOtherUser = async () => {
         const { data } = await getUserById(userId);
@@ -76,7 +88,14 @@ const Profile = () => {
       }
       getUser();
     }
-  }, [currentName, router.isReady, userId, username]);
+  }, [
+    currentName,
+    currentProfileImg,
+    profileImg,
+    router.isReady,
+    userId,
+    username,
+  ]);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
@@ -103,6 +122,35 @@ const Profile = () => {
     } catch (err) {
       hotToast('error', 'Something went wrong!');
     }
+  };
+
+  // Here the [file] related to the problem of getting native object.
+  const handleImgChange = async ([file]) => {
+    const data = await fileToBase64(file);
+    setCurrentProfileImg(data);
+    const { data: imgs } = await upload(file).catch((error) => {
+      hotToast('error', `Something wrong: ${error}`);
+    });
+    changeProfileImg({ profileImgUrl: imgs.url })
+      .then(() => {
+        hotToast('success', 'Profile picture is changed');
+        dispatch(
+          setProfileImgAction(
+            imgs.url,
+            () => {},
+            (fail) => {
+              hotToast('error', `something wrong${fail}`);
+            },
+          ),
+        );
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        hotToast(
+          'error',
+          `Sorry, the profile image could not be updated, please contact support@thinkmoreapp.com.`,
+        );
+      });
   };
 
   const tabs = [
@@ -168,7 +216,13 @@ const Profile = () => {
               }}
               variant="contained"
             >
-              Change Cover
+              <ChangePicButton
+                accept="image/jpg,image/png, image/jpeg"
+                maxFiles={1}
+                onDrop={handleImgChange}
+                maxSize={5242880}
+                minsize={0}
+              />
             </Button>
           )}
         </Box>

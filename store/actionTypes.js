@@ -6,6 +6,7 @@ export const SET_JWT = 'SET_JWT';
 export const SET_OPENID = 'SET_OPENID';
 export const SET_DETAIL = 'SET_DETAIL';
 export const SET_HEADIMG = 'SET_HEADIMG';
+export const SET_PROFILEHEADING = 'SET_PROFILEHEADING';
 export const SET_USERNAME = 'SET_USERNAME';
 export const SET_EMAIL = 'SET_EMAIL';
 
