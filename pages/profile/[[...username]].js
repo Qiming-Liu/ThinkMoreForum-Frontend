@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
+  Stack,
   Button,
   Container,
   Typography,
@@ -11,11 +12,16 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
+import PersonIcon from '@mui/icons-material/Person';
 import { blueGrey } from '@mui/material/colors';
 import ProfilePost from '../../components/Profile/ProfilePost';
 import ProfileFollow from '../../components/Profile/ProfileFollow';
 import UserAdd from '../../icons/user-add';
-import { followUser, getFollowedStatus } from '../../services/Follow';
+import {
+  followUser,
+  unfollowUser,
+  getFollowedStatus,
+} from '../../services/Follow';
 import { getUserById } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
 import { getMe as getCurrentUser } from '../../services/Users';
@@ -32,6 +38,8 @@ const Profile = () => {
   const [currentImg, setCurrentImg] = useState('');
   const [profileImg, setProfileImg] = useState('');
   const [currentProfileImg, setCurrentProfileImg] = useState('');
+  const [countFollowing, setCountFollowing] = useState('');
+  const [countFollower, setCountFollower] = useState('');
 
   // Get current user details
   useEffect(() => {
@@ -73,12 +81,21 @@ const Profile = () => {
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };
-
+  const getfollowingNum = (total) => {
+    setCountFollowing(total);
+  };
+  const getfollowerNum = (total) => {
+    setCountFollower(total);
+  };
   const handleFollowAction = async (name) => {
     try {
-      await followUser(name);
       if (followedStatus === 'not_followed') {
+        await followUser(name);
         hotToast('success', `Follow ${name} successfully!`);
+      }
+      if (followedStatus === 'followed') {
+        hotToast('success', ` Unfollowed ${name}`);
+        await unfollowUser(name);
       }
       setFollowedStatus((prevFollowedStatus) =>
         prevFollowedStatus === 'not_followed' ? 'followed' : 'not_followed',
@@ -91,8 +108,14 @@ const Profile = () => {
   const tabs = [
     { label: 'Posts', value: 'posts' },
     { label: 'Favorite', value: 'favorite' },
-    { label: 'Following', value: 'following' },
-    { label: 'Follower', value: 'follower' },
+    {
+      label: `Following ${countFollowing === 0 ? '' : countFollowing}`,
+      value: 'following',
+    },
+    {
+      label: `Follower ${countFollower === 0 ? '' : countFollower}`,
+      value: 'follower',
+    },
   ];
   return (
     <Box
@@ -156,35 +179,32 @@ const Profile = () => {
             mt: 5,
           }}
         >
-          <Avatar
-            sx={{
-              height: 64,
-              width: 64,
-            }}
-            src={username ? img : currentImg}
-          />
-          <Box sx={{ ml: 2 }}>
-            {!username && (
-              <Typography color="textSecondary" variant="overline">
-                {currentRole}
-              </Typography>
-            )}
-            {username && (
-              <Typography color="textSecondary" variant="overline">
-                {role}
-              </Typography>
-            )}
-            <Typography variant="h6">{username || currentName}</Typography>
-          </Box>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box
-            sx={{
-              display: {
-                md: 'block',
-                xs: 'none',
-              },
-            }}
+          <Stack
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            spacing={2}
           >
+            <Avatar
+              sx={{
+                height: 64,
+                width: 64,
+              }}
+              src={username ? img : currentImg}
+            />
+            <Box sx={{ ml: 2 }}>
+              {!username && (
+                <Typography color="textSecondary" variant="overline">
+                  {currentRole}
+                </Typography>
+              )}
+              {username && (
+                <Typography color="textSecondary" variant="overline">
+                  {role}
+                </Typography>
+              )}
+              <Typography variant="h6">{username || currentName}</Typography>
+            </Box>
             {followedStatus === 'not_followed' && (
               <Button
                 onClick={() => {
@@ -192,7 +212,7 @@ const Profile = () => {
                 }}
                 size="small"
                 startIcon={<UserAdd fontSize="small" />}
-                sx={{ ml: 2 }}
+                sx={{ ml: 1 }}
                 variant="outlined"
               >
                 Follow
@@ -200,24 +220,28 @@ const Profile = () => {
             )}
             {followedStatus === 'followed' && (
               <Button
+                onClick={() => {
+                  handleFollowAction(username[0]);
+                }}
                 color="primary"
                 size="small"
                 startIcon={<UserAdd fontSize="small" />}
-                sx={{ ml: 2 }}
+                sx={{ ml: 1 }}
                 variant="outlined"
               >
-                Followed
+                Following
               </Button>
             )}
             {followedStatus === 'current_user' && (
               <Button
                 color="primary"
                 size="small"
-                startIcon={<UserAdd fontSize="small" />}
-                sx={{ ml: 2 }}
+                startIcon={<PersonIcon fontSize="small" />}
+                sx={{ ml: 1 }}
                 variant="outlined"
+                disabled
               >
-                This is you!
+                My Profile
               </Button>
             )}
             {/* 这个功能后面看情况再加 */}
@@ -230,7 +254,7 @@ const Profile = () => {
             >
               Send Message
             </Button> */}
-          </Box>
+          </Stack>
         </Box>
       </Container>
       <Box sx={{ mt: 5 }}>
@@ -263,23 +287,22 @@ const Profile = () => {
                 isMyself={followedStatus === 'current_user'}
               />
             )}
-            {currentTab === 'favorite' && !username && (
-              <ProfilePost title="Favorite" value={currentName} />
+            {currentTab === 'favorite' && (
+              <ProfilePost title="Favorite" value={username || currentName} />
             )}
-            {currentTab === 'favorite' && username && (
-              <ProfilePost title="Favorite" value={username} />
+            {currentTab === 'following' && (
+              <ProfileFollow
+                title="Following"
+                value={username || currentName}
+                getfollowingNum={getfollowingNum}
+              />
             )}
-            {currentTab === 'following' && !username && (
-              <ProfileFollow title="Following" value={currentName} />
-            )}
-            {currentTab === 'following' && username && (
-              <ProfileFollow title="Following" value={username} />
-            )}
-            {currentTab === 'follower' && !username && (
-              <ProfileFollow title="Follower" value={currentName} />
-            )}
-            {currentTab === 'follower' && username && (
-              <ProfileFollow title="Follower" value={username} />
+            {currentTab === 'follower' && (
+              <ProfileFollow
+                title="Follower"
+                value={username || currentName}
+                getfollowerNum={getfollowerNum}
+              />
             )}
           </Box>
         </Container>
