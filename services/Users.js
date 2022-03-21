@@ -32,6 +32,14 @@ export const changeHeadImg = ({ headImgUrl }) =>
     },
   });
 
+export const changeProfileImg = ({ profileImgUrl }) =>
+  http(`/v1/users/profileimg`, {
+    method: 'PUT',
+    data: {
+      profileImgUrl,
+    },
+  });
+
 export const sendVerificationEmail = (newEmail) =>
   http(`/v1/users/email/${newEmail}`, { method: 'GET' });
 
