@@ -155,7 +155,8 @@ const Category = () => {
       const y = x;
       if (y.color === null || y.color === '') delete y.color;
       if (y.description === null || y.description === '') delete y.description;
-      if (!y.pinPost || y.pinPost.id === '') delete y.pinPost;
+      if (!y.pinPost || y.pinPost.id === '' || y.pinPost.id === null)
+        delete y.pinPost;
       if (y.id === null || y.id === '') delete y.id;
       if (y.headImgUrl === null || y.headImgUrl === '') delete y.headImgUrl;
       delete y.fakeID;
@@ -222,7 +223,14 @@ const Category = () => {
                           </TableCell>
                           <TableCell>{item.title}</TableCell>
                           <TableCell>{item.description}</TableCell>
-                          <TableCell>{item.color}</TableCell>
+                          <TableCell
+                            style={{
+                              background: item.color,
+                              color: '#ffffff',
+                            }}
+                          >
+                            {item.color}
+                          </TableCell>
                           <TableCell>
                             {item.pinPost && item.pinPost.title}
                           </TableCell>
