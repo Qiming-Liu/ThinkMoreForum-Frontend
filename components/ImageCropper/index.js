@@ -12,7 +12,7 @@ const Container = styledComponents.div`
   justify-content: center;
 `;
 
-const ImageCropper = ({ src, setCover, onClose, setImage, file }) => {
+const ImageCropper = ({ src, setCover, setIsOpen, setImage, file }) => {
   const [cropImage, setCropImage] = useState();
   const rcImageref = useRef();
   const canvasRef = useRef();
@@ -43,7 +43,7 @@ const ImageCropper = ({ src, setCover, onClose, setImage, file }) => {
     });
     setImage(myFile);
     setCover(cropImage);
-    onClose();
+    setIsOpen(false);
   };
 
   useEffect(() => {

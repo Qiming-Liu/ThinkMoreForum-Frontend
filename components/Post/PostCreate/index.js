@@ -67,7 +67,7 @@ const PostCreate = ({ categoryTitle }) => {
     },
   });
 
-  const handleDropCover = async ([file]) => {
+  const handleCoverDrop = async ([file]) => {
     const data = await fileToBase64(file);
     setCover(data);
     setImage(file);
@@ -134,7 +134,7 @@ const PostCreate = ({ categoryTitle }) => {
                 <ImageDropZone
                   accept="image/jpg,image/png, image/jpeg"
                   maxFiles={1}
-                  onDrop={handleDropCover}
+                  onDrop={handleCoverDrop}
                   maxSize={5242880}
                   minsize={0}
                 />
@@ -202,7 +202,7 @@ const PostCreate = ({ categoryTitle }) => {
             src={cover}
             alt="image"
             setCover={setCover}
-            setIsOpen={() => setIsOpen(false)}
+            setIsOpen={setIsOpen}
             setImage={setImage}
             file={image}
           />
