@@ -33,8 +33,10 @@ import ChangePicButton from '../../components/PersonalSetting/ChangePicButton';
 import fileToBase64 from '../../utils/fileToBase64';
 import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
+import { useSocketContext } from '../../contexts/SocketContext';
 
 const Profile = () => {
+  const { sendReminder } = useSocketContext();
   const dispatch = useDispatch();
   const router = useRouter();
   const { username, userId } = router.query;
@@ -52,42 +54,40 @@ const Profile = () => {
 
   // Get current user details
   useEffect(() => {
-    if (router.isReady) {
-      const getUser = async () => {
-        const { data } = await getCurrentUser();
-        setCurrentName(data.username);
-        setCurrentRole(data.role.roleName);
-        setCurrentImg(data.headImgUrl);
-        setCurrentProfileImg(data.profileImgUrl);
-        if (!username) {
-          setFollowedStatus('current_user');
-        } else if (username[0] === currentName) {
-          setFollowedStatus('current_user');
-        }
-        if (profileImg !== currentProfileImg) {
-          setCurrentProfileImg(currentProfileImg);
-        }
-      };
-      const getOtherUser = async () => {
-        const { data } = await getUserById(userId);
-        setRole(data.role.roleName);
-        setImg(data.headImgUrl);
-        setProfileImg(data.profileImgUrl);
-      };
-      const checkStatus = async (name) => {
-        const { data } = await getFollowedStatus(name);
-        if (data === true) {
-          setFollowedStatus('followed');
-        }
-      };
-      if (username && username[0] !== currentName) {
-        checkStatus(username);
+    const getUser = async () => {
+      const { data } = await getCurrentUser();
+      setCurrentName(data.username);
+      setCurrentRole(data.role.roleName);
+      setCurrentImg(data.headImgUrl);
+      setCurrentProfileImg(data.profileImgUrl);
+      if (!username) {
+        setFollowedStatus('current_user');
+      } else if (username[0] === currentName) {
+        setFollowedStatus('current_user');
       }
-      if (userId) {
-        getOtherUser();
+      if (profileImg !== currentProfileImg) {
+        setCurrentProfileImg(currentProfileImg);
       }
-      getUser();
+    };
+    const getOtherUser = async () => {
+      const { data } = await getUserById(userId);
+      setRole(data.role.roleName);
+      setImg(data.headImgUrl);
+      setProfileImg(data.profileImgUrl);
+    };
+    const checkStatus = async (name) => {
+      const { data } = await getFollowedStatus(name);
+      if (data === true) {
+        setFollowedStatus('followed');
+      }
+    };
+    if (username && username[0] !== currentName) {
+      checkStatus(username);
     }
+    if (userId) {
+      getOtherUser();
+    }
+    getUser();
   }, [
     currentName,
     currentProfileImg,
@@ -111,10 +111,12 @@ const Profile = () => {
       if (followedStatus === 'not_followed') {
         await followUser(name);
         hotToast('success', `Follow ${name} successfully!`);
+        sendReminder(userId);
       }
       if (followedStatus === 'followed') {
         hotToast('success', ` Unfollowed ${name}`);
         await unfollowUser(name);
+        sendReminder(userId);
       }
       setFollowedStatus((prevFollowedStatus) =>
         prevFollowedStatus === 'not_followed' ? 'followed' : 'not_followed',

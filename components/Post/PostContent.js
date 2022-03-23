@@ -22,6 +22,7 @@ import NextLink from 'next/link';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 import AdminTool from './AdminTool';
+import { useSocketContext } from '../../contexts/SocketContext';
 
 const useStyles = makeStyles({
   favFab: {
@@ -51,12 +52,14 @@ const useStyles = makeStyles({
 });
 
 const PostContent = ({ post, isFavored, toggleFav }) => {
+  const { sendReminder } = useSocketContext();
   const { myDetail } = useSelector((state) => state.sign);
   const classes = useStyles();
   const userProfileUrl = `/profile/${post.postUsers.username}`;
 
   const handleClick = () => {
     toggleFav();
+    sendReminder(post.postUsers.id);
   };
 
   const checkAuth = () => {

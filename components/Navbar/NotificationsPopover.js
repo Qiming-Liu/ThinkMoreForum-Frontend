@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 import MailOpenIcon from '../../icons/mail-open';
 import XIcon from '../../icons/x';
 import UserCircleIcon from '../../icons/user-circle';
@@ -21,17 +22,38 @@ import {
 } from '../../services/Notification';
 import Scrollbar from '../Scrollbar';
 import MyTime from '../../utils/myTime';
+import { useSocketContext } from '../../contexts/SocketContext';
 
 const NotificationsPopover = (props) => {
   const { anchorEl, onClose, onUpdateUnread, open, ...other } = props;
   const [fetch, setFetch] = useState(true);
   const [notifications, setNotifications] = useState([]);
+  const { socket } = useSocketContext();
+  const { myDetail } = useSelector((state) => state.sign);
+
+  const updateNotifications = async () => {
+    const { data } = await getNotifications();
+    setNotifications(data);
+  };
+
   useEffect(() => {
-    (async () => {
-      const { data } = await getNotifications();
-      setNotifications(data);
-    })();
+    updateNotifications();
   }, [fetch]);
+
+  useEffect(() => {
+    if (socket && myDetail) {
+      console.log(`inNotificationPopover`, socket);
+      socket.on('remind-Server', ({ recipient }) => {
+        if (recipient === myDetail.id) {
+          console.log('reminded');
+          updateNotifications();
+        } else console.log('reminded but not me');
+      });
+      socket.on('input-change-Server', ({ content }) => {
+        console.log(`notification component detected input-change`, content);
+      });
+    }
+  }, [myDetail, socket]);
 
   const unread = useMemo(
     () =>

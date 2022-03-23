@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { Button, Box, TextField } from '@mui/material';
+import { useSocketContext } from '../../../contexts/SocketContext';
 
 const CommentForm = ({
   initialText = '',
   handleSubmit,
   login,
   mentionUser,
+  mentionUserId,
 }) => {
   const [context, setContext] = useState(initialText);
+  const { sendReminder } = useSocketContext();
   const onSubmit = () => {
     if (mentionUser) {
       handleSubmit(`@${mentionUser} ${context}`);
+      sendReminder(mentionUserId);
     } else {
       handleSubmit(context);
     }

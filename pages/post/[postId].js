@@ -20,6 +20,7 @@ import AntComment from '../../components/AntComment';
 import CommentForm from '../../components/Post/CommentForm';
 import hotToast from '../../utils/hotToast';
 import { PinPostContextProvider } from '../../components/Post/PinPostContext';
+import { useSocketContext } from '../../contexts/SocketContext';
 
 export const getStaticPaths = async () => {
   const { data: posts } = await getAllPosts();
@@ -42,6 +43,7 @@ export const getStaticProps = async ({ params }) => {
 };
 
 const Post = ({ post }) => {
+  const { sendReminder } = useSocketContext();
   const router = useRouter();
   const { postId } = router.query;
   const [comments, setComments] = useState([]);
@@ -74,6 +76,7 @@ const Post = ({ post }) => {
         visibility: true,
       };
       await postComment(requestBody);
+      sendReminder(post.postUsers.id);
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
@@ -92,6 +95,7 @@ const Post = ({ post }) => {
         visibility: true,
       };
       await postComment(requestBody);
+      sendReminder(post.postUsers.id);
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
