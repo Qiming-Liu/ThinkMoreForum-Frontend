@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import { Grid, Link, Paper } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import TypeOne from './TypeOne';
-import TypeTwo from './TypeTwo';
 
 const useStyles = makeStyles(
   {

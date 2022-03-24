@@ -75,7 +75,6 @@ const AdminTool = () => {
   }, []);
 
   const handleHide = useCallback(async () => {
-    console.log(thisPost.id);
     const { data: response } = await changePostVisibility(thisPost.id);
     if (!response) {
       hotToast('error', 'Failed to change the visibility of this post.');
