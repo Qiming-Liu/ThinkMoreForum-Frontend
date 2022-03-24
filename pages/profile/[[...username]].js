@@ -10,7 +10,7 @@ import {
   Tab,
   Divider,
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
@@ -40,6 +40,7 @@ const Profile = () => {
   const { username, userId } = router.query;
   const [currentTab, setCurrentTab] = useState('posts');
   const [followedStatus, setFollowedStatus] = useState('not_followed');
+  const [otherName, setOtherName] = useState('');
   const [currentName, setCurrentName] = useState('');
   const [role, setRole] = useState('');
   const [currentRole, setCurrentRole] = useState('');
@@ -49,6 +50,7 @@ const Profile = () => {
   const [currentProfileImg, setCurrentProfileImg] = useState('');
   const [countFollowing, setCountFollowing] = useState('');
   const [countFollower, setCountFollower] = useState('');
+  const { isLogin } = useSelector((state) => state.sign);
 
   // Get current user details
   useEffect(() => {
@@ -70,6 +72,7 @@ const Profile = () => {
       };
       const getOtherUser = async () => {
         const { data } = await getUserById(userId);
+        setOtherName(data.role.username);
         setRole(data.role.roleName);
         setImg(data.headImgUrl);
         setProfileImg(data.profileImgUrl);
@@ -80,17 +83,23 @@ const Profile = () => {
           setFollowedStatus('followed');
         }
       };
-      if (username && username[0] !== currentName) {
-        checkStatus(username);
+      if (!isLogin) {
+        setFollowedStatus('not login');
       }
       if (userId) {
         getOtherUser();
       }
-      getUser();
+      if (isLogin) {
+        if (username && username[0] !== currentName) {
+          checkStatus(username);
+        }
+        getUser();
+      }
     }
   }, [
     currentName,
     currentProfileImg,
+    isLogin,
     profileImg,
     router.isReady,
     userId,
@@ -259,6 +268,18 @@ const Profile = () => {
               )}
               <Typography variant="h6">{username || currentName}</Typography>
             </Box>
+            {followedStatus === 'not login' && (
+              <Button
+                color="primary"
+                size="small"
+                startIcon={<PersonIcon fontSize="small" />}
+                sx={{ ml: 1 }}
+                variant="outlined"
+                disabled
+              >
+                Follow
+              </Button>
+            )}
             {followedStatus === 'not_followed' && (
               <Button
                 onClick={() => {
@@ -347,14 +368,14 @@ const Profile = () => {
             {currentTab === 'following' && (
               <ProfileFollow
                 title="Following"
-                value={username || currentName}
+                value={username || currentName || otherName}
                 getfollowingNum={getfollowingNum}
               />
             )}
             {currentTab === 'follower' && (
               <ProfileFollow
                 title="Follower"
-                value={username || currentName}
+                value={username || currentName || otherName}
                 getfollowerNum={getfollowerNum}
               />
             )}
