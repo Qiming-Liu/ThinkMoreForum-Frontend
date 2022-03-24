@@ -40,7 +40,6 @@ const Profile = () => {
   const { username, userId } = router.query;
   const [currentTab, setCurrentTab] = useState('posts');
   const [followedStatus, setFollowedStatus] = useState('not_followed');
-  const [otherName, setOtherName] = useState('');
   const [currentName, setCurrentName] = useState('');
   const [role, setRole] = useState('');
   const [currentRole, setCurrentRole] = useState('');
@@ -72,7 +71,6 @@ const Profile = () => {
       };
       const getOtherUser = async () => {
         const { data } = await getUserById(userId);
-        setOtherName(data.role.username);
         setRole(data.role.roleName);
         setImg(data.headImgUrl);
         setProfileImg(data.profileImgUrl);
@@ -368,14 +366,14 @@ const Profile = () => {
             {currentTab === 'following' && (
               <ProfileFollow
                 title="Following"
-                value={username || currentName || otherName}
+                value={username || currentName}
                 getfollowingNum={getfollowingNum}
               />
             )}
             {currentTab === 'follower' && (
               <ProfileFollow
                 title="Follower"
-                value={username || currentName || otherName}
+                value={username || currentName}
                 getfollowerNum={getfollowerNum}
               />
             )}
