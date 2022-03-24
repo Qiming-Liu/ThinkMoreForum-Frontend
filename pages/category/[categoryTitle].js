@@ -256,7 +256,7 @@ const PostList = () => {
         categoryTitle={categoryTitle}
         description={thisCategory.description}
       />
-      <Divider sx={{ mt: 3, mb: 1 }} />
+      <Divider sx={{ mt: 3, mb: 2 }} />
       {pinPost && (
         <Box>
           <PinPostCard
@@ -267,17 +267,29 @@ const PostList = () => {
           <Divider sx={{ my: 1 }} />
         </Box>
       )}
-      <Grid container spacing={1} align="center">
+      <Grid
+        container
+        spacing={1}
+        align="center"
+        style={{ display: 'flex', justifyContent: 'space-evenly' }}
+      >
         <Grid
           item
-          justifyContent="center"
           alignItems="center"
-          sx={{ display: 'flex', flexDirection: 'row' }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}
+          zeroMinWidth
         >
-          <Typography variant="h6" align="center" sx={{ mr: 2 }}>
+          <Typography variant="h6" align="center" sx={{ mr: 2 }} noWrap>
             Display setting:
           </Typography>
-          <FormGroup row>
+          <FormGroup
+            row
+            style={{ display: 'flex', flexWrap: 'nowrap', overflow: 'hidden' }}
+          >
             <FormControlLabel
               checked={displayHeadImg}
               control={<Switch color="primary" />}
@@ -294,7 +306,11 @@ const PostList = () => {
             />
           </FormGroup>
         </Grid>
-        <Grid item>
+        <Grid
+          item
+          xs
+          style={{ display: 'flex', justifyContent: 'space-evenly' }}
+        >
           <TextField
             placeholder="1-20"
             size="small"
@@ -352,7 +368,7 @@ const PostList = () => {
           </Button>
         </Grid>
       </Grid>
-      <Divider sx={{ mt: 1, mb: 4 }} />
+      <Divider sx={{ mt: 2, mb: 2 }} />
       {thisCategory.postCount === 0 ? (
         <Typography variant="body1">No post in this category.</Typography>
       ) : (

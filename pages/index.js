@@ -24,7 +24,6 @@ const Index = ({ categoriesInfo }) => {
       {categoriesInfo.map(
         ({
           id,
-          type = 0,
           color = 'primary.main',
           title,
           description = '',
@@ -34,7 +33,6 @@ const Index = ({ categoriesInfo }) => {
           return (
             <Category
               key={id}
-              type={type}
               color={color}
               title={title}
               description={description}
