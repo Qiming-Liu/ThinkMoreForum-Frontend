@@ -104,9 +104,7 @@ const NotificationsPopover = (props) => {
 
       {Object.keys(notifications).length === 0 ? (
         <Box sx={{ p: 2 }}>
-          <Typography variant="subtitle2">
-            There are no notifications
-          </Typography>
+          <Typography variant="subtitle2">There is no notification</Typography>
         </Box>
       ) : (
         <Scrollbar sx={{ maxHeight: 400 }}>
