@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '@mui/material';
-import { getFollowing, getFollower } from '../../services/Follow';
+import { getFollowing, getFollower } from '../../services/Public';
 import FollowCard from './FollowCard';
 
 const ProfileFollow = (props) => {

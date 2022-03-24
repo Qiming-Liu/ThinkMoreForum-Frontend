@@ -10,7 +10,7 @@ import {
   Tab,
   Divider,
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
@@ -49,6 +49,7 @@ const Profile = () => {
   const [currentProfileImg, setCurrentProfileImg] = useState('');
   const [countFollowing, setCountFollowing] = useState('');
   const [countFollower, setCountFollower] = useState('');
+  const { isLogin } = useSelector((state) => state.sign);
 
   // Get current user details
   useEffect(() => {
@@ -80,17 +81,23 @@ const Profile = () => {
           setFollowedStatus('followed');
         }
       };
-      if (username && username[0] !== currentName) {
-        checkStatus(username);
+      if (!isLogin) {
+        setFollowedStatus('not login');
       }
       if (userId) {
         getOtherUser();
       }
-      getUser();
+      if (isLogin) {
+        if (username && username[0] !== currentName) {
+          checkStatus(username);
+        }
+        getUser();
+      }
     }
   }, [
     currentName,
     currentProfileImg,
+    isLogin,
     profileImg,
     router.isReady,
     userId,
@@ -259,6 +266,18 @@ const Profile = () => {
               )}
               <Typography variant="h6">{username || currentName}</Typography>
             </Box>
+            {followedStatus === 'not login' && (
+              <Button
+                color="primary"
+                size="small"
+                startIcon={<PersonIcon fontSize="small" />}
+                sx={{ ml: 1 }}
+                variant="outlined"
+                disabled
+              >
+                Follow
+              </Button>
+            )}
             {followedStatus === 'not_followed' && (
               <Button
                 onClick={() => {
