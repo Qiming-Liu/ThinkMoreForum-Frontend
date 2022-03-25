@@ -39,6 +39,7 @@ import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
 import Loading from '../../components/Loading/Loading';
 import Posts from '../../components/Post/Posts';
+import checkPermission from '../../utils/checkPermission';
 
 const validNumberInput = /[^0-9]/;
 
@@ -81,7 +82,7 @@ const PostList = () => {
     getTotalPostsCountSWR,
   );
 
-  const { isLogin } = useSelector((state) => state.sign);
+  const { isLogin, myDetail } = useSelector((state) => state.sign);
 
   let initialHeadImgDisplay;
   let initialSortColumn;
@@ -216,17 +217,20 @@ const PostList = () => {
   const handleInputCurrentPage = useCallback((event) => {
     setInputCurrentPage(event.target.value);
   }, []);
-
-  const handleMakeNewPost = useCallback(() => {
-    return isLogin
+  const permissionCheck = useCallback(() => {
+    return checkPermission('makePost', myDetail.role)
       ? router.push({
           pathname: '/post/make-post',
           query: {
             categoryTitle,
           },
         })
-      : dispatch(openSignDialog());
-  }, [categoryTitle, dispatch, isLogin, router]);
+      : hotToast('error', 'You do not have permission to make post!');
+  }, [categoryTitle, myDetail, router]);
+
+  const handleMakeNewPost = useCallback(() => {
+    return isLogin ? permissionCheck() : dispatch(openSignDialog());
+  }, [dispatch, isLogin, permissionCheck]);
 
   useEffect(() => {
     setSortParams(

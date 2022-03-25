@@ -20,6 +20,12 @@ const RoleTable = ({
   headerList,
   role,
 }) => {
+  const undeletedList = [
+    'verified_user',
+    'admin',
+    'unverified_user',
+    'banned_user',
+  ];
   const roleList = role.map((r) => r.filter((x, index) => index !== 0));
   const onDelete = async (index) => {
     setConfirmDialog({
@@ -64,23 +70,25 @@ const RoleTable = ({
                   </TableCell>
                 );
               })}
-              <TableCell>
-                <Controls.ActionButton
-                  color="secondary"
-                  onClick={() => {
-                    setConfirmDialog({
-                      isOpen: true,
-                      title: 'Are you sure to delete this record?',
-                      subTitle: "You can't undo this operation",
-                      onConfirm: () => {
-                        onDelete(indexH);
-                      },
-                    });
-                  }}
-                >
-                  <CloseIcon fontSize="small" />
-                </Controls.ActionButton>
-              </TableCell>
+              {undeletedList.includes(oneRole[0]) || (
+                <TableCell>
+                  <Controls.ActionButton
+                    color="secondary"
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        title: 'Are you sure to delete this record?',
+                        subTitle: "You can't undo this operation",
+                        onConfirm: () => {
+                          onDelete(indexH);
+                        },
+                      });
+                    }}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </Controls.ActionButton>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
