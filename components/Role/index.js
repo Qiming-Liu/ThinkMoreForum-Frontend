@@ -101,7 +101,11 @@ const Role = () => {
 
   return (
     <>
-      <Button sx={{ m: 1 }} variant="contained" onClick={() => setIsOpen(true)}>
+      <Button
+        sx={{ mb: 5 }}
+        variant="contained"
+        onClick={() => setIsOpen(true)}
+      >
         Add New Role
       </Button>
       <RoleTable
@@ -112,7 +116,7 @@ const Role = () => {
         setConfirmDialog={setConfirmDialog}
       />
       <Button
-        sx={{ mt: 1 }}
+        sx={{ mt: 5 }}
         fullWidth
         variant="outlined"
         onClick={handlSaveChanges}
