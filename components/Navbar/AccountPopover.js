@@ -46,52 +46,43 @@ const AccountPopover = (props) => {
       transitionDuration={0}
       {...other}
     >
-      <Box
-        sx={{
-          alignItems: 'center',
-          p: 2,
-          display: 'flex',
+      <NextLink
+        href={{
+          pathname: `/profile/${myDetail.username}`,
+          query: { userId: myDetail.id },
         }}
+        passHref
       >
-        <NextLink
-          href={{
-            pathname: `/profile/${myDetail.username}`,
-            query: { userId: myDetail.id },
+        <Box
+          sx={{
+            alignItems: 'center',
+            p: 2,
+            display: 'flex',
+            cursor: 'pointer',
           }}
-          passHref
         >
           <Avatar
             src={myDetail.headImgUrl}
             sx={{
               height: 40,
               width: 40,
-              cursor: 'pointer',
             }}
           >
             <UserCircleIcon fontSize="small" />
           </Avatar>
-        </NextLink>
-        <Box
-          sx={{
-            ml: 1,
-          }}
-        >
-          <NextLink
-            href={{
-              pathname: `/profile/${myDetail.username}`,
-              query: { userId: myDetail.id },
+
+          <Box
+            sx={{
+              ml: 1,
             }}
-            passHref
           >
-            <Typography variant="body1" sx={{ cursor: 'pointer' }}>
-              {myDetail.username}
+            <Typography variant="body1">{myDetail.username}</Typography>
+            <Typography color="textSecondary" variant="body2">
+              {myDetail.role.roleName}
             </Typography>
-          </NextLink>
-          <Typography color="textSecondary" variant="body2">
-            {myDetail.role.roleName}
-          </Typography>
+          </Box>
         </Box>
-      </Box>
+      </NextLink>
       <Divider />
       <Box sx={{ my: 1 }}>
         {myDetail.role.roleName === 'admin' && (
