@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
