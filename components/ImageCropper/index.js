@@ -16,6 +16,7 @@ const ImageCropper = ({ src, setCover, setIsOpen, setImage, file }) => {
   const [cropImage, setCropImage] = useState();
   const rcImageref = useRef();
   const canvasRef = useRef();
+  const [isComplete, setIsComplete] = useState(false);
   const [crop, setCrop] = useState({ aspect: 16 / 9 });
   const [completeCrop, setCompleteCrop] = useState(null);
 
@@ -37,17 +38,19 @@ const ImageCropper = ({ src, setCover, setIsOpen, setImage, file }) => {
     });
   };
   const handleSave = async () => {
-    const blob = await getBlob();
-    const myFile = new File([blob], 'image.jpeg', {
-      type: blob.type,
-    });
-    setImage(myFile);
-    setCover(cropImage);
+    if (isComplete) {
+      const blob = await getBlob();
+      const myFile = new File([blob], 'image.jpeg', {
+        type: blob.type,
+      });
+      setImage(myFile);
+      setCover(cropImage);
+    }
     setIsOpen(false);
   };
 
   useEffect(() => {
-    if (!completeCrop || !rcImageref) {
+    if (!isComplete || !rcImageref) {
       return null;
     }
 
@@ -86,7 +89,7 @@ const ImageCropper = ({ src, setCover, setIsOpen, setImage, file }) => {
     const base64Image = canvas.toDataURL('image/jpeg');
     setCropImage(base64Image);
     return base64Image;
-  }, [completeCrop, crop, setCover]);
+  }, [completeCrop, crop, setCover, isComplete]);
   return (
     <>
       <Typography variant="h4" align="center">
@@ -100,6 +103,7 @@ const ImageCropper = ({ src, setCover, setIsOpen, setImage, file }) => {
             onChange={(c) => setCrop(c)}
             onComplete={(c) => setCompleteCrop(c)}
             onImageLoaded={handleOnLoad}
+            onDragEnd={() => setIsComplete(true)}
             style={{ height: '330px', width: '450px' }}
           >
             <canvas hidden ref={canvasRef} />

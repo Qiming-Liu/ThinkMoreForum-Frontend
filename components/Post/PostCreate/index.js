@@ -71,8 +71,6 @@ const PostCreate = ({ categoryTitle }) => {
     const data = await fileToBase64(file);
     setCover(data);
     setImage(file);
-  };
-  const handleCrop = () => {
     setIsOpen(true);
   };
 
@@ -127,9 +125,6 @@ const PostCreate = ({ categoryTitle }) => {
                   </Typography>
                 </Box>
               )}
-              <Button onClick={handleCrop} sx={{ mt: 3 }} disabled={!cover}>
-                Crop photo
-              </Button>
               <Box sx={{ mt: 3 }}>
                 <ImageDropZone
                   accept="image/jpg,image/png, image/jpeg"
