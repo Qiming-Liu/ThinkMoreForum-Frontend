@@ -1,58 +1,29 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import Head from 'next/head';
 import parse from 'html-react-parser';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
 import {
+  Avatar,
   Box,
   Chip,
   Container,
   Divider,
-  Typography,
-  Avatar,
   Tooltip,
+  Typography,
   Grid,
-  Fab,
+  IconButton,
   Link,
   Stack,
 } from '@mui/material';
-import { makeStyles } from '@material-ui/core/styles';
+import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
+import GradeRoundedIcon from '@mui/icons-material/GradeRounded';
 import NextLink from 'next/link';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 import AdminTool from './AdminTool';
 
-const useStyles = makeStyles({
-  favFab: {
-    backgroundColor: '#e57373',
-    '&:hover': {
-      backgroundColor: 'default',
-      '& $favIcon': {
-        fill: '#d32f2f',
-      },
-    },
-  },
-  unFavFab: {
-    backgroundColor: '#F5F5F5',
-    '&:hover': {
-      backgroundColor: '#ffebee',
-      '& $unFavIcon': {
-        fill: '#F7F7F7',
-      },
-    },
-  },
-  favIcon: {
-    fill: '#F7F7F7',
-  },
-  unFavIcon: {
-    fill: '#d32f2f',
-  },
-});
-
 const PostContent = ({ post, isFavored, toggleFav }) => {
   const { myDetail } = useSelector((state) => state.sign);
-  const classes = useStyles();
   const userProfileUrl = `/profile/${post.postUsers.username}`;
 
   const handleClick = () => {
@@ -148,11 +119,10 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
                   isFavored ? 'Unfavorite this post' : 'Favorite this post'
                 }
                 placement="top"
+                arrow
               >
-                <Fab
-                  aria-label="fav"
-                  size="small"
-                  className={isFavored ? classes.unFavFab : classes.favFab}
+                <IconButton
+                  color="primary"
                   onClick={
                     myDetail
                       ? handleClick
@@ -164,10 +134,12 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
                         }
                   }
                 >
-                  <FavoriteIcon
-                    className={isFavored ? classes.unFavIcon : classes.favIcon}
-                  />
-                </Fab>
+                  {isFavored ? (
+                    <GradeRoundedIcon fontSize="medium" />
+                  ) : (
+                    <GradeOutlinedIcon fontSize="medium" />
+                  )}
+                </IconButton>
               </Tooltip>
             </Grid>
           </Grid>
