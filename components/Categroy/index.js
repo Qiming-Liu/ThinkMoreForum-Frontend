@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import { Grid, Link, Paper } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import TypeOne from './TypeOne';
-import TypeTwo from './TypeTwo';
 
 const useStyles = makeStyles(
   {
@@ -21,40 +20,25 @@ const useStyles = makeStyles(
 
 const Category = (props) => {
   const classes = useStyles();
-  const { type, color, title, description, postCount, headImgUrl } = props;
+  const { color, title, description, postCount, headImgUrl } = props;
 
   return (
     <Grid item xs={12}>
       <NextLink href={`/category/${title}`} passHref>
         <Link href={`/category/${title}`} underline="none">
           <Paper elevation={24} className={classes.CustomPaper}>
-            {type === 0 ? (
-              <TypeOne
-                color={color}
-                title={title}
-                description={
-                  description &&
-                  (description.length > 200
-                    ? `${description.substring(0, 200)}...`
-                    : description)
-                }
-                postCount={postCount}
-                headImgUrl={headImgUrl}
-              />
-            ) : (
-              <TypeTwo
-                color={color}
-                title={title}
-                description={
-                  description &&
-                  (description.length > 200
-                    ? `${description.substring(0, 200)}...`
-                    : description)
-                }
-                postCount={postCount}
-                headImgUrl={headImgUrl}
-              />
-            )}
+            <TypeOne
+              color={color}
+              title={title}
+              description={
+                description &&
+                (description.length > 200
+                  ? `${description.substring(0, 200)}...`
+                  : description)
+              }
+              postCount={postCount}
+              headImgUrl={headImgUrl}
+            />
           </Paper>
         </Link>
       </NextLink>
