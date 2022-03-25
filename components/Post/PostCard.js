@@ -150,7 +150,7 @@ const PostCard = (props) => {
             sx={{ flexGrow: 1 }}
             variant="body2"
           >
-            {`${viewCount} views • ${commentCount} comments • ${followCount} users following`}
+            {`${viewCount} views • ${commentCount} comments • ${followCount} followers`}
           </Typography>
         </Box>
       </CardContent>
