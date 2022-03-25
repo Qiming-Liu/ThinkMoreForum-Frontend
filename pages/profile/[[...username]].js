@@ -15,9 +15,10 @@ import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
 import { blueGrey } from '@mui/material/colors';
+import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import ProfilePost from '../../components/Profile/ProfilePost';
 import ProfileFollow from '../../components/Profile/ProfileFollow';
-import UserAdd from '../../icons/user-add';
 import {
   followUser,
   unfollowUser,
@@ -266,27 +267,15 @@ const Profile = () => {
               )}
               <Typography variant="h6">{username || currentName}</Typography>
             </Box>
-            {followedStatus === 'not login' && (
-              <Button
-                color="primary"
-                size="small"
-                startIcon={<PersonIcon fontSize="small" />}
-                sx={{ ml: 1 }}
-                variant="outlined"
-                disabled
-              >
-                Follow
-              </Button>
-            )}
             {followedStatus === 'not_followed' && (
               <Button
                 onClick={() => {
                   handleFollowAction(username[0]);
                 }}
                 size="small"
-                startIcon={<UserAdd fontSize="small" />}
+                startIcon={<PersonAddAltRoundedIcon fontSize="small" />}
                 sx={{ ml: 1 }}
-                variant="outlined"
+                variant="contained"
               >
                 Follow
               </Button>
@@ -298,7 +287,7 @@ const Profile = () => {
                 }}
                 color="primary"
                 size="small"
-                startIcon={<UserAdd fontSize="small" />}
+                startIcon={<PersonRoundedIcon fontSize="small" />}
                 sx={{ ml: 1 }}
                 variant="outlined"
               >
@@ -307,26 +296,18 @@ const Profile = () => {
             )}
             {followedStatus === 'current_user' && (
               <Button
+                onClick={() => {
+                  router.push('/personal-setting');
+                }}
                 color="primary"
                 size="small"
                 startIcon={<PersonIcon fontSize="small" />}
                 sx={{ ml: 1 }}
                 variant="outlined"
-                disabled
               >
-                My Profile
+                Edit Profile
               </Button>
             )}
-            {/* 这个功能后面看情况再加 */}
-            {/* <Button
-              component="a"
-              size="small"
-              startIcon={<Chat fontSize="small" />}
-              sx={{ ml: 1 }}
-              variant="contained"
-            >
-              Send Message
-            </Button> */}
           </Stack>
         </Box>
       </Container>
