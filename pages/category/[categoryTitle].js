@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import {
   Box,
   Button,
-  Container,
   Divider,
   Pagination,
   Typography,
@@ -39,6 +38,7 @@ import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
 import Loading from '../../components/Loading/Loading';
 import Posts from '../../components/Post/Posts';
+import ThreeColumns from '../../components/Layout/three-columns';
 import checkPermission from '../../utils/checkPermission';
 
 const validNumberInput = /[^0-9]/;
@@ -247,7 +247,7 @@ const PostList = () => {
   if (!thisCategory) return <Loading />;
 
   return (
-    <Container maxWidth="xl">
+    <ThreeColumns>
       <Head>
         <title>{categoryTitle} | ThinkMoreForum</title>
       </Head>
@@ -452,7 +452,7 @@ const PostList = () => {
           </Fab>
         </Slide>
       </Tooltip>
-    </Container>
+    </ThreeColumns>
   );
 };
 

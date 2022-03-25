@@ -1,7 +1,5 @@
-/* eslint-disable no-lone-blocks */
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { Button, Avatar, Link, Typography } from '@mui/material';
+import { Avatar, Button, Link, Typography } from '@mui/material';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
@@ -155,9 +153,10 @@ export const AdminUser = ({ allUsers }) => {
   };
 
   return (
-    <div style={{ height: 600, width: '100%' }}>
+    <div style={{ width: '100%' }}>
       <DataGrid
         className={classes.customDataGrid}
+        pageSize={10}
         rows={rows}
         columns={columns}
         onCellEditCommit={handleCellEditCommit}
@@ -165,6 +164,8 @@ export const AdminUser = ({ allUsers }) => {
         componentsProps={{
           toolbar: { handleSubmit },
         }}
+        autoHeight
+        density="comfortable"
       />
     </div>
   );

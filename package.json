@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "open-browser": "start http://localhost:3000",
+    "dev": "npm run open-browser && next dev",
     "build": "next build",
     "start": "next start",
     "export": "next build && next export",

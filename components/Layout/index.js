@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
           py: 4,
         }}
       >
-        <Container maxWidth="md">{children[1]}</Container>
+        {children[1]}
       </Box>
     </LayoutRoot>
   );
