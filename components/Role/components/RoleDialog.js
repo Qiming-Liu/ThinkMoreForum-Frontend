@@ -18,7 +18,6 @@ import hotToast from '../../../utils/hotToast';
 const RoleDialog = ({ setRole, role, onClose, headerList }) => {
   const headerLists = headerList.filter((x) => x !== 'action');
   const [name, setName] = useState();
-  const [error, setError] = useState();
   const [roleList, setRoleList] = useState([
     false,
     false,
