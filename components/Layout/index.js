@@ -29,15 +29,15 @@ const Layout = ({ children }) => {
         }}
       >
         {children[1]}
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Container maxWidth="xl">{children[2]}</Container>
+        </Grid>
       </Box>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Container maxWidth="xl">{children[2]}</Container>
-      </Grid>
     </LayoutRoot>
   );
 };
