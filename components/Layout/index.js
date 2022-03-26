@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -18,18 +18,26 @@ const Layout = ({ children }) => {
     <LayoutRoot>
       {children[0]}
       <Box
-        component="main"
-        sx={{
-          display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: 'column',
-          width: '100%',
-          flexGrow: 1,
-          py: 4,
-        }}
-      >
-        {children[1]}
+          component="main"
+          sx={{
+            display: 'flex',
+            flex: '1 1 auto',
+            flexDirection: 'column',
+            width: '100%',
+            flexGrow: 1,
+            py: 4,
+          }}
+        >
+          {children[1]}
       </Box>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Container maxWidth="xl">{children[2]}</Container>
+      </Grid>
     </LayoutRoot>
   );
 };
