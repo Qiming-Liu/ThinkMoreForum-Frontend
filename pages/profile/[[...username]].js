@@ -51,7 +51,6 @@ const Profile = () => {
   const [currentRole, setCurrentRole] = useState('');
   const [img, setImg] = useState('');
   const [currentImg, setCurrentImg] = useState('');
-  const [profileImg, setProfileImg] = useState('');
   const [currentProfileImg, setCurrentProfileImg] = useState('');
   const [countFollowing, setCountFollowing] = useState('');
   const [countFollower, setCountFollower] = useState('');
@@ -135,7 +134,7 @@ const Profile = () => {
         }
       }
     }
-  }, [currentName, isLogin, profileImg, router.isReady, userId, username]);
+  }, [currentName, isLogin, router.isReady, userId, username]);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
