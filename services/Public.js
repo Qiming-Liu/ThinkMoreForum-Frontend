@@ -81,3 +81,7 @@ export const getFollowPostByUsername = (username) =>
 // Comment
 export const getCommentsByPostId = (postId) =>
   http(`/v1/public/comment/${postId}`, { method: 'GET' });
+
+// component
+export const getComponentByName = (name) =>
+  http(`/v1/public/component/${name}`, { method: 'GET' });
