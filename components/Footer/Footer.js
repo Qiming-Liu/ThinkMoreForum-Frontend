@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Button,
   Box,
@@ -14,6 +15,7 @@ import CustomFooter from './CustomFooter';
 const Footer = () => {
   const [iscustomFooter, setIsFooter] = useState(null);
   const [showSetting, setShowSetting] = useState(false);
+  const { isLogin } = useSelector((state) => state.sign);
   return (
     <Box sx={{ mt: 15 }}>
       <Divider />
@@ -34,9 +36,11 @@ const Footer = () => {
             <Button onClick={() => setIsFooter(false)}>Default Footer</Button>
           </ButtonGroup>
         )}
-        <IconButton onClick={() => setShowSetting(!showSetting)}>
-          <SettingsIcon />
-        </IconButton>
+        {isLogin && (
+          <IconButton onClick={() => setShowSetting(!showSetting)}>
+            <SettingsIcon />
+          </IconButton>
+        )}
       </Grid>
     </Box>
   );
