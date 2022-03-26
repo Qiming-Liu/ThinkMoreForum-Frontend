@@ -10,6 +10,7 @@ module.exports = {
     'airbnb/hooks',
     'plugin:prettier/recommended',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -17,7 +18,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', '@typescript-eslint'],
   rules: {
     'react/function-component-definition': [
       2,
