@@ -10,6 +10,7 @@ import NextClientOnly from '../components/NextClientOnly';
 import store from '../store/store';
 import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer/Footer';
 import createTheme from '../theme';
 import 'antd/dist/antd.css';
 import '../styles/main.scss';
@@ -38,6 +39,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
               <Navbar />
             </NextClientOnly>
             {isLoading ? <Loading /> : <Component {...pageProps} />}
+            {isLoading ? <Loading /> : <Footer />}
           </Layout>
         </ThemeProvider>
       </SessionProvider>
