@@ -1,8 +1,8 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Grid, Link, Paper } from '@mui/material';
+import Image from 'next/image';
+import { Badge, Box, Card, Grid, Typography, Link, Paper } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
-import TypeOne from './TypeOne';
 
 const useStyles = makeStyles(
   {
@@ -27,18 +27,33 @@ const Category = (props) => {
       <NextLink href={`/category/${title}`} passHref>
         <Link href={`/category/${title}`} underline="none">
           <Paper elevation={24} className={classes.CustomPaper}>
-            <TypeOne
-              color={color}
-              title={title}
-              description={
-                description &&
-                (description.length > 200
-                  ? `${description.substring(0, 200)}...`
-                  : description)
-              }
-              postCount={postCount}
-              headImgUrl={headImgUrl}
-            />
+            <Card
+              sx={{
+                alignItems: 'center',
+                backgroundColor: color,
+                color: 'primary.contrastText',
+                display: 'flex',
+                flexDirection: {
+                  xs: 'column',
+                  md: 'row',
+                },
+                p: 6,
+              }}
+            >
+              <Grid item xs={12} sm={3}>
+                <Image src={headImgUrl} height="200" width="200" alt="logo" />
+              </Grid>
+              <Box>
+                <Badge color="secondary" badgeContent={`${postCount} Posts`}>
+                  <Typography color="inherit" sx={{ mt: 2 }} variant="h4">
+                    {title}
+                  </Typography>
+                </Badge>
+                <Typography color="inherit" sx={{ mt: 1 }} variant="subtitle2">
+                  {description}
+                </Typography>
+              </Box>
+            </Card>
           </Paper>
         </Link>
       </NextLink>

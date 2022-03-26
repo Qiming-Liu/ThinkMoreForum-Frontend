@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import Category from '../components/Categroy';
+import ThreeColumns from '../components/Layout/three-columns';
 import { getAllCategories } from '../services/Public';
 
 export async function getStaticProps() {
@@ -20,29 +21,31 @@ const Index = ({ categoriesInfo }) => {
     );
   }
   return (
-    <Grid container spacing={4}>
-      {categoriesInfo.map(
-        ({
-          id,
-          color = 'primary.main',
-          title,
-          description = '',
-          postCount = 'N.A.',
-          headImgUrl,
-        }) => {
-          return (
-            <Category
-              key={id}
-              color={color}
-              title={title}
-              description={description}
-              postCount={postCount}
-              headImgUrl={headImgUrl}
-            />
-          );
-        },
-      )}
-    </Grid>
+    <ThreeColumns>
+      <Grid container spacing={4}>
+        {categoriesInfo.map(
+          ({
+            id,
+            color = 'primary.main',
+            title,
+            description = '',
+            postCount = 'N.A.',
+            headImgUrl,
+          }) => {
+            return (
+              <Category
+                key={id}
+                color={color}
+                title={title}
+                description={description}
+                postCount={postCount}
+                headImgUrl={headImgUrl}
+              />
+            );
+          },
+        )}
+      </Grid>
+    </ThreeColumns>
   );
 };
 

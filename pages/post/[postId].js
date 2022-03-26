@@ -18,8 +18,9 @@ import { postComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
 import AntComment from '../../components/AntComment';
 import CommentForm from '../../components/Post/CommentForm';
-import hotToast from '../../utils/hotToast';
+import CommonContainer from '../../components/Layout/common-container';
 import { PinPostContextProvider } from '../../components/Post/PinPostContext';
+import hotToast from '../../utils/hotToast';
 
 export const getStaticPaths = async () => {
   const { data: posts } = await getAllPosts();
@@ -121,35 +122,37 @@ const Post = ({ post }) => {
   }, [postId, postFaved, isLogin]);
   if (!post) return null;
   return (
-    <PinPostContextProvider thisPost={post}>
-      <NextLink href={`/category/${post.category.title}`} passHref>
-        <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
-          Back to {post.category.title}
-        </Button>
-      </NextLink>
-      <Divider sx={{ my: 3 }} />
-      <PostContent
-        post={post}
-        isFavored={postFaved}
-        toggleFav={handleFavPost}
-      />
-      {rootComments &&
-        rootComments.map((rootComment) => {
-          return (
-            <AntComment
-              key={rootComment.id}
-              comment={rootComment}
-              replies={getReplies(rootComment.id)}
-              sendComment={sendComment}
-              sendChildComment={sendChildComment}
-              login={isLogin}
-              parentId={rootComment.id}
-            />
-          );
-        })}
-      {rootComments.length === 0 ? <div> </div> : <Divider sx={{ my: 3 }} />}
-      <CommentForm handleSubmit={sendComment} login={isLogin} />
-    </PinPostContextProvider>
+    <CommonContainer>
+      <PinPostContextProvider thisPost={post}>
+        <NextLink href={`/category/${post.category.title}`} passHref>
+          <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
+            Back to {post.category.title}
+          </Button>
+        </NextLink>
+        <Divider sx={{ my: 3 }} />
+        <PostContent
+          post={post}
+          isFavored={postFaved}
+          toggleFav={handleFavPost}
+        />
+        {rootComments &&
+          rootComments.map((rootComment) => {
+            return (
+              <AntComment
+                key={rootComment.id}
+                comment={rootComment}
+                replies={getReplies(rootComment.id)}
+                sendComment={sendComment}
+                sendChildComment={sendChildComment}
+                login={isLogin}
+                parentId={rootComment.id}
+              />
+            );
+          })}
+        {rootComments.length === 0 ? <div> </div> : <Divider sx={{ my: 3 }} />}
+        <CommentForm handleSubmit={sendComment} login={isLogin} />
+      </PinPostContextProvider>
+    </CommonContainer>
   );
 };
 

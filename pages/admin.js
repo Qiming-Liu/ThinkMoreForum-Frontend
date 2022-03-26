@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
+import CommonContainer from '../components/Layout/common-container';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
 import Loading from '../components/Loading/Loading';
 import CustomFooterInput from '../components/Footer/CustomFooterInput';
@@ -48,35 +49,37 @@ const Admin = () => {
   return (
     <>
       <Head>
-        <title>Administration | ThinkMoreForum</title>
+        <title>Admin | ThinkMoreForum</title>
       </Head>
-      <Box>
-        <Typography variant="h4">Admin</Typography>
-        <Tabs
-          indicatorColor="primary"
-          onChange={handleTabsChange}
-          scrollButtons="auto"
-          textColor="primary"
-          value={currentTab}
-          variant="scrollable"
-          sx={{ mt: 3 }}
-        >
-          {tabs.map((tab) => (
-            <Tab
-              key={tab.value}
-              label={tab.label}
-              value={tab.value}
-              sx={{ fontSize: 15 }}
-            />
-          ))}
-        </Tabs>
-        <Divider sx={{ mb: 3 }} />
-        {currentTab === 'users' && users && <AdminUser allUsers={users} />}
-        {currentTab === 'users' && !users && <Loading />}
-        {currentTab === 'categories' && <Categories />}
-        {currentTab === 'roles' && <Role />}
-        {currentTab === 'footer' && <CustomFooterInput />}
-      </Box>
+      <CommonContainer>
+        <Box>
+          <Typography variant="h4">Admin</Typography>
+          <Tabs
+            indicatorColor="primary"
+            onChange={handleTabsChange}
+            scrollButtons="auto"
+            textColor="primary"
+            value={currentTab}
+            variant="scrollable"
+            sx={{ mt: 3 }}
+          >
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.value}
+                label={tab.label}
+                value={tab.value}
+                sx={{ fontSize: 15 }}
+              />
+            ))}
+          </Tabs>
+          <Divider sx={{ mb: 3 }} />
+          {currentTab === 'users' && users && <AdminUser allUsers={users} />}
+          {currentTab === 'users' && !users && <Loading />}
+          {currentTab === 'categories' && <Categories />}
+          {currentTab === 'roles' && <Role />}
+          {currentTab === 'footer' && <CustomFooterInput />}
+        </Box>
+      </CommonContainer>
     </>
   );
 };
