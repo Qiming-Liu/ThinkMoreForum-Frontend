@@ -11,6 +11,8 @@ import {
   Divider,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
@@ -35,6 +37,8 @@ import ChangePicButton from '../../components/PersonalSetting/ChangePicButton';
 import fileToBase64 from '../../utils/fileToBase64';
 import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
+import SignDialog from '../../components/Sign/SignDialog';
+import ImageCropper from '../../components/ImageCropper';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -47,11 +51,47 @@ const Profile = () => {
   const [currentRole, setCurrentRole] = useState('');
   const [img, setImg] = useState('');
   const [currentImg, setCurrentImg] = useState('');
-  const [profileImg, setProfileImg] = useState('');
   const [currentProfileImg, setCurrentProfileImg] = useState('');
   const [countFollowing, setCountFollowing] = useState('');
   const [countFollower, setCountFollower] = useState('');
   const { isLogin } = useSelector((state) => state.sign);
+  const [isOpen, setIsOpen] = useState(false);
+  const [cropImage, setCropImage] = useState(undefined);
+  const [isLoading, setLoading] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      context: '',
+      title: '',
+    },
+    onSubmit: async () => {
+      setLoading(true);
+      const { data: imgs } = await upload(cropImage).catch((error) => {
+        hotToast('error', `Something wrong: ${error}`);
+      });
+      changeProfileImg({ profileImgUrl: imgs.url })
+        .then(() => {
+          hotToast('success', 'Profile picture is changed');
+          dispatch(
+            setProfileImgAction(
+              imgs.url,
+              () => {},
+              (fail) => {
+                hotToast('error', `something wrong${fail}`);
+              },
+            ),
+          );
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {
+          hotToast(
+            'error',
+            `Sorry, the profile image could not be updated, please contact support@thinkmoreapp.com.`,
+          );
+        });
+      setLoading(false);
+      setCropImage(undefined);
+    },
+  });
 
   // Get current user details
   useEffect(() => {
@@ -67,15 +107,12 @@ const Profile = () => {
         } else if (username[0] === currentName) {
           setFollowedStatus('current_user');
         }
-        if (profileImg !== currentProfileImg) {
-          setCurrentProfileImg(currentProfileImg);
-        }
       };
       const getOtherUser = async () => {
         const { data } = await getUserById(userId);
         setRole(data.role.roleName);
         setImg(data.headImgUrl);
-        setProfileImg(data.profileImgUrl);
+        setCurrentProfileImg(data.profileImgUrl);
       };
       const checkStatus = async (name) => {
         const { data } = await getFollowedStatus(name);
@@ -90,21 +127,14 @@ const Profile = () => {
         getOtherUser();
       }
       if (isLogin) {
+        getUser();
         if (username && username[0] !== currentName) {
           checkStatus(username);
+          getOtherUser();
         }
-        getUser();
       }
     }
-  }, [
-    currentName,
-    currentProfileImg,
-    isLogin,
-    profileImg,
-    router.isReady,
-    userId,
-    username,
-  ]);
+  }, [currentName, isLogin, router.isReady, userId, username]);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
@@ -137,29 +167,8 @@ const Profile = () => {
   const handleImgChange = async ([file]) => {
     const data = await fileToBase64(file);
     setCurrentProfileImg(data);
-    const { data: imgs } = await upload(file).catch((error) => {
-      hotToast('error', `Something wrong: ${error}`);
-    });
-    changeProfileImg({ profileImgUrl: imgs.url })
-      .then(() => {
-        hotToast('success', 'Profile picture is changed');
-        dispatch(
-          setProfileImgAction(
-            imgs.url,
-            () => {},
-            (fail) => {
-              hotToast('error', `something wrong${fail}`);
-            },
-          ),
-        );
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-        hotToast(
-          'error',
-          `Sorry, the profile image could not be updated, please contact support@thinkmoreapp.com.`,
-        );
-      });
+    setCropImage(file);
+    setIsOpen(true);
   };
 
   const tabs = [
@@ -185,9 +194,7 @@ const Profile = () => {
         <Container maxWidth="lg">
           <Box
             style={{
-              backgroundImage: `url(${
-                username ? profileImg : currentProfileImg
-              })`,
+              backgroundImage: `url(${currentProfileImg})`,
             }}
             sx={{
               backgroundPosition: 'center',
@@ -204,36 +211,64 @@ const Profile = () => {
             }}
           >
             {followedStatus === 'current_user' && (
-              <Button
-                startIcon={<AddPhotoIcon fontSize="small" />}
-                sx={{
-                  backgroundColor: blueGrey[900],
-                  bottom: {
-                    lg: 24,
-                    xs: 'auto',
-                  },
-                  color: 'common.white',
-                  position: 'absolute',
-                  right: 24,
-                  top: {
-                    lg: 'auto',
-                    xs: 24,
-                  },
-                  visibility: 'hidden',
-                  '&:hover': {
-                    backgroundColor: blueGrey[900],
-                  },
-                }}
-                variant="contained"
-              >
-                <ChangePicButton
-                  accept="image/jpg,image/png, image/jpeg"
-                  maxFiles={1}
-                  onDrop={handleImgChange}
-                  maxSize={5242880}
-                  minsize={0}
-                />
-              </Button>
+              <form onSubmit={formik.handleSubmit}>
+                {(!cropImage || cropImage === currentProfileImg) && (
+                  <Button
+                    startIcon={<AddPhotoIcon fontSize="small" />}
+                    sx={{
+                      backgroundColor: blueGrey[900],
+                      bottom: {
+                        lg: 24,
+                        xs: 'auto',
+                      },
+                      color: 'common.white',
+                      position: 'absolute',
+                      right: 24,
+                      top: {
+                        lg: 'auto',
+                        xs: 24,
+                      },
+                      visibility: 'hidden',
+                      '&:hover': {
+                        backgroundColor: blueGrey[900],
+                      },
+                    }}
+                    variant="contained"
+                  >
+                    <ChangePicButton
+                      accept="image/jpg,image/png, image/jpeg"
+                      maxFiles={1}
+                      onDrop={handleImgChange}
+                      maxSize={5242880}
+                      minsize={0}
+                      color="inherit"
+                    />
+                  </Button>
+                )}
+                {cropImage && cropImage !== currentProfileImg && (
+                  <LoadingButton
+                    sx={{
+                      backgroundColor: blueGrey[900],
+                      bottom: {
+                        lg: 24,
+                        xs: 'auto',
+                      },
+                      color: 'common.white',
+                      position: 'absolute',
+                      right: 24,
+                      top: {
+                        lg: 'auto',
+                        xs: 24,
+                      },
+                    }}
+                    type="submit"
+                    variant="contained"
+                    loading={isLoading}
+                  >
+                    Confirm
+                  </LoadingButton>
+                )}
+              </form>
             )}
           </Box>
           <Box
@@ -361,6 +396,16 @@ const Profile = () => {
                 />
               )}
             </Box>
+            <SignDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
+              <ImageCropper
+                src={currentProfileImg}
+                alt="image"
+                setCover={setCurrentProfileImg}
+                setIsOpen={setIsOpen}
+                setImage={setCropImage}
+                file={cropImage}
+              />
+            </SignDialog>
           </Container>
         </Box>
       </Box>
