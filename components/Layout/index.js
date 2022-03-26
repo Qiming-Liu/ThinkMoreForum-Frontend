@@ -18,17 +18,17 @@ const Layout = ({ children }) => {
     <LayoutRoot>
       {children[0]}
       <Box
-          component="main"
-          sx={{
-            display: 'flex',
-            flex: '1 1 auto',
-            flexDirection: 'column',
-            width: '100%',
-            flexGrow: 1,
-            py: 4,
-          }}
-        >
-          {children[1]}
+        component="main"
+        sx={{
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          width: '100%',
+          flexGrow: 1,
+          py: 4,
+        }}
+      >
+        {children[1]}
       </Box>
       <Grid
         container
