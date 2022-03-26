@@ -8,6 +8,7 @@ import MyTime from '../utils/myTime';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
 import Loading from '../components/Loading/Loading';
 import CustomFooterInput from '../components/Footer/CustomFooterInput';
+import Role from '../components/Role';
 
 const tabs = [
   { label: 'Users', value: 'users' },
@@ -73,7 +74,7 @@ const Admin = () => {
         {currentTab === 'users' && users && <AdminUser allUsers={users} />}
         {currentTab === 'users' && !users && <Loading />}
         {currentTab === 'categories' && <Categories />}
-        {currentTab === 'roles' && <div>roles</div>}
+        {currentTab === 'roles' && <Role />}
         {currentTab === 'footer' && <CustomFooterInput />}
       </Box>
     </>

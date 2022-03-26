@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Divider } from '@mui/material';
 import PostCard from '../Post/PostCard';
-import MyPostCard from '../Post/MyPostCard';
 import {
   getPostByUsername,
   getFollowPostByUsername,
   getPostById,
 } from '../../services/Public';
+import MyTime from '../../utils/myTime';
 
 const ProfilePost = (props) => {
-  const { title, value, isMyself } = props;
+  const { title, value } = props;
   const [posts, setPost] = useState(null);
   useEffect(() => {
     if (value) {
@@ -49,7 +49,6 @@ const ProfilePost = (props) => {
       )}
       <Divider sx={{ my: 3 }} />
       {title === 'Posts' &&
-        !isMyself &&
         posts.map((post) => (
           <PostCard
             id={post.id}
@@ -57,23 +56,12 @@ const ProfilePost = (props) => {
             authorName={post.postUsers.username}
             authorId={post.postUsers.id}
             headImg={post.headImgUrl}
-            createTimeStamp={post.createTimestamp}
+            createTimeStamp={MyTime(post.createTimestamp)}
             abstract={post.abstract}
             title={post.title}
-          />
-        ))}
-      {title === 'Posts' &&
-        isMyself &&
-        posts.map((post) => (
-          <MyPostCard
-            id={post.id}
-            authorAvatar={post.postUsers.headImgUrl}
-            authorName={post.postUsers.username}
-            headImg={post.headImgUrl}
-            createTimeStamp={post.createTimestamp}
-            abstract={post.abstract}
-            title={post.title}
-            visibility={post.visibility}
+            commentCount={post.commentCount}
+            viewCount={post.viewCount}
+            followCount={post.followCount}
           />
         ))}
       {title === 'Favorite' &&
@@ -84,9 +72,12 @@ const ProfilePost = (props) => {
             authorName={post.postUsers.username}
             authorId={post.postUsers.id}
             headImg={post.headImgUrl}
-            createTimeStamp={post.createTimestamp}
+            createTimeStamp={MyTime(post.createTimestamp)}
             abstract={post.abstract}
             title={post.title}
+            commentCount={post.commentCount}
+            viewCount={post.viewCount}
+            followCount={post.followCount}
           />
         ))}
     </>

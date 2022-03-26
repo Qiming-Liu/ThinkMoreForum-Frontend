@@ -10,14 +10,15 @@ import {
   Tab,
   Divider,
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
 import { blueGrey } from '@mui/material/colors';
+import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import ProfilePost from '../../components/Profile/ProfilePost';
 import ProfileFollow from '../../components/Profile/ProfileFollow';
-import UserAdd from '../../icons/user-add';
 import {
   followUser,
   unfollowUser,
@@ -49,6 +50,7 @@ const Profile = () => {
   const [currentProfileImg, setCurrentProfileImg] = useState('');
   const [countFollowing, setCountFollowing] = useState('');
   const [countFollower, setCountFollower] = useState('');
+  const { isLogin } = useSelector((state) => state.sign);
 
   // Get current user details
   useEffect(() => {
@@ -80,17 +82,23 @@ const Profile = () => {
           setFollowedStatus('followed');
         }
       };
-      if (username && username[0] !== currentName) {
-        checkStatus(username);
+      if (!isLogin) {
+        setFollowedStatus('not login');
       }
       if (userId) {
         getOtherUser();
       }
-      getUser();
+      if (isLogin) {
+        if (username && username[0] !== currentName) {
+          checkStatus(username);
+        }
+        getUser();
+      }
     }
   }, [
     currentName,
     currentProfileImg,
+    isLogin,
     profileImg,
     router.isReady,
     userId,
@@ -265,9 +273,9 @@ const Profile = () => {
                   handleFollowAction(username[0]);
                 }}
                 size="small"
-                startIcon={<UserAdd fontSize="small" />}
+                startIcon={<PersonAddAltRoundedIcon fontSize="small" />}
                 sx={{ ml: 1 }}
-                variant="outlined"
+                variant="contained"
               >
                 Follow
               </Button>
@@ -279,7 +287,7 @@ const Profile = () => {
                 }}
                 color="primary"
                 size="small"
-                startIcon={<UserAdd fontSize="small" />}
+                startIcon={<PersonRoundedIcon fontSize="small" />}
                 sx={{ ml: 1 }}
                 variant="outlined"
               >
@@ -288,26 +296,18 @@ const Profile = () => {
             )}
             {followedStatus === 'current_user' && (
               <Button
+                onClick={() => {
+                  router.push('/personal-setting');
+                }}
                 color="primary"
                 size="small"
                 startIcon={<PersonIcon fontSize="small" />}
                 sx={{ ml: 1 }}
                 variant="outlined"
-                disabled
               >
-                My Profile
+                Edit Profile
               </Button>
             )}
-            {/* 这个功能后面看情况再加 */}
-            {/* <Button
-              component="a"
-              size="small"
-              startIcon={<Chat fontSize="small" />}
-              sx={{ ml: 1 }}
-              variant="contained"
-            >
-              Send Message
-            </Button> */}
           </Stack>
         </Box>
       </Container>

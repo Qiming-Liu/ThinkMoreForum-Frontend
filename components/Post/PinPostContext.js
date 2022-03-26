@@ -66,6 +66,7 @@ export const PinPostContextProvider = ({ children, thisPost }) => {
 
   const value = useMemo(
     () => ({
+      thisPost,
       setPinPost,
       isPinned,
       setIsPinned,

@@ -1,138 +1,162 @@
-/* eslint-disable no-unused-vars */
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
-import {
-  Button,
-  MenuList,
-  MenuItem,
-  Popper,
-  Grow,
-  Paper,
-  ClickAwayListener,
-} from '@mui/material';
-import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
-import { useSelector } from 'react-redux';
+import { Button, MenuItem, Menu, Divider } from '@mui/material';
+import PushPinIcon from '@mui/icons-material/PushPin';
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import { styled as muiStyled, alpha } from '@mui/material/styles';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { usePinPostContext } from './PinPostContext';
+import { changePostVisibility } from '../../services/Post';
+import hotToast from '../../utils/hotToast';
 
 const AdminToolWrapper = styled.div`
   display: flex;
   background-color: transparent;
 `;
 
+const StyledMenu = muiStyled((props) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 120,
+    color:
+      theme.palette.mode === 'light'
+        ? 'rgb(55, 65, 81)'
+        : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity,
+        ),
+      },
+    },
+  },
+}));
+
 const AdminTool = () => {
-  const { isLogin, myDetail } = useSelector((state) => state.sign);
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
-  const { isPinned, completeUnpinPost, completePinPost } = usePinPostContext();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const { thisPost, isPinned, completeUnpinPost, completePinPost } =
+    usePinPostContext();
+  const [visible, setVisible] = useState(thisPost.visibility);
 
-  const handleClick = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const handleListKeyDown = useCallback((event) => {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === 'Escape') {
-      setOpen(false);
-    }
+  const handleClick = useCallback((event) => {
+    setAnchorEl(event.currentTarget);
   }, []);
 
-  const prevOpen = useRef(open);
+  const handleClose = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+
+  const handleHide = useCallback(async () => {
+    const { data: response } = await changePostVisibility(thisPost.id);
+    if (!response) {
+      hotToast('error', 'Failed to change the visibility of this post.');
+    } else {
+      setVisible(!visible);
+    }
+  }, [thisPost, visible]);
 
   const isPinViewable = useMemo(() => {
     if (isPinned) {
       return (
         <MenuItem
-          onClick={(e) => {
+          onClick={() => {
             completeUnpinPost();
-            handleClose(e);
+            handleClose();
           }}
+          disableRipple
         >
+          <PushPinOutlinedIcon />
           Unpin
         </MenuItem>
       );
     }
     return (
       <MenuItem
-        onClick={(e) => {
+        onClick={() => {
           completePinPost();
-          handleClose(e);
+          handleClose();
         }}
+        disableRipple
       >
+        <PushPinIcon />
         Pin
       </MenuItem>
     );
-  }, [completePinPost, completeUnpinPost, isPinned]);
-
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
+  }, [completePinPost, completeUnpinPost, handleClose, isPinned]);
 
   return (
     <AdminToolWrapper>
       <Button
-        ref={anchorRef}
-        aria-controls={open ? 'composition-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
+        id="customized-button"
+        aria-controls={open ? 'customized-menu' : undefined}
         aria-haspopup="true"
-        onClick={handleClick}
+        aria-expanded={open ? 'true' : undefined}
         variant="contained"
-        color="secondary"
-        size="small"
-        startIcon={<HandymanOutlinedIcon fontSize="small" />}
+        disableElevation
+        onClick={handleClick}
+        endIcon={
+          <KeyboardArrowDownIcon
+            fontSize="large"
+            style={{
+              transition: 'all 0.5s',
+              transform: open ? 'rotate(-180deg)' : '',
+            }}
+          />
+        }
+        sx={{ fontSize: 15, py: 0.8, px: 2 }}
       >
         Admin
       </Button>
-      <Popper
+      <StyledMenu
+        id="customized-menu"
+        MenuListProps={{
+          'aria-labelledby': 'customized-button',
+        }}
+        anchorEl={anchorEl}
         open={open}
-        anchorEl={anchorRef.current}
-        placement="bottom-start"
-        transition
-        disablePortal
+        onClose={handleClose}
       >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === 'bottom-start' ? 'left top' : 'left bottom',
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
-                >
-                  {isPinViewable}
-                  <MenuItem onClick={handleClose}>Hide</MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
+        {isPinViewable}
+        <Divider sx={{ my: 0.5 }} />
+        <MenuItem
+          onClick={() => {
+            handleHide();
+            handleClose();
+          }}
+          disableRipple
+        >
+          {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+          {visible ? 'Hide' : 'Expose'}
+        </MenuItem>
+      </StyledMenu>
     </AdminToolWrapper>
   );
 };
