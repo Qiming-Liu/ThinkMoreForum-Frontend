@@ -14,6 +14,9 @@ export const postPost = ({ categoryTitle, title, context, headImgUrl }) =>
 export const getFollowPostByUsername = (username) =>
   http(`/v1/post/follows/find_all_by_username/${username}`, { method: 'GET' });
 
+export const getPostByTitleContainingString = (string) =>
+  http(`/v1/post/string/${string}`, { method: 'GET' });
+
 export const submitFavoritePost = (postId) =>
   http(`/v1/post/follows/user_follow_post/${postId}`, { method: 'POST' });
 
