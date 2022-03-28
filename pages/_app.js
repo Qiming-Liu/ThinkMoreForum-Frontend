@@ -15,6 +15,7 @@ import createTheme from '../theme';
 import 'antd/dist/antd.css';
 import '../styles/main.scss';
 import Loading from '../components/Loading/Loading';
+import { WSContextProvider } from '../contexts/WSContext';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,23 +27,25 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
   });
   return (
     <ReduxProvider store={store}>
-      <NextNProgress />
-      <Head>
-        <title>Home | ThinkMoreForum</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <SessionProvider session={session}>
-        <ThemeProvider theme={createTheme()}>
-          <Layout>
-            <NextClientOnly>
-              <Toaster position="top-center" reverseOrder={false} />
-              <Navbar />
-            </NextClientOnly>
-            {isLoading ? <Loading /> : <Component {...pageProps} />}
-            {isLoading ? <Loading /> : <Footer />}
-          </Layout>
-        </ThemeProvider>
-      </SessionProvider>
+      <WSContextProvider>
+        <NextNProgress />
+        <Head>
+          <title>Home | ThinkMoreForum</title>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <SessionProvider session={session}>
+          <ThemeProvider theme={createTheme()}>
+            <Layout>
+              <NextClientOnly>
+                <Toaster position="top-center" reverseOrder={false} />
+                <Navbar />
+              </NextClientOnly>
+              {isLoading ? <Loading /> : <Component {...pageProps} />}
+              {isLoading ? <Loading /> : <Footer />}
+            </Layout>
+          </ThemeProvider>
+        </SessionProvider>
+      </WSContextProvider>
     </ReduxProvider>
   );
 };
