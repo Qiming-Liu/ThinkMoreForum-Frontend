@@ -39,6 +39,7 @@ import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
 import SignDialog from '../../components/Sign/SignDialog';
 import ImageCropper from '../../components/ImageCropper';
+import { useWSContext } from '../../contexts/WSContext';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cropImage, setCropImage] = useState(undefined);
   const [isLoading, setLoading] = useState(false);
+  const { handleRemind } = useWSContext();
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -161,6 +163,7 @@ const Profile = () => {
       setFollowedStatus((prevFollowedStatus) =>
         prevFollowedStatus === 'not_followed' ? 'followed' : 'not_followed',
       );
+      handleRemind(userId);
     } catch (err) {
       hotToast('error', 'Something went wrong!');
     }

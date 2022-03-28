@@ -21,17 +21,20 @@ import {
 } from '../../services/Notification';
 import Scrollbar from '../Scrollbar';
 import MyTime from '../../utils/myTime';
+import { useWSContext } from '../../contexts/WSContext';
 
 const NotificationsPopover = (props) => {
   const { anchorEl, onClose, onUpdateUnread, open, ...other } = props;
   const [fetch, setFetch] = useState(true);
   const [notifications, setNotifications] = useState([]);
+  const { updateInfo } = useWSContext();
+
   useEffect(() => {
     (async () => {
       const { data } = await getNotifications();
       setNotifications(data);
     })();
-  }, [fetch]);
+  }, [fetch, updateInfo]);
 
   const unread = useMemo(
     () =>

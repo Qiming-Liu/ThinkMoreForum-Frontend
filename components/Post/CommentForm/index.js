@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { Button, Box, TextField } from '@mui/material';
+import { useWSContext } from '../../../contexts/WSContext';
 
 const CommentForm = ({
   initialText = '',
   handleSubmit,
   login,
   mentionUser,
+  mentionUserId,
 }) => {
   const [context, setContext] = useState(initialText);
+  const { handleRemind } = useWSContext();
+
   const onSubmit = () => {
     if (mentionUser) {
       handleSubmit(`@${mentionUser} ${context}`);
+      handleRemind(mentionUserId);
     } else {
       handleSubmit(context);
     }
