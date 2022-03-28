@@ -16,7 +16,6 @@ import 'antd/dist/antd.css';
 import '../styles/main.scss';
 import Loading from '../components/Loading/Loading';
 import { WSContextProvider } from '../contexts/WSContext';
-import { WSContextProvider } from '../contexts/WSContext';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
   const [isLoading, setIsLoading] = useState(false);
