@@ -9,6 +9,7 @@ import NotificationsButton from './NotificationsButton';
 import Sign from '../Sign';
 import SearchBar from './components/SearchBar';
 
+
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   ...(theme.palette.mode === 'light'
