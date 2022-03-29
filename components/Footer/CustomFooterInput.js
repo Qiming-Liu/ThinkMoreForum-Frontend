@@ -39,16 +39,16 @@ const CustomFooterInput = () => {
           justifyContent="space-between"
         >
           <Typography variant="subtitle1" sx={{ mt: 2, mb: 2 }}>
-            Make Sure you Type in HTML formatted code
+            Make Sure you Type in HTML formatted code for custom footer
           </Typography>
         </Stack>
         <TextField
           fullWidth
-          label="Change the Footer by type your code here"
+          variant="filled"
+          defaultValue={footerinfo.code && footerinfo.code}
           multiline
-          rows={12}
+          rows={10}
           onChange={(e) => setFooter(e.target.value)}
-          value={footer}
         />
         <Button sx={{ mt: 2, mb: 2 }} variant="outlined" type="submit">
           Submit Changes

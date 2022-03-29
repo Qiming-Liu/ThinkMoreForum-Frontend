@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Box, TextField } from '@mui/material';
+import { useSelector } from 'react-redux';
+import checkPermission from '../../../utils/checkPermission';
+import hotToast from '../../../utils/hotToast';
 import { useWSContext } from '../../../contexts/WSContext';
 
 const CommentForm = ({
@@ -11,13 +14,17 @@ const CommentForm = ({
 }) => {
   const [context, setContext] = useState(initialText);
   const { handleRemind } = useWSContext();
-
+  const { myDetail } = useSelector((state) => state.sign);
   const onSubmit = () => {
-    if (mentionUser) {
-      handleSubmit(`@${mentionUser} ${context}`);
-      handleRemind(mentionUserId);
+    if (checkPermission('postComment', myDetail.role)) {
+      if (mentionUser) {
+        handleSubmit(`@${mentionUser} ${context}`);
+        handleRemind(mentionUserId);
+      } else {
+        handleSubmit(context);
+      }
     } else {
-      handleSubmit(context);
+      hotToast('error', "You don't have permission to comment");
     }
   };
   if (!login) {

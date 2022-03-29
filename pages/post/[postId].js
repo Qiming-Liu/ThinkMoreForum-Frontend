@@ -57,7 +57,6 @@ const Post = ({ post }) => {
   const childComments = comments.filter(
     (comment) => comment.parentComment !== null,
   );
-
   const handleFavPost = async () => {
     if (postFaved) {
       await submitUnfavoritePost(postId);
@@ -66,6 +65,7 @@ const Post = ({ post }) => {
     }
     setPostFaved(!postFaved);
   };
+
   const sendComment = async (context) => {
     try {
       const requestBody = {
@@ -112,9 +112,6 @@ const Post = ({ post }) => {
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
-        const { data: responseComments } = await getCommentsByPostId(postId);
-
-        setComments(responseComments);
         if (isLogin) {
           const { data: responseIsFavoringPost } = await checkIsFavoringPost(
             postId,
@@ -125,6 +122,14 @@ const Post = ({ post }) => {
       getPostContent();
     }
   }, [postId, postFaved, isLogin]);
+  useEffect(() => {
+    const getComments = async () => {
+      const { data: responseComments } = await getCommentsByPostId(postId);
+      setComments(responseComments);
+    };
+    getComments();
+  }, [postId]);
+
   if (!post) return null;
   return (
     <CommonContainer>
