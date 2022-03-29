@@ -38,7 +38,7 @@ import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
 import Loading from '../../components/Loading/Loading';
 import Posts from '../../components/Post/Posts';
-import ThreeColumns from '../../components/Layout/three-columns';
+import CommonContainer from '../../components/Layout/common-container';
 import checkPermission from '../../utils/checkPermission';
 
 const validNumberInput = /[^0-9]/;
@@ -247,7 +247,7 @@ const PostList = () => {
   if (!thisCategory) return <Loading />;
 
   return (
-    <ThreeColumns>
+    <CommonContainer>
       <Head>
         <title>{categoryTitle} | ThinkMoreForum</title>
       </Head>
@@ -452,7 +452,7 @@ const PostList = () => {
           </Fab>
         </Slide>
       </Tooltip>
-    </ThreeColumns>
+    </CommonContainer>
   );
 };
 

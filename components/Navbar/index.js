@@ -7,7 +7,6 @@ import { AppBar, Box, Toolbar } from '@mui/material';
 import AccountButton from './AccountButton';
 import NotificationsButton from './NotificationsButton';
 import Sign from '../Sign';
-import SearchBar from './components/SearchBar';
 
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -50,7 +49,6 @@ const Navbar = () => {
         </NextLink>
         <Box sx={{ flexGrow: 1 }} />
         <>
-          {isLogin && <SearchBar />}
           {isLogin || <Sign />}
           {isLogin && <NotificationsButton />}
           <AccountButton isLogin={isLogin} />
