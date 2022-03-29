@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Box, TextField } from '@mui/material';
+import { useSelector } from 'react-redux';
+import checkPermission from '../../../utils/checkPermission';
+import hotToast from '../../../utils/hotToast';
 
 const CommentForm = ({
   initialText = '',
@@ -8,11 +11,16 @@ const CommentForm = ({
   mentionUser,
 }) => {
   const [context, setContext] = useState(initialText);
+  const { myDetail } = useSelector((state) => state.sign);
   const onSubmit = () => {
-    if (mentionUser) {
-      handleSubmit(`@${mentionUser} ${context}`);
-    } else {
-      handleSubmit(context);
+    if(checkPermission('postComment',myDetail.role)){
+      if (mentionUser) {
+        handleSubmit(`@${mentionUser} ${context}`);
+      } else {
+        handleSubmit(context);
+      }
+    }else{
+      hotToast('error','You don\'t have permission to comment');
     }
   };
   if (!login) {

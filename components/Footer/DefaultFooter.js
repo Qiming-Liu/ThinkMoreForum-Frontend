@@ -6,7 +6,8 @@ const DefaultFooter = () => {
   return (
     <Box
       sx={{
-        pb: 6,
+        pb: 3,
+        mt:5,
         pt: {
           md: 3,
         },
@@ -62,7 +63,7 @@ const DefaultFooter = () => {
           <Image src="/logo.svg" height="35" width="35" alt="logo" />
           <Typography
             color="textSecondary"
-            sx={{ mt: 1, align: 'center' }}
+            sx={{ pt: 2, align: 'center' }}
             variant="caption"
           >
             © 2022 ThinkMoreForum. All Rights Reserved.
