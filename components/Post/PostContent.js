@@ -22,6 +22,7 @@ import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 import AdminTool from './AdminTool';
 import { useWSContext } from '../../contexts/WSContext';
+import checkPermission from '../../utils/checkPermission';
 
 const PostContent = ({ post, isFavored, toggleFav }) => {
   const { myDetail } = useSelector((state) => state.sign);
@@ -34,12 +35,7 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
   };
 
   const checkAuth = () => {
-    if (
-      myDetail &&
-      (myDetail.role.roleName === 'admin' ||
-        myDetail.role.roleName === 'moderator')
-    )
-      return true;
+    if (checkPermission('postManagement', myDetail.role)) return true;
     return false;
   };
 
@@ -63,7 +59,7 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
             <Typography variant="h3" sx={{ mt: 3, mb: 3 }}>
               {post.title}
             </Typography>
-            {checkAuth() && <AdminTool />}
+            {myDetail && checkAuth() && <AdminTool />}
           </Stack>
           <Chip label={post.category.title} />
           <Grid container alignItems="center" justifyContent="space-between">

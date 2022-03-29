@@ -7,9 +7,11 @@ import { styled as muiStyled, alpha } from '@mui/material/styles';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useSelector } from 'react-redux';
 import { usePinPostContext } from './PinPostContext';
 import { changePostVisibility } from '../../services/Post';
 import hotToast from '../../utils/hotToast';
+import checkPermission from '../../utils/checkPermission';
 
 const AdminToolWrapper = styled.div`
   display: flex;
@@ -65,6 +67,7 @@ const AdminTool = () => {
   const { thisPost, isPinned, completeUnpinPost, completePinPost } =
     usePinPostContext();
   const [visible, setVisible] = useState(thisPost.visibility);
+  const { myDetail } = useSelector((state) => state.sign);
 
   const handleClick = useCallback((event) => {
     setAnchorEl(event.currentTarget);
@@ -75,13 +78,17 @@ const AdminTool = () => {
   }, []);
 
   const handleHide = useCallback(async () => {
-    const { data: response } = await changePostVisibility(thisPost.id);
-    if (!response) {
-      hotToast('error', 'Failed to change the visibility of this post.');
+    if (checkPermission('postManagement', myDetail.role)) {
+      const { data: response } = await changePostVisibility(thisPost.id);
+      if (!response) {
+        hotToast('error', 'Failed to change the visibility of this post.');
+      } else {
+        setVisible(!visible);
+      }
     } else {
-      setVisible(!visible);
+      hotToast('error', "You don't have post management permission.");
     }
-  }, [thisPost, visible]);
+  }, [myDetail.role, thisPost.id, visible]);
 
   const isPinViewable = useMemo(() => {
     if (isPinned) {
