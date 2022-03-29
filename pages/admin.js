@@ -2,6 +2,8 @@ import * as React from 'react';
 import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Router from 'next/router';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
@@ -10,6 +12,8 @@ import Categories from '../components/CategoryManager/categoryTable/Categories';
 import Loading from '../components/Loading/Loading';
 import SetFooter from '../components/Footer/SetFooter';
 import Role from '../components/Role';
+import checkPermission from '../utils/checkPermission';
+import hotToast from '../utils/hotToast';
 
 const tabs = [
   { label: 'Users', value: 'users' },
@@ -21,10 +25,18 @@ const tabs = [
 const Admin = () => {
   const [currentTab, setCurrentTab] = React.useState('users');
   const [users, setUsers] = useState();
+  const { myDetail } = useSelector((state) => state.sign);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };
+
+  const checkAuth = React.useCallback(() => {
+    if (!myDetail || !checkPermission('adminManagement', myDetail.role)) {
+      hotToast('error', "You don't have admin management permission.");
+      Router.push('/404');
+    }
+  }, [myDetail]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,8 +55,15 @@ const Admin = () => {
       });
       setUsers(allUsers);
     };
-    fetchUsers();
-  }, []);
+    checkAuth();
+    if (myDetail) {
+      fetchUsers();
+    }
+  }, [checkAuth, myDetail]);
+
+  if (!myDetail) {
+    return <Loading />;
+  }
 
   return (
     <>
