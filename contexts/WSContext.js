@@ -14,7 +14,8 @@ import SockJS from 'sockjs-client';
 const WSContext = createContext([]);
 
 export const WSContextProvider = ({ children }) => {
-  const { isLogin, myDetail } = useSelector((state) => state.sign);
+  const [connected, setConnected] = useState(false);
+  const { myDetail } = useSelector((state) => state.sign);
   const stompClient = useRef(null);
   const [updateInfo, setUpdateInfo] = useState(false);
 
@@ -33,12 +34,12 @@ export const WSContextProvider = ({ children }) => {
       stompClient.current.subscribe('/hall/greetings', (greeting) => {
         console.log(`Greeting message: `, greeting);
       });
-      stompClient.current.send(
-        '/app/hello',
-        {},
-        JSON.stringify({ userId: myDetail.id, online: true }),
-      );
-      if (isLogin && myDetail) {
+      if (myDetail) {
+        stompClient.current.send(
+          '/app/hello',
+          {},
+          JSON.stringify({ userId: myDetail.id, online: true }),
+        );
         console.log(`Subscribing personal channel...`);
         console.log(`myDetail in onConnected: `, myDetail);
         stompClient.current.subscribe(
@@ -47,7 +48,7 @@ export const WSContextProvider = ({ children }) => {
         );
       }
     }
-  }, [isLogin, myDetail, onReminded]);
+  }, [myDetail, onReminded]);
 
   const handleRemind = useCallback(
     (recipientId) => {
@@ -70,9 +71,14 @@ export const WSContextProvider = ({ children }) => {
   }, []);
 
   const connect = useCallback(() => {
-    const Sock = new SockJS('http://localhost:443/v1/public/ws');
-    stompClient.current = over(Sock);
-    stompClient.current.connect({}, onConnected, onError);
+    try {
+      const Sock = new SockJS('https://api.thinkmoreapp.com/v1/public/ws');
+      stompClient.current = over(Sock);
+      stompClient.current.connect({}, onConnected, onError);
+      setConnected(true);
+    } catch (error) {
+      setConnected(false);
+    }
   }, [onConnected, onError]);
 
   useEffect(() => {

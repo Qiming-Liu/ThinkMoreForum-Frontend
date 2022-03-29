@@ -12,6 +12,9 @@ export const passwordReset = (password) =>
     data: { new_password: password },
   });
 
+export const getUserByContainingString = (string) =>
+  http(`/v1/users/string/${string}`, { method: 'GET' });
+
 export const changePassword = ({ oldPassword, newPassword }) =>
   http(`/v1/users/password`, {
     method: 'PUT',
