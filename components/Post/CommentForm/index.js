@@ -3,19 +3,23 @@ import { Button, Box, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import checkPermission from '../../../utils/checkPermission';
 import hotToast from '../../../utils/hotToast';
+import { useWSContext } from '../../../contexts/WSContext';
 
 const CommentForm = ({
   initialText = '',
   handleSubmit,
   login,
   mentionUser,
+  mentionUserId,
 }) => {
   const [context, setContext] = useState(initialText);
+  const { handleRemind } = useWSContext();
   const { myDetail } = useSelector((state) => state.sign);
   const onSubmit = () => {
     if(checkPermission('postComment',myDetail.role)){
       if (mentionUser) {
         handleSubmit(`@${mentionUser} ${context}`);
+        handleRemind(mentionUserId);
       } else {
         handleSubmit(context);
       }

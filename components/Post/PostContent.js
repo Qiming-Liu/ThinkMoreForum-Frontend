@@ -21,13 +21,16 @@ import NextLink from 'next/link';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 import AdminTool from './AdminTool';
+import { useWSContext } from '../../contexts/WSContext';
 
 const PostContent = ({ post, isFavored, toggleFav }) => {
   const { myDetail } = useSelector((state) => state.sign);
   const userProfileUrl = `/profile/${post.postUsers.username}`;
+  const { handleRemind } = useWSContext();
 
-  const handleClick = () => {
-    toggleFav();
+  const handleClick = async () => {
+    await toggleFav();
+    handleRemind(post.postUsers.id);
   };
 
   const checkAuth = () => {
