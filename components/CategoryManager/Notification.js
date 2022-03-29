@@ -1,7 +1,7 @@
 import React from 'react';
 import { Snackbar } from '@mui/material';
 import styled from 'styled-components';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/lab';
 
 const StySnackbar = styled(Snackbar)`
   root: {

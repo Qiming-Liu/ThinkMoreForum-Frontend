@@ -10,7 +10,7 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
 } from '@mui/x-data-grid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { changeUsersRoles } from '../../services/Users';
 import useUsersToSubmit from './useUsersToSubmit';
 

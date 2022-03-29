@@ -19,7 +19,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { blueGrey } from '@mui/material/colors';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import ThreeColumns from '../../components/Layout/three-columns';
+import CommonContainer from '../../components/Layout/common-container';
 import ProfilePost from '../../components/Profile/ProfilePost';
 import ProfileFollow from '../../components/Profile/ProfileFollow';
 import {
@@ -190,7 +190,7 @@ const Profile = () => {
     },
   ];
   return (
-    <ThreeColumns>
+    <CommonContainer>
       <Box
         component="main"
         sx={{
@@ -413,7 +413,7 @@ const Profile = () => {
           </Container>
         </Box>
       </Box>
-    </ThreeColumns>
+    </CommonContainer>
   );
 };
 

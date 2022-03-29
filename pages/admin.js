@@ -66,40 +66,39 @@ const Admin = () => {
   }
 
   return (
-    <>
+    <CommonContainer>
       <Head>
         <title>Admin | ThinkMoreForum</title>
       </Head>
-      <CommonContainer>
-        <Box>
-          <Typography variant="h4">Admin</Typography>
-          <Tabs
-            indicatorColor="primary"
-            onChange={handleTabsChange}
-            scrollButtons="auto"
-            textColor="primary"
-            value={currentTab}
-            variant="scrollable"
-            sx={{ mt: 3 }}
-          >
-            {tabs.map((tab) => (
-              <Tab
-                key={tab.value}
-                label={tab.label}
-                value={tab.value}
-                sx={{ fontSize: 15 }}
-              />
-            ))}
-          </Tabs>
-          <Divider sx={{ mb: 3 }} />
-          {currentTab === 'users' && users && <AdminUser allUsers={users} />}
-          {currentTab === 'users' && !users && <Loading />}
-          {currentTab === 'categories' && <Categories />}
-          {currentTab === 'roles' && <Role />}
-          {currentTab === 'footer' && <SetFooter />}
-        </Box>
-      </CommonContainer>
-    </>
+
+      <Box>
+        <Typography variant="h4">Admin</Typography>
+        <Tabs
+          indicatorColor="primary"
+          onChange={handleTabsChange}
+          scrollButtons="auto"
+          textColor="primary"
+          value={currentTab}
+          variant="scrollable"
+          sx={{ mt: 3 }}
+        >
+          {tabs.map((tab) => (
+            <Tab
+              key={tab.value}
+              label={tab.label}
+              value={tab.value}
+              sx={{ fontSize: 15 }}
+            />
+          ))}
+        </Tabs>
+        <Divider sx={{ mb: 3 }} />
+        {currentTab === 'users' && users && <AdminUser allUsers={users} />}
+        {currentTab === 'users' && !users && <Loading />}
+        {currentTab === 'categories' && <Categories />}
+        {currentTab === 'roles' && <Role />}
+        {currentTab === 'footer' && <SetFooter />}
+      </Box>
+    </CommonContainer>
   );
 };
 

@@ -15,7 +15,7 @@ const Footer = () => {
   }, []);
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 15 }}>
+      <Box sx={{ mt: 8 }}>
         <Divider />
         {customFooter === '' ? <DefaultFooter /> : parser(customFooter)}
       </Box>

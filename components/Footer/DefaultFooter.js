@@ -50,19 +50,16 @@ const DefaultFooter = () => {
             </Typography>
           </Stack>
         </Stack>
-        <Typography variant="subtitle1" sx={{ mt: 4 }}>
-          Have a question? Well, we’ve got some answers.
-        </Typography>
         <Stack
           direction="column"
           spacing={1}
           justifyContent="space-between"
-          sx={{ mt: 4 }}
+          sx={{ mt: 5 }}
         >
           <Image src="/logo.svg" height="35" width="35" alt="logo" />
           <Typography
             color="textSecondary"
-            sx={{ pt: 2, align: 'center' }}
+            sx={{ pt: 3, align: 'center' }}
             variant="caption"
           >
             © 2022 ThinkMoreForum. All Rights Reserved.

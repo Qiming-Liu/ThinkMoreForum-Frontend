@@ -2,7 +2,7 @@ import React from 'react';
 import NextLink from 'next/link';
 import Image from 'next/image';
 import { Badge, Box, Card, Grid, Typography, Link, Paper } from '@mui/material';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(
   {

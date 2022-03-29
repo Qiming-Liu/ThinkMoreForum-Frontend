@@ -36,10 +36,12 @@ const CommentForm = ({
         justifyContent="center"
         alignItems="center"
       >
-        <Typography sx={{ mt: 5, pb: 1 }}>
-          Login is required to view comments
-        </Typography>
-        <Sign />
+        <Box mt={4}>
+          <h2>Login is required to view comments</h2>
+        </Box>
+        <Box mt={2}>
+          <Sign />
+        </Box>
       </Grid>
     );
   }
