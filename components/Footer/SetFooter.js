@@ -4,13 +4,13 @@ import { putComponent } from '../../services/Component';
 import { getComponentByName } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
 
-const CustomFooterInput = () => {
+const SetFooter = () => {
   const [footer, setFooter] = useState('');
   const [footerinfo, setFooterInfo] = useState('');
   useEffect(() => {
     const getFooter = async () => {
-      const { data: response } = await getComponentByName('footer');
-      setFooterInfo(response);
+      const { data } = await getComponentByName('footer');
+      setFooterInfo(data.code);
     };
     getFooter();
   }, []);
@@ -45,7 +45,7 @@ const CustomFooterInput = () => {
         <TextField
           fullWidth
           variant="filled"
-          defaultValue={footerinfo.code && footerinfo.code}
+          defaultValue={footerinfo}
           multiline
           rows={10}
           onChange={(e) => setFooter(e.target.value)}
@@ -58,4 +58,4 @@ const CustomFooterInput = () => {
   );
 };
 
-export default CustomFooterInput;
+export default SetFooter;

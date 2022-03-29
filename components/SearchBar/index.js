@@ -4,11 +4,11 @@ import NextLink from 'next/link';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useSelector } from 'react-redux';
 import { Link } from '@mui/material';
-import * as searchService from '../../../services/Post';
-import * as searchUserService from '../../../services/Users';
-import { updatePostViewCount } from '../../../services/Public';
+import * as searchService from '../../services/Post';
+import * as searchUserService from '../../services/Users';
+import { updatePostViewCount } from '../../services/Public';
 
-const Try = () => {
+const SearchBar = () => {
   const { isLogin } = useSelector((state) => state.sign);
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -49,7 +49,7 @@ const Try = () => {
       id="custom-autocomplete"
       freeSolo
       options={searchResults}
-      style={{ width: 300, margin: 5 }}
+      style={{ margin: 5 }}
       getOptionLabel={(option) => {
         if (option.title !== undefined) {
           return `${option.title}`;
@@ -107,4 +107,4 @@ const Try = () => {
   );
 };
 
-export default Try;
+export default SearchBar;

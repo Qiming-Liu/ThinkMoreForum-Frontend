@@ -10,7 +10,7 @@ import NextClientOnly from '../components/NextClientOnly';
 import store from '../store/store';
 import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer/Footer';
+import Footer from '../components/Footer';
 import createTheme from '../theme';
 import 'antd/dist/antd.css';
 import '../styles/main.scss';
@@ -40,8 +40,14 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
                 <Toaster position="top-center" reverseOrder={false} />
                 <Navbar />
               </NextClientOnly>
-              {isLoading ? <Loading /> : <Component {...pageProps} />}
-              {isLoading ? <Loading /> : <Footer />}
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <>
+                  <Component {...pageProps} />
+                  <Footer />
+                </>
+              )}
             </Layout>
           </ThemeProvider>
         </SessionProvider>
