@@ -16,15 +16,15 @@ const CommentForm = ({
   const { handleRemind } = useWSContext();
   const { myDetail } = useSelector((state) => state.sign);
   const onSubmit = () => {
-    if(checkPermission('postComment',myDetail.role)){
+    if (checkPermission('postComment', myDetail.role)) {
       if (mentionUser) {
         handleSubmit(`@${mentionUser} ${context}`);
         handleRemind(mentionUserId);
       } else {
         handleSubmit(context);
       }
-    }else{
-      hotToast('error','You don\'t have permission to comment');
+    } else {
+      hotToast('error', "You don't have permission to comment");
     }
   };
   if (!login) {

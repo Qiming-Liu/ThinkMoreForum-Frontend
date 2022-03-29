@@ -8,26 +8,26 @@ import {
   Grid,
   IconButton,
 } from '@mui/material';
-import hotToast from '../../utils/hotToast';
-import { putComponent } from '../../services/Component';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { putComponent } from '../../services/Component';
 import { getComponentByName } from '../../services/Public';
 import DefaultFooter from './DefaultFooter';
 import CustomFooter from './CustomFooter';
 import checkPermission from '../../utils/checkPermission';
+import hotToast from '../../utils/hotToast';
 
 const Footer = () => {
   const [iscustomFooter, setIsFooter] = useState(null);
   const [showSetting, setShowSetting] = useState(false);
   const [footerinfo, setFooterInfo] = useState('');
-  const { isLogin,myDetail } = useSelector((state) => state.sign); 
+  const { isLogin, myDetail } = useSelector((state) => state.sign);
   useEffect(() => {
     const getFooter = async () => {
       const { data: response } = await getComponentByName('footer');
       setFooterInfo(response);
-      if(response.code===''){
+      if (response.code === '') {
         setIsFooter(false);
-      }else{
+      } else {
         setIsFooter(true);
       }
     };
@@ -65,11 +65,18 @@ const Footer = () => {
             variant="text"
             aria-label="text button group"
           >
-            <Button type='button' onClick={() => handleChangetoDefault()}>Default Footer</Button>
+            <Button type="button" onClick={() => handleChangetoDefault()}>
+              Default Footer
+            </Button>
           </ButtonGroup>
         )}
         {isLogin && (
-          <IconButton onClick={() => checkPermission('adminManagement',myDetail.role) && setShowSetting(!showSetting)}>
+          <IconButton
+            onClick={() =>
+              checkPermission('adminManagement', myDetail.role) &&
+              setShowSetting(!showSetting)
+            }
+          >
             <SettingsIcon />
           </IconButton>
         )}
