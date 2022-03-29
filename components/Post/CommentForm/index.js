@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Box, TextField } from '@mui/material';
+import { Button, Box, TextField, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import checkPermission from '../../../utils/checkPermission';
 import hotToast from '../../../utils/hotToast';
+import Sign from '../../Sign';
 import { useWSContext } from '../../../contexts/WSContext';
 
 const CommentForm = ({
@@ -28,7 +29,19 @@ const CommentForm = ({
     }
   };
   if (!login) {
-    return null;
+    return (
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography sx={{ mt: 5, pb: 1 }}>
+          Login is required to view comments
+        </Typography>
+        <Sign />
+      </Grid>
+    );
   }
   return (
     <form onSubmit={onSubmit}>
