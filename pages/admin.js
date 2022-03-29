@@ -55,8 +55,8 @@ const Admin = () => {
       });
       setUsers(allUsers);
     };
+    checkAuth();
     if (myDetail) {
-      checkAuth();
       fetchUsers();
     }
   }, [checkAuth, myDetail]);
