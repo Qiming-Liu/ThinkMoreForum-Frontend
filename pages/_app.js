@@ -11,11 +11,11 @@ import store from '../store/store';
 import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Loading from '../components/Loading/Loading';
+import { WSContextProvider } from '../contexts/WSContext';
 import createTheme from '../theme';
 import 'antd/dist/antd.css';
 import '../styles/main.scss';
-import Loading from '../components/Loading/Loading';
-import { WSContextProvider } from '../contexts/WSContext';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
   const [isLoading, setIsLoading] = useState(false);

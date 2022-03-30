@@ -28,10 +28,6 @@ const AccountPopover = (props) => {
     onClose();
   };
 
-  if (!myDetail) {
-    return null;
-  }
-
   return (
     <Popover
       anchorEl={anchorEl}

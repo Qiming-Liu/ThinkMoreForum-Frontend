@@ -1,42 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Avatar, Box, ButtonBase } from '@mui/material';
 import UserCircleIcon from '../../icons/user-circle';
 import AccountPopover from './AccountPopover';
-import { getMe } from '../../services/Users';
-import { setDetailAction } from '../../store/actions/signAction';
-import store from '../../store/store';
 
 const AccountButton = ({ isLogin }) => {
   const anchorRef = useRef(null);
   const [openPopover, setOpenPopover] = useState(false);
-  const [myDetails, setMyDetails] = useState(undefined);
-  const [headImg, setHeadImg] = useState(undefined);
-  const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
-
-  useEffect(() => {
-    if (isLogin) {
-      (async () => {
-        const { data } = await getMe();
-        dispatch(setDetailAction(data));
-        setMyDetails(data);
-        setHeadImg(data.headImgUrl);
-      })();
-    }
-  }, [dispatch, isLogin]);
-
-  if (!myDetails) {
-    return null;
-  }
-
-  if (myDetail) {
-    const checkHeadImg = (state) => state.sign.myDetail.headImgUrl;
-    const latestHeadImg = checkHeadImg(store.getState());
-    if (latestHeadImg !== headImg) {
-      setHeadImg(latestHeadImg);
-    }
-  }
 
   if (!myDetail) {
     return null;
@@ -59,7 +30,7 @@ const AccountButton = ({ isLogin }) => {
             height: 40,
             width: 40,
           }}
-          src={headImg || ''}
+          src={myDetail.headImgUrl || ''}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>
