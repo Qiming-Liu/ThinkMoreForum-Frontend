@@ -16,6 +16,9 @@ const AntComment = ({
   const [showReplying, setShowReplying] = useState(false);
   const mentionUser = commentUsers.username;
   const mentionUserId = commentUsers.id;
+  const handleCommentClose = () => {
+    setShowReplying(false);
+  };
   return (
     <Comment
       key={comment.id}
@@ -25,7 +28,7 @@ const AntComment = ({
           key="comment-nested-reply-to"
           onClick={() => setShowReplying(!showReplying)}
         >
-          {showReplying ? 'Cancel' : 'Reply'}
+          {login && (showReplying ? 'Cancel' : 'Reply')}
         </span>,
       ]}
       author={
@@ -61,6 +64,7 @@ const AntComment = ({
           login={login}
           mentionUser={mentionUser}
           mentionUserId={mentionUserId}
+          closeComment={handleCommentClose}
         />
       ) : null}
       {replies &&

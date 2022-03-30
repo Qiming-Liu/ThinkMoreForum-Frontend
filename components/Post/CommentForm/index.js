@@ -12,17 +12,23 @@ const CommentForm = ({
   login,
   mentionUser,
   mentionUserId,
+  closeComment,
 }) => {
   const [context, setContext] = useState(initialText);
   const { handleRemind } = useWSContext();
   const { myDetail } = useSelector((state) => state.sign);
-  const onSubmit = () => {
+
+  const onSubmit = (e) => {
+    e.preventDefault();
     if (checkPermission('postComment', myDetail.role)) {
       if (mentionUser) {
         handleSubmit(`@${mentionUser} ${context}`);
         handleRemind(mentionUserId);
+        setContext('');
+        closeComment();
       } else {
         handleSubmit(context);
+        setContext('');
       }
     } else {
       hotToast('error', "You don't have permission to comment");
@@ -37,7 +43,7 @@ const CommentForm = ({
         alignItems="center"
       >
         <Box mt={4}>
-          <h2>Login is required to view comments</h2>
+          <h2>Login is required to post comment</h2>
         </Box>
         <Box mt={2}>
           <Sign />
