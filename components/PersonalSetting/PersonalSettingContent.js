@@ -27,8 +27,7 @@ import {
   setEmailAction,
 } from '../../store/actions/signAction';
 import UserCircleIcon from '../../icons/user-circle';
-import fileToBase64 from '../../utils/fileToBase64';
-import ChangePicButton from './ChangePicButton';
+import FileDropzone from '../FileDropzone';
 
 const Form = (props) => {
   const dispatch = useDispatch();
@@ -105,15 +104,14 @@ const Form = (props) => {
     },
   });
 
-  const handleDropImg = async ([file]) => {
-    const data = await fileToBase64(file);
-    setHeadImg(data);
+  const handleCropImg = async (base64) => {
+    setHeadImg(base64);
+    const file = await (await fetch(base64)).blob();
     const { data: img } = await upload(file).catch((error) => {
       hotToast('error', `Something wrong: ${error}`);
     });
     changeHeadImg({ headImgUrl: img.url })
       .then(() => {
-        hotToast('success', 'Profile picture is changed');
         dispatch(
           setHeadImgAction(
             img.url,
@@ -161,15 +159,14 @@ const Form = (props) => {
                   >
                     <UserCircleIcon fontSize="small" />
                   </Avatar>
-                  <ChangePicButton
+                  <FileDropzone
                     accept="image/jpg,image/png, image/jpeg"
-                    maxFiles={1}
-                    onDrop={handleDropImg}
-                    maxSize={5242880}
-                    minsize={0}
-                  />
+                    afterCrop={handleCropImg}
+                    aspectRatio={1}
+                  >
+                    <Button>Change</Button>
+                  </FileDropzone>
                 </Box>
-
                 <form onSubmit={formikUsername.handleSubmit}>
                   <Box
                     sx={{
