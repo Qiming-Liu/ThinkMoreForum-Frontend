@@ -14,7 +14,7 @@ const getInstance = () => {
   }
 
   // comment out next line if you want connect online backend
-  axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
+  // axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
 
   axiosInstance.defaults.headers.common.Authorization =
     store.getState().sign.token || '';
