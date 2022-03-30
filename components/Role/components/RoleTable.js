@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Checkbox,
   Table,

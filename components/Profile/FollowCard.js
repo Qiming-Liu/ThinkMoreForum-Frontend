@@ -34,7 +34,6 @@ const FollowCard = (props) => {
                     <NextLink
                       href={{
                         pathname: `/profile/${fo.followedUsers.username}`,
-                        query: { userId: fo.followedUsers.id },
                       }}
                       passHref
                     >
@@ -52,7 +51,6 @@ const FollowCard = (props) => {
                     <NextLink
                       href={{
                         pathname: `/profile/${fo.users.username}`,
-                        query: { userId: fo.users.id },
                       }}
                       passHref
                     >
@@ -76,35 +74,22 @@ const FollowCard = (props) => {
                       <NextLink
                         href={{
                           pathname: `/profile/${fo.followedUsers.username}`,
-                          query: { userId: fo.followedUsers.id },
                         }}
                         passHref
                       >
-                        {/* <Link color="textPrimary" variant="subtitle2"> */}
                         {fo.followedUsers.username}
-                        {/* </Link> */}
                       </NextLink>
                     )}
                     {title === 'Follower' && (
                       <NextLink
                         href={{
                           pathname: `/profile/${fo.users.username}`,
-                          query: { userId: fo.users.id },
                         }}
                         passHref
                       >
-                        {/* <Link color="textPrimary" variant="subtitle2"> */}
                         {fo.users.username}
-                        {/* </Link> */}
                       </NextLink>
                     )}
-                    {/* <Typography
-                      color="textSecondary"
-                      gutterBottom
-                      variant="body2"
-                    >
-                      {connection.commonConnections} connections in common
-                    </Typography> */}
                   </Box>
                   <IconButton>
                     <DotsHorizontal fontSize="small" />

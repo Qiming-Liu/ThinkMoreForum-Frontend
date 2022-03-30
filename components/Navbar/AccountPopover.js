@@ -28,10 +28,6 @@ const AccountPopover = (props) => {
     onClose();
   };
 
-  if (!myDetail) {
-    return null;
-  }
-
   return (
     <Popover
       anchorEl={anchorEl}
@@ -49,7 +45,6 @@ const AccountPopover = (props) => {
       <NextLink
         href={{
           pathname: `/profile/${myDetail.username}`,
-          query: { userId: myDetail.id },
         }}
         passHref
       >
@@ -97,7 +92,7 @@ const AccountPopover = (props) => {
             </MenuItem>
           </NextLink>
         )}
-        <NextLink href="/personal-setting" passHref>
+        <NextLink href="/setting" passHref>
           <MenuItem component="a">
             <ListItemIcon>
               <CogIcon fontSize="small" />

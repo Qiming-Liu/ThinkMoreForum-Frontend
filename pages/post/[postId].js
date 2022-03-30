@@ -21,6 +21,7 @@ import CommentForm from '../../components/Post/CommentForm';
 import CommonContainer from '../../components/Layout/common-container';
 import { PinPostContextProvider } from '../../components/Post/PinPostContext';
 import hotToast from '../../utils/hotToast';
+import { useWSContext } from '../../contexts/WSContext';
 
 export const getStaticPaths = async () => {
   const { data: posts } = await getAllPosts();
@@ -48,13 +49,14 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
   const { isLogin } = useSelector((state) => state.sign);
+  const { handleRemind } = useWSContext();
+
   const rootComments = comments.filter(
     (comment) => comment.parentComment === null,
   );
   const childComments = comments.filter(
     (comment) => comment.parentComment !== null,
   );
-
   const handleFavPost = async () => {
     if (postFaved) {
       await submitUnfavoritePost(postId);
@@ -63,6 +65,7 @@ const Post = ({ post }) => {
     }
     setPostFaved(!postFaved);
   };
+
   const sendComment = async (context) => {
     try {
       const requestBody = {
@@ -75,6 +78,7 @@ const Post = ({ post }) => {
         visibility: true,
       };
       await postComment(requestBody);
+      handleRemind(post.postUsers.id);
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
@@ -93,6 +97,7 @@ const Post = ({ post }) => {
         visibility: true,
       };
       await postComment(requestBody);
+      handleRemind(post.postUsers.id);
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
@@ -107,9 +112,6 @@ const Post = ({ post }) => {
   useEffect(() => {
     if (typeof postId !== 'undefined') {
       const getPostContent = async () => {
-        const { data: responseComments } = await getCommentsByPostId(postId);
-
-        setComments(responseComments);
         if (isLogin) {
           const { data: responseIsFavoringPost } = await checkIsFavoringPost(
             postId,
@@ -120,6 +122,14 @@ const Post = ({ post }) => {
       getPostContent();
     }
   }, [postId, postFaved, isLogin]);
+  useEffect(() => {
+    const getComments = async () => {
+      const { data: responseComments } = await getCommentsByPostId(postId);
+      setComments(responseComments);
+    };
+    getComments();
+  }, [postId]);
+
   if (!post) return null;
   return (
     <CommonContainer>

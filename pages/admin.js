@@ -2,29 +2,41 @@ import * as React from 'react';
 import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Router from 'next/router';
 import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
 import CommonContainer from '../components/Layout/common-container';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
 import Loading from '../components/Loading/Loading';
-import CustomFooterInput from '../components/Footer/CustomFooterInput';
+import SetFooter from '../components/Footer/SetFooter';
 import Role from '../components/Role';
+import checkPermission from '../utils/checkPermission';
+import hotToast from '../utils/hotToast';
 
 const tabs = [
   { label: 'Users', value: 'users' },
   { label: 'Categories', value: 'categories' },
   { label: 'Roles', value: 'roles' },
-  { label: 'Custom Footer', value: 'footer' },
+  { label: 'Footer', value: 'footer' },
 ];
 
 const Admin = () => {
   const [currentTab, setCurrentTab] = React.useState('users');
   const [users, setUsers] = useState();
+  const { myDetail } = useSelector((state) => state.sign);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };
+
+  const checkAuth = React.useCallback(() => {
+    if (!myDetail || !checkPermission('adminManagement', myDetail.role)) {
+      hotToast('error', "You don't have admin management permission.");
+      Router.push('/404');
+    }
+  }, [myDetail]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,44 +55,50 @@ const Admin = () => {
       });
       setUsers(allUsers);
     };
-    fetchUsers();
-  }, []);
+    checkAuth();
+    if (myDetail) {
+      fetchUsers();
+    }
+  }, [checkAuth, myDetail]);
+
+  if (!myDetail) {
+    return <Loading />;
+  }
 
   return (
-    <>
+    <CommonContainer>
       <Head>
         <title>Admin | ThinkMoreForum</title>
       </Head>
-      <CommonContainer>
-        <Box>
-          <Typography variant="h4">Admin</Typography>
-          <Tabs
-            indicatorColor="primary"
-            onChange={handleTabsChange}
-            scrollButtons="auto"
-            textColor="primary"
-            value={currentTab}
-            variant="scrollable"
-            sx={{ mt: 3 }}
-          >
-            {tabs.map((tab) => (
-              <Tab
-                key={tab.value}
-                label={tab.label}
-                value={tab.value}
-                sx={{ fontSize: 15 }}
-              />
-            ))}
-          </Tabs>
-          <Divider sx={{ mb: 3 }} />
-          {currentTab === 'users' && users && <AdminUser allUsers={users} />}
-          {currentTab === 'users' && !users && <Loading />}
-          {currentTab === 'categories' && <Categories />}
-          {currentTab === 'roles' && <Role />}
-          {currentTab === 'footer' && <CustomFooterInput />}
-        </Box>
-      </CommonContainer>
-    </>
+
+      <Box>
+        <Typography variant="h4">Admin</Typography>
+        <Tabs
+          indicatorColor="primary"
+          onChange={handleTabsChange}
+          scrollButtons="auto"
+          textColor="primary"
+          value={currentTab}
+          variant="scrollable"
+          sx={{ mt: 3 }}
+        >
+          {tabs.map((tab) => (
+            <Tab
+              key={tab.value}
+              label={tab.label}
+              value={tab.value}
+              sx={{ fontSize: 15 }}
+            />
+          ))}
+        </Tabs>
+        <Divider sx={{ mb: 3 }} />
+        {currentTab === 'users' && users && <AdminUser allUsers={users} />}
+        {currentTab === 'users' && !users && <Loading />}
+        {currentTab === 'categories' && <Categories />}
+        {currentTab === 'roles' && <Role />}
+        {currentTab === 'footer' && <SetFooter />}
+      </Box>
+    </CommonContainer>
   );
 };
 

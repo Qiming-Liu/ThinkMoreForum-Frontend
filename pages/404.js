@@ -1,69 +1,45 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
-import {
-  Box,
-  Button,
-  Container,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import NextLink from 'next/link';
+import { Box, Button, Container, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const NotFound = () => {
-  const theme = useTheme();
-  const router = useRouter();
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
   return (
     <>
       <Head>
-        <title>Error: Not Found | ThinkMoreForum</title>
+        <title>404 | ThinkMoreForum</title>
       </Head>
       <Box
         component="main"
         sx={{
           alignItems: 'center',
-          backgroundColor: 'background.paper',
           display: 'flex',
           flexGrow: 1,
-          py: '80px',
+          minHeight: '100%',
         }}
       >
-        <Container maxWidth="lg">
-          <Typography align="center" variant={mobileDevice ? 'h4' : 'h1'}>
-            404 : Not Found Error
-          </Typography>
+        <Container maxWidth="md">
           <Box
             sx={{
+              alignItems: 'center',
               display: 'flex',
-              justifyContent: 'center',
-              mt: 6,
+              flexDirection: 'column',
             }}
           >
-            <Box
-              alt=""
-              component="img"
-              src="/error404.svg"
-              sx={{
-                height: 400,
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              mt: 6,
-            }}
-          >
-            <Button
-              component="a"
-              variant="outlined"
-              onClick={() => router.back()}
-            >
-              Go Back
-            </Button>
+            <Typography align="center" color="textPrimary" variant="h1">
+              404: Not Found
+            </Typography>
+            <NextLink href="/" passHref>
+              <Button
+                component="a"
+                startIcon={<ArrowBackIcon fontSize="small" />}
+                sx={{ mt: 3 }}
+                variant="contained"
+              >
+                Go back to home
+              </Button>
+            </NextLink>
           </Box>
         </Container>
       </Box>

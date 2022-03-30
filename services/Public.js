@@ -32,8 +32,8 @@ export const uniqueUsername = (username) =>
 export const sendResetPasswordEmail = (email) =>
   http(`/v1/public/users/reset_password/${email}`, { method: 'GET' });
 
-export const getUserById = (usersId) =>
-  http(`/v1/public/users/id/${usersId}`, { method: 'GET' });
+export const getUserByUsername = (username) =>
+  http(`/v1/public/users/username/${username}`, { method: 'GET' });
 
 // Category
 export const getAllCategories = () =>
@@ -81,7 +81,6 @@ export const getFollowPostByUsername = (username) =>
 // Comment
 export const getCommentsByPostId = (postId) =>
   http(`/v1/public/comment/${postId}`, { method: 'GET' });
-
 
 // component
 export const getComponentByName = (name) =>

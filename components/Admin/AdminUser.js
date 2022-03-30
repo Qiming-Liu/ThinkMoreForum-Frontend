@@ -10,7 +10,7 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
 } from '@mui/x-data-grid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { changeUsersRoles } from '../../services/Users';
 import useUsersToSubmit from './useUsersToSubmit';
 
@@ -67,19 +67,16 @@ export const AdminUser = ({ allUsers }) => {
       headerName: 'Avatar',
       width: 100,
       renderCell: (params) => {
-        const userProfileUrl = `/profile/${params.row.name}`;
         return (
           <NextLink
             href={{
-              pathname: userProfileUrl,
-              query: { userId: params.row.id },
+              pathname: `/profile/${params.row.name}`,
             }}
             passHref
           >
             <Link
               href={{
-                pathname: userProfileUrl,
-                query: { userId: params.row.id },
+                pathname: `/profile/${params.row.name}`,
               }}
             >
               <Avatar src={params.row.avatarUrl} sx={{ mr: 2 }} />
@@ -93,19 +90,16 @@ export const AdminUser = ({ allUsers }) => {
       headerName: 'Name',
       width: 200,
       renderCell: (params) => {
-        const userProfileUrl = `/profile/${params.row.name}`;
         return (
           <NextLink
             href={{
-              pathname: userProfileUrl,
-              query: { userId: params.row.id },
+              pathname: `/profile/${params.row.name}`,
             }}
             passHref
           >
             <Link
               href={{
-                pathname: userProfileUrl,
-                query: { userId: params.row.id },
+                pathname: `/profile/${params.row.name}`,
               }}
             >
               <Typography color="textPrimary" sx={{ fontSize: '0.875rem' }}>
@@ -166,6 +160,8 @@ export const AdminUser = ({ allUsers }) => {
         }}
         autoHeight
         density="comfortable"
+        disableDensitySelector
+        disableColumnSelector
       />
     </div>
   );

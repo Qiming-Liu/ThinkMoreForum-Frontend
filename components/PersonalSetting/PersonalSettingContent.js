@@ -24,6 +24,7 @@ import {
 import {
   setHeadImgAction,
   setUsernameAction,
+  setEmailAction,
 } from '../../store/actions/signAction';
 import UserCircleIcon from '../../icons/user-circle';
 import fileToBase64 from '../../utils/fileToBase64';
@@ -35,6 +36,9 @@ const Form = (props) => {
   const [headImg, setHeadImg] = useState('');
   const [name, setName] = useState('');
   const [userEmail, setUserEmail] = useState('');
+
+  const [usernameLock, setUsernameLock] = useState(true);
+  const [emailLock, setEmailLock] = useState(true);
 
   useEffect(() => {
     if (myDetail) {
@@ -51,14 +55,14 @@ const Form = (props) => {
     },
     validationSchema: Yup.object({
       username: Yup.string().sequence([
-        () => Yup.string().required('Required'),
-        () => Yup.string().max(20),
+        () => Yup.string().max(20).required('Required'),
         () => Yup.string().unique('Username is already taken', uniqueUsername),
       ]),
     }),
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       changeUsername(values.username)
         .then(() => {
+          setUsernameLock(true);
           hotToast('success', 'Username is changed');
           dispatch(setUsernameAction(values.username));
         })
@@ -76,15 +80,24 @@ const Form = (props) => {
     },
     validationSchema: Yup.object({
       email: Yup.string().sequence([
-        () => Yup.string().required('Required'),
-        () => Yup.string().email('Must be a valid email').max(255),
+        () =>
+          Yup.string()
+            .email('Must be a valid email')
+            .max(255)
+            .required('Required'),
         () => Yup.string().unique('Email is already in use', uniqueEmail),
       ]),
     }),
-    onSubmit: async (values) => {
-      await sendVerificationEmail(values.email)
+    onSubmit: (values) => {
+      if (values.email === formikEmail.initialValues.email) {
+        setEmailLock(true);
+        return;
+      }
+      sendVerificationEmail(values.email)
         .then(() => {
+          setEmailLock(true);
           hotToast('success', 'Verification email is sent');
+          dispatch(setEmailAction(values.email));
         })
         .catch(() => {
           hotToast('error', 'Email is already in use');
@@ -186,13 +199,35 @@ const Form = (props) => {
                         flexGrow: 1,
                         mr: 3,
                       }}
+                      disabled={usernameLock}
                     />
-                    <Button
-                      disabled={formikUsername.isSubmitting}
-                      type="submit"
-                    >
-                      Save
-                    </Button>
+                    {usernameLock ? (
+                      <Button
+                        disabled={formikUsername.isSubmitting}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUsernameLock(false);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={formikUsername.isSubmitting}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (
+                            formikUsername.values.username === myDetail.username
+                          ) {
+                            setUsernameLock(true);
+                          } else {
+                            formikUsername.submitForm();
+                          }
+                        }}
+                      >
+                        Save
+                      </Button>
+                    )}
                   </Box>
                 </form>
                 <form onSubmit={formikEmail.handleSubmit}>
@@ -222,10 +257,33 @@ const Form = (props) => {
                         flexGrow: 1,
                         mr: 3,
                       }}
+                      disabled={emailLock}
                     />
-                    <Button disabled={formikEmail.isSubmitting} type="submit">
-                      Send
-                    </Button>
+                    {emailLock ? (
+                      <Button
+                        disabled={formikEmail.isSubmitting}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setEmailLock(false);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={formikEmail.isSubmitting}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (formikEmail.values.email === myDetail.email) {
+                            setEmailLock(true);
+                          } else {
+                            formikEmail.submitForm();
+                          }
+                        }}
+                      >
+                        Save
+                      </Button>
+                    )}
                   </Box>
                 </form>
               </Grid>
@@ -233,7 +291,6 @@ const Form = (props) => {
           </CardContent>
         </Card>
       </Grid>
-
       <Grid item>
         <PersonalSettingPassword />
       </Grid>

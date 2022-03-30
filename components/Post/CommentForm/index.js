@@ -1,22 +1,49 @@
 import React, { useState } from 'react';
-import { Button, Box, TextField } from '@mui/material';
+import { Button, Box, TextField, Grid } from '@mui/material';
+import { useSelector } from 'react-redux';
+import checkPermission from '../../../utils/checkPermission';
+import hotToast from '../../../utils/hotToast';
+import Sign from '../../Sign';
+import { useWSContext } from '../../../contexts/WSContext';
 
 const CommentForm = ({
   initialText = '',
   handleSubmit,
   login,
   mentionUser,
+  mentionUserId,
 }) => {
   const [context, setContext] = useState(initialText);
+  const { handleRemind } = useWSContext();
+  const { myDetail } = useSelector((state) => state.sign);
   const onSubmit = () => {
-    if (mentionUser) {
-      handleSubmit(`@${mentionUser} ${context}`);
+    if (checkPermission('postComment', myDetail.role)) {
+      if (mentionUser) {
+        handleSubmit(`@${mentionUser} ${context}`);
+        handleRemind(mentionUserId);
+      } else {
+        handleSubmit(context);
+      }
     } else {
-      handleSubmit(context);
+      hotToast('error', "You don't have permission to comment");
     }
   };
   if (!login) {
-    return null;
+    return (
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Box mt={4}>
+          <h2>Login is required to view comments</h2>
+        </Box>
+        <Box mt={2}>
+          <Sign />
+        </Box>
+      </Grid>
+    );
   }
   return (
     <form onSubmit={onSubmit}>

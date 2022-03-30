@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import EditIcon from '@mui/icons-material/Edit';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { Search } from '@material-ui/icons';
-import {
-  Avatar,
-  TableBody,
-  TableRow,
-  TableCell,
-  Toolbar,
-  InputAdornment,
-} from '@mui/material';
+import { Avatar, TableBody, TableRow, TableCell, Toolbar } from '@mui/material';
 import styled from 'styled-components';
 import CategoryForm from './CategoryForm';
 import useTable from '../useTable';
@@ -22,10 +14,6 @@ import Controls from '../controls/Controls';
 import Popup from '../Popup';
 import Notification from '../Notification';
 import ConfirmDialog from '../ConfirmDialog';
-
-const SearchInput = styled(Controls.Input)`
-  width: 75%;
-`;
 
 const NewButton = styled(Controls.Button)`
   position: relative;
@@ -59,6 +47,7 @@ const Category = () => {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [records, setRecords] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -87,18 +76,6 @@ const Category = () => {
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(records, headCells, filterFn);
-
-  const handleSearch = (e) => {
-    const { target } = e;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value === '') return items;
-        return items.filter((x) =>
-          x.title.toLowerCase().includes(target.value),
-        );
-      },
-    });
-  };
 
   const edit = async (category) => {
     const updateCategories = (updatedCategory, oldRecords) => {
@@ -176,17 +153,6 @@ const Category = () => {
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Toolbar>
-          <SearchInput
-            label="Search Category"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          />
           <NewButton
             text="Add Category"
             variant="outlined"
@@ -242,7 +208,7 @@ const Category = () => {
                                 openInPopup(item);
                               }}
                             >
-                              <EditOutlinedIcon fontSize="small" />
+                              <EditIcon fontSize="small" />
                             </Controls.ActionButton>
                             <Controls.ActionButton
                               color="secondary"
