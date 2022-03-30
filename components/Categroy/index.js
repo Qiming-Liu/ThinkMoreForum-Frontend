@@ -24,7 +24,6 @@ const useStyles = makeStyles(
       '&:hover': {
         transform: 'translateX(-2%) translateY(-1%)',
       },
-      'box-shadow': '4px 4px 8px grey',
     },
   },
   { name: 'MuiCustomPaper_toAvoidClassNameNotMatch' },
@@ -73,7 +72,7 @@ const Category = (props) => {
     <Grid item xs={12}>
       <NextLink href={`/category/${title}`} passHref>
         <Link href={`/category/${title}`} underline="none">
-          <Paper elevation={24} className={classes.CustomPaper}>
+          <Paper className={classes.CustomPaper}>
             <Card
               sx={{
                 alignItems: 'center',
@@ -163,39 +162,41 @@ const Category = (props) => {
                   <Box
                     style={{
                       position: 'relative',
+                    }}
+                    sx={{
+                      bgcolor: 'primary.main',
                       mt: 4,
+                      pl: 0.8,
+                      pr: 2,
+                      py: 0.65,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      borderRadius: '24px',
                     }}
                   >
-                    <Typography
-                      color="#0d47a1"
+                    <Box
                       sx={{
-                        backgroundColor: '#18ffff',
+                        bgcolor: '#18FFFF',
+                        mr: 1,
+                        width: '2rem',
+                        height: '2rem',
                         borderRadius: '50%',
-                        p: 1,
-                        px: 2,
-                        mx: 1,
-                        position: 'absolute',
-                        top: 5,
-                        left: '50%',
-                        zIndex: 'tooltip',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}
-                      variant="subtitle2"
                     >
-                      <b>{participantCount}</b>
-                    </Typography>
-                    <Typography
-                      color="white"
-                      sx={{
-                        border: 1,
-                        backgroundColor: color,
-                        borderRadius: 3,
-                        p: 1.5,
-                        pl: 7,
-                        pr: 3,
-                        position: 'absolute',
-                      }}
-                      variant="subtitle2"
-                    >
+                      <Typography
+                        color="#0d47a1"
+                        variant="subtitle2"
+                        style={{ transform: 'translateX(-6%)' }}
+                      >
+                        {participantCount}
+                      </Typography>
+                    </Box>
+                    <Typography color="white" variant="subtitle2">
                       participants
                     </Typography>
                   </Box>

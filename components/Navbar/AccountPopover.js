@@ -17,13 +17,16 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import UserCircleIcon from '../../icons/user-circle';
 import CogIcon from '../../icons/cog';
 import { logoutAction } from '../../store/actions/signAction';
+import { useWSContext } from '../../contexts/WSContext';
 
 const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
   const dispatch = useDispatch();
   const { myDetail } = useSelector((state) => state.sign);
+  const { disconnect } = useWSContext();
 
   const handleLogout = () => {
+    disconnect();
     dispatch(logoutAction());
     onClose();
   };
