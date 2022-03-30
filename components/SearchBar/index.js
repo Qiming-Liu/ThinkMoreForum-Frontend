@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import NextLink from 'next/link';
 import Autocomplete from '@mui/material/Autocomplete';
+import DescriptionIcon from '@mui/icons-material/Description';
 import { useSelector } from 'react-redux';
 import { Link } from '@mui/material';
+import Image from 'next/image';
 import * as searchService from '../../services/Post';
 import * as searchUserService from '../../services/Users';
 import { updatePostViewCount } from '../../services/Public';
@@ -15,6 +17,7 @@ const SearchBar = () => {
 
   const handleChange = (event) => {
     if (!event || event.type === 'click') {
+      setSearchResults([]);
       setSearchInput('');
     } else if (event.target) {
       const searchData = event.target.value;
@@ -78,7 +81,24 @@ const SearchBar = () => {
                   href={{
                     pathname: `/profile/${option.username}`,
                   }}
-                >{`${option.username}`}</Link>
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    textDecoration: 'none',
+                    fontSize: 14,
+                  }}
+                >
+                  <Image
+                    src={option.headImgUrl}
+                    alt="Profile"
+                    width="25px"
+                    height="25px"
+                    style={{
+                      borderRadius: '50%',
+                    }}
+                  />
+                  {`${option.username}`}
+                </Link>
               </NextLink>
             </li>
           );
@@ -94,7 +114,13 @@ const SearchBar = () => {
                 <Link
                   href={`/post/${option.id}`}
                   onClick={() => handleClick(option.id)}
-                >{`${option.title}`}</Link>
+                  style={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  <DescriptionIcon />
+                  {`${option.title}`}
+                </Link>
               </NextLink>
             </li>
           );
