@@ -79,6 +79,11 @@ const Post = ({ post }) => {
       };
       await postComment(requestBody);
       handleRemind(post.postUsers.id);
+      const getComments = async () => {
+        const { data: responseComments } = await getCommentsByPostId(postId);
+        setComments(responseComments);
+      };
+      getComments();
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
@@ -98,6 +103,11 @@ const Post = ({ post }) => {
       };
       await postComment(requestBody);
       handleRemind(post.postUsers.id);
+      const getComments = async () => {
+        const { data: responseComments } = await getCommentsByPostId(postId);
+        setComments(responseComments);
+      };
+      getComments();
     } catch (err) {
       hotToast('error', err.response.data.error);
     }
@@ -111,6 +121,11 @@ const Post = ({ post }) => {
       );
   useEffect(() => {
     if (typeof postId !== 'undefined') {
+      const getComments = async () => {
+        const { data: responseComments } = await getCommentsByPostId(postId);
+        setComments(responseComments);
+      };
+      getComments();
       const getPostContent = async () => {
         if (isLogin) {
           const { data: responseIsFavoringPost } = await checkIsFavoringPost(
@@ -122,13 +137,6 @@ const Post = ({ post }) => {
       getPostContent();
     }
   }, [postId, postFaved, isLogin]);
-  useEffect(() => {
-    const getComments = async () => {
-      const { data: responseComments } = await getCommentsByPostId(postId);
-      setComments(responseComments);
-    };
-    getComments();
-  }, [postId]);
 
   if (!post) return null;
   return (
