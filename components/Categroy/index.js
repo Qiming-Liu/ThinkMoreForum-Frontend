@@ -10,7 +10,7 @@ import {
   Link,
   Paper,
 } from '@mui/material';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { getPostById } from '../../services/Public';
