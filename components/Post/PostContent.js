@@ -74,14 +74,12 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
                 <NextLink
                   href={{
                     pathname: userProfileUrl,
-                    query: { userId: post.postUsers.id },
                   }}
                   passHref
                 >
                   <Link
                     href={{
                       pathname: userProfileUrl,
-                      query: { userId: post.postUsers.id },
                     }}
                   >
                     <Avatar src={post.postUsers.headImgUrl} />
@@ -91,14 +89,12 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
                   <NextLink
                     href={{
                       pathname: userProfileUrl,
-                      query: { userId: post.postUsers.id },
                     }}
                     passHref
                   >
                     <Link
                       href={{
                         pathname: userProfileUrl,
-                        query: { userId: post.postUsers.id },
                       }}
                     >
                       <Typography variant="subtitle2">

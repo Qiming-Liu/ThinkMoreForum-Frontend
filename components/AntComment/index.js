@@ -32,7 +32,6 @@ const AntComment = ({
         <NextLink
           href={{
             pathname: `/profile/${commentUsers.username}`,
-            query: { userId: commentUsers.id },
           }}
           passHref
         >
@@ -43,7 +42,6 @@ const AntComment = ({
         <NextLink
           href={{
             pathname: `/profile/${commentUsers.username}`,
-            query: { userId: commentUsers.id },
           }}
           passHref
         >

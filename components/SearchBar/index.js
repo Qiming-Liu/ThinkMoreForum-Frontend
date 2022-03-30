@@ -71,14 +71,12 @@ const SearchBar = () => {
               <NextLink
                 href={{
                   pathname: `/profile/${option.username}`,
-                  query: { userId: option.id },
                 }}
                 passHref
               >
                 <Link
                   href={{
                     pathname: `/profile/${option.username}`,
-                    query: { userId: option.id },
                   }}
                 >{`${option.username}`}</Link>
               </NextLink>

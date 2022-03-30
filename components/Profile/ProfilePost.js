@@ -48,6 +48,11 @@ const ProfilePost = (props) => {
         </Typography>
       )}
       <Divider sx={{ my: 3 }} />
+      {posts.length === 0 && (
+        <Typography color="textSecondary" variant="subtitle1">
+          No posts to view.
+        </Typography>
+      )}
       {title === 'Posts' &&
         posts.map((post) => (
           <PostCard

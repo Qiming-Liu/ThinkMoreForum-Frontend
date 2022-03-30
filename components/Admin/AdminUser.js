@@ -67,19 +67,16 @@ export const AdminUser = ({ allUsers }) => {
       headerName: 'Avatar',
       width: 100,
       renderCell: (params) => {
-        const userProfileUrl = `/profile/${params.row.name}`;
         return (
           <NextLink
             href={{
-              pathname: userProfileUrl,
-              query: { userId: params.row.id },
+              pathname: `/profile/${params.row.name}`,
             }}
             passHref
           >
             <Link
               href={{
-                pathname: userProfileUrl,
-                query: { userId: params.row.id },
+                pathname: `/profile/${params.row.name}`,
               }}
             >
               <Avatar src={params.row.avatarUrl} sx={{ mr: 2 }} />
@@ -93,19 +90,16 @@ export const AdminUser = ({ allUsers }) => {
       headerName: 'Name',
       width: 200,
       renderCell: (params) => {
-        const userProfileUrl = `/profile/${params.row.name}`;
         return (
           <NextLink
             href={{
-              pathname: userProfileUrl,
-              query: { userId: params.row.id },
+              pathname: `/profile/${params.row.name}`,
             }}
             passHref
           >
             <Link
               href={{
-                pathname: userProfileUrl,
-                query: { userId: params.row.id },
+                pathname: `/profile/${params.row.name}`,
               }}
             >
               <Typography color="textPrimary" sx={{ fontSize: '0.875rem' }}>

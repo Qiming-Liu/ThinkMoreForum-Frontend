@@ -107,14 +107,12 @@ const PostCard = (props) => {
             <NextLink
               href={{
                 pathname: userProfileUrl,
-                query: { userId: authorId },
               }}
               passHref
             >
               <Link
                 href={{
                   pathname: userProfileUrl,
-                  query: { userId: authorId },
                 }}
               >
                 <Avatar src={authorAvatar} sx={{ mr: 2 }}>
@@ -125,14 +123,12 @@ const PostCard = (props) => {
             <NextLink
               href={{
                 pathname: userProfileUrl,
-                query: { userId: authorId },
               }}
               passHref
             >
               <Link
                 href={{
                   pathname: userProfileUrl,
-                  query: { userId: authorId },
                 }}
               >
                 <Typography variant="subtitle2">

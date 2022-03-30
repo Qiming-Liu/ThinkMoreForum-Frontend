@@ -2,8 +2,6 @@ import http from '../utils/axios';
 
 export const getAllUsers = () => http(`/v1/users/all`, { method: 'GET' });
 
-export const getMe = () => http(`/v1/users/me`, { method: 'GET' });
-
 export const hasOpenid = () => http(`/v1/users/open_id`, { method: 'GET' });
 
 export const passwordReset = (password) =>

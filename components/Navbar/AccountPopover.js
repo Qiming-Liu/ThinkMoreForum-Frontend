@@ -45,7 +45,6 @@ const AccountPopover = (props) => {
       <NextLink
         href={{
           pathname: `/profile/${myDetail.username}`,
-          query: { userId: myDetail.id },
         }}
         passHref
       >

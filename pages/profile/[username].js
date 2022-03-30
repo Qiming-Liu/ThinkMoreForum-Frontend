@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -17,7 +17,6 @@ import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
 import { blueGrey } from '@mui/material/colors';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import CommonContainer from '../../components/Layout/common-container';
 import ProfilePost from '../../components/Profile/ProfilePost';
 import ProfileFollow from '../../components/Profile/ProfileFollow';
@@ -26,14 +25,13 @@ import {
   unfollowUser,
   getFollowedStatus,
 } from '../../services/Follow';
-import { getUserById, getFollowing, getFollower } from '../../services/Public';
-import hotToast from '../../utils/hotToast';
 import {
-  getMe as getCurrentUser,
-  changeProfileImg,
-} from '../../services/Users';
-import ChangePicButton from '../../components/PersonalSetting/ChangePicButton';
-import fileToBase64 from '../../utils/fileToBase64';
+  getUserByUsername,
+  getFollowing,
+  getFollower,
+} from '../../services/Public';
+import hotToast from '../../utils/hotToast';
+import { changeProfileImg } from '../../services/Users';
 import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
 import SignDialog from '../../components/Sign/SignDialog';
@@ -42,23 +40,21 @@ import { useWSContext } from '../../contexts/WSContext';
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const { isLogin, myDetail } = useSelector((state) => state.sign);
   const router = useRouter();
-  const { username, userId } = router.query;
+  const { username } = router.query;
+  const [user, setUser] = useState(undefined);
+  const [followedStatus, setFollowedStatus] = useState(false);
   const [currentTab, setCurrentTab] = useState('posts');
-  const [followedStatus, setFollowedStatus] = useState('not_followed');
-  const [currentName, setCurrentName] = useState('');
-  const [role, setRole] = useState('');
-  const [currentRole, setCurrentRole] = useState('');
-  const [img, setImg] = useState('');
-  const [currentImg, setCurrentImg] = useState('');
   const [currentProfileImg, setCurrentProfileImg] = useState('');
   const [countFollowing, setCountFollowing] = useState('');
   const [countFollower, setCountFollower] = useState('');
-  const { isLogin } = useSelector((state) => state.sign);
+
   const [isOpen, setIsOpen] = useState(false);
   const [cropImage, setCropImage] = useState(undefined);
   const [isLoading, setLoading] = useState(false);
   const { handleRemind } = useWSContext();
+
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -83,10 +79,7 @@ const Profile = () => {
           );
         })
         .catch(() => {
-          hotToast(
-            'error',
-            `Sorry, the profile image could not be updated, please contact support@thinkmoreapp.com.`,
-          );
+          hotToast('error', `Sorry, the profile image could not be updated.`);
         });
       setLoading(false);
       setCropImage(undefined);
@@ -96,52 +89,29 @@ const Profile = () => {
   useEffect(() => {
     if (router.isReady) {
       const getUser = async () => {
-        const { data } = await getCurrentUser();
-        const { data: responsefollowing } = await getFollowing(data.username);
-        const { data: responsefollower } = await getFollower(data.username);
-        setCurrentName(data.username);
-        setCurrentRole(data.role.roleName);
-        setCurrentImg(data.headImgUrl);
-        setCurrentProfileImg(data.profileImgUrl);
-        if (!username) {
-          setFollowedStatus('current_user');
-        } else if (username[0] === currentName) {
-          setFollowedStatus('current_user');
-        }
+        const { data } = await getUserByUsername(username);
+        setUser(data);
+      };
+      const getFollow = async () => {
+        const { data: responsefollowing } = await getFollowing(username);
+        const { data: responsefollower } = await getFollower(username);
         setCountFollowing(responsefollowing.length);
         setCountFollower(responsefollower.length);
       };
-      const getOtherUser = async () => {
-        const { data } = await getUserById(userId);
-        const { data: responsefollowing } = await getFollowing(data.username);
-        const { data: responsefollower } = await getFollower(data.username);
-        setRole(data.role.roleName);
-        setImg(data.headImgUrl);
-        setCurrentProfileImg(data.profileImgUrl);
-        setCountFollowing(responsefollowing.length);
-        setCountFollower(responsefollower.length);
+      const checkFollowedStatus = async () => {
+        const { data } = await getFollowedStatus(username);
+        setFollowedStatus(data);
       };
-      const checkStatus = async (name) => {
-        const { data } = await getFollowedStatus(name);
-        if (data === true) {
-          setFollowedStatus('followed');
-        }
-      };
-      if (!isLogin) {
-        setFollowedStatus('not login');
-      }
-      if (userId) {
-        getOtherUser();
-      }
+      getUser();
       if (isLogin) {
-        getUser();
-        if (username && username[0] !== currentName) {
-          checkStatus(username);
-          getOtherUser();
+        getFollow();
+        if (myDetail.username !== username) {
+          checkFollowedStatus();
         }
       }
     }
-  }, [currentName, isLogin, router.isReady, userId, username]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLogin, router.isReady, username]);
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
@@ -149,43 +119,78 @@ const Profile = () => {
 
   const handleFollowAction = async (name) => {
     try {
-      if (followedStatus === 'not_followed') {
+      if (!followedStatus) {
         await followUser(name);
         hotToast('success', `Follow ${name} successfully!`);
+        setCountFollower(countFollower + 1);
       }
-      if (followedStatus === 'followed') {
-        hotToast('success', ` Unfollowed ${name}`);
+      if (followedStatus) {
         await unfollowUser(name);
+        hotToast('success', ` Unfollowed ${name}`);
+        setCountFollower(countFollower - 1);
       }
-      setFollowedStatus((prevFollowedStatus) =>
-        prevFollowedStatus === 'not_followed' ? 'followed' : 'not_followed',
-      );
-      handleRemind(userId);
+      setFollowedStatus(!followedStatus);
+      handleRemind(user.id);
     } catch (err) {
       hotToast('error', 'Something went wrong!');
     }
   };
 
-  // Here the [file] related to the problem of getting native object.
-  const handleImgChange = async ([file]) => {
-    const data = await fileToBase64(file);
-    setCurrentProfileImg(data);
-    setCropImage(file);
-    setIsOpen(true);
-  };
+  // const handleImgChange = async ([file]) => {
+  //   const data = await fileToBase64(file);
+  //   setCurrentProfileImg(data);
+  //   setCropImage(file);
+  //   setIsOpen(true);
+  // };
 
   const tabs = [
     { label: 'Posts', value: 'posts' },
     { label: 'Favorite', value: 'favorite' },
     {
-      label: `Following ${countFollowing === 0 ? '' : countFollowing}`,
+      label: `Following ${countFollowing}`,
       value: 'following',
     },
     {
-      label: `Follower ${countFollower === 0 ? '' : countFollower}`,
+      label: `Follower ${countFollower}`,
       value: 'follower',
     },
   ];
+
+  if (!username) return null;
+  if (!user) return null;
+
+  const followButton = () => {
+    if (username === myDetail.username) {
+      return (
+        <Button
+          onClick={() => {
+            router.push('/personal-setting');
+          }}
+          color="primary"
+          size="small"
+          startIcon={<PersonIcon fontSize="small" />}
+          sx={{ ml: 1 }}
+          variant="outlined"
+        >
+          Edit Profile
+        </Button>
+      );
+    }
+    return (
+      <Button
+        onClick={() => {
+          handleFollowAction(username);
+        }}
+        size="small"
+        startIcon={<PersonAddAltRoundedIcon fontSize="small" />}
+        sx={{ ml: 1 }}
+        variant={followedStatus ? 'outlined' : 'contained'}
+      >
+        {followedStatus ? 'Following' : 'Follow'}
+      </Button>
+    );
+  };
+
   return (
     <CommonContainer>
       <Box
@@ -196,7 +201,7 @@ const Profile = () => {
       >
         <Box
           style={{
-            backgroundImage: `url(${currentProfileImg})`,
+            backgroundImage: `url(${user.profileImgUrl})`,
           }}
           sx={{
             backgroundPosition: 'center',
@@ -212,9 +217,40 @@ const Profile = () => {
             },
           }}
         >
-          {followedStatus === 'current_user' && (
+          {myDetail && username === myDetail.username && (
             <form onSubmit={formik.handleSubmit}>
               {(!cropImage || cropImage === currentProfileImg) && (
+                // <Button
+                //   startIcon={<AddPhotoIcon fontSize="small" />}
+                //   sx={{
+                //     backgroundColor: blueGrey[900],
+                //     bottom: {
+                //       lg: 24,
+                //       xs: 'auto',
+                //     },
+                //     color: 'common.white',
+                //     position: 'absolute',
+                //     right: 24,
+                //     top: {
+                //       lg: 'auto',
+                //       xs: 24,
+                //     },
+                //     visibility: 'hidden',
+                //     '&:hover': {
+                //       backgroundColor: blueGrey[900],
+                //     },
+                //   }}
+                //   variant="contained"
+                // >
+                //   <ChangePicButton
+                //     accept="image/jpg,image/png, image/jpeg"
+                //     maxFiles={1}
+                //     onDrop={handleImgChange}
+                //     maxSize={5242880}
+                //     minsize={0}
+                //     color="inherit"
+                //   />
+                // </Button>
                 <Button
                   startIcon={<AddPhotoIcon fontSize="small" />}
                   sx={{
@@ -237,14 +273,7 @@ const Profile = () => {
                   }}
                   variant="contained"
                 >
-                  <ChangePicButton
-                    accept="image/jpg,image/png, image/jpeg"
-                    maxFiles={1}
-                    onDrop={handleImgChange}
-                    maxSize={5242880}
-                    minsize={0}
-                    color="inherit"
-                  />
+                  Change Cover
                 </Button>
               )}
               {cropImage && cropImage !== currentProfileImg && (
@@ -291,62 +320,17 @@ const Profile = () => {
                 height: 64,
                 width: 64,
               }}
-              src={username ? img : currentImg}
+              src={user.headImgUrl}
             />
             <Box sx={{ ml: 2 }}>
-              {!username && (
-                <Typography color="textSecondary" variant="overline">
-                  {currentRole}
-                </Typography>
-              )}
               {username && (
                 <Typography color="textSecondary" variant="overline">
-                  {role}
+                  {user.role.roleName}
                 </Typography>
               )}
-              <Typography variant="h6">{username || currentName}</Typography>
+              <Typography variant="h6">{username}</Typography>
             </Box>
-            {followedStatus === 'not_followed' && (
-              <Button
-                onClick={() => {
-                  handleFollowAction(username[0]);
-                }}
-                size="small"
-                startIcon={<PersonAddAltRoundedIcon fontSize="small" />}
-                sx={{ ml: 1 }}
-                variant="contained"
-              >
-                Follow
-              </Button>
-            )}
-            {followedStatus === 'followed' && (
-              <Button
-                onClick={() => {
-                  handleFollowAction(username[0]);
-                }}
-                color="primary"
-                size="small"
-                startIcon={<PersonRoundedIcon fontSize="small" />}
-                sx={{ ml: 1 }}
-                variant="outlined"
-              >
-                Following
-              </Button>
-            )}
-            {followedStatus === 'current_user' && (
-              <Button
-                onClick={() => {
-                  router.push('/personal-setting');
-                }}
-                color="primary"
-                size="small"
-                startIcon={<PersonIcon fontSize="small" />}
-                sx={{ ml: 1 }}
-                variant="outlined"
-              >
-                Edit Profile
-              </Button>
-            )}
+            {isLogin && followButton()}
           </Stack>
         </Box>
         <Box sx={{ mt: 5 }}>
@@ -364,31 +348,17 @@ const Profile = () => {
           </Tabs>
           <Divider />
           <Box sx={{ py: 3 }}>
-            {currentTab === 'posts' && !username && (
-              <ProfilePost
-                title="Posts"
-                value={currentName}
-                isMyself={followedStatus === 'current_user'}
-              />
-            )}
-            {currentTab === 'posts' && username && (
-              <ProfilePost
-                title="Posts"
-                value={username}
-                isMyself={followedStatus === 'current_user'}
-              />
+            {currentTab === 'posts' && (
+              <ProfilePost title="Posts" value={username} />
             )}
             {currentTab === 'favorite' && (
-              <ProfilePost title="Favorite" value={username || currentName} />
+              <ProfilePost title="Favorite" value={username} />
             )}
             {currentTab === 'following' && (
-              <ProfileFollow
-                title="Following"
-                value={username || currentName}
-              />
+              <ProfileFollow title="Following" value={username} />
             )}
             {currentTab === 'follower' && (
-              <ProfileFollow title="Follower" value={username || currentName} />
+              <ProfileFollow title="Follower" value={username} />
             )}
           </Box>
           <SignDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>

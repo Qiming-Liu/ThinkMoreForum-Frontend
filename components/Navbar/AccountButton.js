@@ -30,7 +30,7 @@ const AccountButton = ({ isLogin }) => {
             height: 40,
             width: 40,
           }}
-          src={myDetail.headImgUrl || ''}
+          src={myDetail.headImgUrl}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>

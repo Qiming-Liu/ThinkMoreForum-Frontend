@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm run lint && next dev",
+    "dev": "next dev",
     "build": "npm run lint && next build",
     "start": "next start",
     "export": "next build && next export",
