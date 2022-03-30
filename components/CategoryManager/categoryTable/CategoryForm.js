@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Form, { useForm } from '../useForm';
 import Controls from '../controls/Controls';
 import UserCircleIcon from '../../../icons/user-circle';
-import ChangePicButton from '../../PersonalSetting/ChangePicButton';
+import FileDropzone from '../../FileDropzone';
 
 const initialFValues = {
   id: null,
@@ -130,12 +130,9 @@ const CategoryForm = (props) => {
             >
               <UserCircleIcon fontSize="small" />
             </Avatar>
-            <ChangePicButton
+            <FileDropzone
               accept="image/jpg,image/png, image/jpeg"
-              maxFiles={1}
               onDrop={handleDropImg}
-              maxSize={5242880}
-              minsize={0}
             />
           </Box>
         </Grid>
