@@ -164,7 +164,7 @@ const Profile = () => {
       return (
         <Button
           onClick={() => {
-            router.push('/personal-setting');
+            router.push('/setting');
           }}
           color="primary"
           size="small"

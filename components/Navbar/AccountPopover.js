@@ -92,7 +92,7 @@ const AccountPopover = (props) => {
             </MenuItem>
           </NextLink>
         )}
-        <NextLink href="/personal-setting" passHref>
+        <NextLink href="/setting" passHref>
           <MenuItem component="a">
             <ListItemIcon>
               <CogIcon fontSize="small" />
