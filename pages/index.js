@@ -29,8 +29,12 @@ const Index = ({ categoriesInfo }) => {
             color = 'primary.main',
             title,
             description = '',
+            pinPost,
             postCount = 'N.A.',
+            viewCount = 'N.A.',
+            participantCount = 'N.A.',
             headImgUrl,
+            lastUpdateTimestamp,
           }) => {
             return (
               <Category
@@ -38,8 +42,12 @@ const Index = ({ categoriesInfo }) => {
                 color={color}
                 title={title}
                 description={description}
+                pinPost={pinPost}
                 postCount={postCount}
+                viewCount={viewCount}
+                participantCount={participantCount}
                 headImgUrl={headImgUrl}
+                lastUpdateTimestamp={lastUpdateTimestamp}
               />
             );
           },

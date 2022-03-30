@@ -27,7 +27,7 @@ import {
   unfollowUser,
   getFollowedStatus,
 } from '../../services/Follow';
-import { getUserById } from '../../services/Public';
+import { getUserById, getFollowing, getFollower } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
 import {
   getMe as getCurrentUser,
@@ -98,6 +98,8 @@ const Profile = () => {
     if (router.isReady) {
       const getUser = async () => {
         const { data } = await getCurrentUser();
+        const { data: responsefollowing } = await getFollowing(data.username);
+        const { data: responsefollower } = await getFollower(data.username);
         setCurrentName(data.username);
         setCurrentRole(data.role.roleName);
         setCurrentImg(data.headImgUrl);
@@ -107,12 +109,18 @@ const Profile = () => {
         } else if (username[0] === currentName) {
           setFollowedStatus('current_user');
         }
+        setCountFollowing(responsefollowing.length);
+        setCountFollower(responsefollower.length);
       };
       const getOtherUser = async () => {
         const { data } = await getUserById(userId);
+        const { data: responsefollowing } = await getFollowing(data.username);
+        const { data: responsefollower } = await getFollower(data.username);
         setRole(data.role.roleName);
         setImg(data.headImgUrl);
         setCurrentProfileImg(data.profileImgUrl);
+        setCountFollowing(responsefollowing.length);
+        setCountFollower(responsefollower.length);
       };
       const checkStatus = async (name) => {
         const { data } = await getFollowedStatus(name);
@@ -139,12 +147,7 @@ const Profile = () => {
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };
-  const getfollowingNum = (total) => {
-    setCountFollowing(total);
-  };
-  const getfollowerNum = (total) => {
-    setCountFollower(total);
-  };
+
   const handleFollowAction = async (name) => {
     try {
       if (followedStatus === 'not_followed') {
@@ -385,14 +388,12 @@ const Profile = () => {
                 <ProfileFollow
                   title="Following"
                   value={username || currentName}
-                  getfollowingNum={getfollowingNum}
                 />
               )}
               {currentTab === 'follower' && (
                 <ProfileFollow
                   title="Follower"
                   value={username || currentName}
-                  getfollowerNum={getfollowerNum}
                 />
               )}
             </Box>

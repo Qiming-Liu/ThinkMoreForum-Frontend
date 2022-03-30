@@ -4,25 +4,25 @@ import { getFollowing, getFollower } from '../../services/Public';
 import FollowCard from './FollowCard';
 
 const ProfileFollow = (props) => {
-  const { title, value, getfollowingNum, getfollowerNum } = props;
+  const { title, value } = props;
   const [follow, setFollow] = useState(null);
   useEffect(() => {
-    const getFollow = async () => {
-      const { data: responsefollow } = await getFollowing(value);
-      setFollow(responsefollow);
-      getfollowingNum(responsefollow.length);
-    };
-    const getFans = async () => {
-      const { data: responsefollow } = await getFollower(value);
-      setFollow(responsefollow);
-      getfollowerNum(responsefollow.length);
-    };
-    if (title === 'Following') {
-      getFollow();
-    } else {
-      getFans();
+    if (value) {
+      const getFollow = async () => {
+        const { data: responsefollow } = await getFollowing(value);
+        setFollow(responsefollow);
+      };
+      const getFans = async () => {
+        const { data: responsefollow } = await getFollower(value);
+        setFollow(responsefollow);
+      };
+      if (title === 'Following') {
+        getFollow();
+      } else {
+        getFans();
+      }
     }
-  }, [getfollowerNum, getfollowingNum, title, value]);
+  }, [title, value]);
   if (!follow) return null;
   return (
     <Card {...props}>
