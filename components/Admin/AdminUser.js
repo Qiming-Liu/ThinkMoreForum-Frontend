@@ -166,6 +166,8 @@ export const AdminUser = ({ allUsers }) => {
         }}
         autoHeight
         density="comfortable"
+        disableDensitySelector
+        disableColumnSelector
       />
     </div>
   );

@@ -28,11 +28,6 @@ const setOpenID = (openid) => ({
   payload: openid,
 });
 
-const setDetail = (myDetails) => ({
-  type: Action.SET_DETAIL,
-  payload: myDetails,
-});
-
 const setHeadImg = (headImgUrl) => ({
   type: Action.SET_HEADIMG,
   payload: headImgUrl,
@@ -53,40 +48,49 @@ const setEmail = (email) => ({
   payload: email,
 });
 
+const setFooter = (footer) => ({
+  type: Action.SET_FOOTER,
+  payload: footer,
+});
+
 export const setJWTAction = (token) => (dispatch) => {
   dispatch(setJWT(token));
 };
 
 export const setOpenIDAction = (openid) => (dispatch) => {
   dispatch(setOpenID(openid));
-};
-
-export const setDetailAction = (myDetails) => (dispatch) => {
-  dispatch(setDetail(myDetails));
+  saveState(store.getState());
 };
 
 export const setHeadImgAction = (headImgUrl) => (dispatch) => {
   dispatch(setHeadImg(headImgUrl));
+  saveState(store.getState());
 };
 
 export const setProfileImgAction = (profileImgUrl) => (dispatch) => {
   dispatch(setProfileImg(profileImgUrl));
+  saveState(store.getState());
 };
 
 export const setUsernameAction = (username) => (dispatch) => {
   dispatch(setUsername(username));
+  saveState(store.getState());
 };
 
 export const setEmailAction = (email) => (dispatch) => {
   dispatch(setEmail(email));
+  saveState(store.getState());
 };
 
-const loginOut = () => ({
-  type: Action.LOGOUT,
-});
+export const setFooterAction = (footer) => (dispatch) => {
+  dispatch(setFooter(footer));
+  saveState(store.getState());
+};
 
 export const logoutAction = () => (dispatch) => {
   signOut({ redirect: false });
-  dispatch(loginOut());
+  dispatch({
+    type: Action.LOGOUT,
+  });
   saveState(store.getState());
 };

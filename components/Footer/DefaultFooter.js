@@ -14,6 +14,7 @@ const DefaultFooter = () => {
       }}
     >
       <Grid
+        container
         sx={{
           display: 'flex',
         }}

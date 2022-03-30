@@ -7,6 +7,7 @@ const initialState = {
   token: undefined,
   openid: undefined,
   myDetail: undefined,
+  footer: '',
 };
 
 // eslint-disable-next-line default-param-last
@@ -41,12 +42,14 @@ const signReducer = (state = initialState, { type, payload }) => {
         ...state,
         isOpen: false,
         isLogin: true,
+        myDetail: payload,
       };
 
     case Action.LOGIN_ERROR:
       return {
         ...state,
         isLogin: false,
+        myDetail: undefined,
       };
 
     case Action.SET_JWT:
@@ -59,12 +62,6 @@ const signReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         openid: payload,
-      };
-
-    case Action.SET_DETAIL:
-      return {
-        ...state,
-        myDetail: payload,
       };
 
     case Action.SET_HEADIMG:
@@ -92,6 +89,12 @@ const signReducer = (state = initialState, { type, payload }) => {
           ...state.myDetail,
           email: payload,
         },
+      };
+
+    case Action.SET_FOOTER:
+      return {
+        ...state,
+        footer: payload,
       };
 
     case Action.LOGOUT:

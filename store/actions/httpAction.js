@@ -2,8 +2,9 @@ import * as Action from '../actionTypes';
 import store, { saveState } from '../store';
 import { login } from '../../services/Public';
 
-const loginSuccess = () => ({
+const loginSuccess = (response) => ({
   type: Action.LOGIN_SUCCESS,
+  payload: response.data,
 });
 
 const loginError = () => ({
@@ -13,7 +14,7 @@ const loginError = () => ({
 const loginAction = (email, password, success, fail) => (dispatch) => {
   login(email, password)
     .then((response) => {
-      dispatch(loginSuccess());
+      dispatch(loginSuccess(response));
       success(response);
     })
     .catch((error) => {
