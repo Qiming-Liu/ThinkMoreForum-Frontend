@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import SearchBar from '../SearchBar';
+import RandomPoat from '../RandomPost';
 
 const ThreeColumns = ({ children }) => {
   return (
@@ -12,7 +13,7 @@ const ThreeColumns = ({ children }) => {
         {children}
       </Grid>
       <Grid item xs={3}>
-        <SearchBar />
+        <RandomPoat />
       </Grid>
     </Grid>
   );
