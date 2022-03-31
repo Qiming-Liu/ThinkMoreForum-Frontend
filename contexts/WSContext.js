@@ -27,21 +27,18 @@ export const WSContextProvider = ({ children }) => {
   }, []);
 
   const onConnected = useCallback(() => {
-    console.log('Connected');
     console.log(`Subscribing public channel...`);
-    console.log(`StompClient in onConnected: `, stompClient);
     if (stompClient.current.connected) {
-      stompClient.current.subscribe('/hall/greetings', (greeting) => {
-        console.log(`Greeting message: `, greeting);
+      stompClient.current.subscribe('/hall/greetings', (onlineUserList) => {
+        console.log(`OnlineMsg: `, onlineUserList);
       });
       if (myDetail) {
         stompClient.current.send(
           '/app/hello',
           {},
-          JSON.stringify({ userId: myDetail.id, online: true }),
+          JSON.stringify({ userId: myDetail.id, status: 'online' }),
         );
         console.log(`Subscribing personal channel...`);
-        console.log(`myDetail in onConnected: `, myDetail);
         stompClient.current.subscribe(
           `/user/${myDetail.id}/reminded`,
           onReminded,
@@ -70,6 +67,10 @@ export const WSContextProvider = ({ children }) => {
     console.log('Error happened when connecting ws');
   }, []);
 
+  const disconnect = useCallback(() => {
+    stompClient.current.disconnect();
+  }, [myDetail]);
+
   const connect = useCallback(() => {
     try {
       const Sock = new SockJS('https://api.thinkmoreapp.com/v1/public/ws');
@@ -88,8 +89,8 @@ export const WSContextProvider = ({ children }) => {
   // console.log(`StompClient before render: `, stompClient);
 
   const values = useMemo(
-    () => ({ handleRemind, updateInfo }),
-    [handleRemind, updateInfo],
+    () => ({ handleRemind, updateInfo, disconnect }),
+    [handleRemind, updateInfo, disconnect],
   );
 
   return <WSContext.Provider value={values}>{children}</WSContext.Provider>;
