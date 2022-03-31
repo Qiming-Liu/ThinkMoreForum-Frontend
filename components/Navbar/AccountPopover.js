@@ -26,7 +26,7 @@ const AccountPopover = (props) => {
   const { disconnect } = useWSContext();
 
   const handleLogout = () => {
-    disconnect();
+    disconnect(myDetail.id);
     dispatch(logoutAction());
     onClose();
   };

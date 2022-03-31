@@ -10,27 +10,40 @@ import React, {
 import { useSelector } from 'react-redux';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import { debounce } from 'lodash';
 
 const WSContext = createContext([]);
 
 export const WSContextProvider = ({ children }) => {
-  const [connected, setConnected] = useState(false);
   const { myDetail } = useSelector((state) => state.sign);
   const stompClient = useRef(null);
   const [updateInfo, setUpdateInfo] = useState(false);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
-  const onReminded = useCallback(async (reminder) => {
-    console.log('On reminded', reminder);
-    setTimeout(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onReminded = useCallback(
+    debounce(async () => {
       setUpdateInfo((prev) => !prev);
-    }, 1000);
-  }, []);
+    }, 2000),
+    [],
+  );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateOnlineUsers = useCallback(
+    debounce((rawOnlineUsers) => {
+      const onlineUserList = JSON.parse(rawOnlineUsers.body);
+      const formattedUserList = onlineUserList.map((user) =>
+        user.substring(user.indexOf(':') + 1),
+      );
+      setOnlineUsers(formattedUserList);
+    }, 2000),
+    [],
+  );
 
   const onConnected = useCallback(() => {
-    console.log(`Subscribing public channel...`);
     if (stompClient.current.connected) {
-      stompClient.current.subscribe('/hall/greetings', (onlineUserList) => {
-        console.log(`OnlineMsg: `, onlineUserList);
+      stompClient.current.subscribe('/hall/greetings', (response) => {
+        updateOnlineUsers(response);
       });
       if (myDetail) {
         stompClient.current.send(
@@ -38,18 +51,16 @@ export const WSContextProvider = ({ children }) => {
           {},
           JSON.stringify({ userId: myDetail.id, status: 'online' }),
         );
-        console.log(`Subscribing personal channel...`);
         stompClient.current.subscribe(
           `/user/${myDetail.id}/reminded`,
           onReminded,
         );
       }
     }
-  }, [myDetail, onReminded]);
+  }, [myDetail, onReminded, updateOnlineUsers]);
 
   const handleRemind = useCallback(
     (recipientId) => {
-      console.log(`Sending reminder to: `, recipientId);
       stompClient.current.send(
         '/app/reminder',
         {},
@@ -67,30 +78,29 @@ export const WSContextProvider = ({ children }) => {
     console.log('Error happened when connecting ws');
   }, []);
 
-  const disconnect = useCallback(() => {
+  const disconnect = useCallback((myId) => {
     stompClient.current.disconnect();
-  }, [myDetail]);
+    setOnlineUsers((prev) => {
+      prev.filter((item) => item !== myId);
+    });
+  }, []);
 
   const connect = useCallback(() => {
     try {
       const Sock = new SockJS('https://api.thinkmoreapp.com/v1/public/ws');
       stompClient.current = over(Sock);
       stompClient.current.connect({}, onConnected, onError);
-      setConnected(true);
-    } catch (error) {
-      setConnected(false);
-    }
+      // eslint-disable-next-line no-empty
+    } catch (error) {}
   }, [onConnected, onError]);
 
   useEffect(() => {
     connect();
   }, [connect, myDetail]);
 
-  // console.log(`StompClient before render: `, stompClient);
-
   const values = useMemo(
-    () => ({ handleRemind, updateInfo, disconnect }),
-    [handleRemind, updateInfo, disconnect],
+    () => ({ handleRemind, updateInfo, disconnect, onlineUsers }),
+    [handleRemind, updateInfo, disconnect, onlineUsers],
   );
 
   return <WSContext.Provider value={values}>{children}</WSContext.Provider>;
