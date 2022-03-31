@@ -12,7 +12,7 @@ const PostContainer = styled.div`
   overflow: hidden;
   margin: 0;
   padding: 0;
-  width: 90%;
+  width: 330px;
 `;
 const CommentContainer = styled.div`
   margin-top: 10px;
@@ -31,10 +31,14 @@ const RandomPoat = () => {
     };
     getpost();
   }, []);
-
   return (
     <PostContainer>
-      <Image src={post ? post.headImgUrl : photo} width={350} height={350} />
+      <Image
+        src={post ? post.headImgUrl : photo}
+        width={330}
+        height={350}
+        layout="responsive"
+      />
       {comments &&
         comments.map((comment) => (
           <CommentContainer sx={{ mt: 1, ml: 1 }}>
