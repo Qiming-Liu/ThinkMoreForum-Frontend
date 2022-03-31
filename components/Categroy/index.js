@@ -15,6 +15,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { getPostById } from '../../services/Public';
 import MyTime from '../../utils/myTime';
+import Participants from './Participants';
 
 const useStyles = makeStyles(
   {
@@ -159,47 +160,7 @@ const Category = (props) => {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <Box
-                    style={{
-                      position: 'relative',
-                    }}
-                    sx={{
-                      bgcolor: 'primary.main',
-                      mt: 4,
-                      pl: 0.8,
-                      pr: 2,
-                      py: 0.65,
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      borderRadius: '24px',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        bgcolor: '#18FFFF',
-                        mr: 1,
-                        width: '2rem',
-                        height: '2rem',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Typography
-                        color="#0d47a1"
-                        variant="subtitle2"
-                        style={{ transform: 'translateX(-6%)' }}
-                      >
-                        {participantCount}
-                      </Typography>
-                    </Box>
-                    <Typography color="white" variant="subtitle2">
-                      participants
-                    </Typography>
-                  </Box>
+                  <Participants count={participantCount} />
                   <Box
                     sx={{
                       alignItems: 'center',

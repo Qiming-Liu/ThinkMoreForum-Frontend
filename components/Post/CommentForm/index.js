@@ -11,7 +11,6 @@ const CommentForm = ({
   handleSubmit,
   login,
   mentionUser,
-  mentionUserId,
   closeComment,
 }) => {
   const [context, setContext] = useState(initialText);
@@ -23,7 +22,7 @@ const CommentForm = ({
     if (checkPermission('postComment', myDetail.role)) {
       if (mentionUser) {
         handleSubmit(`@${mentionUser} ${context}`);
-        handleRemind(mentionUserId);
+        handleRemind(mentionUser);
         setContext('');
         closeComment();
       } else {

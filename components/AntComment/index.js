@@ -63,7 +63,6 @@ const AntComment = ({
           handleSubmit={(context) => sendChildComment(context, parentId)}
           login={login}
           mentionUser={mentionUser}
-          mentionUserId={mentionUserId}
           closeComment={handleCommentClose}
         />
       ) : null}

@@ -78,7 +78,7 @@ const Post = ({ post }) => {
         visibility: true,
       };
       await postComment(requestBody);
-      handleRemind(post.postUsers.id);
+      handleRemind(post.postUsers.username);
       const getComments = async () => {
         const { data: responseComments } = await getCommentsByPostId(postId);
         setComments(responseComments);
@@ -102,7 +102,7 @@ const Post = ({ post }) => {
         visibility: true,
       };
       await postComment(requestBody);
-      handleRemind(post.postUsers.id);
+      handleRemind(post.postUsers.username);
       const getComments = async () => {
         const { data: responseComments } = await getCommentsByPostId(postId);
         setComments(responseComments);
