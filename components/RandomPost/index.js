@@ -22,6 +22,7 @@ const CommentContainer = styled.div`
 const RandomPoat = () => {
   const [post, setPost] = React.useState(null);
   const [comments, setComments] = React.useState(null);
+  const image = post ? post.headImgUrl : photo;
 
   useEffect(() => {
     const getpost = async () => {
@@ -33,11 +34,15 @@ const RandomPoat = () => {
   }, []);
   return (
     <PostContainer>
-      <Image
-        src={post ? post.headImgUrl : photo}
-        width={330}
-        height={350}
-        layout="responsive"
+      <div
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'relative',
+          width: '330px',
+          height: '350px',
+        }}
       />
       {comments &&
         comments.map((comment) => (
