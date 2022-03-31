@@ -49,11 +49,17 @@ export const WSContextProvider = ({ children }) => {
         stompClient.current.send(
           '/app/hello',
           {},
-          JSON.stringify({ userId: myDetail.username, status: 'online' }),
+          JSON.stringify({ username: myDetail.username, status: 'online' }),
         );
         stompClient.current.subscribe(
           `/user/${myDetail.username}/reminded`,
           onReminded,
+        );
+      } else {
+        stompClient.current.send(
+          '/app/hello',
+          {},
+          JSON.stringify({ username: '', status: 'online' }),
         );
       }
     }

@@ -15,7 +15,6 @@ const AntComment = ({
   const { commentUsers, createTimestamp } = comment;
   const [showReplying, setShowReplying] = useState(false);
   const mentionUser = commentUsers.username;
-  const mentionUserId = commentUsers.id;
   const handleCommentClose = () => {
     setShowReplying(false);
   };
