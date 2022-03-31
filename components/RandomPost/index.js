@@ -12,6 +12,7 @@ const PostContainer = styled.div`
   margin: 0;
   padding: 0;
   width: 330px;
+  background-color: #ffffff;
 `;
 const CommentContainer = styled.div`
   margin-top: 10px;
