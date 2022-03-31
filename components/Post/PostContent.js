@@ -31,7 +31,7 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
 
   const handleClick = async () => {
     await toggleFav();
-    handleRemind(post.postUsers.id);
+    handleRemind(post.postUsers.username);
   };
 
   const checkAuth = () => {

@@ -130,7 +130,7 @@ const Profile = () => {
         setCountFollower(countFollower - 1);
       }
       setFollowedStatus(!followedStatus);
-      handleRemind(user.id);
+      handleRemind(user.username);
     } catch (err) {
       hotToast('error', 'Something went wrong!');
     }

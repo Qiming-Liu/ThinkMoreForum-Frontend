@@ -49,24 +49,30 @@ export const WSContextProvider = ({ children }) => {
         stompClient.current.send(
           '/app/hello',
           {},
-          JSON.stringify({ userId: myDetail.id, status: 'online' }),
+          JSON.stringify({ username: myDetail.username, status: 'online' }),
         );
         stompClient.current.subscribe(
-          `/user/${myDetail.id}/reminded`,
+          `/user/${myDetail.username}/reminded`,
           onReminded,
+        );
+      } else {
+        stompClient.current.send(
+          '/app/hello',
+          {},
+          JSON.stringify({ username: '', status: 'online' }),
         );
       }
     }
   }, [myDetail, onReminded, updateOnlineUsers]);
 
   const handleRemind = useCallback(
-    (recipientId) => {
+    (recipientName) => {
       stompClient.current.send(
         '/app/reminder',
         {},
         JSON.stringify({
-          sender: myDetail.id,
-          recipient: recipientId,
+          sender: myDetail.username,
+          recipient: recipientName,
           content: 'please update notification',
         }),
       );
@@ -78,10 +84,10 @@ export const WSContextProvider = ({ children }) => {
     console.log('Error happened when connecting ws');
   }, []);
 
-  const disconnect = useCallback((myId) => {
+  const disconnect = useCallback((myName) => {
     stompClient.current.disconnect();
     setOnlineUsers((prev) => {
-      prev.filter((item) => item !== myId);
+      prev.filter((item) => item !== myName);
     });
   }, []);
 
