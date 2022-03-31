@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import NextLink from 'next/link';
+import List from '@mui/material/List';
+import Badge from '@mui/material/Badge';
+import ListSubheader from '@mui/material/ListSubheader';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import Avatar from '@mui/material/Avatar';
 import Autocomplete from '@mui/material/Autocomplete';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { useSelector } from 'react-redux';
 import { Link } from '@mui/material';
-import Image from 'next/image';
 import * as searchService from '../../services/Post';
 import * as searchUserService from '../../services/Users';
 import { updatePostViewCount } from '../../services/Public';
@@ -69,60 +74,104 @@ const SearchBar = () => {
       }}
       renderOption={(props, option) => {
         if (option.username !== undefined) {
+          if (option.divider) {
+            return (
+              <ListSubheader component="div">
+                <span>
+                  <DescriptionIcon />
+                </span>
+                <span>Users</span>
+              </ListSubheader>
+            );
+          }
           return (
-            <li {...props}>
-              <NextLink
-                href={{
-                  pathname: `/profile/${option.username}`,
-                }}
-                passHref
-              >
-                <Link
-                  href={{
-                    pathname: `/profile/${option.username}`,
-                  }}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    textDecoration: 'none',
-                    fontSize: 14,
-                  }}
-                >
-                  <Image
-                    src={option.headImgUrl}
-                    alt="Profile"
-                    width="25px"
-                    height="25px"
-                    style={{
-                      borderRadius: '50%',
+            <List {...props} sx={{ marginLeft: -3.7 }}>
+              <ListItem sx={{ height: 40 }} key={option.id}>
+                <ListItemButton>
+                  <Badge
+                    color="primary"
+                    badgeContent="User"
+                    overlap="circular"
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
                     }}
-                  />
-                  {`${option.username}`}
-                </Link>
-              </NextLink>
-            </li>
+                  >
+                    <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
+                  </Badge>
+                  <NextLink
+                    href={{
+                      pathname: `/profile/${option.username}`,
+                    }}
+                    passHref
+                  >
+                    <Link
+                      href={{
+                        pathname: `/profile/${option.username}`,
+                      }}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'black',
+                        whiteSpace: 'nowrap',
+                        display: 'block',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        width: '300px',
+                      }}
+                    >
+                      {`${option.username}`}
+                    </Link>
+                  </NextLink>
+                </ListItemButton>
+              </ListItem>
+            </List>
           );
         }
         if (option.title !== undefined) {
           return (
-            <li {...props}>
-              <NextLink
-                href={`/post/${option.id}`}
-                onClick={() => handleClick(option.id)}
-                passHref
+            <List {...props} sx={{ marginLeft: -3.7 }}>
+              <ListItem
+                sx={{
+                  height: 40,
+                }}
+                key={option.id}
               >
-                <Link
-                  href={`/post/${option.id}`}
-                  onClick={() => handleClick(option.id)}
-                  style={{
-                    textDecoration: 'none',
-                  }}
-                >
-                  <DescriptionIcon />
-                  {`${option.title}`}
-                </Link>
-              </NextLink>
-            </li>
+                <ListItemButton>
+                  <Badge
+                    color="secondary"
+                    badgeContent="Post"
+                    overlap="circular"
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
+                  </Badge>
+                  <NextLink
+                    href={`/post/${option.id}`}
+                    onClick={() => handleClick(option.id)}
+                    passHref
+                  >
+                    <Link
+                      href={`/post/${option.id}`}
+                      onClick={() => handleClick(option.id)}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'black',
+                        whiteSpace: 'nowrap',
+                        display: 'block',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        width: '300px',
+                      }}
+                    >
+                      {`${option.title}`}
+                    </Link>
+                  </NextLink>
+                </ListItemButton>
+              </ListItem>
+            </List>
           );
         }
         return null;
