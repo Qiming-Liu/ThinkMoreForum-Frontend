@@ -201,7 +201,7 @@ const Profile = () => {
             <FileDropzone
               accept="image/jpg,image/png, image/jpeg"
               afterCrop={handleCropImg}
-              aspectRatio={1}
+              aspectRatio={2.73}
             >
               <Button
                 startIcon={<AddPhotoIcon fontSize="small" />}
