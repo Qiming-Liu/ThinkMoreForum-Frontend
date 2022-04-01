@@ -9,18 +9,24 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Avatar from '@mui/material/Avatar';
 import Autocomplete from '@mui/material/Autocomplete';
 import DescriptionIcon from '@mui/icons-material/Description';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from '@mui/material';
 import * as searchService from '../../services/Post';
 import * as searchUserService from '../../services/Users';
 import { updatePostViewCount } from '../../services/Public';
+import { openSignDialog } from '../../store/actions/signAction';
 
 const SearchBar = () => {
   const { isLogin } = useSelector((state) => state.sign);
   const [searchInput, setSearchInput] = useState('');
+  const dispatch = useDispatch();
   const [searchResults, setSearchResults] = useState([]);
 
   const handleChange = (event) => {
+    if (!isLogin) {
+      dispatch(openSignDialog());
+      return;
+    }
     if (!event || event.type === 'click') {
       setSearchResults([]);
       setSearchInput('');
