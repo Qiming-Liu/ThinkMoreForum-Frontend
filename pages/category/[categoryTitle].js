@@ -1,45 +1,35 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import NextLink from 'next/link';
 import {
   Box,
   Button,
-  Divider,
   Pagination,
   Typography,
   Grid,
   TextField,
-  MenuItem,
   IconButton,
   InputAdornment,
-  FormGroup,
-  FormControlLabel,
-  Slide,
-  Switch,
-  Fab,
-  Tooltip,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import AddIcon from '@mui/icons-material/Add';
 import Head from 'next/head';
 import useSWR from 'swr';
-import { openSignDialog } from '../../store/actions/signAction';
 import ArrowLeftIcon from '../../icons/arrow-left';
 import {
   getCategoryByTitle,
   getPostById,
   getVisiblePostCountByCategoryId,
 } from '../../services/Public';
-import PinPostCard from '../../components/Post/PinPostCard';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
 import Loading from '../../components/Loading/Loading';
 import Posts from '../../components/Post/Posts';
 import CommonContainer from '../../components/Layout/common-container';
-import checkPermission from '../../utils/checkPermission';
+import getInitialDisplaySettings from '../../utils/getInitialDisplaySettings';
+import DisplaySettings from '../../components/Categroy/CategoryPageComponents/DisplaySettings';
+import DisplaySettingsSecondRow from '../../components/Categroy/CategoryPageComponents/DisplaySettingsSecondRow';
+import PinPostCard from '../../components/Post/PinPostCard';
+import NewPostButton from '../../components/Categroy/CategoryPageComponents/NewPostButton';
 
 const validNumberInput = /[^0-9]/;
 
@@ -66,7 +56,6 @@ const getTotalPostsCountSWR = async (categoryId) => {
 };
 
 const PostList = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const { categoryTitle } = router.query;
   const { data: thisCategory, error: thisCategoryError } = useSWR(
@@ -82,61 +71,14 @@ const PostList = () => {
     getTotalPostsCountSWR,
   );
 
-  const { isLogin, myDetail } = useSelector((state) => state.sign);
-
-  let initialHeadImgDisplay;
-  let initialSortColumn;
-  let initialSortDirection;
-  let initialSizePerPage;
-  let initialPage;
-  let initialDisplayAbstract;
-
-  try {
-    initialHeadImgDisplay = JSON.parse(
-      localStorage.getItem(`postHeadIgmDisplay`),
-    );
-    if (initialHeadImgDisplay === null) initialHeadImgDisplay = true;
-  } catch (e) {
-    initialHeadImgDisplay = true;
-  }
-
-  try {
-    initialSortColumn = localStorage.getItem(`sortColumn`);
-    if (initialSortColumn === null) initialSortColumn = 'Create time';
-  } catch (e) {
-    initialSortColumn = 'Create time';
-  }
-
-  try {
-    initialSortDirection = JSON.parse(localStorage.getItem(`sortDirection`));
-    if (initialSortDirection === null) initialSortDirection = true;
-  } catch (e) {
-    initialSortDirection = true;
-  }
-
-  try {
-    initialSizePerPage =
-      parseInt(localStorage.getItem(`sizePerPage`), 10) || 10;
-  } catch (e) {
-    initialSizePerPage = 10;
-  }
-
-  try {
-    initialPage =
-      parseInt(sessionStorage.getItem(`${categoryTitle}_currentPage`), 10) || 0;
-    if (initialPage === null) initialPage = 0;
-  } catch (e) {
-    initialPage = 0;
-  }
-
-  try {
-    initialDisplayAbstract = JSON.parse(
-      localStorage.getItem(`postAbstractDisplay`),
-    );
-    if (initialDisplayAbstract === null) initialDisplayAbstract = true;
-  } catch (e) {
-    initialDisplayAbstract = true;
-  }
+  const {
+    initialHeadImgDisplay,
+    initialSortColumn,
+    initialSortDirection,
+    initialSizePerPage,
+    initialPage,
+    initialDisplayAbstract,
+  } = getInitialDisplaySettings(categoryTitle);
 
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [inputCurrentPage, setInputCurrentPage] = useState(currentPage);
@@ -183,6 +125,10 @@ const PostList = () => {
     setSortColumn(event.target.value);
   }, []);
 
+  const showPinPost = useMemo(() => {
+    return pinPost && currentPage === 0;
+  }, [currentPage, pinPost]);
+
   const handleSizePerPage = useCallback(() => {
     if (validNumberInput.test(inputSizePerPage) || !inputSizePerPage) {
       hotToast('error', 'Invalid input');
@@ -217,20 +163,6 @@ const PostList = () => {
   const handleInputCurrentPage = useCallback((event) => {
     setInputCurrentPage(event.target.value);
   }, []);
-  const permissionCheck = useCallback(() => {
-    return checkPermission('makePost', myDetail.role)
-      ? router.push({
-          pathname: '/post/make-post',
-          query: {
-            categoryTitle,
-          },
-        })
-      : hotToast('error', 'You do not have permission to make post!');
-  }, [categoryTitle, myDetail, router]);
-
-  const handleMakeNewPost = useCallback(() => {
-    return isLogin ? permissionCheck() : dispatch(openSignDialog());
-  }, [dispatch, isLogin, permissionCheck]);
 
   useEffect(() => {
     setSortParams(
@@ -260,119 +192,43 @@ const PostList = () => {
         categoryTitle={categoryTitle}
         description={thisCategory.description}
       />
-      <Divider sx={{ mt: 3, mb: 2 }} />
-      {pinPost && (
-        <Box>
-          <PinPostCard
-            title={pinPost.title}
-            context={pinPost.context}
-            id={pinPost.id}
-          />
-          <Divider sx={{ my: 1 }} />
-        </Box>
-      )}
       <Grid
         container
         spacing={1}
         align="center"
+        sx={{
+          borderTop: 2,
+          borderBottom: 2,
+          borderColor: 'grey.200',
+          pb: 1,
+          my: 1,
+        }}
         style={{ display: 'flex', justifyContent: 'space-evenly' }}
       >
-        <Grid
-          item
-          alignItems="center"
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-          }}
-          zeroMinWidth
-        >
-          <Typography variant="h6" align="center" sx={{ mr: 2 }} noWrap>
-            Display setting:
-          </Typography>
-          <FormGroup
-            row
-            style={{ display: 'flex', flexWrap: 'nowrap', overflow: 'hidden' }}
-          >
-            <FormControlLabel
-              checked={displayHeadImg}
-              control={<Switch color="primary" />}
-              label="Cover"
-              labelPlacement="end"
-              onChange={toggleHeadImgDisplay}
-            />
-            <FormControlLabel
-              checked={displayAbstract}
-              control={<Switch color="primary" />}
-              label="Abstract"
-              labelPlacement="end"
-              onChange={toggleAbstractDisplay}
-            />
-          </FormGroup>
-        </Grid>
-        <Grid
-          item
-          xs
-          style={{ display: 'flex', justifyContent: 'space-evenly' }}
-        >
-          <TextField
-            placeholder="1-20"
-            size="small"
-            id="outlined-basic"
-            label="Posts/page"
-            variant="outlined"
-            type="number"
-            defaultValue={sizePerPage}
-            onChange={handleInputSizePerPage}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleSizePerPage}
-                    size="small"
-                    color="primary"
-                  >
-                    <CheckIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-              inputProps: {
-                max: 20,
-                min: 1,
-              },
-            }}
-          />
-          <TextField
-            size="small"
-            sx={{ ml: 1 }}
-            id="outlined-basic"
-            label="Sorted by"
-            variant="outlined"
-            select
-            value={sortColumn}
-            onChange={handleSortColumn}
-          >
-            {Object.keys(sortColumnList).map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button
-            size="small"
-            color="secondary"
-            variant="contained"
-            onClick={toggleSortDirection}
-            sx={{ mt: 0.2, ml: 1 }}
-            endIcon={
-              sortDirection ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
-            }
-          >
-            {sortDirection ? 'Descend' : 'Ascend'}
-          </Button>
-        </Grid>
+        <DisplaySettings
+          displayHeadImg={displayHeadImg}
+          toggleHeadImgDisplay={toggleHeadImgDisplay}
+          displayAbstract={displayAbstract}
+          toggleAbstractDisplay={toggleAbstractDisplay}
+        />
+        <DisplaySettingsSecondRow
+          sizePerPage={sizePerPage}
+          handleSizePerPage={handleSizePerPage}
+          handleInputSizePerPage={handleInputSizePerPage}
+          sortColumn={sortColumn}
+          sortColumnList={sortColumnList}
+          handleSortColumn={handleSortColumn}
+          toggleSortDirection={toggleSortDirection}
+          sortDirection={sortDirection}
+        />
       </Grid>
-      <Divider sx={{ mt: 2, mb: 2 }} />
+      {showPinPost && (
+        <PinPostCard
+          pinPostInfo={pinPost}
+          displayHeadImg={displayHeadImg}
+          displayAbstract={displayAbstract}
+        />
+      )}
       {thisCategory.postCount === 0 ? (
         <Typography variant="body1">No post in this category.</Typography>
       ) : (
@@ -383,6 +239,7 @@ const PostList = () => {
           sortParams={sortParams}
           displayHeadImg={displayHeadImg}
           displayAbstract={displayAbstract}
+          showPinPost={showPinPost && pinPost.id}
         />
       )}
       <Box
@@ -426,32 +283,7 @@ const PostList = () => {
           }}
         />
       </Box>
-      <Tooltip
-        title="Make a post"
-        placement="top"
-        sx={{
-          position: 'fixed',
-          bottom: (theme) => theme.spacing(3),
-          right: (theme) => theme.spacing(10),
-        }}
-      >
-        <Slide
-          direction="left"
-          in
-          style={{ transitionDelay: '1000ms' }}
-          mountOnEnter
-          unmountOnExit
-        >
-          <Fab
-            size="medium"
-            color="primary"
-            aria-label="add"
-            onClick={() => handleMakeNewPost()}
-          >
-            <AddIcon />
-          </Fab>
-        </Slide>
-      </Tooltip>
+      <NewPostButton categoryTitle={categoryTitle} />
     </CommonContainer>
   );
 };
