@@ -27,7 +27,7 @@ import {
   setEmailAction,
 } from '../../store/actions/signAction';
 import UserCircleIcon from '../../icons/user-circle';
-import FileDropzone from '../FileDropzone';
+import ImgDropzone from '../ImgDropzone';
 
 const Form = (props) => {
   const dispatch = useDispatch();
@@ -159,13 +159,13 @@ const Form = (props) => {
                   >
                     <UserCircleIcon fontSize="small" />
                   </Avatar>
-                  <FileDropzone
+                  <ImgDropzone
                     accept="image/jpg,image/png, image/jpeg"
                     afterCrop={handleCropImg}
                     aspectRatio={1}
                   >
                     <Button>Change</Button>
-                  </FileDropzone>
+                  </ImgDropzone>
                 </Box>
                 <form onSubmit={formikUsername.handleSubmit}>
                   <Box

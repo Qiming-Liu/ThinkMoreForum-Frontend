@@ -9,7 +9,7 @@ const Participants = ({ count }) => {
       }}
       sx={{
         bgcolor: 'primary.main',
-        mt: 4,
+        mt: 3,
         pl: 0.8,
         pr: 2,
         py: 0.65,
@@ -24,8 +24,8 @@ const Participants = ({ count }) => {
         sx={{
           bgcolor: '#18FFFF',
           mr: 1,
-          width: '2rem',
-          height: '2rem',
+          width: '1.5rem',
+          height: '1.5rem',
           borderRadius: '50%',
           display: 'flex',
           justifyContent: 'center',
@@ -34,7 +34,7 @@ const Participants = ({ count }) => {
       >
         <Typography
           color="#0d47a1"
-          variant="subtitle1"
+          variant="subtitle2"
           style={{
             transform: 'translateX(-6%)',
             fontWeight: 'bold',
@@ -43,7 +43,7 @@ const Participants = ({ count }) => {
           {count}
         </Typography>
       </Box>
-      <Typography color="white" variant="subtitle1">
+      <Typography color="white" variant="subtitle2">
         Participants
       </Typography>
     </Box>

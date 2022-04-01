@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import ImgCropDialog from './ImgCropDialog';
 import hotToast from '../../utils/hotToast';
 
-const FileDropzone = ({ children, accept, afterCrop, aspectRatio }) => {
+const ImgDropzone = ({ children, accept, afterCrop, aspectRatio }) => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState('');
   const onDrop = useCallback(([file]) => {
@@ -20,7 +20,7 @@ const FileDropzone = ({ children, accept, afterCrop, aspectRatio }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept,
     maxFiles: 1,
-    maxSize: 10485760,
+    maxSize: 4000000,
     minSize: 0,
     onDrop,
   });
@@ -44,4 +44,4 @@ const FileDropzone = ({ children, accept, afterCrop, aspectRatio }) => {
   );
 };
 
-export default FileDropzone;
+export default ImgDropzone;

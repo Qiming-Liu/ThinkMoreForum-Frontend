@@ -26,8 +26,7 @@ const ImgCropper: React.FC<{
       // Cropper.js options //2.37
       initialAspectRatio={aspectRatio}
       aspectRatio={aspectRatio}
-      background={false}
-      responsive
+      background
       autoCropArea={1}
       guides
       ref={cropperRef}
