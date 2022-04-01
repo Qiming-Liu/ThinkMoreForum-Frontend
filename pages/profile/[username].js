@@ -10,8 +10,6 @@ import {
   Divider,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
@@ -34,9 +32,8 @@ import hotToast from '../../utils/hotToast';
 import { changeProfileImg } from '../../services/Users';
 import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
-import SignDialog from '../../components/Sign/SignDialog';
-import ImageCropper from '../../components/ImageCropper';
 import { useWSContext } from '../../contexts/WSContext';
+import FileDropzone from '../../components/FileDropzone';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -49,42 +46,7 @@ const Profile = () => {
   const [currentProfileImg, setCurrentProfileImg] = useState('');
   const [countFollowing, setCountFollowing] = useState('');
   const [countFollower, setCountFollower] = useState('');
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [cropImage, setCropImage] = useState(undefined);
-  const [isLoading, setLoading] = useState(false);
   const { handleRemind } = useWSContext();
-
-  const formik = useFormik({
-    initialValues: {
-      context: '',
-      title: '',
-    },
-    onSubmit: async () => {
-      setLoading(true);
-      const { data: imgs } = await upload(cropImage).catch((error) => {
-        hotToast('error', `Something wrong: ${error}`);
-      });
-      changeProfileImg({ profileImgUrl: imgs.url })
-        .then(() => {
-          hotToast('success', 'Profile picture is changed');
-          dispatch(
-            setProfileImgAction(
-              imgs.url,
-              () => {},
-              (fail) => {
-                hotToast('error', `something wrong${fail}`);
-              },
-            ),
-          );
-        })
-        .catch(() => {
-          hotToast('error', `Sorry, the profile image could not be updated.`);
-        });
-      setLoading(false);
-      setCropImage(undefined);
-    },
-  });
 
   useEffect(() => {
     if (router.isReady) {
@@ -136,12 +98,30 @@ const Profile = () => {
     }
   };
 
-  // const handleImgChange = async ([file]) => {
-  //   const data = await fileToBase64(file);
-  //   setCurrentProfileImg(data);
-  //   setCropImage(file);
-  //   setIsOpen(true);
-  // };
+  const handleCropImg = async (base64) => {
+    setCurrentProfileImg(base64);
+    const file = await (await fetch(base64)).blob();
+    const { data: img } = await upload(file).catch((error) => {
+      hotToast('error', `Something wrong: ${error}`);
+    });
+
+    changeProfileImg({ profileImgUrl: img.url })
+      .then(() => {
+        hotToast('success', 'Profile picture is changed');
+        dispatch(
+          setProfileImgAction(
+            img.url,
+            () => {},
+            (fail) => {
+              hotToast('error', `something wrong${fail}`);
+            },
+          ),
+        );
+      })
+      .catch(() => {
+        hotToast('error', `Sorry, the profile image could not be updated.`);
+      });
+  };
 
   const tabs = [
     { label: 'Posts', value: 'posts' },
@@ -201,7 +181,7 @@ const Profile = () => {
       >
         <Box
           style={{
-            backgroundImage: `url(${user.profileImgUrl})`,
+            backgroundImage: `url(${currentProfileImg || user.profileImgUrl})`,
           }}
           sx={{
             backgroundPosition: 'center',
@@ -218,88 +198,36 @@ const Profile = () => {
           }}
         >
           {myDetail && username === myDetail.username && (
-            <form onSubmit={formik.handleSubmit}>
-              {(!cropImage || cropImage === currentProfileImg) && (
-                // <Button
-                //   startIcon={<AddPhotoIcon fontSize="small" />}
-                //   sx={{
-                //     backgroundColor: blueGrey[900],
-                //     bottom: {
-                //       lg: 24,
-                //       xs: 'auto',
-                //     },
-                //     color: 'common.white',
-                //     position: 'absolute',
-                //     right: 24,
-                //     top: {
-                //       lg: 'auto',
-                //       xs: 24,
-                //     },
-                //     visibility: 'hidden',
-                //     '&:hover': {
-                //       backgroundColor: blueGrey[900],
-                //     },
-                //   }}
-                //   variant="contained"
-                // >
-                //   <ChangePicButton
-                //     accept="image/jpg,image/png, image/jpeg"
-                //     maxFiles={1}
-                //     onDrop={handleImgChange}
-                //     maxSize={5242880}
-                //     minsize={0}
-                //     color="inherit"
-                //   />
-                // </Button>
-                <Button
-                  startIcon={<AddPhotoIcon fontSize="small" />}
-                  sx={{
+            <FileDropzone
+              accept="image/jpg,image/png, image/jpeg"
+              afterCrop={handleCropImg}
+              aspectRatio={2.73}
+            >
+              <Button
+                startIcon={<AddPhotoIcon fontSize="small" />}
+                sx={{
+                  backgroundColor: blueGrey[900],
+                  bottom: {
+                    lg: 24,
+                    xs: 'auto',
+                  },
+                  color: 'common.white',
+                  position: 'absolute',
+                  right: 24,
+                  top: {
+                    lg: 'auto',
+                    xs: 24,
+                  },
+                  visibility: 'hidden',
+                  '&:hover': {
                     backgroundColor: blueGrey[900],
-                    bottom: {
-                      lg: 24,
-                      xs: 'auto',
-                    },
-                    color: 'common.white',
-                    position: 'absolute',
-                    right: 24,
-                    top: {
-                      lg: 'auto',
-                      xs: 24,
-                    },
-                    visibility: 'hidden',
-                    '&:hover': {
-                      backgroundColor: blueGrey[900],
-                    },
-                  }}
-                  variant="contained"
-                >
-                  Change Cover
-                </Button>
-              )}
-              {cropImage && cropImage !== currentProfileImg && (
-                <LoadingButton
-                  sx={{
-                    backgroundColor: blueGrey[900],
-                    bottom: {
-                      lg: 24,
-                      xs: 'auto',
-                    },
-                    color: 'common.white',
-                    position: 'absolute',
-                    right: 24,
-                    top: {
-                      lg: 'auto',
-                      xs: 24,
-                    },
-                  }}
-                  type="submit"
-                  variant="contained"
-                  loading={isLoading}
-                >
-                  Confirm
-                </LoadingButton>
-              )}
-            </form>
+                  },
+                }}
+                variant="contained"
+              >
+                Change Cover
+              </Button>
+            </FileDropzone>
           )}
         </Box>
         <Box
@@ -361,16 +289,6 @@ const Profile = () => {
               <ProfileFollow title="Follower" value={username} />
             )}
           </Box>
-          <SignDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
-            <ImageCropper
-              src={currentProfileImg}
-              alt="image"
-              setCover={setCurrentProfileImg}
-              setIsOpen={setIsOpen}
-              setImage={setCropImage}
-              file={cropImage}
-            />
-          </SignDialog>
         </Box>
       </Box>
     </CommonContainer>
