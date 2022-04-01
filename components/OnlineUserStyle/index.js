@@ -8,34 +8,34 @@ import Avatar from '@mui/material/Avatar';
 import NextLink from 'next/link';
 import { Link } from '@mui/material';
 import LensIcon from '@mui/icons-material/Lens';
-import { useSelector } from 'react-redux';
-import * as userService from '../../services/Users';
+import * as userService from '../../services/Public';
+import { useWSContext } from '../../contexts/WSContext';
 
 const OnlineUserStyle = () => {
-  const { isLogin } = useSelector((state) => state.sign);
   const [onlineUser, setOnlineUser] = useState([]);
+  const { onlineUsers } = useWSContext();
 
   useEffect(() => {
-    if (isLogin) {
-      const getOnlineUser = async () => {
-        const { data: onlineUsers } = await userService.getAllUsers();
-        setOnlineUser(onlineUsers);
-      };
-      getOnlineUser();
-    }
-  }, [isLogin]);
+    const getOnlineUser = async () => {
+      const currentUsers = onlineUsers.map(async (user) => {
+        const { data: res } = await userService.getUserByUsername(user);
+        return res;
+      });
+      const result = await Promise.all(currentUsers);
+      setOnlineUser(result);
+    };
+    getOnlineUser();
+  }, [onlineUsers]);
 
   return (
     <List
       dense
-      sx={{ width: '104%', marginTop: 2 }}
+      sx={{ width: '100%', marginTop: 2 }}
       subheader={
         <ListSubheader
           sx={{
             width: '10%',
             marginBottom: 2,
-            bgcolor: '#F9FAFC',
-            fontColor: 'black',
           }}
         >
           ONLINEUSERS

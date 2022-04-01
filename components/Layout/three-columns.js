@@ -9,7 +9,14 @@ const ThreeColumns = ({ children }) => {
     <Grid container direction="row" spacing={2}>
       <Grid item xs={3}>
         <SearchBar />
-        <OnlineUserStyle />
+        <div
+          style={{
+            backgroundColor: 'white',
+            borderRadius: '5px',
+          }}
+        >
+          <OnlineUserStyle />
+        </div>
       </Grid>
       <Grid item xs={6}>
         {children}

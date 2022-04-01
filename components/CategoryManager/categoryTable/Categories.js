@@ -38,7 +38,6 @@ const headCells = [
   { id: 'title', label: 'Category Title', disableSorting: true },
   { id: 'description', label: 'Description', disableSorting: true },
   { id: 'color', label: 'Color', disableSorting: true },
-  { id: 'pinPost', label: 'pinPost', disableSorting: true },
   { id: 'postCount', label: 'postCount', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
@@ -74,8 +73,11 @@ const Category = () => {
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    useTable(records, headCells, filterFn);
+  const { TblContainer, TblHead, recordsAfterPagingAndSorting } = useTable(
+    records,
+    headCells,
+    filterFn,
+  );
 
   const edit = async (category) => {
     const updateCategories = (updatedCategory, oldRecords) => {
@@ -197,9 +199,6 @@ const Category = () => {
                           >
                             {item.color}
                           </TableCell>
-                          <TableCell>
-                            {item.pinPost && item.pinPost.title}
-                          </TableCell>
                           <TableCell>{item.postCount}</TableCell>
                           <TableCell>
                             <Controls.ActionButton
@@ -235,7 +234,6 @@ const Category = () => {
             )}
           </Droppable>
         </TblContainer>
-        <TblPagination />
         <SavBtn
           text="Save All Changes."
           variant="outlined"

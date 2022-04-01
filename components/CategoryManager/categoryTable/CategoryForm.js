@@ -55,17 +55,6 @@ const CategoryForm = (props) => {
         ? ''
         : 'color is not valid.';
     }
-    if (
-      'pinPost' in fieldValues &&
-      fieldValues.pinPost !== '' &&
-      fieldValues.pinPost !== null
-    )
-      temp.pinPost =
-        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
-          fieldValues.pinPost,
-        )
-          ? ''
-          : 'pinPost is not valid.';
     setErrors({
       ...temp,
     });
@@ -143,13 +132,6 @@ const CategoryForm = (props) => {
             value={values.color}
             onChange={handleInputChange}
             error={errors.color}
-          />
-          <Controls.Input
-            name="pinPost"
-            label="pinPost"
-            value={values.pinPost}
-            onChange={handleInputChange}
-            error={errors.pinPost}
           />
           <div>
             <Controls.Button
