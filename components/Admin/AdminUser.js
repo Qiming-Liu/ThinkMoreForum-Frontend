@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Avatar, Button, Link, Typography } from '@mui/material';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useRouter } from 'next/router';
@@ -13,6 +13,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import { changeUsersRoles } from '../../services/Users';
 import useUsersToSubmit from './useUsersToSubmit';
+import { getAllRoles } from '../../services/Role';
 
 const useStyles = makeStyles({
   customDataGrid: {
@@ -47,6 +48,8 @@ export const AdminUser = ({ allUsers }) => {
     useUsersToSubmit();
   const classes = useStyles();
   const router = useRouter();
+  const [roles, setRoles] = useState([]);
+
   const initialRows = allUsers.map((user) => {
     const userForDataGrid = {
       id: user.id,
@@ -61,71 +64,69 @@ export const AdminUser = ({ allUsers }) => {
 
   const [rows, setRows] = useState(initialRows);
 
-  const columns = [
-    {
-      field: 'avatarUrl',
-      headerName: 'Avatar',
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <NextLink
-            href={{
-              pathname: `/profile/${params.row.name}`,
-            }}
-            passHref
-          >
-            <Link
+  const columns = useMemo(
+    () => [
+      {
+        field: 'avatarUrl',
+        headerName: 'Avatar',
+        width: 100,
+        renderCell: (params) => {
+          return (
+            <NextLink
               href={{
                 pathname: `/profile/${params.row.name}`,
               }}
+              passHref
             >
-              <Avatar src={params.row.avatarUrl} sx={{ mr: 2 }} />
-            </Link>
-          </NextLink>
-        );
+              <Link
+                href={{
+                  pathname: `/profile/${params.row.name}`,
+                }}
+              >
+                <Avatar src={params.row.avatarUrl} sx={{ mr: 2 }} />
+              </Link>
+            </NextLink>
+          );
+        },
       },
-    },
-    {
-      field: 'name',
-      headerName: 'Name',
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <NextLink
-            href={{
-              pathname: `/profile/${params.row.name}`,
-            }}
-            passHref
-          >
-            <Link
+      {
+        field: 'name',
+        headerName: 'Name',
+        width: 200,
+        renderCell: (params) => {
+          return (
+            <NextLink
               href={{
                 pathname: `/profile/${params.row.name}`,
               }}
+              passHref
             >
-              <Typography color="textPrimary" sx={{ fontSize: '0.875rem' }}>
-                {params.row.name}
-              </Typography>
-            </Link>
-          </NextLink>
-        );
+              <Link
+                href={{
+                  pathname: `/profile/${params.row.name}`,
+                }}
+              >
+                <Typography color="textPrimary" sx={{ fontSize: '0.875rem' }}>
+                  {params.row.name}
+                </Typography>
+              </Link>
+            </NextLink>
+          );
+        },
       },
-    },
-    { field: 'email', headerName: 'Email', width: 250 },
-    { field: 'logintime', headerName: 'Last login', width: 200 },
-    {
-      field: 'role',
-      headerName: 'Role',
-      type: 'singleSelect',
-      valueOptions: [
-        'admin',
-        'verified_user',
-        'unverified_user',
-        'banned_user',
-      ],
-      width: 200,
-      editable: true,
-    },
-  ];
+      { field: 'email', headerName: 'Email', width: 250 },
+      { field: 'logintime', headerName: 'Last login', width: 200 },
+      {
+        field: 'role',
+        headerName: 'Role',
+        type: 'singleSelect',
+        valueOptions: roles,
+        width: 200,
+        editable: true,
+      },
+    ],
+    [roles],
+  );
 
   const handleSubmit = () => {
     changeUsersRoles(usersToSubmit);
@@ -145,6 +146,15 @@ export const AdminUser = ({ allUsers }) => {
       ),
     );
   };
+
+  useEffect(() => {
+    const fetchRoles = async () => {
+      const { data: rawRolesInfo } = await getAllRoles();
+      const roleNames = rawRolesInfo.map((roleInfo) => roleInfo.roleName);
+      setRoles(roleNames);
+    };
+    fetchRoles();
+  }, []);
 
   return (
     <div style={{ width: '100%' }}>
