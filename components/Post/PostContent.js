@@ -12,7 +12,6 @@ import {
   Typography,
   Grid,
   IconButton,
-  Link,
   Stack,
 } from '@mui/material';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
@@ -77,31 +76,15 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
                   }}
                   passHref
                 >
-                  <Link
-                    href={{
-                      pathname: userProfileUrl,
-                    }}
-                  >
-                    <Avatar src={post.postUsers.headImgUrl} />
-                  </Link>
+                  <Avatar
+                    src={post.postUsers.headImgUrl}
+                    sx={{ cursor: 'pointer' }}
+                  />
                 </NextLink>
                 <Box sx={{ ml: 2, display: 'flex', flexDirection: 'row' }}>
-                  <NextLink
-                    href={{
-                      pathname: userProfileUrl,
-                    }}
-                    passHref
-                  >
-                    <Link
-                      href={{
-                        pathname: userProfileUrl,
-                      }}
-                    >
-                      <Typography variant="subtitle2">
-                        By {post.postUsers.username}
-                      </Typography>
-                    </Link>
-                  </NextLink>
+                  <Typography variant="subtitle2">
+                    By {post.postUsers.username}
+                  </Typography>
                   <Typography variant="subtitle2" sx={{ ml: 0.8 }}>
                     • {MyTime(post.createTimestamp)}
                   </Typography>

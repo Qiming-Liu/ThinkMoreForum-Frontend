@@ -6,12 +6,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import NextLink from 'next/link';
-import { Link } from '@mui/material';
+import { Box } from '@mui/material';
 import LensIcon from '@mui/icons-material/Lens';
 import * as userService from '../../services/Public';
 import { useWSContext } from '../../contexts/WSContext';
 
-const OnlineUserStyle = () => {
+const OnlineUser = () => {
   const [onlineUser, setOnlineUser] = useState([]);
   const { onlineUsers } = useWSContext();
 
@@ -61,20 +61,18 @@ const OnlineUserStyle = () => {
                 }}
                 passHref
               >
-                <Link
-                  href={{
-                    pathname: `/profile/${value.username}`,
-                  }}
-                  style={{
+                <Box
+                  sx={{
                     display: 'flex',
                     justifyContent: 'flex-end',
                     textDecoration: 'none',
                     fontSize: 14,
                     color: 'black',
+                    cursor: 'pointer',
                   }}
                 >
                   {`${value.username}`}
-                </Link>
+                </Box>
               </NextLink>
             </ListItemButton>
           </ListItem>
@@ -84,4 +82,4 @@ const OnlineUserStyle = () => {
   );
 };
 
-export default OnlineUserStyle;
+export default OnlineUser;

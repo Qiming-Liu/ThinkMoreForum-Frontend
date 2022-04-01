@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Avatar, Button, Link, Typography } from '@mui/material';
+import { Avatar, Button, Typography } from '@mui/material';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
@@ -78,13 +78,10 @@ export const AdminUser = ({ allUsers }) => {
               }}
               passHref
             >
-              <Link
-                href={{
-                  pathname: `/profile/${params.row.name}`,
-                }}
-              >
-                <Avatar src={params.row.avatarUrl} sx={{ mr: 2 }} />
-              </Link>
+              <Avatar
+                src={params.row.avatarUrl}
+                sx={{ mr: 2, cursor: 'pointer' }}
+              />
             </NextLink>
           );
         },
@@ -95,22 +92,9 @@ export const AdminUser = ({ allUsers }) => {
         width: 200,
         renderCell: (params) => {
           return (
-            <NextLink
-              href={{
-                pathname: `/profile/${params.row.name}`,
-              }}
-              passHref
-            >
-              <Link
-                href={{
-                  pathname: `/profile/${params.row.name}`,
-                }}
-              >
-                <Typography color="textPrimary" sx={{ fontSize: '0.875rem' }}>
-                  {params.row.name}
-                </Typography>
-              </Link>
-            </NextLink>
+            <Typography color="textPrimary" sx={{ fontSize: '0.875rem' }}>
+              {params.row.name}
+            </Typography>
           );
         },
       },

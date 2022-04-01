@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import Comments from './components/Comments';
+import Comments from './Comments';
 import photo from '../../public/logo.svg';
 import { getMaxCountCommentPost } from '../../services/Public';
 
 const PostContainer = styled.div`
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  border: 1px solid #e0e0e0;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -19,16 +18,19 @@ const CommentContainer = styled.div`
   margin-left: 10px;
 `;
 
-const RandomPoat = () => {
+const RandomPost = () => {
   const [post, setPost] = React.useState(null);
   const [comments, setComments] = React.useState(null);
   const image = post ? post.headImgUrl : photo;
 
   useEffect(() => {
     const getpost = async () => {
-      const { data: result } = await getMaxCountCommentPost();
-      setPost(result.post);
-      setComments(result.comments);
+      try {
+        const { data: result } = await getMaxCountCommentPost();
+        setPost(result.post);
+        setComments(result.comments);
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
     };
     getpost();
   }, []);
@@ -54,4 +56,4 @@ const RandomPoat = () => {
   );
 };
 
-export default RandomPoat;
+export default RandomPost;

@@ -16,16 +16,12 @@ import QuillEditor from '../../QuillEditor';
 import { postPost } from '../../../services/Post';
 import upload from '../../../services/Img';
 import hotToast from '../../../utils/hotToast';
-import ImageDropZone from '../../ImageDropZone';
-import fileToBase64 from '../../../utils/fileToBase64';
-import ImageCropper from '../../ImageCropper';
-import SignDialog from '../../Sign/SignDialog';
+import ImgDropzone from '../../ImgDropzone';
 
 const PostCreate = ({ categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
   const [cover, setCover] = useState();
   const [image, setImage] = useState(undefined);
-  const [isOpen, setIsOpen] = useState(false);
   const formik = useFormik({
     initialValues: {
       context: '',
@@ -66,11 +62,10 @@ const PostCreate = ({ categoryTitle }) => {
     },
   });
 
-  const handleCoverDrop = async ([file]) => {
-    const data = await fileToBase64(file);
-    setCover(data);
+  const handleCropImg = async (base64) => {
+    setCover(base64);
+    const file = await (await fetch(base64)).blob();
     setImage(file);
-    setIsOpen(true);
   };
 
   const cancel = () => Router.back();
@@ -87,13 +82,14 @@ const PostCreate = ({ categoryTitle }) => {
             {cover ? (
               <Box
                 sx={{
+                  backgroundImage: `url(${cover})`,
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
                   borderRadius: 1,
-                  height: 330,
+                  height: 380,
                   mt: 3,
                 }}
-              >
-                <Image src={cover} width="650px" height="330px" />
-              </Box>
+              />
             ) : (
               <Box
                 sx={{
@@ -124,13 +120,46 @@ const PostCreate = ({ categoryTitle }) => {
               </Box>
             )}
             <Box sx={{ mt: 3 }}>
-              <ImageDropZone
+              <ImgDropzone
                 accept="image/jpg,image/png, image/jpeg"
-                maxFiles={1}
-                onDrop={handleCoverDrop}
-                maxSize={5242880}
-                minsize={0}
-              />
+                afterCrop={handleCropImg}
+                aspectRatio={2.37}
+              >
+                <Box
+                  sx={{
+                    alignItems: 'center',
+                    border: 1,
+                    borderRadius: 1,
+                    borderStyle: 'dashed',
+                    borderColor: 'divider',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    outline: 'none',
+                    p: 6,
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                      cursor: 'pointer',
+                      opacity: 0.5,
+                    },
+                  }}
+                >
+                  <Image
+                    alt="Select image"
+                    src="/file_upload.svg"
+                    width={100}
+                    height={80}
+                  />
+                  <Box sx={{ p: 2 }}>
+                    <Typography variant="h6">Select image</Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Typography variant="body1">
+                        Drop image browse thorough your machine
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </ImgDropzone>
             </Box>
           </CardContent>
         </Card>
@@ -162,8 +191,12 @@ const PostCreate = ({ categoryTitle }) => {
               onChange={(value) => {
                 formik.setFieldValue('context', value);
               }}
-              placeholder="Write something"
               value={formik.values.context}
+              placeholder="Write something"
+              sx={{
+                height: 330,
+                mt: 3,
+              }}
             />
           </CardContent>
         </Card>
@@ -190,16 +223,6 @@ const PostCreate = ({ categoryTitle }) => {
           </LoadingButton>
         </Box>
       </form>
-      <SignDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <ImageCropper
-          src={cover}
-          alt="image"
-          setCover={setCover}
-          setIsOpen={setIsOpen}
-          setImage={setImage}
-          file={image}
-        />
-      </SignDialog>
     </>
   );
 };

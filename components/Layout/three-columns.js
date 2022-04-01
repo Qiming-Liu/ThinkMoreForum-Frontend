@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import SearchBar from '../SearchBar';
-import RandomPoat from '../RandomPost';
-import OnlineUserStyle from '../OnlineUserStyle';
+import RandomPost from '../RandomPost';
+import OnlineUser from '../OnlineUserStyle';
 
 const ThreeColumns = ({ children }) => {
   return (
@@ -15,14 +15,14 @@ const ThreeColumns = ({ children }) => {
             borderRadius: '5px',
           }}
         >
-          <OnlineUserStyle />
+          <OnlineUser />
         </div>
       </Grid>
       <Grid item xs={6}>
         {children}
       </Grid>
       <Grid item xs={3}>
-        <RandomPoat />
+        <RandomPost />
       </Grid>
     </Grid>
   );

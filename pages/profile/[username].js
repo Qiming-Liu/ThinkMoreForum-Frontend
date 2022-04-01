@@ -33,7 +33,7 @@ import { changeProfileImg } from '../../services/Users';
 import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
 import { useWSContext } from '../../contexts/WSContext';
-import FileDropzone from '../../components/FileDropzone';
+import ImgDropzone from '../../components/ImgDropzone';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -198,7 +198,7 @@ const Profile = () => {
           }}
         >
           {myDetail && username === myDetail.username && (
-            <FileDropzone
+            <ImgDropzone
               accept="image/jpg,image/png, image/jpeg"
               afterCrop={handleCropImg}
               aspectRatio={2.73}
@@ -227,7 +227,7 @@ const Profile = () => {
               >
                 Change Cover
               </Button>
-            </FileDropzone>
+            </ImgDropzone>
           )}
         </Box>
         <Box
