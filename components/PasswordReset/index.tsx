@@ -19,12 +19,18 @@ import { setJWTAction } from '../../store/actions/signAction';
 import { passwordReset } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
 
+type submitProps = {
+  password: string;
+  passwordConfirm: string;
+  submit: boolean | null;
+};
+
 const PasswordReset = () => {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const { token } = router.query;
-  dispatch(setJWTAction(decodeURI(token)));
+  dispatch(setJWTAction(decodeURI(token as string)));
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -41,18 +47,17 @@ const PasswordReset = () => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Password is required'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values: submitProps) => {
       const { password } = values;
       setLoading(true);
-      await passwordReset(password)
-        .then(() => {
-          router.replace('/');
-          hotToast('success', 'Reset Password Success');
-        })
-        .catch(() => {
-          setLoading(false);
-          hotToast('error', 'Something went wrong!');
-        });
+      try {
+        passwordReset(password);
+        router.replace('/');
+        hotToast('success', 'Reset Password Success');
+      } catch {
+        setLoading(false);
+        hotToast('error', 'Something went wrong!');
+      }
     },
   });
 

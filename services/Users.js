@@ -4,11 +4,13 @@ export const getAllUsers = () => http(`/v1/users/all`, { method: 'GET' });
 
 export const hasOpenid = () => http(`/v1/users/open_id`, { method: 'GET' });
 
-export const passwordReset = (password) =>
+export const passwordReset = (password) => {
+  const data = { password };
   http(`/v1/users/password_reset`, {
     method: 'PUT',
-    data: { new_password: password },
+    data,
   });
+};
 
 export const getUserByContainingString = (string) =>
   http(`/v1/users/string/${string}`, { method: 'GET' });
