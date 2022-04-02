@@ -18,7 +18,9 @@ const Comments = ({ comment }) => {
               }}
               passHref
             >
-              {commentUsers.username}
+              <Typography variant="subtitle2">
+                {commentUsers.username}
+              </Typography>
             </NextLink>
           }
           avatar={

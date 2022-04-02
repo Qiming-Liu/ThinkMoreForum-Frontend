@@ -85,6 +85,7 @@ const Category = (props) => {
               sm: 'row',
             },
             cursor: 'pointer',
+            borderRadius: '20px',
           }}
         >
           {mobileDevice || (
