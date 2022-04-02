@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from '@mui/material';
 import { getFollowing, getFollower } from '../../services/Public';
 import FollowCard from './FollowCard';
 
@@ -24,11 +23,7 @@ const ProfileFollow = (props) => {
     }
   }, [title, value]);
   if (!follow) return null;
-  return (
-    <Card {...props}>
-      <FollowCard follow={follow} title={title} />
-    </Card>
-  );
+  return <FollowCard follow={follow} title={title} />;
 };
 
 export default ProfileFollow;

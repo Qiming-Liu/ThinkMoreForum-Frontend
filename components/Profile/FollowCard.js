@@ -1,15 +1,23 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Avatar, Box, Card, CardHeader, Divider, Grid } from '@mui/material';
+import {
+  Avatar,
+  Card,
+  CardHeader,
+  CardContent,
+  Divider,
+  Grid,
+  Tooltip,
+} from '@mui/material';
 
 const FollowCard = (props) => {
   const { follow, title } = props;
 
   return (
-    <Card {...props}>
+    <Card>
       <CardHeader title={title} />
       <Divider />
-      <Box sx={{ p: 3 }}>
+      <CardContent>
         <Grid container spacing={3}>
           {follow.map((fo) => (
             <Grid item key={fo.id} md={2} xs={12}>
@@ -22,22 +30,31 @@ const FollowCard = (props) => {
                 }}
                 passHref
               >
-                <Avatar
-                  src={
+                <Tooltip
+                  title={
                     title === 'Following'
-                      ? fo.followedUsers.headImgUrl
-                      : fo.users.headImgUrl
+                      ? fo.followedUsers.username
+                      : fo.users.username
                   }
-                  sx={{
-                    height: 56,
-                    width: 56,
-                  }}
-                />
+                >
+                  <Avatar
+                    src={
+                      title === 'Following'
+                        ? fo.followedUsers.headImgUrl
+                        : fo.users.headImgUrl
+                    }
+                    sx={{
+                      height: 56,
+                      width: 56,
+                      cursor: 'pointer',
+                    }}
+                  />
+                </Tooltip>
               </NextLink>
             </Grid>
           ))}
         </Grid>
-      </Box>
+      </CardContent>
     </Card>
   );
 };

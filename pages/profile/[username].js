@@ -180,15 +180,12 @@ const Profile = () => {
         }}
       >
         <Box
-          style={{
-            backgroundImage: `url(${currentProfileImg || user.profileImgUrl})`,
-          }}
           sx={{
+            backgroundImage: `url(${currentProfileImg || user.profileImgUrl})`,
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             borderRadius: 1,
-            height: 348,
+            height: 380,
             position: 'relative',
             '&:hover': {
               '& button': {
@@ -201,7 +198,7 @@ const Profile = () => {
             <ImgDropzone
               accept="image/jpg,image/png, image/jpeg"
               afterCrop={handleCropImg}
-              aspectRatio={2.73}
+              aspectRatio={2.5}
             >
               <Button
                 startIcon={<AddPhotoIcon fontSize="small" />}
