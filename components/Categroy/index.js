@@ -78,8 +78,8 @@ const Category = (props) => {
         >
           <Grid
             item
-            xs={5}
-            sm={5}
+            xs={4}
+            sm={4}
             sx={{
               borderRadius: 4,
               backgroundColor: color,
@@ -93,7 +93,7 @@ const Category = (props) => {
             item
             xs={7}
             sm={7}
-            sx={{ display: 'flex', flexDirection: 'column', m: 5, my: 5 }}
+            sx={{ display: 'flex', flexDirection: 'column', m: 4, my: 5 }}
           >
             <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
               <Typography
