@@ -13,8 +13,14 @@ import {
   Typography,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { sendResetPasswordEmail } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
+import { sendResetPasswordEmail } from '../../services/Public';
+
+type submitProps = {
+  email: string;
+  success: boolean | null;
+  submit: boolean | null;
+};
 
 const PasswordRecovery = () => {
   const [isLoading, setLoading] = useState(false);
@@ -22,7 +28,7 @@ const PasswordRecovery = () => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      success: '',
+      success: null,
       submit: null,
     },
     validationSchema: Yup.object({
@@ -31,7 +37,7 @@ const PasswordRecovery = () => {
         .max(255)
         .required('Email is required'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values: submitProps) => {
       setLoading(true);
       await sendResetPasswordEmail(values.email);
       hotToast('success', 'Check your email for a reset link');
