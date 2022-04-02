@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Badge, IconButton, Tooltip } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsPopover from './NotificationsPopover';
-import BellIcon from '../../icons/bell';
 
 const NotificationsButton = () => {
   const anchorRef = useRef(null);
@@ -21,7 +21,7 @@ const NotificationsButton = () => {
           onClick={() => setOpenPopover(true)}
         >
           <Badge color="error" badgeContent={unread}>
-            <BellIcon fontSize="small" />
+            <NotificationsIcon fontSize="small" />
           </Badge>
         </IconButton>
       </Tooltip>

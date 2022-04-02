@@ -121,7 +121,7 @@ const Category = (props) => {
                   justifyContent: 'center',
                 }}
               >
-                <Typography color="inherit" variant="h4">
+                <Typography color="#222429" variant="h4">
                   {title}
                 </Typography>
                 <Typography

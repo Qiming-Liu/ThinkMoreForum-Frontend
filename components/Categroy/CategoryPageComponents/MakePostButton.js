@@ -7,7 +7,7 @@ import checkPermission from '../../../utils/checkPermission';
 import hotToast from '../../../utils/hotToast';
 import { openSignDialog } from '../../../store/actions/signAction';
 
-const NewPostButton = ({ categoryTitle }) => {
+const MakePostButton = ({ categoryTitle, mobileDevice }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { isLogin, myDetail } = useSelector((state) => state.sign);
@@ -34,7 +34,7 @@ const NewPostButton = ({ categoryTitle }) => {
       sx={{
         position: 'fixed',
         bottom: (theme) => theme.spacing(3),
-        right: (theme) => theme.spacing(10),
+        right: (theme) => theme.spacing(mobileDevice ? 3 : 10),
       }}
     >
       <Slide
@@ -57,4 +57,4 @@ const NewPostButton = ({ categoryTitle }) => {
   );
 };
 
-export default NewPostButton;
+export default MakePostButton;

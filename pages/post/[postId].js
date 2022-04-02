@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Button, Divider } from '@mui/material';
 import NextLink from 'next/link';
-import ArrowLeftIcon from '../../icons/arrow-left';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   checkIsFavoringPost,
   submitUnfavoritePost,
@@ -143,7 +143,7 @@ const Post = ({ post }) => {
     <CommonContainer>
       <PinPostContextProvider thisPost={post}>
         <NextLink href={`/category/${post.category.title}`} passHref>
-          <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
+          <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
             Back to {post.category.title}
           </Button>
         </NextLink>

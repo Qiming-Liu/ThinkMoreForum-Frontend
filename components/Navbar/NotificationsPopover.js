@@ -11,9 +11,8 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import MailOpenIcon from '../../icons/mail-open';
-import XIcon from '../../icons/x';
-import UserCircleIcon from '../../icons/user-circle';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   getNotifications,
   markAsViewed,
@@ -100,7 +99,7 @@ const NotificationsPopover = (props) => {
             size="small"
             sx={{ color: 'inherit' }}
           >
-            <MailOpenIcon fontSize="small" />
+            <DraftsIcon fontSize="small" />
           </IconButton>
         </Tooltip>
       </Box>
@@ -132,16 +131,14 @@ const NotificationsPopover = (props) => {
                       onClick={() => handleRemoveOne(id)}
                       size="small"
                     >
-                      <XIcon sx={{ fontSize: 14 }} />
+                      <CloseIcon sx={{ fontSize: 14 }} />
                     </IconButton>
                   </Tooltip>
                 }
               >
                 <>
                   <ListItemAvatar sx={{ mt: 0.5 }}>
-                    <Avatar src={imgUrl}>
-                      <UserCircleIcon fontSize="small" />
-                    </Avatar>
+                    <Avatar src={imgUrl} />
                   </ListItemAvatar>
                   <ListItemText
                     primary={

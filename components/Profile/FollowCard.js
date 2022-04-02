@@ -20,7 +20,7 @@ const FollowCard = (props) => {
       <CardContent>
         <Grid container spacing={3}>
           {follow.map((fo) => (
-            <Grid item key={fo.id} md={2} xs={12}>
+            <Grid item key={fo.id} md={1}>
               <NextLink
                 href={{
                   pathname:

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar, Box, ButtonBase } from '@mui/material';
-import UserCircleIcon from '../../icons/user-circle';
 import AccountPopover from './AccountPopover';
 
 const AccountButton = ({ isLogin }) => {
@@ -31,9 +30,7 @@ const AccountButton = ({ isLogin }) => {
             width: 40,
           }}
           src={myDetail.headImgUrl}
-        >
-          <UserCircleIcon fontSize="small" />
-        </Avatar>
+        />
       </Box>
       <AccountPopover
         anchorEl={anchorRef.current}

@@ -26,7 +26,6 @@ import {
   setUsernameAction,
   setEmailAction,
 } from '../../store/actions/signAction';
-import UserCircleIcon from '../../icons/user-circle';
 import ImgDropzone from '../ImgDropzone';
 
 const Form = (props) => {
@@ -156,9 +155,7 @@ const Form = (props) => {
                       mr: 2,
                       width: 64,
                     }}
-                  >
-                    <UserCircleIcon fontSize="small" />
-                  </Avatar>
+                  />
                   <ImgDropzone
                     accept="image/jpg,image/png, image/jpeg"
                     afterCrop={handleCropImg}

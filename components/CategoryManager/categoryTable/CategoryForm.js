@@ -3,7 +3,6 @@ import { Grid, Avatar, Box } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import Form, { useForm } from '../useForm';
 import Controls from '../controls/Controls';
-import UserCircleIcon from '../../../icons/user-circle';
 import ImgDropzone from '../../ImgDropzone';
 
 const initialFValues = {
@@ -116,9 +115,7 @@ const CategoryForm = (props) => {
                 mr: 2,
                 width: 64,
               }}
-            >
-              <UserCircleIcon fontSize="small" />
-            </Avatar>
+            />
             <ImgDropzone
               accept="image/jpg,image/png, image/jpeg"
               onDrop={handleDropImg}

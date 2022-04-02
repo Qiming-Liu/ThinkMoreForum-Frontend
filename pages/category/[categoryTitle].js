@@ -9,12 +9,14 @@ import {
   TextField,
   IconButton,
   InputAdornment,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import CheckIcon from '@mui/icons-material/Check';
 import Head from 'next/head';
 import useSWR from 'swr';
-import ArrowLeftIcon from '../../icons/arrow-left';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   getCategoryByTitle,
   getPostById,
@@ -29,7 +31,7 @@ import getInitialDisplaySettings from '../../utils/getInitialDisplaySettings';
 import DisplaySettings from '../../components/Categroy/CategoryPageComponents/DisplaySettings';
 import DisplaySettingsSecondRow from '../../components/Categroy/CategoryPageComponents/DisplaySettingsSecondRow';
 import PinPostCard from '../../components/Post/PinPostCard';
-import NewPostButton from '../../components/Categroy/CategoryPageComponents/NewPostButton';
+import MakePostButton from '../../components/Categroy/CategoryPageComponents/MakePostButton';
 
 const validNumberInput = /[^0-9]/;
 
@@ -56,6 +58,8 @@ const getTotalPostsCountSWR = async (categoryId) => {
 };
 
 const PostList = () => {
+  const theme = useTheme();
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   const router = useRouter();
   const { categoryTitle } = router.query;
   const { data: thisCategory, error: thisCategoryError } = useSWR(
@@ -184,7 +188,7 @@ const PostList = () => {
         <title>{categoryTitle} | ThinkMoreForum</title>
       </Head>
       <NextLink href="/" passHref>
-        <Button component="a" startIcon={<ArrowLeftIcon fontSize="small" />}>
+        <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
           Back to Home
         </Button>
       </NextLink>
@@ -283,7 +287,10 @@ const PostList = () => {
           }}
         />
       </Box>
-      <NewPostButton categoryTitle={categoryTitle} />
+      <MakePostButton
+        categoryTitle={categoryTitle}
+        mobileDevice={mobileDevice}
+      />
     </CommonContainer>
   );
 };

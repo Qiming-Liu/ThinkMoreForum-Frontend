@@ -47,6 +47,17 @@ const Navbar = () => {
             />
           </div>
         </NextLink>
+        <h1
+          style={{
+            fontFamily: 'Quicksand, sans-serif',
+            color: '#222429',
+            marginTop: 7,
+            marginLeft: '48.5%',
+            transform: 'translateX(-50%)',
+          }}
+        >
+          thinkmore.
+        </h1>
         <Box sx={{ flexGrow: 1 }} />
         <>
           {isLogin || <Sign />}
