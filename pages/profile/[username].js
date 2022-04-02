@@ -280,10 +280,18 @@ const Profile = () => {
               <ProfilePost title="Favorite" value={username} />
             )}
             {currentTab === 'following' && (
-              <ProfileFollow title="Following" value={username} />
+              <ProfileFollow
+                title="Following"
+                value={username}
+                status={followedStatus}
+              />
             )}
             {currentTab === 'follower' && (
-              <ProfileFollow title="Follower" value={username} />
+              <ProfileFollow
+                title="Follower"
+                value={username}
+                status={followedStatus}
+              />
             )}
           </Box>
         </Box>
