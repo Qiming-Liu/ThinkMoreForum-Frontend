@@ -1,21 +1,17 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { Card, Box } from '@mui/material';
 import Comments from './Comments';
 import photo from '../../public/logo.svg';
 import { getMaxCountCommentPost } from '../../services/Public';
 
-const PostContainer = styled.div`
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+const CustomBox = styled(Box)`
   overflow: hidden;
-  margin: 0;
-  padding: 0;
-  width: 330px;
-  background-color: #ffffff;
-`;
-const CommentContainer = styled.div`
-  margin-top: 10px;
-  margin-left: 10px;
+
+  &:hover {
+    overflow-y: scroll;
+    overflow-y: overlay;
+  }
 `;
 
 const RandomPost = () => {
@@ -25,34 +21,58 @@ const RandomPost = () => {
 
   useEffect(() => {
     const getpost = async () => {
-      try {
-        const { data: result } = await getMaxCountCommentPost();
-        setPost(result.post);
-        setComments(result.comments);
-        // eslint-disable-next-line no-empty
-      } catch (e) {}
+      const { data: result } = await getMaxCountCommentPost();
+      setPost(result.post);
+      setComments(result.comments);
     };
     getpost();
   }, []);
+
   return (
-    <PostContainer>
-      <div
+    <Card
+      style={{
+        borderRadius: '16px',
+        paddingBottom: '10px',
+        backgroundColor: '#ffffff',
+        marginRight: '30px',
+      }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '350px',
+        alignItems: 'center',
+      }}
+      elevation={2}
+    >
+      <Box
         style={{
           backgroundImage: `url(${image})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           position: 'relative',
-          width: '330px',
+          width: '95%',
+          marginTop: '10px',
           height: '350px',
+          borderRadius: 'inherit',
         }}
       />
-      {comments &&
-        comments.map((comment) => (
-          <CommentContainer sx={{ mt: 1, ml: 1 }}>
-            <Comments comment={comment} />
-          </CommentContainer>
-        ))}
-    </PostContainer>
+      <CustomBox
+        style={{
+          position: 'relative',
+          width: '95%',
+          maxHeight: '350px',
+          borderRadius: 'inherit',
+          marginTop: '15px',
+        }}
+      >
+        {comments &&
+          comments.map((comment) => (
+            <Card sx={{ mb: 1.2, px: 1.2 }}>
+              <Comments comment={comment} />
+            </Card>
+          ))}
+      </CustomBox>
+    </Card>
   );
 };
 

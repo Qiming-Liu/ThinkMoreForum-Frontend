@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import NextLink from 'next/link';
-import { Link } from '@mui/material';
+import styled from 'styled-components';
+import { Divider } from '@mui/material';
 import * as userService from '../../services/Public';
 import { useWSContext } from '../../contexts/WSContext';
+import UserInfoRow from './UserInfoRow';
+
+const CustomList = styled(List)`
+  overflow: hidden;
+
+  &:hover {
+    overflow-y: scroll;
+    overflow-y: overlay;
+  }
+`;
 
 const OnlineUserStyle = () => {
   const [onlineUser, setOnlineUser] = useState([]);
@@ -29,7 +36,7 @@ const OnlineUserStyle = () => {
   }, [onlineUsers]);
 
   return (
-    <List
+    <CustomList
       dense
       sx={{ width: '100%', marginTop: 1 }}
       subheader={
@@ -41,12 +48,15 @@ const OnlineUserStyle = () => {
             fontSize: '1.2rem',
             marginLeft: '2px',
             height: '35px',
+            overflow: 'hidden',
           }}
         >
           Online Users
         </ListSubheader>
       }
+      style={{ overflow: 'hidden' }}
     >
+      <Divider sx={{ mt: 1.8 }} variant="middle" />
       {onlineUser.map((value) => {
         return (
           <ListItem
@@ -56,49 +66,22 @@ const OnlineUserStyle = () => {
               <div
                 style={{
                   backgroundColor: '#8AE68A',
-                  width: 15,
-                  height: 15,
+                  width: 12,
+                  height: 12,
                   borderRadius: '50%',
-                  marginRight: '18px',
+                  marginRight: '10px',
                 }}
               />
             }
-            style={{
-              marginTop: '18px',
-              marginBottom: '18px',
+            sx={{
+              my: '13px',
             }}
           >
-            <ListItemButton>
-              <ListItemAvatar>
-                <Avatar src={value.headImgUrl} sx={{ mr: 2 }} />
-              </ListItemAvatar>
-              <NextLink
-                href={{
-                  pathname: `/profile/${value.username}`,
-                }}
-                passHref
-              >
-                <Link
-                  href={{
-                    pathname: `/profile/${value.username}`,
-                  }}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    textDecoration: 'none',
-                    fontSize: 17,
-                    letterSpacing: 1.2,
-                    color: '#222429',
-                  }}
-                >
-                  {`${value.username}`}
-                </Link>
-              </NextLink>
-            </ListItemButton>
+            <UserInfoRow userInfo={value} />
           </ListItem>
         );
       })}
-    </List>
+    </CustomList>
   );
 };
 
