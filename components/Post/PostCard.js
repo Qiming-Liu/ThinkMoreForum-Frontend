@@ -48,7 +48,9 @@ const PostCard = (props) => {
         '& + &': {
           mt: 3,
         },
+        borderRadius: '20px',
       }}
+      elevation={4}
       {...other}
     >
       {headImg && (

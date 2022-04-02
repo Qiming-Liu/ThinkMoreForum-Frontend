@@ -1,45 +1,40 @@
 import React from 'react';
-import NextLink from 'next/link';
-import { Chip, Card, Typography, Link } from '@mui/material';
-import { updatePostViewCount } from '../../services/Public';
+import { Chip } from '@mui/material';
+import PostCard from './PostCard';
+import MyTime from '../../utils/myTime';
 
-const PinPostCard = (props) => {
-  const { id, title, context, ...other } = props;
-  const generatedUrl = `/post/${id}`;
-  const handleClick = () => {
-    updatePostViewCount(id);
-  };
+const PinPostCard = ({ pinPostInfo, displayHeadImg, displayAbstract }) => {
   return (
-    <Card
-      sx={{
-        alignItems: 'center',
-        backgroundColor: 'primary.main',
-        color: 'primary.contrastText',
-        p: 2,
-        pt: 2,
-      }}
-      {...other}
+    <div
+      style={{ position: 'relative', marginBottom: '24px', marginTop: '18px' }}
     >
-      <Chip color="secondary" label="PinPost" size="small" />
-      <NextLink href={generatedUrl ?? ''} passHref>
-        <Link href={generatedUrl ?? ''} component="a" onClick={handleClick}>
-          <Typography
-            color="secondary.contrastText"
-            sx={{ mt: 1 }}
-            variant="h4"
-          >
-            {title}
-          </Typography>
-        </Link>
-      </NextLink>
-      {context && (
-        <Typography color="inherit" sx={{ mt: 1 }} variant="subtitle2">
-          {context.length > 200
-            ? `${context.replace(/<.*?>| [</].*?>/gi, '').substring(0, 200)}...`
-            : context.replace(/<.*?>| [</].*?>/gi, '')}
-        </Typography>
-      )}
-    </Card>
+      <PostCard
+        key={pinPostInfo.id}
+        id={pinPostInfo.id}
+        authorAvatar={pinPostInfo.authorAvatar || '/logo.png'}
+        authorName={pinPostInfo.authorName}
+        authorId={pinPostInfo.authorId}
+        headImg={displayHeadImg && (pinPostInfo.headImgUrl || '/logo.png')}
+        createTimeStamp={MyTime(pinPostInfo.createTimestamp)}
+        abstract={displayAbstract && pinPostInfo.context}
+        title={pinPostInfo.title}
+        commentCount={pinPostInfo.commentCount}
+        viewCount={pinPostInfo.viewCount}
+        followCount={pinPostInfo.followCount}
+      />
+      <Chip
+        color="primary"
+        size="large"
+        label="PinPost"
+        style={{
+          position: 'absolute',
+          top: displayHeadImg ? '20px' : '31px',
+          left: displayHeadImg ? '20px' : '',
+          right: displayHeadImg ? '' : '60px',
+          boxShadow: '0px 0px 2px 1px rgba(0, 0, 0, 0.3)',
+        }}
+      />
+    </div>
   );
 };
 

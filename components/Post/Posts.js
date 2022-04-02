@@ -27,6 +27,7 @@ const Posts = ({
   sortParams,
   displayHeadImg,
   displayAbstract,
+  showPinPost,
 }) => {
   const { data, error } = useSWR(
     {
@@ -55,6 +56,9 @@ const Posts = ({
       viewCount,
       followCount,
     }) => {
+      if (showPinPost === id) {
+        return null;
+      }
       return (
         <PostCard
           key={id}
