@@ -5,8 +5,9 @@ import 'cropperjs/dist/cropper.css';
 const ImgCropper: React.FC<{
   onRef: any;
   aspectRatio: number;
+  lockAspectRatio: boolean;
   src: string;
-}> = ({ onRef, aspectRatio, src }) => {
+}> = ({ onRef, aspectRatio, lockAspectRatio, src }) => {
   const cropperRef = useRef<HTMLImageElement>(null);
   const [cropper, setCropper] = useState<any>();
 
@@ -19,11 +20,27 @@ const ImgCropper: React.FC<{
     },
   }));
 
-  return (
+  return lockAspectRatio ? (
     <Cropper
       src={src}
       style={{ height: 400, width: '100%' }}
-      // Cropper.js options //2.37
+      initialAspectRatio={aspectRatio}
+      background
+      autoCropArea={1}
+      guides
+      ref={cropperRef}
+      scalable={false}
+      movable={false}
+      zoomable={false}
+      zoomOnTouch={false}
+      onInitialized={(instance) => {
+        setCropper(instance);
+      }}
+    />
+  ) : (
+    <Cropper
+      src={src}
+      style={{ height: 400, width: '100%' }}
       initialAspectRatio={aspectRatio}
       aspectRatio={aspectRatio}
       background

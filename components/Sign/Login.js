@@ -14,8 +14,8 @@ import {
   Divider,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import FacebookIcon from '../../icons/facebook';
-import GoogleIcon from '../../icons/google';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from '@mui/icons-material/Google';
 import loginAction from '../../store/actions/httpAction';
 import hotToast from '../../utils/hotToast';
 

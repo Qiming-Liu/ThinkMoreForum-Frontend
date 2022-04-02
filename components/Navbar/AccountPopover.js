@@ -14,8 +14,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import UserCircleIcon from '../../icons/user-circle';
-import CogIcon from '../../icons/cog';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { logoutAction } from '../../store/actions/signAction';
 import { useWSContext } from '../../contexts/WSContext';
 
@@ -65,9 +64,7 @@ const AccountPopover = (props) => {
               height: 40,
               width: 40,
             }}
-          >
-            <UserCircleIcon fontSize="small" />
-          </Avatar>
+          />
 
           <Box
             sx={{
@@ -98,7 +95,7 @@ const AccountPopover = (props) => {
         <NextLink href="/setting" passHref>
           <MenuItem component="a">
             <ListItemIcon>
-              <CogIcon fontSize="small" />
+              <SettingsIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText
               primary={<Typography variant="body1">Settings</Typography>}
