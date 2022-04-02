@@ -7,10 +7,11 @@ import ListSubheader from '@mui/material/ListSubheader';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Avatar from '@mui/material/Avatar';
+import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from '@mui/material';
+import { InputAdornment, Link } from '@mui/material';
 import * as searchService from '../../services/Post';
 import * as searchUserService from '../../services/Users';
 import { updatePostViewCount } from '../../services/Public';
@@ -76,7 +77,24 @@ const SearchBar = () => {
       inputValue={searchInput}
       onInputChange={handleChange}
       renderInput={(params) => {
-        return <TextField {...params} variant="outlined" label="Search" />;
+        return (
+          <TextField
+            {...params}
+            variant="outlined"
+            label="Search"
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <>
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                  {params.InputProps.startAdornment}
+                </>
+              ),
+            }}
+          />
+        );
       }}
       renderOption={(props, option) => {
         if (option.username !== undefined) {
