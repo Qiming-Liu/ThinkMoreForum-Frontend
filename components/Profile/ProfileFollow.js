@@ -3,7 +3,7 @@ import { getFollowing, getFollower } from '../../services/Public';
 import FollowCard from './FollowCard';
 
 const ProfileFollow = (props) => {
-  const { title, value } = props;
+  const { title, value, status } = props;
   const [follow, setFollow] = useState(null);
   useEffect(() => {
     if (value) {
@@ -15,13 +15,14 @@ const ProfileFollow = (props) => {
         const { data: responsefollow } = await getFollower(value);
         setFollow(responsefollow);
       };
+      // console.log(status);
       if (title === 'Following') {
         getFollow();
       } else {
         getFans();
       }
     }
-  }, [title, value]);
+  }, [title, value, status]);
   if (!follow) return null;
   return <FollowCard follow={follow} title={title} />;
 };
