@@ -6,12 +6,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import NextLink from 'next/link';
-import { Box } from '@mui/material';
-import LensIcon from '@mui/icons-material/Lens';
+import { Link } from '@mui/material';
 import * as userService from '../../services/Public';
 import { useWSContext } from '../../contexts/WSContext';
 
-const OnlineUser = () => {
+const OnlineUserStyle = () => {
   const [onlineUser, setOnlineUser] = useState([]);
   const { onlineUsers } = useWSContext();
 
@@ -24,21 +23,27 @@ const OnlineUser = () => {
       const result = await Promise.all(currentUsers);
       setOnlineUser(result);
     };
-    getOnlineUser();
+    if (onlineUsers) {
+      getOnlineUser();
+    }
   }, [onlineUsers]);
 
   return (
     <List
       dense
-      sx={{ width: '100%', marginTop: 2 }}
+      sx={{ width: '100%', marginTop: 1 }}
       subheader={
         <ListSubheader
           sx={{
-            width: '10%',
-            marginBottom: 2,
+            bgcolor: 'transparent',
+          }}
+          style={{
+            fontSize: '1.2rem',
+            marginLeft: '2px',
+            height: '35px',
           }}
         >
-          ONLINEUSERS
+          Online Users
         </ListSubheader>
       }
     >
@@ -48,8 +53,20 @@ const OnlineUser = () => {
             key={value.id}
             disablePadding
             secondaryAction={
-              <LensIcon sx={{ color: '#71F3E9' }} fontSize="0.5px" />
+              <div
+                style={{
+                  backgroundColor: '#8AE68A',
+                  width: 15,
+                  height: 15,
+                  borderRadius: '50%',
+                  marginRight: '18px',
+                }}
+              />
             }
+            style={{
+              marginTop: '18px',
+              marginBottom: '18px',
+            }}
           >
             <ListItemButton>
               <ListItemAvatar>
@@ -61,18 +78,21 @@ const OnlineUser = () => {
                 }}
                 passHref
               >
-                <Box
-                  sx={{
+                <Link
+                  href={{
+                    pathname: `/profile/${value.username}`,
+                  }}
+                  style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
                     textDecoration: 'none',
-                    fontSize: 14,
-                    color: 'black',
-                    cursor: 'pointer',
+                    fontSize: 17,
+                    letterSpacing: 1.2,
+                    color: '#222429',
                   }}
                 >
                   {`${value.username}`}
-                </Box>
+                </Link>
               </NextLink>
             </ListItemButton>
           </ListItem>
@@ -82,4 +102,4 @@ const OnlineUser = () => {
   );
 };
 
-export default OnlineUser;
+export default OnlineUserStyle;
