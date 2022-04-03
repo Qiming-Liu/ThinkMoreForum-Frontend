@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import RandomPoat from '../RandomPost';
+import RandomPoat from '../RandomPost/index.tsx';
 import LeftSideColum from '../LeftSideColumn';
 
 const ThreeColumns = ({ children }) => {
