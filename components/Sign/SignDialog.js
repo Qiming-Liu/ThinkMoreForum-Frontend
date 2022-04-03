@@ -37,12 +37,7 @@ const BootstrapDialogTitle = ({ children, onClose, ...other }) => {
 
 const SignDialog = ({ children, isOpen, onClose }) => {
   return (
-    <BootstrapDialog
-      fullWidth
-      maxWidth="md"
-      aria-labelledby="customized-dialog-title"
-      open={isOpen}
-    >
+    <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose} />
       <DialogContent>{children}</DialogContent>
     </BootstrapDialog>
