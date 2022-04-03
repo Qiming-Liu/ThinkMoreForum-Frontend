@@ -87,6 +87,9 @@ const Category = (props) => {
           borderRadius: '20px',
           mb: 2.5,
         }}
+        style={{
+          width: '100%',
+        }}
       >
         {mobileDevice || (
           <Grid
