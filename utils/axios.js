@@ -5,12 +5,7 @@ import { setJWTAction, logoutAction } from '../store/actions/signAction';
 
 const getInstance = () => {
   const axiosInstance = axios.create();
-
-  if (process && process.env.NODE_ENV === 'development') {
-    axiosInstance.defaults.baseURL = 'http://localhost:443';
-  } else {
-    axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
-  }
+  axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   // comment out next line if you want connect online backend
   axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';

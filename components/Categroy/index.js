@@ -16,7 +16,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import { getPostById } from '../../services/Public';
 import MyTime from '../../utils/myTime';
 import Participants from './Participants';
-import FourCorners from './CategoryPageComponents/FourCorners';
+// import FourCorners from './CategoryPageComponents/FourCorners';
 
 const useStyles = makeStyles(
   {
@@ -33,7 +33,7 @@ const useStyles = makeStyles(
 
 const Category = (props) => {
   const theme = useTheme();
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('lg'));
   const classes = useStyles();
   const {
     color,
@@ -147,11 +147,7 @@ const Category = (props) => {
               <Typography color="#222429" variant="h4">
                 {title}
               </Typography>
-              <Typography
-                color="#9e9e9e"
-                // sx={{ mt: 0 }}
-                variant="subtitle2"
-              >
+              <Typography color="#9e9e9e" variant="subtitle2">
                 Last Updated : {MyTime(lastUpdateTimestamp)}
               </Typography>
             </Grid>
@@ -168,18 +164,18 @@ const Category = (props) => {
               ml: 0.5,
             }}
           >
-            <FourCorners borderColor="red" tl br>
-              <Avatar
-                src={pinPostHeadImg}
-                variant="square"
-                style={{
-                  borderRadius: '5px',
-                }}
-              >
-                {pinPostHeadImg === '' ? <ArticleIcon /> : null}
-              </Avatar>
-            </FourCorners>
-            <Typography variant="subtitle2" style={{ marginLeft: '20px' }}>
+            {/* <FourCorners borderColor="red" tl br> */}
+            <Avatar
+              src={pinPostHeadImg}
+              variant="square"
+              style={{
+                borderRadius: '5px',
+              }}
+            >
+              {pinPostHeadImg === '' ? <ArticleIcon /> : null}
+            </Avatar>
+            {/* </FourCorners> */}
+            <Typography variant="subtitle2" sx={{ ml: 2 }}>
               {pinPostTitle}
             </Typography>
           </Box>
