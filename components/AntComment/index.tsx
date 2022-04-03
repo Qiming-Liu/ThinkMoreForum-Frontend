@@ -1,21 +1,37 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
-import { Comment, Tooltip, Avatar } from 'antd';
+import { Comment, Avatar } from 'antd';
 import NextLink from 'next/link';
 import myTime from '../../utils/myTime';
 import CommentForm from '../Post/CommentForm';
 
-const AntComment = ({
-  comment,
-  replies,
-  sendChildComment,
-  login,
-  parentId,
-}) => {
+type CommentType = {
+  id: string;
+  context: string;
+  createTimestamp: string;
+  commentUsers: {
+    id: string;
+    username: string;
+    headImgUrl: string;
+  };
+  mentionUser: string | null;
+  parentComment: { id: string } | null;
+  post: { id: string; title: string };
+  visibility: boolean;
+};
+type repliesType = [CommentType];
+
+const AntComment: React.FC<{
+  comment: CommentType;
+  replies: repliesType | [];
+  sendChildComment: any;
+  login: boolean;
+  parentId: string;
+}> = ({ comment, replies, sendChildComment, login, parentId }) => {
   const { commentUsers, createTimestamp } = comment;
   const [showReplying, setShowReplying] = useState(false);
-  const mentionUser = commentUsers.username;
-  const handleCommentClose = () => {
+  const mentionUser: string = commentUsers.username;
+  const handleCommentClose: () => void = () => {
     setShowReplying(false);
   };
   return (
@@ -51,22 +67,20 @@ const AntComment = ({
         </NextLink>
       }
       content={comment.context}
-      datetime={
-        <Tooltip>
-          <span>{myTime(createTimestamp)}</span>
-        </Tooltip>
-      }
+      datetime={<span>{myTime(createTimestamp)}</span>}
     >
       {showReplying ? (
         <CommentForm
-          handleSubmit={(context) => sendChildComment(context, parentId)}
+          handleSubmit={(context: string) =>
+            sendChildComment(context, parentId)
+          }
           login={login}
           mentionUser={mentionUser}
           closeComment={handleCommentClose}
         />
       ) : null}
       {replies &&
-        replies.map((reply) => (
+        replies.map((reply: any) => (
           <AntComment
             comment={reply}
             key={reply.id}

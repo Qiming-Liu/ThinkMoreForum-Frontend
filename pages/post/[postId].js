@@ -16,7 +16,7 @@ import {
 } from '../../services/Public';
 import { postComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
-import AntComment from '../../components/AntComment';
+import AntComment from '../../components/AntComment/index.tsx';
 import CommentForm from '../../components/Post/CommentForm';
 import CommonContainer from '../../components/Layout/common-container';
 import { PinPostContextProvider } from '../../components/Post/PinPostContext';

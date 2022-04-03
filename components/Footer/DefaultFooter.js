@@ -1,17 +1,28 @@
 import React from 'react';
-import { Box, Grid, Typography, Stack } from '@mui/material';
+import { Box, Grid, Typography, Stack, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
 
 const DefaultFooter = () => {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   return (
     <Box
-      sx={{
-        pb: 3,
-        mt: 5,
-        pt: {
-          md: 3,
-        },
-      }}
+      sx={
+        isMobile
+          ? {
+              pb: 3,
+              mt: 5,
+              pt: {
+                md: 3,
+              },
+            }
+          : {
+              pb: 3,
+              mt: 4,
+              pt: {
+                md: 3,
+              },
+            }
+      }
     >
       <Grid
         container
@@ -22,28 +33,53 @@ const DefaultFooter = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Typography variant="h4" sx={{ mb: 5 }}>
+        <Typography
+          variant={isMobile ? 'h4' : 'h5'}
+          sx={isMobile ? { mb: 5 } : { mb: 3 }}
+        >
           What is ThinkMoreForum ?
         </Typography>
-        <Stack direction="row" spacing={6} justifyContent="space-between">
-          <Stack direction="column" spacing={2} justifyContent="space-between">
-            <Typography variant="h6">A community doing good</Typography>
+        <Stack
+          direction={isMobile ? 'row' : 'column'}
+          spacing={isMobile ? 6 : 4}
+          justifyContent="space-between"
+        >
+          <Stack
+            direction="column"
+            spacing={isMobile ? 2 : 1}
+            justifyContent="space-between"
+          >
+            <Typography variant={isMobile ? 'h6' : 'subtitle1'}>
+              A community doing good
+            </Typography>
             <Typography>
               ThinkMoreForum is place for people to make any kind of disscusion,
               where people come together to share their opinion. We’re also a
               community pushing for positive change for people, and the planet.
             </Typography>
           </Stack>
-          <Stack direction="column" spacing={2} justifyContent="space-between">
-            <Typography variant="h6">Bring people Together</Typography>
+          <Stack
+            direction="column"
+            spacing={isMobile ? 2 : 1}
+            justifyContent="space-between"
+          >
+            <Typography variant={isMobile ? 'h6' : 'subtitle1'}>
+              Bring people Together
+            </Typography>
             <Typography>
               ThinkMoreForum bring people together from all over the world. We
               are a community of people who are passionate about the world and
               the environment.
             </Typography>
           </Stack>
-          <Stack direction="column" spacing={2} justifyContent="space-between">
-            <Typography variant="h6">Peace of mind</Typography>
+          <Stack
+            direction="column"
+            spacing={isMobile ? 2 : 1}
+            justifyContent="space-between"
+          >
+            <Typography variant={isMobile ? 'h6' : 'subtitle1'}>
+              Peace of mind
+            </Typography>
             <Typography>
               Your privacy is the highest priority of our dedicated team. And if
               you ever need assistance, we are always ready to step in for
@@ -57,7 +93,12 @@ const DefaultFooter = () => {
           justifyContent="space-between"
           sx={{ mt: 5 }}
         >
-          <Image src="/logo.svg" height="35" width="35" alt="logo" />
+          {isMobile ? (
+            <Image src="/logo.svg" height="50" width="50" alt="logo" />
+          ) : (
+            <Image src="/logo.svg" height="35" width="35" alt="logo" />
+          )}
+
           <Typography
             color="textSecondary"
             sx={{ pt: 3, align: 'center' }}
