@@ -70,6 +70,11 @@ const OnlineUser = ({ mobileDevice }) => {
         Online Users
       </Typography>
       <Divider sx={{ mt: 1 }} variant="middle" />
+      {onlineUser.length === 0 && (
+        <Typography sx={{ ml: 2, mt: 2 }} variant="subtitle1" color="#6b778d">
+          No registered users currently online :(
+        </Typography>
+      )}
       {onlineUser.map((value) => {
         return (
           <ListItem

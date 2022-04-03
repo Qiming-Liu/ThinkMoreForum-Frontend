@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useSelector } from 'react-redux';
-import { AppBar, Box, Toolbar } from '@mui/material';
+import { AppBar, Box, Toolbar, useTheme, useMediaQuery } from '@mui/material';
 import AccountButton from './AccountButton';
 import NotificationsButton from './NotificationsButton';
 import Sign from '../Sign';
 
 const ThinkMoreLogo = styled.div`
   background: linear-gradient(to right, #b28be5, #6daae8);
-  margin-top: -7px;
+  margin-top: -6px;
   margin-left: 48%;
   transform: translateX(-50%);
   -webkit-background-clip: text;
@@ -42,6 +42,8 @@ const NavbarRoot = styled(AppBar)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const theme = useTheme();
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   const { isLogin } = useSelector((state) => state.sign);
   return (
     <NavbarRoot>
@@ -55,7 +57,7 @@ const Navbar = () => {
         }}
       >
         <NextLink href="/" passHref>
-          <div style={{ cursor: 'pointer' }}>
+          <Box sx={{ cursor: 'pointer' }}>
             <Image
               src="/logo.svg"
               height="35"
@@ -63,21 +65,27 @@ const Navbar = () => {
               alt="logo"
               className="shadow"
             />
-          </div>
+          </Box>
         </NextLink>
-        <ThinkMoreLogo>
-          <h1
-            style={{
-              fontFamily: 'Quicksand, sans-serif',
-              fontSize: '2rem',
-              // color: 'transparent',
-              color: '#222429',
-              marginBottom: '0',
-            }}
-          >
-            thinkmore.
-          </h1>
-        </ThinkMoreLogo>
+
+        {mobileDevice || (
+          <NextLink href="/" passHref>
+            <ThinkMoreLogo>
+              <h1
+                style={{
+                  fontFamily: 'Quicksand, sans-serif',
+                  fontSize: '2rem',
+                  // color: 'transparent',
+                  color: '#222429',
+                  marginBottom: '0',
+                  cursor: 'pointer',
+                }}
+              >
+                thinkmore.
+              </h1>
+            </ThinkMoreLogo>
+          </NextLink>
+        )}
         <Box sx={{ flexGrow: 1 }} />
         <>
           {isLogin || <Sign />}

@@ -109,7 +109,7 @@ const SearchBar = () => {
             );
           }
           return (
-            <List {...props} sx={{ marginLeft: -3.7 }}>
+            <List {...props} sx={{ marginLeft: -4 }}>
               <ListItem sx={{ height: 40 }} key={option.id}>
                 <NextLink
                   href={{
@@ -127,7 +127,7 @@ const SearchBar = () => {
                         horizontal: 'left',
                       }}
                     >
-                      <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
+                      <Avatar src={option.headImgUrl} sx={{ mr: 1.5 }} />
                     </Badge>
                     <NextLink
                       href={{
@@ -141,7 +141,7 @@ const SearchBar = () => {
                         display: 'block',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        width: '300px',
+                        width: '16rem',
                       }}
                     >
                       {`${option.username}`}
@@ -154,7 +154,7 @@ const SearchBar = () => {
         }
         if (option.title !== undefined) {
           return (
-            <List {...props} sx={{ marginLeft: -3.7 }}>
+            <List {...props} sx={{ marginLeft: -4 }}>
               <ListItem
                 sx={{
                   height: 40,
@@ -176,7 +176,7 @@ const SearchBar = () => {
                         horizontal: 'left',
                       }}
                     >
-                      <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
+                      <Avatar src={option.headImgUrl} sx={{ mr: 1.5 }} />
                     </Badge>
                     <Link
                       href={`/post/${option.id}`}
@@ -188,7 +188,7 @@ const SearchBar = () => {
                         display: 'block',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        width: '300px',
+                        width: '16rem',
                       }}
                     >
                       {`${option.title}`}
