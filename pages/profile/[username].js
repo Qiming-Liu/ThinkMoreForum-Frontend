@@ -65,16 +65,13 @@ const Profile = () => {
         setFollowedStatus(data);
       };
       getUser();
-      if (isLogin) {
-        getFollow();
-        if (myDetail.username !== username) {
-          checkFollowedStatus();
-        }
+      getFollow();
+      if (isLogin && myDetail.username !== username) {
+        checkFollowedStatus();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin, router.isReady, username]);
-
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
   };

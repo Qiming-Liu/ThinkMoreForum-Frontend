@@ -3,7 +3,7 @@ import { Box, Grid, Typography, Stack, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
 
 const DefaultFooter = () => {
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+  const isMobile: boolean = useMediaQuery('(min-width:1200px)');
   return (
     <Box
       sx={

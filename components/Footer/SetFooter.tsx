@@ -7,10 +7,19 @@ import CodeEditor from './CodeEditor';
 import hotToast from '../../utils/hotToast';
 import { setFooterAction } from '../../store/actions/signAction';
 
+interface Footer {
+  id: string;
+  name: string;
+  code: string;
+}
+interface FooterCode {
+  code: string;
+}
+
 const SetFooter = () => {
   const dispatch = useDispatch();
-  const [footer, setFooter] = useState('');
-  const [footerCode, setFooterCode] = useState('');
+  const [footer, setFooter] = useState<Footer>({ id: '', name: '', code: '' });
+  const [footerCode, setFooterCode] = useState<FooterCode>({ code: '' });
   useEffect(() => {
     const getFooter = async () => {
       const { data } = await getComponentByName('footer');
