@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Container, Divider } from '@mui/material';
 import { parser } from '../../utils/htmlParser.ts';
-import DefaultFooter from './DefaultFooter';
+import DefaultFooter from './DefaultFooter.tsx';
 import { getComponentByName } from '../../services/Public';
 import { setFooterAction } from '../../store/actions/signAction';
 
