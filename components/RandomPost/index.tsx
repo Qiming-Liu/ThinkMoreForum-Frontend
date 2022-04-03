@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { Card, Box } from '@mui/material';
 // @ts-ignore
 import Comments from './Comments.tsx';
-import { Card, Box } from '@mui/material';
 import photo from '../../public/logo.svg';
 import { getMaxCountCommentPost } from '../../services/Public';
 
