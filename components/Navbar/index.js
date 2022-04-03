@@ -11,7 +11,7 @@ import Sign from '../Sign';
 const ThinkMoreLogo = styled.div`
   background: linear-gradient(to right, #b28be5, #6daae8);
   margin-top: -7px;
-  margin-left: 48.5%;
+  margin-left: 48%;
   transform: translateX(-50%);
   -webkit-background-clip: text;
   animation: hue 5s linear infinite;
@@ -69,8 +69,9 @@ const Navbar = () => {
           <h1
             style={{
               fontFamily: 'Quicksand, sans-serif',
-              fontSize: '2.4rem',
-              color: 'transparent',
+              fontSize: '2rem',
+              // color: 'transparent',
+              color: '#222429',
               marginBottom: '0',
             }}
           >

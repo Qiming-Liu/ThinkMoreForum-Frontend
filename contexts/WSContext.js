@@ -93,7 +93,7 @@ export const WSContextProvider = ({ children }) => {
 
   const connect = useCallback(() => {
     try {
-      const Sock = new SockJS('https://api.thinkmoreapp.com/v1/public/ws');
+      const Sock = new SockJS(process.env.NEXT_PUBLIC_WEBSOCKET_URL);
       // const Sock = new SockJS('http://localhost:443/v1/public/ws');
       stompClient.current = over(Sock);
       stompClient.current.connect({}, onConnected, onError);

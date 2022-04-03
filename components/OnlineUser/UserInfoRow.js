@@ -1,10 +1,38 @@
 import React from 'react';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import NextLink from 'next/link';
-import { ListItemButton, Typography } from '@mui/material';
+import {
+  Avatar,
+  ListItemAvatar,
+  ListItemButton,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
-const UserInfoRow = ({ userInfo }) => {
+const UserInfoRow = ({ userInfo, mobileDevice }) => {
+  if (mobileDevice) {
+    return (
+      <NextLink
+        href={{
+          pathname: `/profile/${userInfo.username}`,
+        }}
+        passHref
+      >
+        <Tooltip placement="top" title={userInfo.username}>
+          <Avatar
+            src={userInfo.headImgUrl}
+            sx={{
+              borderRadius: '100%',
+              border: '2px solid #fff',
+              outline: '2px solid #057642',
+              width: 54,
+              height: 54,
+              cursor: 'pointer',
+            }}
+          />
+        </Tooltip>
+      </NextLink>
+    );
+  }
   return (
     <NextLink
       href={{
@@ -19,8 +47,6 @@ const UserInfoRow = ({ userInfo }) => {
             sx={{
               width: 32,
               height: 32,
-              boxShadow:
-                '2px 4px 4px 1px rgba(100, 100, 100, 0.1), 0px 2px 4px 1px rgba(100, 100, 100, 0.1)',
             }}
           />
         </ListItemAvatar>

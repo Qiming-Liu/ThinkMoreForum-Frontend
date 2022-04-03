@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import List from '@mui/material/List';
-import ListSubheader from '@mui/material/ListSubheader';
-import ListItem from '@mui/material/ListItem';
+import {
+  Box,
+  Container,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  Typography,
+} from '@mui/material';
 import styled from 'styled-components';
-import { Divider } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as userService from '../../services/Public';
 import { useWSContext } from '../../contexts/WSContext';
 import UserInfoRow from './UserInfoRow';
@@ -17,7 +23,7 @@ const CustomList = styled(List)`
   }
 `;
 
-const OnlineUserStyle = () => {
+const OnlineUser = ({ mobileDevice }) => {
   const [onlineUser, setOnlineUser] = useState([]);
   const { onlineUsers } = useWSContext();
 
@@ -35,46 +41,54 @@ const OnlineUserStyle = () => {
     }
   }, [onlineUsers]);
 
+  if (mobileDevice) {
+    return (
+      <Container>
+        <Grid container sx={{ mx: 3 }} spacing={2}>
+          {onlineUser.slice(0, Math.min(10, onlineUser.length)).map((value) => (
+            <Grid item md={1}>
+              <UserInfoRow userInfo={value} mobileDevice={mobileDevice} />
+            </Grid>
+          ))}
+          {onlineUser.length > 10 && (
+            <Grid item md={1}>
+              <MoreHorizIcon sx={{ mt: 2 }} />
+            </Grid>
+          )}
+        </Grid>
+      </Container>
+    );
+  }
+
   return (
     <CustomList
       dense
       sx={{ width: '100%', marginTop: 1 }}
-      subheader={
-        <ListSubheader
-          sx={{
-            bgcolor: 'transparent',
-          }}
-          style={{
-            fontSize: '1.2rem',
-            marginLeft: '2px',
-            height: '35px',
-            overflow: 'hidden',
-          }}
-        >
-          Online Users
-        </ListSubheader>
-      }
       style={{ overflow: 'hidden' }}
     >
-      <Divider sx={{ mt: 1.8 }} variant="middle" />
+      <Typography sx={{ ml: 2 }} variant="overline" color="#6b778d">
+        Online Users
+      </Typography>
+      <Divider sx={{ mt: 1 }} variant="middle" />
       {onlineUser.map((value) => {
         return (
           <ListItem
             key={value.id}
             disablePadding
             secondaryAction={
-              <div
-                style={{
-                  backgroundColor: '#8AE68A',
-                  width: 12,
-                  height: 12,
+              <Box
+                sx={{
+                  backgroundColor: '#057642',
+                  width: 10,
+                  height: 10,
                   borderRadius: '50%',
-                  marginRight: '10px',
+                  mr: 4,
                 }}
               />
             }
             sx={{
-              my: '13px',
+              my: 2,
+              mx: 2,
             }}
           >
             <UserInfoRow userInfo={value} />
@@ -85,4 +99,4 @@ const OnlineUserStyle = () => {
   );
 };
 
-export default OnlineUserStyle;
+export default OnlineUser;

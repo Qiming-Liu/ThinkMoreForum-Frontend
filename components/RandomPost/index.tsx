@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Card, Box } from '@mui/material';
 // @ts-ignore
@@ -40,35 +41,42 @@ const RandomPost = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '350px',
+        height: '85vh',
         alignItems: 'center',
       }}
       elevation={2}
     >
-      <Box
-        style={{
-          backgroundImage: `url(${image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative',
-          width: '95%',
-          marginTop: '10px',
-          height: '350px',
-          borderRadius: 'inherit',
+      <NextLink
+        href={{
+          pathname: `/post/${post ? post.id : ''}`,
         }}
-      />
+        passHref
+      >
+        <Box
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            position: 'relative',
+            width: '95%',
+            marginTop: '10px',
+            height: '350px',
+            borderRadius: 'inherit',
+            cursor: 'pointer',
+          }}
+        />
+      </NextLink>
       <CustomBox
         style={{
           position: 'relative',
           width: '95%',
-          maxHeight: '350px',
           borderRadius: 'inherit',
           marginTop: '15px',
         }}
       >
         {comments &&
           comments.map((comment: any) => (
-            <Card sx={{ mb: 1.2, px: 1.2 }}>
+            <Card sx={{ mb: 2, px: 1 }}>
               <Comments comment={comment} />
             </Card>
           ))}
