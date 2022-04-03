@@ -10,7 +10,7 @@ import MyTime from '../utils/myTime';
 import CommonContainer from '../components/Layout/common-container';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
 import Loading from '../components/Loading/Loading';
-import SetFooter from '../components/Footer/SetFooter';
+import SetFooter from '../components/Footer/SetFooter.tsx';
 import Role from '../components/Role';
 import checkPermission from '../utils/checkPermission';
 import hotToast from '../utils/hotToast';
