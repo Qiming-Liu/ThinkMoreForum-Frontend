@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-const FourCorners = ({ children }) => {
+const FourCorners = ({ children, tl, tr, bl, br }) => {
   return (
     <Box
       style={{
@@ -18,6 +18,7 @@ const FourCorners = ({ children }) => {
     >
       <Box
         style={{
+          display: tl ? 'initial' : 'none',
           position: 'absolute',
           backgroundColor: 'transparent',
           top: 0,
@@ -30,8 +31,9 @@ const FourCorners = ({ children }) => {
           borderTopLeftRadius: '4px',
         }}
       />
-      {/* <Box
+      <Box
         style={{
+          display: tr ? 'initial' : 'none',
           position: 'absolute',
           backgroundColor: 'transparent',
           top: 0,
@@ -46,6 +48,7 @@ const FourCorners = ({ children }) => {
       />
       <Box
         style={{
+          display: bl ? 'initial' : 'none',
           position: 'absolute',
           backgroundColor: 'transparent',
           bottom: 0,
@@ -57,9 +60,10 @@ const FourCorners = ({ children }) => {
           overflow: 'visible',
           borderBottomLeftRadius: '4px',
         }}
-      /> */}
+      />
       <Box
         style={{
+          display: br ? 'initial' : 'none',
           position: 'absolute',
           backgroundColor: 'transparent',
           bottom: 0,

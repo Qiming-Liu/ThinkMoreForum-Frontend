@@ -1,8 +1,16 @@
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import styled from 'styled-components';
 import Category from '../components/Categroy';
 import ThreeColumns from '../components/Layout/three-columns';
 import { getAllCategories } from '../services/Public';
+
+const CategoriesContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+`;
 
 export async function getStaticProps() {
   const { data: categoriesInfo } = await getAllCategories();
@@ -22,7 +30,7 @@ const Index = ({ categoriesInfo }) => {
   }
   return (
     <ThreeColumns>
-      <Grid direction="column" container spacing={4}>
+      <CategoriesContainer>
         {categoriesInfo.map(
           ({
             id,
@@ -52,7 +60,7 @@ const Index = ({ categoriesInfo }) => {
             );
           },
         )}
-      </Grid>
+      </CategoriesContainer>
     </ThreeColumns>
   );
 };
