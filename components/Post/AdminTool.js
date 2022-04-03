@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, MenuItem, Menu, Divider } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import { styled as muiStyled, alpha } from '@mui/material/styles';
@@ -8,6 +9,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import { usePinPostContext } from './PinPostContext';
 import { changePostVisibility } from '../../services/Post';
 import hotToast from '../../utils/hotToast';
@@ -62,6 +64,7 @@ const StyledMenu = muiStyled((props) => (
 }));
 
 const AdminTool = () => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const { thisPost, isPinned, completeUnpinPost, completePinPost } =
@@ -89,6 +92,18 @@ const AdminTool = () => {
       hotToast('error', "You don't have post management permission.");
     }
   }, [myDetail.role, thisPost.id, visible]);
+
+  const handleEdit = useCallback(() => {
+    const postId = thisPost.id;
+    return checkPermission('postManagement', myDetail.role)
+      ? router.push({
+          pathname: '/post/edit-post',
+          query: {
+            postId,
+          },
+        })
+      : hotToast('error', 'You do not have permission to edit post!');
+  }, [myDetail.role, router, thisPost.id]);
 
   const isPinViewable = useMemo(() => {
     if (isPinned) {
@@ -162,6 +177,17 @@ const AdminTool = () => {
         >
           {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
           {visible ? 'Hide' : 'Expose'}
+        </MenuItem>
+        <Divider sx={{ my: 0.5 }} />
+        <MenuItem
+          onClick={() => {
+            handleEdit();
+            handleClose();
+          }}
+          disableRipple
+        >
+          <EditIcon />
+          Edit
         </MenuItem>
       </StyledMenu>
     </AdminToolWrapper>
