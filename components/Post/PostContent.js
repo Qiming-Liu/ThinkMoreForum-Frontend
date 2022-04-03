@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import parse from 'html-react-parser';
 import { useSelector } from 'react-redux';
 import {
   Avatar,
@@ -17,6 +16,7 @@ import {
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import GradeRoundedIcon from '@mui/icons-material/GradeRounded';
 import NextLink from 'next/link';
+import { parser } from '../../utils/htmlParser.ts';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 import AdminTool from './AdminTool';
@@ -131,7 +131,7 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
               mt: 3,
             }}
           />
-          <Box sx={{ py: 3 }}> {parse(post.context)}</Box>
+          <Box sx={{ py: 3 }}> {parser(post.context)}</Box>
 
           <Divider sx={{ my: 3 }} />
         </Container>

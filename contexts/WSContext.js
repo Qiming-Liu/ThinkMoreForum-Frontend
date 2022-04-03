@@ -24,7 +24,7 @@ export const WSContextProvider = ({ children }) => {
   const onReminded = useCallback(
     debounce(async () => {
       setUpdateInfo((prev) => !prev);
-    }, 2000),
+    }, 500),
     [],
   );
 
@@ -36,7 +36,7 @@ export const WSContextProvider = ({ children }) => {
         user.substring(user.indexOf(':') + 1),
       );
       setOnlineUsers(formattedUserList);
-    }, 2000),
+    }, 500),
     [],
   );
 

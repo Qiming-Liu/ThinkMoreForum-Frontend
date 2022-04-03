@@ -6,8 +6,7 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import ImageCropper from './ImgCropper';
+import ImageCropper from './ImgCropper.tsx';
 
 const ImgCropDialog = ({ open, DialogClose, img, afterCrop, aspectRatio }) => {
   const ImgCropRef = useRef();

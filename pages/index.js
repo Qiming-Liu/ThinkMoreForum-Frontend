@@ -7,7 +7,7 @@ import { getAllCategories } from '../services/Public';
 export async function getStaticProps() {
   const { data: categoriesInfo } = await getAllCategories();
   return {
-    props: { categoriesInfo },
+    props: { categoriesInfo: categoriesInfo || [] },
     revalidate: 60,
   };
 }
