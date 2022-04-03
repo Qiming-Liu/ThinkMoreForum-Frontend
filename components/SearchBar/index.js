@@ -111,28 +111,29 @@ const SearchBar = () => {
           return (
             <List {...props} sx={{ marginLeft: -3.7 }}>
               <ListItem sx={{ height: 40 }} key={option.id}>
-                <ListItemButton>
-                  <Badge
-                    color="primary"
-                    badgeContent="User"
-                    overlap="circular"
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
-                  </Badge>
-                  <NextLink
-                    href={{
-                      pathname: `/profile/${option.username}`,
-                    }}
-                    passHref
-                  >
-                    <Link
+                <NextLink
+                  href={{
+                    pathname: `/profile/${option.username}`,
+                  }}
+                  passHref
+                >
+                  <ListItemButton>
+                    <Badge
+                      color="primary"
+                      badgeContent="User"
+                      overlap="circular"
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                    >
+                      <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
+                    </Badge>
+                    <NextLink
                       href={{
                         pathname: `/profile/${option.username}`,
                       }}
+                      passHref
                       style={{
                         textDecoration: 'none',
                         color: 'black',
@@ -144,9 +145,9 @@ const SearchBar = () => {
                       }}
                     >
                       {`${option.username}`}
-                    </Link>
-                  </NextLink>
-                </ListItemButton>
+                    </NextLink>
+                  </ListItemButton>
+                </NextLink>
               </ListItem>
             </List>
           );
@@ -160,23 +161,23 @@ const SearchBar = () => {
                 }}
                 key={option.id}
               >
-                <ListItemButton>
-                  <Badge
-                    color="secondary"
-                    badgeContent="Post"
-                    overlap="circular"
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
-                  </Badge>
-                  <NextLink
-                    href={`/post/${option.id}`}
-                    onClick={() => handleClick(option.id)}
-                    passHref
-                  >
+                <NextLink
+                  href={`/post/${option.id}`}
+                  onClick={() => handleClick(option.id)}
+                  passHref
+                >
+                  <ListItemButton>
+                    <Badge
+                      color="secondary"
+                      badgeContent="Post"
+                      overlap="circular"
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                    >
+                      <Avatar src={option.headImgUrl} sx={{ mr: 2 }} />
+                    </Badge>
                     <Link
                       href={`/post/${option.id}`}
                       onClick={() => handleClick(option.id)}
@@ -192,8 +193,8 @@ const SearchBar = () => {
                     >
                       {`${option.title}`}
                     </Link>
-                  </NextLink>
-                </ListItemButton>
+                  </ListItemButton>
+                </NextLink>
               </ListItem>
             </List>
           );

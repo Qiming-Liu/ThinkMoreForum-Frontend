@@ -9,7 +9,6 @@ const Participants = ({ count }) => {
       }}
       sx={{
         bgcolor: 'primary.main',
-        mt: 3,
         pl: 0.8,
         pr: 2,
         py: 0.65,

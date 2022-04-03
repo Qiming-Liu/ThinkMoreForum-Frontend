@@ -22,7 +22,7 @@ const Index = ({ categoriesInfo }) => {
   }
   return (
     <ThreeColumns>
-      <Grid container spacing={4}>
+      <Grid direction="column" container spacing={4}>
         {categoriesInfo.map(
           ({
             id,
