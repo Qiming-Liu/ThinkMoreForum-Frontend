@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import Image from 'next/image';
-import { Avatar, Box, Card, Grid, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Card,
+  Grid,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArticleIcon from '@mui/icons-material/Article';
 import { getPostById } from '../../services/Public';
 import MyTime from '../../utils/myTime';
 import Participants from './Participants';
+import FourCorners from './CategoryPageComponents/FourCorners';
 
 const useStyles = makeStyles(
   {
@@ -23,6 +32,8 @@ const useStyles = makeStyles(
 );
 
 const Category = (props) => {
+  const theme = useTheme();
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   const classes = useStyles();
   const {
     color,
@@ -62,7 +73,7 @@ const Category = (props) => {
   const longMonth = date.toLocaleString('en-us', { month: 'short' });
 
   return (
-    <Grid item xs={12}>
+    <Grid item>
       <NextLink href={`/category/${title}`} passHref>
         <Card
           className={classes.CustomCard}
@@ -74,26 +85,35 @@ const Category = (props) => {
               sm: 'row',
             },
             cursor: 'pointer',
+            borderRadius: '20px',
           }}
         >
+          {mobileDevice || (
+            <Grid
+              item
+              xs={4}
+              sx={{
+                borderRadius: 4,
+                backgroundColor: color,
+                ml: 3,
+                my: 3,
+                p: 4,
+              }}
+            >
+              <Image src={headImgUrl} height="300" width="300" alt="logo" />
+            </Grid>
+          )}
           <Grid
             item
-            xs={4}
-            sm={4}
+            xs={mobileDevice ? 12 : 7}
             sx={{
-              borderRadius: 4,
-              backgroundColor: color,
-              ml: 3,
-              p: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              mx: 4,
+              my: 2,
+              justifyContet: 'space-between',
+              alignItems: 'flex-start',
             }}
-          >
-            <Image src={headImgUrl} height="300" width="300" alt="logo" />
-          </Grid>
-          <Grid
-            item
-            xs={7}
-            sm={7}
-            sx={{ display: 'flex', flexDirection: 'column', m: 4, my: 5 }}
           >
             <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
               <Typography
@@ -133,11 +153,7 @@ const Category = (props) => {
                 </Typography>
               </Grid>
             </Grid>
-            <Typography
-              color="#6b778d"
-              sx={{ mt: 2, my: 2 }}
-              variant="subtitle2"
-            >
+            <Typography color="#6b778d" sx={{ my: 2 }} variant="subtitle2">
               {description}
             </Typography>
             <Box
@@ -145,24 +161,33 @@ const Category = (props) => {
                 alignItems: 'center',
                 display: 'flex',
                 flexDirection: 'row',
-                mt: 1,
+                my: 2,
+                ml: 0.5,
               }}
             >
-              <Avatar
-                src={pinPostHeadImg}
-                sx={{ ml: 1, mr: 2, bgcolor: 'primary.main' }}
-                variant="square"
-              >
-                {pinPostHeadImg === '' ? <ArticleIcon /> : null}
-              </Avatar>
-              <Typography variant="subtitle2">{pinPostTitle}</Typography>
+              <FourCorners borderColor="red">
+                <Avatar
+                  src={pinPostHeadImg}
+                  variant="square"
+                  style={{
+                    borderRadius: '5px',
+                  }}
+                >
+                  {pinPostHeadImg === '' ? <ArticleIcon /> : null}
+                </Avatar>
+              </FourCorners>
+              <Typography variant="subtitle2" style={{ marginLeft: '20px' }}>
+                {pinPostTitle}
+              </Typography>
             </Box>
-            <Box
+            <Grid
+              container
               sx={{
                 alignItems: 'center',
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                mt: 1,
               }}
             >
               <Participants count={participantCount} />
@@ -171,11 +196,14 @@ const Category = (props) => {
                   alignItems: 'center',
                   display: 'flex',
                   flexDirection: 'row',
-                  mt: 3,
                 }}
               >
                 <ArticleIcon sx={{ color: 'primary.main' }} />
-                <Typography color={color} variant="subtitle2" sx={{ m: 1 }}>
+                <Typography
+                  color={color}
+                  variant="subtitle2"
+                  sx={{ m: 1, mr: 4 }}
+                >
                   {postCount}
                 </Typography>
                 <VisibilityIcon sx={{ color: 'primary.main' }} />
@@ -183,7 +211,7 @@ const Category = (props) => {
                   {viewCount}
                 </Typography>
               </Box>
-            </Box>
+            </Grid>
           </Grid>
         </Card>
       </NextLink>

@@ -11,9 +11,9 @@ const PinPostCard = ({ pinPostInfo, displayHeadImg, displayAbstract }) => {
       <PostCard
         key={pinPostInfo.id}
         id={pinPostInfo.id}
-        authorAvatar={pinPostInfo.authorAvatar || '/logo.png'}
-        authorName={pinPostInfo.authorName}
-        authorId={pinPostInfo.authorId}
+        authorAvatar={pinPostInfo.postUsers.headImgUrl || '/logo.png'}
+        authorName={pinPostInfo.postUsers.username}
+        authorId={pinPostInfo.postUsers.id}
         headImg={displayHeadImg && (pinPostInfo.headImgUrl || '/logo.png')}
         createTimeStamp={MyTime(pinPostInfo.createTimestamp)}
         abstract={displayAbstract && pinPostInfo.context}

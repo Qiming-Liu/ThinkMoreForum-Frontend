@@ -16,7 +16,7 @@ const Comments = ({ comment }: { comment: any }) => {
     createTimestamp,
   }: { commentUsers: user; context: string; createTimestamp: string } = comment;
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} justifyContent="space-between">
       <Grid item xs={8}>
         <Comment
           key={comment.id}
@@ -27,7 +27,9 @@ const Comments = ({ comment }: { comment: any }) => {
               }}
               passHref
             >
-              {commentUsers.username}
+              <Typography variant="subtitle2">
+                {commentUsers.username}
+              </Typography>
             </NextLink>
           }
           avatar={
@@ -37,13 +39,20 @@ const Comments = ({ comment }: { comment: any }) => {
               }}
               passHref
             >
-              <Avatar src={commentUsers.headImgUrl} />
+              <Avatar
+                src={commentUsers.headImgUrl}
+                style={{
+                  marginTop: '5px',
+                  boxShadow:
+                    '2px 4px 4px 1px rgba(100, 100, 100, 0.1), 0px 2px 4px 1px rgba(100, 100, 100, 0.1)',
+                }}
+              />
             </NextLink>
           }
           content={context}
         />
       </Grid>
-      <Grid item xs={4}>
+      <Grid item sx={{ mr: 2 }}>
         <Typography color="#9e9e9e" sx={{ ml: 3, mt: 2 }} variant="subtitle2">
           <b>{createTimestamp.substring(11, 16)}</b>
         </Typography>

@@ -8,6 +8,24 @@ import AccountButton from './AccountButton';
 import NotificationsButton from './NotificationsButton';
 import Sign from '../Sign';
 
+const ThinkMoreLogo = styled.div`
+  background: linear-gradient(to right, #b28be5, #6daae8);
+  margin-top: -7px;
+  margin-left: 48.5%;
+  transform: translateX(-50%);
+  -webkit-background-clip: text;
+  animation: hue 5s linear infinite;
+
+  @keyframes hue {
+    from {
+      filter: hue-rotate(0deg);
+    }
+    to {
+      filter: hue-rotate(360deg);
+    }
+  }
+`;
+
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   ...(theme.palette.mode === 'light'
@@ -30,10 +48,10 @@ const Navbar = () => {
       <Toolbar
         disableGutters
         sx={{
-          minHeight: 64,
+          height: 60,
           left: 0,
           pl: 3,
-          pr: 4,
+          pr: 5,
         }}
       >
         <NextLink href="/" passHref>
@@ -47,17 +65,18 @@ const Navbar = () => {
             />
           </div>
         </NextLink>
-        <h1
-          style={{
-            fontFamily: 'Quicksand, sans-serif',
-            color: '#222429',
-            marginTop: 7,
-            marginLeft: '48.5%',
-            transform: 'translateX(-50%)',
-          }}
-        >
-          thinkmore.
-        </h1>
+        <ThinkMoreLogo>
+          <h1
+            style={{
+              fontFamily: 'Quicksand, sans-serif',
+              fontSize: '2.4rem',
+              color: 'transparent',
+              marginBottom: '0',
+            }}
+          >
+            thinkmore.
+          </h1>
+        </ThinkMoreLogo>
         <Box sx={{ flexGrow: 1 }} />
         <>
           {isLogin || <Sign />}
