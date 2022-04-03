@@ -3,9 +3,18 @@ import { Comment, Avatar } from 'antd';
 import NextLink from 'next/link';
 import React from 'react';
 
-const Comments = ({ comment }) => {
-  const { commentUsers, context, createTimestamp } = comment;
+type user = {
+  id: string;
+  username: string;
+  headImgUrl: string;
+};
 
+const Comments = ({ comment }: { comment: any }) => {
+  const {
+    commentUsers,
+    context,
+    createTimestamp,
+  }: { commentUsers: user; context: string; createTimestamp: string } = comment;
   return (
     <Grid container spacing={3} justifyContent="space-between">
       <Grid item xs={8}>

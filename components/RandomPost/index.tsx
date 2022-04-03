@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Card, Box } from '@mui/material';
-import Comments from './Comments';
+// @ts-ignore
+import Comments from './Comments.tsx';
 import photo from '../../public/logo.svg';
 import { getMaxCountCommentPost } from '../../services/Public';
 
@@ -15,9 +16,9 @@ const CustomBox = styled(Box)`
 `;
 
 const RandomPost = () => {
-  const [post, setPost] = React.useState(null);
-  const [comments, setComments] = React.useState(null);
-  const image = post ? post.headImgUrl : photo;
+  const [post, setPost] = React.useState<any | null>(null);
+  const [comments, setComments] = React.useState<any | null>(null);
+  const image: typeof photo = post ? post.headImgUrl : photo;
 
   useEffect(() => {
     const getpost = async () => {
@@ -66,7 +67,7 @@ const RandomPost = () => {
         }}
       >
         {comments &&
-          comments.map((comment) => (
+          comments.map((comment: any) => (
             <Card sx={{ mb: 1.2, px: 1.2 }}>
               <Comments comment={comment} />
             </Card>
