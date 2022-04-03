@@ -9,9 +9,9 @@ import {
   Typography,
 } from '@mui/material';
 import styled from 'styled-components';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as userService from '../../services/Public';
 import { useWSContext } from '../../contexts/WSContext';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import UserInfoRow from './UserInfoRow';
 
 const CustomList = styled(List)`
