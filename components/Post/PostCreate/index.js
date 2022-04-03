@@ -15,8 +15,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import QuillEditor from '../../QuillEditor';
 import { postPost } from '../../../services/Post';
 import upload from '../../../services/Img';
-import hotToast from '../../../utils/hotToast';
 import ImgDropzone from '../../ImgDropzone';
+import { strip } from '../../../utils/htmlParser.ts';
+import hotToast from '../../../utils/hotToast';
 
 const PostCreate = ({ categoryTitle }) => {
   const [isLoading, setLoading] = useState(false);
@@ -36,12 +37,8 @@ const PostCreate = ({ categoryTitle }) => {
         hotToast('error', 'Title is too long ! ');
         return;
       }
-      if (
-        !context.replace(/<.*?>| [</].*?>/gi, '') &&
-        !context.includes('<iframe') &&
-        !context.includes('<img')
-      ) {
-        hotToast('error', 'Context is required !');
+      if (strip(context) < 100) {
+        hotToast('error', 'Content must not be too less !');
         return;
       }
       if (!image) {

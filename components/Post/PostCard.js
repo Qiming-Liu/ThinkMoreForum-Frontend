@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { updatePostViewCount } from '../../services/Public';
+import { strip } from '../../utils/htmlParser.ts';
 
 const getInitials = (name = '') =>
   name
@@ -85,11 +86,7 @@ const PostCard = (props) => {
             }}
             variant="body1"
           >
-            {abstract.length > 200
-              ? `${abstract
-                  .replace(/<.*?>| [</].*?>/gi, '')
-                  .substring(0, 200)}...`
-              : abstract.replace(/<.*?>| [</].*?>/gi, '')}
+            {strip(abstract)}
           </Typography>
         )}
         <Box
