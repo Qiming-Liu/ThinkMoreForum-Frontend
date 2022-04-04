@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Divider } from '@mui/material';
 import PostCard from '../Post/PostCard';
 import {
@@ -8,9 +8,11 @@ import {
 } from '../../services/Public';
 import MyTime from '../../utils/myTime';
 
-const ProfilePost = (props) => {
-  const { title, value } = props;
-  const [posts, setPost] = useState(null);
+const ProfilePost: React.FC<{
+  title: string;
+  value: string;
+}> = ({ title, value }: { title: string; value: string }) => {
+  const [posts, setPost] = React.useState<any | null>(null);
   useEffect(() => {
     if (value) {
       const getPosts = async () => {
@@ -19,7 +21,7 @@ const ProfilePost = (props) => {
       };
       const getFollowPosts = async () => {
         const { data: responsepost } = await getFollowPostByUsername(value);
-        const completePostsPromises = responsepost.map(async (post) => {
+        const completePostsPromises = responsepost.map(async (post: any) => {
           const { data: completePost } = await getPostById(post.post.id);
           return completePost;
         });
@@ -54,7 +56,7 @@ const ProfilePost = (props) => {
         </Typography>
       )}
       {title === 'Posts' &&
-        posts.map((post) => (
+        posts.map((post: any) => (
           <PostCard
             id={post.id}
             authorAvatar={post.postUsers.headImgUrl}
@@ -70,7 +72,7 @@ const ProfilePost = (props) => {
           />
         ))}
       {title === 'Favorite' &&
-        posts.map((post) => (
+        posts.map((post: any) => (
           <PostCard
             id={post.id}
             authorAvatar={post.postUsers.headImgUrl}

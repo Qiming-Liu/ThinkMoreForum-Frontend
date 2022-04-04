@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { getFollowing, getFollower } from '../../services/Public';
 import FollowCard from './FollowCard';
 
-const ProfileFollow = (props) => {
-  const { title, value, status } = props;
-  const [follow, setFollow] = useState(null);
+const ProfileFollow: React.FC<{
+  title: string;
+  value: string;
+  status: boolean;
+}> = ({
+  title,
+  value,
+  status,
+}: {
+  title: string;
+  value: string;
+  status: boolean;
+}) => {
+  const [follow, setFollow] = React.useState<any | null>(null);
   useEffect(() => {
     if (value) {
       const getFollow = async () => {
