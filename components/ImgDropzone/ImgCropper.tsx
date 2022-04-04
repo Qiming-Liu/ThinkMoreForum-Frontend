@@ -25,6 +25,7 @@ const ImgCropper: React.FC<{
       src={src}
       style={{ height: 400, width: '100%' }}
       initialAspectRatio={aspectRatio}
+      aspectRatio={aspectRatio}
       background
       autoCropArea={1}
       guides
@@ -41,8 +42,6 @@ const ImgCropper: React.FC<{
     <Cropper
       src={src}
       style={{ height: 400, width: '100%' }}
-      initialAspectRatio={aspectRatio}
-      aspectRatio={aspectRatio}
       background
       autoCropArea={1}
       guides

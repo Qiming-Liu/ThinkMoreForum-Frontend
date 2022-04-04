@@ -8,13 +8,17 @@ export function useForm(initialFValues) {
   const [errors, setErrors] = useState({});
   const [headImg, setHeadImg] = useState('');
 
-  const handleDropImg = async ([file]) => {
-    const { data: newImg } = await upload(file).catch((error) => {
+  const handleDropImg = async (base64) => {
+    // setImgBase64(base64);
+    const file = await (await fetch(base64)).blob();
+    try {
+      const { data: img } = await upload(file);
+      setHeadImg(img.url);
+      setValues({ ...values, headImgUrl: img.url });
+      hotToast('success', 'Profile picture is changed');
+    } catch (error) {
       hotToast('error', `Something wrong: ${error}`);
-    });
-    setHeadImg(newImg.url);
-    setValues({ ...values, headImgUrl: newImg.url });
-    hotToast('success', 'Profile picture is changed');
+    }
   };
 
   const handleInputChange = (e) => {
@@ -34,12 +38,14 @@ export function useForm(initialFValues) {
     handleDropImg,
     handleInputChange,
     resetForm,
+    headImg,
+    // imgBase64,
   };
 }
 
 const StyledForm = styled.form`
   & .MuiFormControl-root {
-    width: 80%;
+    width: 100%;
     margin: 8px;
   }
 `;
