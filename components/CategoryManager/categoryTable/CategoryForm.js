@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { Grid, Avatar, Box } from '@mui/material';
+import { Typography, Card, CardContent, Box } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
+import Image from 'next/image';
 import Form, { useForm } from '../useForm';
 import Controls from '../controls/Controls';
 import ImgDropzone from '../../ImgDropzone';
@@ -25,6 +26,7 @@ const CategoryForm = (props) => {
     handleDropImg,
     handleInputChange,
     resetForm,
+    // headImg,
   } = useForm(initialFValues);
 
   const validate = (fieldValues = values) => {
@@ -86,60 +88,156 @@ const CategoryForm = (props) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Grid container>
-        <Grid item xs={6}>
-          <Controls.Input
-            name="title"
-            label="Category Title"
-            value={values.title}
-            onChange={handleInputChange}
-            error={errors.title}
-          />
-          <Controls.Input
-            label="Description"
-            name="description"
-            value={values.description}
-            onChange={handleInputChange}
-            error={errors.description}
-          />
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-            }}
-          >
-            <Avatar
-              src={values.headImgUrl}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Card sx={{ overflow: 'visible' }}>
+          <CardContent>
+            <Typography variant="h6" sx={{ mb: 3 }}>
+              Category Title
+            </Typography>
+            <Controls.Input
+              name="title"
+              label="Category Title"
+              style={{ width: '98%' }}
+              value={values.title}
+              onChange={handleInputChange}
+              error={errors.title}
+            />
+            <Typography
+              variant="h6"
               sx={{
-                height: 64,
-                mr: 2,
-                width: 64,
+                mb: 2,
+                mt: 3,
               }}
+            >
+              Category Description
+            </Typography>
+            <Controls.Input
+              label="Description"
+              name="description"
+              multiline
+              rows={4}
+              style={{ width: '98%' }}
+              value={values.description}
+              onChange={handleInputChange}
+              error={errors.description}
             />
-            <ImgDropzone
-              accept="image/jpg,image/png, image/jpeg"
-              onDrop={handleDropImg}
+            <Typography
+              variant="h6"
+              sx={{
+                mb: 2,
+                mt: 3,
+              }}
+            >
+              Color
+            </Typography>
+            <Controls.Input
+              name="color"
+              label="Color"
+              style={{ width: '98%' }}
+              value={values.color}
+              onChange={handleInputChange}
+              error={errors.color}
             />
-          </Box>
-        </Grid>
-        <Grid item xs={6}>
-          <Controls.Input
-            name="color"
-            label="Color"
-            value={values.color}
-            onChange={handleInputChange}
-            error={errors.color}
-          />
-          <div>
-            <Controls.Button
-              text="Submit"
-              type="submit"
-              onClick={handleSubmit}
-            />
-            <Controls.Button text="Reset" color="default" onClick={resetForm} />
-          </div>
-        </Grid>
-      </Grid>
+          </CardContent>
+        </Card>
+        <Card sx={{ mt: 5, mb: 5 }}>
+          <CardContent>
+            <Typography variant="h6">Post cover</Typography>
+            {values ? (
+              <Box
+                sx={{
+                  backgroundImage: `url(${values.headImgUrl})`,
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  borderRadius: 1,
+                  height: 200,
+                  mt: 2,
+                }}
+              />
+            ) : (
+              <Box
+                sx={{
+                  alignItems: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  border: 1,
+                  borderRadius: 1,
+                  borderStyle: 'dashed',
+                  borderColor: 'divider',
+                  height: 100,
+                  mt: 3,
+                  p: 3,
+                }}
+              >
+                <Typography align="center" color="textSecondary" variant="h6">
+                  Select a image
+                </Typography>
+                <Typography
+                  align="center"
+                  color="textSecondary"
+                  sx={{ mt: 1 }}
+                  variant="subtitle1"
+                >
+                  Category Head Image
+                </Typography>
+              </Box>
+            )}
+            <Box sx={{ mt: 3 }}>
+              <ImgDropzone
+                accept="image/jpg,image/png, image/jpeg"
+                afterCrop={handleDropImg}
+                // aspectRatio={1}
+                lockAspectRatio={false}
+              >
+                <Box
+                  sx={{
+                    alignItems: 'center',
+                    border: 1,
+                    borderRadius: 1,
+                    borderStyle: 'dashed',
+                    borderColor: 'divider',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    outline: 'none',
+                    p: 6,
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                      cursor: 'pointer',
+                      opacity: 0.5,
+                    },
+                  }}
+                >
+                  <Image
+                    alt="Select image"
+                    src="/file_upload.svg"
+                    width={100}
+                    height={80}
+                  />
+                  <Box sx={{ p: 2 }}>
+                    <Typography variant="h6">Select image</Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Typography variant="body1">
+                        Drop image browse thorough your machine
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </ImgDropzone>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+      <div>
+        <Controls.Button text="Submit" type="submit" onClick={handleSubmit} />
+        <Controls.Button text="Reset" color="default" onClick={resetForm} />
+      </div>
     </Form>
   );
 };

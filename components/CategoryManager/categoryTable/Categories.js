@@ -4,7 +4,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { Avatar, TableBody, TableRow, TableCell, Toolbar } from '@mui/material';
+import { TableBody, TableRow, TableCell, Toolbar } from '@mui/material';
 import styled from 'styled-components';
 import CategoryForm from './CategoryForm';
 import useTable from '../useTable';
@@ -171,6 +171,8 @@ const Category = () => {
             {(provided) => (
               <TableBody ref={provided.innerRef} {...provided.droppableProps}>
                 {recordsAfterPagingAndSorting().map((item, index) => {
+                  console.log(item.headImgUrl);
+                  const image = item ? item.headImgUrl : null;
                   return (
                     <Draggable
                       key={item.id || item.fakeID}
@@ -187,7 +189,18 @@ const Category = () => {
                             <DragHandleIcon />
                           </TableCell>
                           <TableCell>
-                            <Avatar src={item.headImgUrl} sx={{ mr: 2 }} />
+                            <div
+                              style={{
+                                backgroundImage: `url(${image})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                position: 'relative',
+                                width: '110%',
+                                marginTop: '10px',
+                                height: '85px',
+                                borderRadius: 'inherit',
+                              }}
+                            />
                           </TableCell>
                           <TableCell>{item.title}</TableCell>
                           <TableCell>{item.description}</TableCell>
