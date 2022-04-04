@@ -30,6 +30,12 @@ const getInstance = () => {
         return '';
       }
 
+      // jwt invalid
+      if (error && error.response && error.response.status === 403) {
+        store.dispatch(logoutAction());
+        return '';
+      }
+
       // eslint-disable-next-line no-unused-expressions
       error && console.log(error.response);
       return Promise.reject(error);
