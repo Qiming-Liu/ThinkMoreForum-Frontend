@@ -36,7 +36,7 @@ const VerifyEmail = () => {
   return (
     <>
       <Head>
-        <title>Email Verification | ThinkMoreForum</title>
+        <title>Email Verification | ThinkMore Forum</title>
       </Head>
       <Box
         component="main"

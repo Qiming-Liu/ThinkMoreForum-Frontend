@@ -68,7 +68,7 @@ const Admin = () => {
   return (
     <CommonContainer>
       <Head>
-        <title>Admin | ThinkMoreForum</title>
+        <title>Admin | ThinkMore Forum</title>
       </Head>
 
       <Box>

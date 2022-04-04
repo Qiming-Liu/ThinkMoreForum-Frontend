@@ -185,7 +185,7 @@ const PostList = () => {
   return (
     <CommonContainer>
       <Head>
-        <title>{categoryTitle} | ThinkMoreForum</title>
+        <title>{categoryTitle} | ThinkMore Forum</title>
       </Head>
       <NextLink href="/" passHref>
         <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>

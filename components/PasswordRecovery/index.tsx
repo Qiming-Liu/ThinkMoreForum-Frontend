@@ -49,7 +49,7 @@ const PasswordRecovery = () => {
   return (
     <>
       <Head>
-        <title>Password Reset | ThinkMoreForum</title>
+        <title>Password Reset | ThinkMore Forum</title>
       </Head>
       <Box
         component="main"

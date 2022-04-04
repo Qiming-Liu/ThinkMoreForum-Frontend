@@ -69,7 +69,7 @@ const PostCreate = ({ categoryTitle }) => {
   return (
     <>
       <Head>
-        <title>Make Post | ThinkMoreForum</title>
+        <title>Make Post | ThinkMore Forum</title>
       </Head>
       <Typography variant="h4">Make Post</Typography>
       <form onSubmit={formik.handleSubmit}>

@@ -30,8 +30,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
       <WSContextProvider>
         <NextNProgress />
         <Head>
-          <title>Home | ThinkMoreForum</title>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <title>Home | ThinkMore Forum</title>
         </Head>
         <SessionProvider session={session}>
           <ThemeProvider theme={createTheme()}>

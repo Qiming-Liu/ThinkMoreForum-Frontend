@@ -8,7 +8,7 @@ const NotFound = () => {
   return (
     <>
       <Head>
-        <title>404 | ThinkMoreForum</title>
+        <title>404 | ThinkMore Forum</title>
       </Head>
       <Box
         component="main"
