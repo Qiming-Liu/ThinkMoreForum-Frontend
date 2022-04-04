@@ -20,12 +20,7 @@ const RoleTable = ({
   headerList,
   role,
 }) => {
-  const undeletedList = [
-    'verified_user',
-    'admin',
-    'unverified_user',
-    'banned_user',
-  ];
+  const undeletedList = ['banned_user', 'general_user', 'admin'];
   const roleList = role.map((r) => r.filter((x, index) => index !== 0));
   const onDelete = async (index) => {
     setConfirmDialog({

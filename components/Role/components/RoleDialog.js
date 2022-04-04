@@ -65,6 +65,7 @@ const RoleDialog = ({ setRole, role, onClose, headerList }) => {
             <TableRow>
               <TableCell>
                 <Input
+                  sx={{ width: 120 }}
                   name="roleName"
                   label="Role Name"
                   value={name}
@@ -75,6 +76,8 @@ const RoleDialog = ({ setRole, role, onClose, headerList }) => {
                 return (
                   <TableCell>
                     <Checkbox
+                      key={JSON.stringify({ index })}
+                      label={JSON.stringify({ index })}
                       name={JSON.stringify({ index })}
                       checked={value}
                       onChange={handleChange}
