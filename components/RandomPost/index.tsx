@@ -5,7 +5,6 @@ import { Card, Box } from '@mui/material';
 // @ts-ignore
 import Comments from './Comments.tsx';
 import photo from '../../public/logo.svg';
-import { getMaxCountCommentPost } from '../../services/Public';
 
 const CustomBox = styled(Box)`
   overflow: hidden;
@@ -16,19 +15,15 @@ const CustomBox = styled(Box)`
   }
 `;
 
-const RandomPost = () => {
+const RandomPost = ({ randomPost }: { randomPost: any }) => {
   const [post, setPost] = React.useState<any | null>(null);
   const [comments, setComments] = React.useState<any | null>(null);
   const image: typeof photo = post ? post.headImgUrl : photo;
 
   useEffect(() => {
-    const getpost = async () => {
-      const { data: result } = await getMaxCountCommentPost();
-      setPost(result.post);
-      setComments(result.comments);
-    };
-    getpost();
-  }, []);
+    setPost(randomPost.post);
+    setComments(randomPost.comments);
+  }, [randomPost]);
 
   return (
     <Card

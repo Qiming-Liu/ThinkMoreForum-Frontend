@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import styled from 'styled-components';
 import Category from '../components/Categroy';
 import ThreeColumns from '../components/Layout/three-columns';
-import { getAllCategories } from '../services/Public';
+import { getAllCategories, getRandomPost } from '../services/Public';
 
 const CategoriesContainer = styled(Box)`
   display: flex;
@@ -14,13 +14,17 @@ const CategoriesContainer = styled(Box)`
 
 export async function getStaticProps() {
   const { data: categoriesInfo } = await getAllCategories();
+  const { data: randomPost } = await getRandomPost();
   return {
-    props: { categoriesInfo: categoriesInfo || [] },
+    props: {
+      categoriesInfo: categoriesInfo || [],
+      randomPost: randomPost || {},
+    },
     revalidate: 60,
   };
 }
 
-const Index = ({ categoriesInfo }) => {
+const Index = ({ categoriesInfo, randomPost }) => {
   if (!categoriesInfo || categoriesInfo.length === 0) {
     return (
       <Typography color="inherit" sx={{ mt: 2 }} variant="h4">
@@ -29,7 +33,7 @@ const Index = ({ categoriesInfo }) => {
     );
   }
   return (
-    <ThreeColumns>
+    <ThreeColumns randomPost={randomPost}>
       <CategoriesContainer>
         {categoriesInfo.map(
           ({

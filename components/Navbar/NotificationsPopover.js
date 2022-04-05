@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import NextLink from 'next/link';
 import {
   Avatar,
   Box,
@@ -111,59 +112,68 @@ const NotificationsPopover = (props) => {
       ) : (
         <Scrollbar sx={{ maxHeight: 400 }}>
           <List disablePadding>
-            {notifications.map(({ id, createTimestamp, context, imgUrl }) => (
-              <ListItem
-                divider
-                key={id}
-                sx={{
-                  alignItems: 'flex-start',
-                  '&:hover': {
-                    backgroundColor: 'action.hover',
-                  },
-                  '& .MuiListItemSecondaryAction-root': {
-                    top: '24%',
-                  },
-                }}
-                secondaryAction={
-                  <Tooltip title="Remove">
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleRemoveOne(id)}
-                      size="small"
-                    >
-                      <CloseIcon sx={{ fontSize: 14 }} />
-                    </IconButton>
-                  </Tooltip>
-                }
-              >
-                <>
-                  <ListItemAvatar sx={{ mt: 0.5 }}>
-                    <Avatar src={imgUrl} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={
-                      <Box
-                        sx={{
-                          alignItems: 'center',
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                        }}
+            {notifications.map(
+              ({ id, triggerUsers, context, createTimestamp }) => (
+                <ListItem
+                  divider
+                  key={id}
+                  sx={{
+                    alignItems: 'flex-start',
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                    },
+                    '& .MuiListItemSecondaryAction-root': {
+                      top: '24%',
+                    },
+                  }}
+                  secondaryAction={
+                    <Tooltip title="Remove">
+                      <IconButton
+                        edge="end"
+                        onClick={() => handleRemoveOne(id)}
+                        size="small"
                       >
-                        <Typography sx={{ mr: 0.5 }} variant="body2">
-                          {context}
+                        <CloseIcon sx={{ fontSize: 14 }} />
+                      </IconButton>
+                    </Tooltip>
+                  }
+                >
+                  <>
+                    <NextLink
+                      href={{
+                        pathname: `/profile/${triggerUsers.username}`,
+                      }}
+                      passHref
+                    >
+                      <ListItemAvatar sx={{ mt: 0.5, cursor: 'pointer' }}>
+                        <Avatar src={triggerUsers.headImgUrl} />
+                      </ListItemAvatar>
+                    </NextLink>
+                    <ListItemText
+                      primary={
+                        <Box
+                          sx={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                          }}
+                        >
+                          <Typography sx={{ mr: 0.5 }} variant="body2">
+                            {context}
+                          </Typography>
+                        </Box>
+                      }
+                      secondary={
+                        <Typography color="textSecondary" variant="caption">
+                          {MyTime(createTimestamp)}
                         </Typography>
-                      </Box>
-                    }
-                    secondary={
-                      <Typography color="textSecondary" variant="caption">
-                        {MyTime(createTimestamp)}
-                      </Typography>
-                    }
-                    sx={{ my: 0 }}
-                  />
-                </>
-              </ListItem>
-            ))}
+                      }
+                      sx={{ my: 0 }}
+                    />
+                  </>
+                </ListItem>
+              ),
+            )}
           </List>
         </Scrollbar>
       )}
