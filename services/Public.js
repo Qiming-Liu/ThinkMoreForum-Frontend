@@ -78,7 +78,7 @@ export const getFollowPostByUsername = (username) =>
     method: 'GET',
   });
 
-export const getMaxCountCommentPost = () =>
+export const getRandomPost = () =>
   http(`/v1/public/post/max_count_comment`, { method: 'GET' });
 
 // Comment
