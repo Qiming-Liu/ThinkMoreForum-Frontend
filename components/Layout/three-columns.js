@@ -11,7 +11,7 @@ import RandomPost from '../RandomPost/index.tsx';
 import SearchBar from '../SearchBar';
 import OnlineUser from '../OnlineUser';
 
-const ThreeColumns = ({ children }) => {
+const ThreeColumns = ({ children, randomPost }) => {
   const theme = useTheme();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   if (mobileDevice) {
@@ -69,9 +69,9 @@ const ThreeColumns = ({ children }) => {
       <Grid
         item
         xs={2.75}
-        style={{ position: 'fixed', right: 0, top: '64px', width: '23%' }}
+        style={{ position: 'fixed', right: '5px', top: '64px', width: '23%' }}
       >
-        <RandomPost />
+        <RandomPost randomPost={randomPost} />
       </Grid>
     </Grid>
   );
