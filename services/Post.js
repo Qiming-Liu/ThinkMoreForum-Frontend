@@ -11,6 +11,16 @@ export const postPost = ({ categoryTitle, title, context, headImgUrl }) =>
     },
   });
 
+export const editPost = ({ context, headImgUrl, title }, postId) =>
+  http(`/v1/post/${postId}`, {
+    method: 'PUT',
+    data: {
+      context,
+      headImgUrl,
+      title,
+    },
+  });
+
 export const getPostByTitleContainingString = (string) =>
   http(`/v1/post/string/${string}`, { method: 'GET' });
 
