@@ -18,12 +18,12 @@ import { getPostById } from '../../../services/Public';
 import upload from '../../../services/Img';
 import hotToast from '../../../utils/hotToast';
 import ImgDropzone from '../../ImgDropzone';
+import { strip } from '../../../utils/htmlParser.ts';
 
 const PostEdit = ({ postId }) => {
   const [isLoading, setLoading] = useState(false);
   const [cover, setCover] = useState();
   const [image, setImage] = useState(undefined);
-  // const [postHeadImg, setPostHeadImg] = useState('');
   const [postTitle, setPostTitle] = useState('');
   const [postContext, setPostContext] = useState('');
 
@@ -51,12 +51,8 @@ const PostEdit = ({ postId }) => {
         hotToast('error', 'Title is too long ! ');
         return;
       }
-      if (
-        !context.replace(/<.*?>| [</].*?>/gi, '') &&
-        !context.includes('<iframe') &&
-        !context.includes('<img')
-      ) {
-        hotToast('error', 'Context is required !');
+      if (strip(context) < 100) {
+        hotToast('error', 'Content must not be too less !');
         return;
       }
       if (image) {
