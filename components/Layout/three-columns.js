@@ -45,7 +45,6 @@ const ThreeColumns = ({ children }) => {
           style={{
             backgroundColor: 'white',
             borderRadius: '15px',
-            marginTop: '5px',
             marginLeft: '15px',
             padding: '10px',
             height: '85vh',

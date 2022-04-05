@@ -9,7 +9,6 @@ import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
 import CommonContainer from '../components/Layout/common-container';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
-import Loading from '../components/Loading/Loading';
 import SetFooter from '../components/Footer/SetFooter.tsx';
 import Role from '../components/Role';
 import checkPermission from '../utils/checkPermission';
@@ -61,17 +60,12 @@ const Admin = () => {
     }
   }, [checkAuth, myDetail]);
 
-  if (!myDetail) {
-    return <Loading />;
-  }
-
   return (
     <CommonContainer>
       <Head>
         <title>Admin | ThinkMore Forum</title>
       </Head>
-
-      <Box>
+      <Box className="FixDirectionTrial">
         <Typography variant="h4">Admin</Typography>
         <Tabs
           indicatorColor="primary"
@@ -93,7 +87,6 @@ const Admin = () => {
         </Tabs>
         <Divider sx={{ mb: 3 }} />
         {currentTab === 'users' && users && <AdminUser allUsers={users} />}
-        {currentTab === 'users' && !users && <Loading />}
         {currentTab === 'categories' && <Categories />}
         {currentTab === 'roles' && <Role />}
         {currentTab === 'footer' && <SetFooter />}
