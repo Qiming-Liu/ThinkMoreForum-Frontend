@@ -11,7 +11,7 @@ import RandomPost from '../RandomPost/index.tsx';
 import SearchBar from '../SearchBar';
 import OnlineUser from '../OnlineUser';
 
-const ThreeColumns = ({ children, randomPost }) => {
+const ThreeColumns = ({ children }) => {
   const theme = useTheme();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   if (mobileDevice) {
