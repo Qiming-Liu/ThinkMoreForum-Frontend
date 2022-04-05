@@ -77,13 +77,12 @@ const OnlineUser = ({ mobileDevice }) => {
                   width: 10,
                   height: 10,
                   borderRadius: '50%',
-                  mr: 4,
+                  mr: 3,
                 }}
               />
             }
             sx={{
               my: 2,
-              mx: 2,
             }}
           >
             <UserInfoRow userInfo={value} />

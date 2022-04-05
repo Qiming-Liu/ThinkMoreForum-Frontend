@@ -147,7 +147,7 @@ const Post = ({ post }) => {
             Back to {post.category.title}
           </Button>
         </NextLink>
-        <Divider sx={{ my: 3 }} />
+        <Divider sx={{ my: 1.5 }} />
         <PostContent
           post={post}
           isFavored={postFaved}
