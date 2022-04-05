@@ -76,6 +76,5 @@ $ yarn build
 ```shell
 $ yarn start
 ```
-
-> Only folder `.next`, `node_modules` and file `package.json` are required to run production.
 <p align="right">(<a href="#top">back to top</a>)</p>
+> Only folder `.next`, `node_modules` and file `package.json` are required to run production.
