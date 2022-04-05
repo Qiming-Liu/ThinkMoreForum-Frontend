@@ -4,7 +4,6 @@ import {
   Container,
   Grid,
   Paper,
-  Stack,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
@@ -17,13 +16,25 @@ const ThreeColumns = ({ children }) => {
   const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   if (mobileDevice) {
     return (
-      <Stack direction="column" spacing={3}>
-        <Box sx={{ mx: 5 }}>
-          <SearchBar />
-        </Box>
-        <OnlineUser mobileDevice={mobileDevice} />
-        <Container maxWidth={false}>{children}</Container>
-      </Stack>
+      <Grid
+        container
+        direction="column"
+        spacing={3}
+        justifyContent="flex-start"
+        alignItems="center"
+      >
+        <Grid item width="95vw">
+          <Box justifyContent="flex-start">
+            <SearchBar />
+          </Box>
+        </Grid>
+        <Grid item width="95vw">
+          <OnlineUser mobileDevice={mobileDevice} />
+        </Grid>
+        <Grid item>
+          <Container maxWidth={false}>{children}</Container>
+        </Grid>
+      </Grid>
     );
   }
   return (

@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, Grid, List, ListItem, Typography } from '@mui/material';
 import styled from 'styled-components';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as userService from '../../services/Public';
@@ -43,20 +35,18 @@ const OnlineUser = ({ mobileDevice }) => {
 
   if (mobileDevice) {
     return (
-      <Container>
-        <Grid container sx={{ mx: 3 }} spacing={2}>
-          {onlineUser.slice(0, Math.min(10, onlineUser.length)).map((value) => (
-            <Grid item md={1}>
-              <UserInfoRow userInfo={value} mobileDevice={mobileDevice} />
-            </Grid>
-          ))}
-          {onlineUser.length > 10 && (
-            <Grid item md={1}>
-              <MoreHorizIcon sx={{ mt: 2 }} />
-            </Grid>
-          )}
-        </Grid>
-      </Container>
+      <Grid container direction="row" spacing={2} width="95vw" sx={{ pl: 1 }}>
+        {onlineUser.slice(0, Math.min(10, onlineUser.length)).map((value) => (
+          <Grid item md={1}>
+            <UserInfoRow userInfo={value} mobileDevice={mobileDevice} />
+          </Grid>
+        ))}
+        {onlineUser.length > 10 && (
+          <Grid item md={1}>
+            <MoreHorizIcon sx={{ mt: 2 }} />
+          </Grid>
+        )}
+      </Grid>
     );
   }
 
