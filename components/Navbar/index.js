@@ -9,21 +9,9 @@ import NotificationsButton from './NotificationsButton';
 import Sign from '../Sign';
 
 const ThinkMoreLogo = styled.div`
-  background: linear-gradient(to right, #b28be5, #6daae8);
   margin-top: -6px;
   margin-left: 48%;
   transform: translateX(-50%);
-  -webkit-background-clip: text;
-  animation: hue 5s linear infinite;
-
-  @keyframes hue {
-    from {
-      filter: hue-rotate(0deg);
-    }
-    to {
-      filter: hue-rotate(360deg);
-    }
-  }
 `;
 
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
@@ -69,8 +57,8 @@ const Navbar = () => {
         </NextLink>
 
         {mobileDevice || (
-          <NextLink href="/" passHref>
-            <ThinkMoreLogo>
+          <ThinkMoreLogo>
+            <NextLink href="/" passHref>
               <h1
                 style={{
                   fontFamily: 'Quicksand, sans-serif',
@@ -83,8 +71,8 @@ const Navbar = () => {
               >
                 thinkmore.
               </h1>
-            </ThinkMoreLogo>
-          </NextLink>
+            </NextLink>
+          </ThinkMoreLogo>
         )}
         <Box sx={{ flexGrow: 1 }} />
         <>

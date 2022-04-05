@@ -164,7 +164,6 @@ const Category = (props) => {
               ml: 0.5,
             }}
           >
-            {/* <FourCorners borderColor="red" tl br> */}
             <Avatar
               src={pinPostHeadImg}
               variant="square"
@@ -174,7 +173,6 @@ const Category = (props) => {
             >
               {pinPostHeadImg === '' ? <ArticleIcon /> : null}
             </Avatar>
-            {/* </FourCorners> */}
             <Typography variant="subtitle2" sx={{ ml: 2 }}>
               {pinPostTitle}
             </Typography>
