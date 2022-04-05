@@ -43,7 +43,7 @@
 11. Sockjs (websocket)
 12. Sendgrid (Email)
 
-### Architecture diagram
+### Technology stack and architecture diagram
 
 <p align="center">
   <img src="./public/ThinkMore.svg">
