@@ -153,6 +153,7 @@ const Login = ({ register }) => {
                 fullWidth
                 size="large"
                 variant="contained"
+                sx={{ px: 1, py: 1 }}
               >
                 Login with Facebook
               </Button>
@@ -165,6 +166,7 @@ const Login = ({ register }) => {
                 color="error"
                 size="large"
                 variant="contained"
+                sx={{ px: 1, py: 1 }}
               >
                 Login with Google
               </Button>
@@ -173,7 +175,7 @@ const Login = ({ register }) => {
           <Box
             sx={{
               pb: 1,
-              pt: 3,
+              pt: 2,
             }}
           />
           <Typography color="textSecondary" variant="body2">
