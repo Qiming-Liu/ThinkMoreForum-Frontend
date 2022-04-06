@@ -16,7 +16,6 @@ import ArticleIcon from '@mui/icons-material/Article';
 import { getPostById } from '../../services/Public';
 import MyTime from '../../utils/myTime';
 import Participants from './Participants';
-// import FourCorners from './CategoryPageComponents/FourCorners';
 
 const useStyles = makeStyles(
   {
@@ -100,7 +99,7 @@ const Category = (props) => {
               backgroundColor: color,
               ml: 3,
               my: 3,
-              p: 4,
+              p: 2,
             }}
           >
             <Image src={headImgUrl} height="300" width="300" alt="logo" />

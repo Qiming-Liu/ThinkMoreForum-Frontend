@@ -75,11 +75,11 @@ const OnlineUser = ({ mobileDevice }) => {
       )}
       {onlineUser.map((value) => {
         return (
-          <Zoom in>
-            <ListItem
-              key={value.id}
-              disablePadding
-              secondaryAction={
+          <ListItem
+            key={value.id}
+            disablePadding
+            secondaryAction={
+              <Zoom in>
                 <Box
                   sx={{
                     backgroundColor: '#057642',
@@ -89,14 +89,14 @@ const OnlineUser = ({ mobileDevice }) => {
                     mr: 3,
                   }}
                 />
-              }
-              sx={{
-                my: 2,
-              }}
-            >
-              <UserInfoRow userInfo={value} />
-            </ListItem>
-          </Zoom>
+              </Zoom>
+            }
+            sx={{
+              my: 2,
+            }}
+          >
+            <UserInfoRow userInfo={value} />
+          </ListItem>
         );
       })}
     </CustomList>

@@ -6,6 +6,7 @@ import {
   ListItemButton,
   Tooltip,
   Typography,
+  Zoom,
 } from '@mui/material';
 
 const UserInfoRow = ({ userInfo, mobileDevice }) => {
@@ -18,17 +19,19 @@ const UserInfoRow = ({ userInfo, mobileDevice }) => {
         passHref
       >
         <Tooltip placement="top" title={userInfo.username}>
-          <Avatar
-            src={userInfo.headImgUrl}
-            sx={{
-              borderRadius: '100%',
-              border: '2px solid #fff',
-              outline: '2px solid #057642',
-              width: 54,
-              height: 54,
-              cursor: 'pointer',
-            }}
-          />
+          <Zoom in>
+            <Avatar
+              src={userInfo.headImgUrl}
+              sx={{
+                border: '2px solid #fff',
+                outline: '2px solid #057642',
+                borderRadius: '100%',
+                width: 54,
+                height: 54,
+                cursor: 'pointer',
+              }}
+            />
+          </Zoom>
         </Tooltip>
       </NextLink>
     );
@@ -42,13 +45,15 @@ const UserInfoRow = ({ userInfo, mobileDevice }) => {
     >
       <ListItemButton>
         <ListItemAvatar>
-          <Avatar
-            src={userInfo.headImgUrl}
-            sx={{
-              width: 40,
-              height: 40,
-            }}
-          />
+          <Zoom in>
+            <Avatar
+              src={userInfo.headImgUrl}
+              sx={{
+                width: 40,
+                height: 40,
+              }}
+            />
+          </Zoom>
         </ListItemAvatar>
         <NextLink
           href={{
