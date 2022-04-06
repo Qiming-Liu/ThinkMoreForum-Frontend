@@ -42,6 +42,8 @@
 10. Redis (Jedis)
 11. Sockjs (websocket)
 12. Sendgrid (Email)
+13. Grafana
+14. Portainer.io
 
 ### Technology stack and architecture diagram
 
