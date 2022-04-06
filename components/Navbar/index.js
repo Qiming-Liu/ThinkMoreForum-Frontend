@@ -41,7 +41,7 @@ const Navbar = () => {
           height: 60,
           left: 0,
           pl: 3,
-          pr: 5,
+          pr: mobileDevice ? 3 : 5,
         }}
       >
         <NextLink href="/" passHref>

@@ -26,9 +26,14 @@ const CustomList = styled(List)`
 const OnlineUser = ({ mobileDevice }) => {
   const [onlineUser, setOnlineUser] = useState([]);
   const { onlineUsers } = useWSContext();
+  const [noOnlineUser, setNoOnlineUser] = useState(false);
 
   useEffect(() => {
     const getOnlineUser = async () => {
+      if (onlineUsers.length === 0) {
+        setNoOnlineUser(true);
+        return;
+      }
       const currentUsers = onlineUsers.map(async (user) => {
         const { data: res } = await userService.getUserByUsername(user);
         return res;
@@ -70,34 +75,39 @@ const OnlineUser = ({ mobileDevice }) => {
       <Divider sx={{ mt: 1 }} variant="middle" />
       {onlineUser.length === 0 && (
         <Typography sx={{ ml: 2, mt: 2 }} variant="subtitle1" color="#6b778d">
-          No registered users currently online :(
+          {noOnlineUser
+            ? 'No registered user is online currently :( '
+            : 'Connecting...'}
         </Typography>
       )}
       {onlineUser.map((value) => {
-        return (
-          <ListItem
-            key={value.id}
-            disablePadding
-            secondaryAction={
-              <Zoom in>
-                <Box
-                  sx={{
-                    backgroundColor: '#057642',
-                    width: 10,
-                    height: 10,
-                    borderRadius: '50%',
-                    mr: 3,
-                  }}
-                />
-              </Zoom>
-            }
-            sx={{
-              my: 2,
-            }}
-          >
-            <UserInfoRow userInfo={value} />
-          </ListItem>
-        );
+        if (value) {
+          return (
+            <ListItem
+              key={value.id}
+              disablePadding
+              secondaryAction={
+                <Zoom in>
+                  <Box
+                    sx={{
+                      backgroundColor: '#057642',
+                      width: 10,
+                      height: 10,
+                      borderRadius: '50%',
+                      mr: 3,
+                    }}
+                  />
+                </Zoom>
+              }
+              sx={{
+                my: 2,
+              }}
+            >
+              <UserInfoRow userInfo={value} />
+            </ListItem>
+          );
+        }
+        return null;
       })}
     </CustomList>
   );
