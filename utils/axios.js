@@ -7,9 +7,6 @@ const getInstance = () => {
   const axiosInstance = axios.create();
   axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  // comment out next line if you want connect online backend
-  // axiosInstance.defaults.baseURL = 'https://api.thinkmoreapp.com';
-
   axiosInstance.defaults.headers.common.Authorization =
     store.getState().sign.token || '';
 
