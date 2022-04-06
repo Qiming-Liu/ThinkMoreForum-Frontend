@@ -46,12 +46,17 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
         justifyContent="space-between"
         alignItems="baseline"
       >
-        <Typography variant="h4" sx={{ mt: 2 }} style={{ fontSize: '34px' }}>
+        <Typography variant="h4" sx={{ mt: 0.7 }} style={{ fontSize: '34px' }}>
           {post.title}
         </Typography>
         {myDetail && checkAuth() && <AdminTool />}
       </Stack>
-      <Grid container alignItems="center" justifyContent="space-between">
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ mt: 2.5, mb: 3.5 }}
+      >
         <Grid item>
           <Box
             sx={{
@@ -80,7 +85,7 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
             </Box>
           </Box>
         </Grid>
-        <Grid item sx={{ alignItems: 'center', display: 'flex', mt: 3 }}>
+        <Grid item sx={{ alignItems: 'center', display: 'flex' }}>
           <Tooltip
             title={isFavored ? 'Unfavorite this post' : 'Favorite this post'}
             placement="top"
