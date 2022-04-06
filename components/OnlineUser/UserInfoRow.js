@@ -45,8 +45,8 @@ const UserInfoRow = ({ userInfo, mobileDevice }) => {
           <Avatar
             src={userInfo.headImgUrl}
             sx={{
-              width: 32,
-              height: 32,
+              width: 40,
+              height: 40,
             }}
           />
         </ListItemAvatar>
@@ -64,7 +64,7 @@ const UserInfoRow = ({ userInfo, mobileDevice }) => {
         >
           <Typography
             variant="subtitle1"
-            sx={{ color: '#546378', marginLeft: '-10px' }}
+            sx={{ color: '#546378', marginLeft: '-2px' }}
           >
             {`${userInfo.username}`}
           </Typography>

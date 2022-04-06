@@ -38,8 +38,17 @@ const ThreeColumns = ({ children, randomPost }) => {
     );
   }
   return (
-    <Grid container direction="row" spacing={4}>
-      <Grid item xs={2.75}>
+    <Grid
+      container
+      direction="row"
+      spacing={4}
+      style={{ position: 'relative', justifyContent: 'center' }}
+    >
+      <Grid
+        item
+        xs={2.75}
+        style={{ position: 'fixed', left: '-30px', top: '64px', width: '23%' }}
+      >
         <Paper
           elevation={2}
           style={{
@@ -54,10 +63,14 @@ const ThreeColumns = ({ children, randomPost }) => {
           <OnlineUser />
         </Paper>
       </Grid>
-      <Grid item xs={6.5}>
+      <Grid item xs={6.5} style={{ position: 'relative' }}>
         {children}
       </Grid>
-      <Grid item xs={2.75}>
+      <Grid
+        item
+        xs={2.75}
+        style={{ position: 'fixed', right: '5px', top: '64px', width: '23%' }}
+      >
         <RandomPost randomPost={randomPost} />
       </Grid>
     </Grid>

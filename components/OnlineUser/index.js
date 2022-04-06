@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Divider, Grid, List, ListItem, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  Typography,
+  Zoom,
+} from '@mui/material';
 import styled from 'styled-components';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as userService from '../../services/Public';
@@ -67,27 +75,28 @@ const OnlineUser = ({ mobileDevice }) => {
       )}
       {onlineUser.map((value) => {
         return (
-          <ListItem
-            key={value.id}
-            disablePadding
-            secondaryAction={
-              <Box
-                sx={{
-                  backgroundColor: '#057642',
-                  width: 10,
-                  height: 10,
-                  borderRadius: '50%',
-                  mr: 4,
-                }}
-              />
-            }
-            sx={{
-              my: 2,
-              mx: 2,
-            }}
-          >
-            <UserInfoRow userInfo={value} />
-          </ListItem>
+          <Zoom in>
+            <ListItem
+              key={value.id}
+              disablePadding
+              secondaryAction={
+                <Box
+                  sx={{
+                    backgroundColor: '#057642',
+                    width: 10,
+                    height: 10,
+                    borderRadius: '50%',
+                    mr: 3,
+                  }}
+                />
+              }
+              sx={{
+                my: 2,
+              }}
+            >
+              <UserInfoRow userInfo={value} />
+            </ListItem>
+          </Zoom>
         );
       })}
     </CustomList>

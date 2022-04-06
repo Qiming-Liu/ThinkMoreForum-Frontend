@@ -3,12 +3,13 @@ import NextLink from 'next/link';
 import {
   Box,
   Button,
-  Pagination,
-  Typography,
+  Divider,
   Grid,
-  TextField,
   IconButton,
   InputAdornment,
+  Pagination,
+  Typography,
+  TextField,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
@@ -24,7 +25,7 @@ import {
 } from '../../services/Public';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/Loading';
 import Posts from '../../components/Post/Posts';
 import CommonContainer from '../../components/Layout/common-container';
 import getInitialDisplaySettings from '../../utils/getInitialDisplaySettings';
@@ -178,7 +179,6 @@ const PostList = () => {
     setTotalPages(Math.ceil(totalCount / sizePerPage));
   }, [sizePerPage, totalCount]);
 
-  if (router.isFallback) return <Loading />;
   if (thisCategoryError || pinPostError || totalCountError) router.push(`/404`);
   if (!thisCategory) return <Loading />;
 
@@ -192,6 +192,7 @@ const PostList = () => {
           Back to Home
         </Button>
       </NextLink>
+      <Divider sx={{ my: 1.5 }} />
       <CategoryIntro
         categoryTitle={categoryTitle}
         description={thisCategory.description}
@@ -205,7 +206,7 @@ const PostList = () => {
           borderBottom: 2,
           borderColor: 'grey.200',
           pb: 1,
-          my: 1,
+          my: 4,
         }}
         style={{ display: 'flex', justifyContent: 'space-evenly' }}
       >

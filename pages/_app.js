@@ -6,12 +6,12 @@ import { ThemeProvider } from '@mui/material/styles';
 import { Toaster } from 'react-hot-toast';
 import Router from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
+import CssBaseline from '@mui/material/CssBaseline';
 import NextClientOnly from '../components/NextClientOnly';
 import store from '../store/store';
 import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Loading from '../components/Loading/Loading';
+import Loading from '../components/Loading';
 import { WSContextProvider } from '../contexts/WSContext';
 import createTheme from '../theme';
 import 'antd/dist/antd.css';
@@ -34,19 +34,13 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
         </Head>
         <SessionProvider session={session}>
           <ThemeProvider theme={createTheme()}>
+            <CssBaseline />
             <Layout>
               <NextClientOnly>
                 <Toaster position="top-center" reverseOrder={false} />
                 <Navbar />
               </NextClientOnly>
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <>
-                  <Component {...pageProps} />
-                  <Footer />
-                </>
-              )}
+              {isLoading ? <Loading /> : <Component {...pageProps} />}
             </Layout>
           </ThemeProvider>
         </SessionProvider>
