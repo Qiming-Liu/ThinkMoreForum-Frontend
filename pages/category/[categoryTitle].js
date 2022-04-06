@@ -206,7 +206,8 @@ const PostList = () => {
           borderBottom: 2,
           borderColor: 'grey.200',
           pb: 1,
-          my: 4,
+          mt: 2.5,
+          mb: 3,
         }}
         style={{ display: 'flex', justifyContent: 'space-evenly' }}
       >

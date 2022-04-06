@@ -6,15 +6,17 @@ import {
   List,
   ListItem,
   Typography,
+  Paper,
   Zoom,
 } from '@mui/material';
 import styled from 'styled-components';
+import { makeStyles } from '@mui/styles';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as userService from '../../services/Public';
 import { useWSContext } from '../../contexts/WSContext';
 import UserInfoRow from './UserInfoRow';
 
-const CustomList = styled(List)`
+const CustomPaper = styled(Paper)`
   overflow: hidden;
 
   &:hover {
@@ -23,7 +25,25 @@ const CustomList = styled(List)`
   }
 `;
 
+const useStyles = makeStyles(() => ({
+  root: {
+    '&::-webkit-scrollbar': {
+      width: '5px',
+      height: '5px',
+    },
+    '&::-webkit-scrollbar-track': {
+      borderRadius: '1em',
+      backgroundColor: 'rgba(50, 50, 50, 0.1)',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      borderRadius: '1em',
+      backgroundColor: 'rgba(50, 50, 50, 0.3)',
+    },
+  },
+}));
+
 const OnlineUser = ({ mobileDevice }) => {
+  const classes = useStyles();
   const [onlineUser, setOnlineUser] = useState([]);
   const { onlineUsers } = useWSContext();
   const [noOnlineUser, setNoOnlineUser] = useState(false);
@@ -64,7 +84,7 @@ const OnlineUser = ({ mobileDevice }) => {
   }
 
   return (
-    <CustomList
+    <List
       dense
       sx={{ width: '100%', marginTop: 1 }}
       style={{ overflow: 'hidden' }}
@@ -73,43 +93,50 @@ const OnlineUser = ({ mobileDevice }) => {
         Online Users
       </Typography>
       <Divider sx={{ mt: 1 }} variant="middle" />
-      {onlineUser.length === 0 && (
-        <Typography sx={{ ml: 2, mt: 2 }} variant="subtitle1" color="#6b778d">
-          {noOnlineUser
-            ? 'No registered user is online currently :( '
-            : 'Connecting...'}
-        </Typography>
-      )}
-      {onlineUser.map((value) => {
-        if (value) {
-          return (
-            <ListItem
-              key={value.id}
-              disablePadding
-              secondaryAction={
-                <Zoom in>
-                  <Box
-                    sx={{
-                      backgroundColor: '#057642',
-                      width: 10,
-                      height: 10,
-                      borderRadius: '50%',
-                      mr: 3,
-                    }}
-                  />
-                </Zoom>
-              }
-              sx={{
-                my: 2,
-              }}
-            >
-              <UserInfoRow userInfo={value} />
-            </ListItem>
-          );
-        }
-        return null;
-      })}
-    </CustomList>
+      <CustomPaper
+        elevation={0}
+        sx={{ bgcolor: 'transparent' }}
+        style={{ height: '70vh' }}
+        className={classes.root}
+      >
+        {onlineUser.length === 0 && (
+          <Typography sx={{ ml: 2, mt: 2 }} variant="subtitle1" color="#6b778d">
+            {noOnlineUser
+              ? 'No registered user is online currently :( '
+              : 'Connecting...'}
+          </Typography>
+        )}
+        {onlineUser.map((value) => {
+          if (value) {
+            return (
+              <ListItem
+                key={value.id}
+                disablePadding
+                secondaryAction={
+                  <Zoom in>
+                    <Box
+                      sx={{
+                        backgroundColor: '#057642',
+                        width: 10,
+                        height: 10,
+                        borderRadius: '50%',
+                        mr: 3,
+                      }}
+                    />
+                  </Zoom>
+                }
+                sx={{
+                  my: 2,
+                }}
+              >
+                <UserInfoRow userInfo={value} />
+              </ListItem>
+            );
+          }
+          return null;
+        })}
+      </CustomPaper>
+    </List>
   );
 };
 

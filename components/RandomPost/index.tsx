@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Card, Box } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 // @ts-ignore
 import Comments from './Comments.tsx';
 import photo from '../../public/logo.svg';
@@ -15,7 +16,25 @@ const CustomBox = styled(Box)`
   }
 `;
 
+const useStyles = makeStyles(() => ({
+  root: {
+    '&::-webkit-scrollbar': {
+      width: '5px',
+      height: '5px',
+    },
+    '&::-webkit-scrollbar-track': {
+      borderRadius: '1em',
+      backgroundColor: 'rgba(50, 50, 50, 0.1)',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      borderRadius: '1em',
+      backgroundColor: 'rgba(50, 50, 50, 0.3)',
+    },
+  },
+}));
+
 const RandomPost = ({ randomPost }: { randomPost: any }) => {
+  const classes = useStyles();
   const [post, setPost] = React.useState<any | null>(null);
   const [comments, setComments] = React.useState<any | null>(null);
   const image: typeof photo = post ? post.headImgUrl : photo;
@@ -68,6 +87,7 @@ const RandomPost = ({ randomPost }: { randomPost: any }) => {
           borderRadius: 'inherit',
           marginTop: '15px',
         }}
+        className={classes.root}
       >
         {comments &&
           comments.map((comment: any) => (
