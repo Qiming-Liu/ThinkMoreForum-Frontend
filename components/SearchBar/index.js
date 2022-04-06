@@ -3,13 +3,11 @@ import TextField from '@mui/material/TextField';
 import NextLink from 'next/link';
 import List from '@mui/material/List';
 import Badge from '@mui/material/Badge';
-import ListSubheader from '@mui/material/ListSubheader';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Avatar from '@mui/material/Avatar';
 import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
-import DescriptionIcon from '@mui/icons-material/Description';
 import { useSelector, useDispatch } from 'react-redux';
 import { InputAdornment } from '@mui/material';
 import * as searchService from '../../services/Post';
@@ -98,16 +96,6 @@ const SearchBar = () => {
       }}
       renderOption={(props, option) => {
         if (option.username !== undefined) {
-          if (option.divider) {
-            return (
-              <ListSubheader component="div">
-                <span>
-                  <DescriptionIcon />
-                </span>
-                <span>Users</span>
-              </ListSubheader>
-            );
-          }
           return (
             <List
               {...props}
