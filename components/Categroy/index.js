@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import NextLink from 'next/link';
 import Image from 'next/image';
 import {
@@ -13,7 +13,6 @@ import {
 import { makeStyles } from '@mui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArticleIcon from '@mui/icons-material/Article';
-import { getPostById } from '../../services/Public';
 import MyTime from '../../utils/myTime';
 import Participants from './Participants';
 
@@ -45,23 +44,6 @@ const Category = (props) => {
     headImgUrl,
     lastUpdateTimestamp,
   } = props;
-
-  const [pinPostTitle, setPinPostTitle] = useState('');
-
-  const [pinPostHeadImg, setPostHeadImg] = useState('');
-
-  useEffect(() => {
-    (async () => {
-      if (pinPost) {
-        const { data } = await getPostById(pinPost.id);
-        setPinPostTitle(data.title);
-        setPostHeadImg(data.headImgUrl);
-      } else {
-        setPinPostTitle('No Pinned Post Yet');
-        setPostHeadImg('');
-      }
-    })();
-  }, [headImgUrl, pinPost]);
 
   const date = new Date(
     lastUpdateTimestamp.substring(0, 4),
@@ -164,16 +146,16 @@ const Category = (props) => {
             }}
           >
             <Avatar
-              src={pinPostHeadImg}
+              src={pinPost.headImgUrl}
               variant="square"
               style={{
                 borderRadius: '5px',
               }}
             >
-              {pinPostHeadImg === '' ? <ArticleIcon /> : null}
+              {pinPost.headImgUrl === '' ? <ArticleIcon /> : null}
             </Avatar>
             <Typography variant="subtitle2" sx={{ ml: 2 }}>
-              {pinPostTitle}
+              {pinPost.title}
             </Typography>
           </Box>
           <Grid
@@ -196,14 +178,14 @@ const Category = (props) => {
             >
               <ArticleIcon sx={{ color: 'primary.main' }} />
               <Typography
-                color={color}
+                color="#222429"
                 variant="subtitle2"
                 sx={{ m: 1, mr: 4 }}
               >
                 {postCount}
               </Typography>
               <VisibilityIcon sx={{ color: 'primary.main' }} />
-              <Typography color={color} variant="subtitle2" sx={{ m: 1 }}>
+              <Typography color="#222429" variant="subtitle2" sx={{ m: 1 }}>
                 {viewCount}
               </Typography>
             </Box>

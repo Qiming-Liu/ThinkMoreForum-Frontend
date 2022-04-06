@@ -98,6 +98,9 @@ export const WSContextProvider = ({ children }) => {
       stompClient.current = over(Sock);
       stompClient.current.connect({}, onConnected, onError);
       stompClient.current.reconnect_delay = 5000;
+
+      // Comment out this line to enable ws console log Cmessages
+      stompClient.current.debug = null;
       // eslint-disable-next-line no-empty
     } catch (error) {}
   }, [onConnected, onError]);
