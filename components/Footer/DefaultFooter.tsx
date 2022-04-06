@@ -53,9 +53,10 @@ const DefaultFooter = () => {
               A community doing good
             </Typography>
             <Typography>
-              ThinkMore Forum is place for people to make any kind of disscusion,
-              where people come together to share their opinion. We’re also a
-              community pushing for positive change for people, and the planet.
+              ThinkMore Forum is place for people to make any kind of
+              disscusion, where people come together to share their opinion.
+              We’re also a community pushing for positive change for people, and
+              the planet.
             </Typography>
           </Stack>
           <Stack
