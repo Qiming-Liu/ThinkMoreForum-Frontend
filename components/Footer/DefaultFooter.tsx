@@ -37,7 +37,7 @@ const DefaultFooter = () => {
           variant={isMobile ? 'h4' : 'h5'}
           sx={isMobile ? { mb: 5 } : { mb: 3 }}
         >
-          What is ThinkMoreForum ?
+          What is ThinkMore Forum ?
         </Typography>
         <Stack
           direction={isMobile ? 'row' : 'column'}
@@ -53,7 +53,7 @@ const DefaultFooter = () => {
               A community doing good
             </Typography>
             <Typography>
-              ThinkMoreForum is place for people to make any kind of disscusion,
+              ThinkMore Forum is place for people to make any kind of disscusion,
               where people come together to share their opinion. We’re also a
               community pushing for positive change for people, and the planet.
             </Typography>
@@ -67,7 +67,7 @@ const DefaultFooter = () => {
               Bring people Together
             </Typography>
             <Typography>
-              ThinkMoreForum bring people together from all over the world. We
+              ThinkMore Forum bring people together from all over the world. We
               are a community of people who are passionate about the world and
               the environment.
             </Typography>
@@ -104,7 +104,7 @@ const DefaultFooter = () => {
             sx={{ pt: 3, align: 'center' }}
             variant="caption"
           >
-            © 2022 ThinkMoreForum. All Rights Reserved.
+            © 2022 ThinkMore Forum. All Rights Reserved.
           </Typography>
         </Stack>
       </Grid>

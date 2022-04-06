@@ -1,4 +1,4 @@
-# Welcome to ThinkMoreForum contributing guide
+# Welcome to ThinkMore Forum contributing guide
 
 Thank you for investing your time in contributing to our project!
 
@@ -59,7 +59,7 @@ Fill the "Ready for review" template so that we can review your PR. This templat
 
 ### Your PR is merged!
 
-Congratulations :tada::tada: The ThinkMoreForum team thanks you :sparkles:.
+Congratulations :tada::tada: The ThinkMore Forum team thanks you :sparkles:.
 
 ## Windows
 

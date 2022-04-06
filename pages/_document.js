@@ -14,12 +14,12 @@ class MyDocument extends Document {
           <meta name="referrer" content="always" />
           <meta property="og:image" content="/home-preview.png" />
           <meta property="og:image:type" content="image/png" />
-          <meta property="og:image:width" content="1118" />
-          <meta property="og:image:height" content="699" />
+          <meta property="og:image:width" content="1201" />
+          <meta property="og:image:height" content="751" />
           <meta property="og:title" content="thinkmore." />
           <meta
             property="og:description"
-            content="ThinkMoreForum is place for people to make any kind of disscusion, where people come together to share their opinion."
+            content="ThinkMore Forum is place for people to make any kind of disscusion, where people come together to share their opinion."
           />
           <meta property="og:site_name" content="ThinkMore Community Forum" />
           <meta property="og:url" content="https://www.thinkmoreapp.com/" />
