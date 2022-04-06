@@ -84,7 +84,7 @@ const PostEdit = ({ postId }) => {
   return (
     <>
       <Head>
-        <title>Edit Post | ThinkMoreForum</title>
+        <title>Edit Post | ThinkMore Forum</title>
       </Head>
       <Typography variant="h4">Edit Post</Typography>
       <form onSubmit={formik.handleSubmit}>

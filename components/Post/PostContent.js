@@ -39,7 +39,7 @@ const PostContent = ({ post, isFavored, toggleFav }) => {
   return (
     <>
       <Head>
-        <title>ThinkMoreForum | {post.title}</title>
+        <title>ThinkMore Forum | {post.title}</title>
       </Head>
       <Stack
         direction="row"
