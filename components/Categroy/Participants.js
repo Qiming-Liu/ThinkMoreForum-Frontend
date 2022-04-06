@@ -9,9 +9,9 @@ const Participants = ({ count }) => {
       }}
       sx={{
         bgcolor: 'primary.main',
-        pl: 0.8,
+        pl: 0.7,
         pr: 2,
-        py: 0.65,
+        py: 0.6,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -30,17 +30,13 @@ const Participants = ({ count }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}
+        style={{
+          fontWeight: 'bold',
+          fontSize: '1rem',
+          color: '#0d47a1',
+        }}
       >
-        <Typography
-          color="#0d47a1"
-          variant="subtitle2"
-          style={{
-            transform: 'translateX(-6%)',
-            fontWeight: 'bold',
-          }}
-        >
-          {count}
-        </Typography>
+        {count}
       </Box>
       <Typography color="white" variant="subtitle2">
         Participants

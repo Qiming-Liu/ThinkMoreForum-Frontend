@@ -20,17 +20,25 @@ const UserInfoRow = ({ userInfo, mobileDevice }) => {
       >
         <Tooltip placement="top" title={userInfo.username}>
           <Zoom in>
-            <Avatar
-              src={userInfo.headImgUrl}
-              sx={{
-                border: '2px solid #fff',
-                outline: '2px solid #057642',
-                borderRadius: '100%',
-                width: 54,
-                height: 54,
-                cursor: 'pointer',
+            <div
+              style={{
+                width: 'max-content',
+                height: 'max-content',
+                border: '2px solid #057642',
+                borderRadius: '50%',
               }}
-            />
+            >
+              <Avatar
+                src={userInfo.headImgUrl}
+                sx={{
+                  border: '2px solid #fff',
+                  borderRadius: '50%',
+                  width: 54,
+                  height: 54,
+                  cursor: 'pointer',
+                }}
+              />
+            </div>
           </Zoom>
         </Tooltip>
       </NextLink>

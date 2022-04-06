@@ -3,15 +3,13 @@ import TextField from '@mui/material/TextField';
 import NextLink from 'next/link';
 import List from '@mui/material/List';
 import Badge from '@mui/material/Badge';
-import ListSubheader from '@mui/material/ListSubheader';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Avatar from '@mui/material/Avatar';
 import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
-import DescriptionIcon from '@mui/icons-material/Description';
 import { useSelector, useDispatch } from 'react-redux';
-import { InputAdornment, Link } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import * as searchService from '../../services/Post';
 import * as searchUserService from '../../services/Users';
 import { updatePostViewCount } from '../../services/Public';
@@ -98,26 +96,38 @@ const SearchBar = () => {
       }}
       renderOption={(props, option) => {
         if (option.username !== undefined) {
-          if (option.divider) {
-            return (
-              <ListSubheader component="div">
-                <span>
-                  <DescriptionIcon />
-                </span>
-                <span>Users</span>
-              </ListSubheader>
-            );
-          }
           return (
-            <List {...props} sx={{ marginLeft: -4 }}>
-              <ListItem sx={{ height: 40 }} key={option.id}>
-                <NextLink
-                  href={{
-                    pathname: `/profile/${option.username}`,
+            <List
+              {...props}
+              style={{
+                maxWidth: '100%',
+                height: 'max-content',
+                padding: '0.1rem 0',
+              }}
+            >
+              <NextLink
+                href={{
+                  pathname: `/profile/${option.username}`,
+                }}
+                passHref
+              >
+                <ListItem
+                  style={{
+                    width: '100%',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    height: '50px',
+                    padding: '0',
                   }}
-                  passHref
+                  key={option.id}
                 >
-                  <ListItemButton>
+                  <ListItemButton
+                    style={{
+                      width: '100%',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }}
+                  >
                     <Badge
                       color="primary"
                       badgeContent="User"
@@ -129,44 +139,56 @@ const SearchBar = () => {
                     >
                       <Avatar src={option.headImgUrl} sx={{ mr: 1.5 }} />
                     </Badge>
-                    <NextLink
-                      href={{
-                        pathname: `/profile/${option.username}`,
-                      }}
-                      passHref
+                    <span
                       style={{
                         textDecoration: 'none',
                         color: 'black',
                         whiteSpace: 'nowrap',
-                        display: 'block',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        width: '16rem',
+                        maxWidth: '100%',
                       }}
                     >
                       {`${option.username}`}
-                    </NextLink>
+                    </span>
                   </ListItemButton>
-                </NextLink>
-              </ListItem>
+                </ListItem>
+              </NextLink>
             </List>
           );
         }
         if (option.title !== undefined) {
           return (
-            <List {...props} sx={{ marginLeft: -4 }}>
-              <ListItem
-                sx={{
-                  height: 40,
-                }}
-                key={option.id}
+            <List
+              {...props}
+              style={{
+                maxWidth: '100%',
+                height: 'max-content',
+                padding: '0.1rem 0',
+              }}
+            >
+              <NextLink
+                href={`/post/${option.id}`}
+                onClick={() => handleClick(option.id)}
+                passHref
               >
-                <NextLink
-                  href={`/post/${option.id}`}
-                  onClick={() => handleClick(option.id)}
-                  passHref
+                <ListItem
+                  style={{
+                    width: '100%',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    height: '50px',
+                    padding: '0',
+                  }}
+                  key={option.id}
                 >
-                  <ListItemButton>
+                  <ListItemButton
+                    style={{
+                      width: '100%',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }}
+                  >
                     <Badge
                       color="secondary"
                       badgeContent="Post"
@@ -178,24 +200,21 @@ const SearchBar = () => {
                     >
                       <Avatar src={option.headImgUrl} sx={{ mr: 1.5 }} />
                     </Badge>
-                    <Link
-                      href={`/post/${option.id}`}
-                      onClick={() => handleClick(option.id)}
+                    <span
                       style={{
                         textDecoration: 'none',
                         color: 'black',
                         whiteSpace: 'nowrap',
-                        display: 'block',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        width: '16rem',
+                        maxWidth: '100%',
                       }}
                     >
                       {`${option.title}`}
-                    </Link>
+                    </span>
                   </ListItemButton>
-                </NextLink>
-              </ListItem>
+                </ListItem>
+              </NextLink>
             </List>
           );
         }

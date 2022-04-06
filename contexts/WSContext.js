@@ -97,6 +97,7 @@ export const WSContextProvider = ({ children }) => {
       // const Sock = new SockJS('http://localhost:443/v1/public/ws');
       stompClient.current = over(Sock);
       stompClient.current.connect({}, onConnected, onError);
+      stompClient.current.reconnect_delay = 5000;
       // eslint-disable-next-line no-empty
     } catch (error) {}
   }, [onConnected, onError]);
