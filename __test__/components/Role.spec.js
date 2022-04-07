@@ -5,7 +5,7 @@ import Role from '../../components/Role';
 describe('<Role />', () => {
   it('should show role dialog', () => {
     render(<Role />);
-    fireEvent.click(screen.getByRole('button', { name: /new role/i }));
-    expect(screen.getByText('Create a new role')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Add Role/i }));
+    expect(screen.getByText('New role')).toBeInTheDocument();
   });
 });

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { TableBody, TableRow, TableCell, Toolbar } from '@mui/material';
-import styled from 'styled-components';
+import { Button, TableBody, TableRow, TableCell, Stack } from '@mui/material';
 import CategoryForm from './CategoryForm';
 import useTable from '../useTable';
 import * as categoryServices from '../../../services/Public';
@@ -14,18 +12,6 @@ import Controls from '../controls/Controls';
 import Popup from '../Popup';
 import Notification from '../Notification';
 import ConfirmDialog from '../ConfirmDialog';
-
-const NewButton = styled(Controls.Button)`
-  position: relative;
-  left: 15px;
-  right: 10px;
-  width: 25%;
-  align-items: right;
-`;
-
-const SavBtn = styled(Controls.Button)`
-  width: 100%;
-`;
 
 const headCells = [
   { id: 'order', disablePadding: true, label: 'Order', disableSorting: true },
@@ -38,7 +24,6 @@ const headCells = [
   { id: 'title', label: 'Category Title', disableSorting: true },
   { id: 'description', label: 'Description', disableSorting: true },
   { id: 'color', label: 'Color', disableSorting: true },
-  { id: 'postCount', label: 'postCount', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
@@ -148,30 +133,51 @@ const Category = () => {
     putCategories(formattedRecords);
   };
 
-  if (records === null) {
-    return <div>Loading...</div>;
+  if (!records) {
+    return null;
   }
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <Toolbar>
-          <NewButton
-            text="Add Category"
-            variant="outlined"
-            startIcon={<AddIcon />}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+          sx={{ mt: 3 }}
+        >
+          <Button
+            variant="contained"
             onClick={() => {
               setOpenPopup(true);
               setRecordForEdit(null);
             }}
-          />
-        </Toolbar>
+          >
+            Add Category
+          </Button>
+          <Button
+            text="."
+            variant="outlined"
+            onClick={() => {
+              setConfirmDialog({
+                isOpen: true,
+                title: 'Are you sure to save all changes?',
+                subTitle: "You can't undo this operation",
+                onConfirm: () => {
+                  handleSaveChanges();
+                },
+              });
+            }}
+          >
+            Save All
+          </Button>
+        </Stack>
         <TblContainer>
           <TblHead />
           <Droppable droppableId="droppable-1">
             {(provided) => (
               <TableBody ref={provided.innerRef} {...provided.droppableProps}>
                 {recordsAfterPagingAndSorting().map((item, index) => {
-                  console.log(item.headImgUrl);
                   const image = item ? item.headImgUrl : null;
                   return (
                     <Draggable
@@ -212,7 +218,6 @@ const Category = () => {
                           >
                             {item.color}
                           </TableCell>
-                          <TableCell>{item.postCount}</TableCell>
                           <TableCell>
                             <Controls.ActionButton
                               color="primary"
@@ -247,20 +252,6 @@ const Category = () => {
             )}
           </Droppable>
         </TblContainer>
-        <SavBtn
-          text="Save All Changes."
-          variant="outlined"
-          onClick={() => {
-            setConfirmDialog({
-              isOpen: true,
-              title: 'Are you sure to save all changes?',
-              subTitle: "You can't undo this operation",
-              onConfirm: () => {
-                handleSaveChanges();
-              },
-            });
-          }}
-        />
       </DragDropContext>
       <Popup
         title="Category Form"

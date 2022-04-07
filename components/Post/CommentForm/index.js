@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Box, TextField, Grid } from '@mui/material';
+import {
+  Button,
+  Box,
+  TextField,
+  Grid,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { useSelector } from 'react-redux';
 import checkPermission from '../../../utils/checkPermission';
 import hotToast from '../../../utils/hotToast';
@@ -7,22 +14,26 @@ import Sign from '../../Sign';
 import { useWSContext } from '../../../contexts/WSContext';
 
 const CommentForm = ({
-  initialText = '',
   handleSubmit,
   login,
-  mentionUser,
+  mentionUsername,
+  parentCommentIsRoot,
   closeComment,
 }) => {
-  const [context, setContext] = useState(initialText);
+  const theme = useTheme();
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+  const [context, setContext] = useState('');
   const { handleRemind } = useWSContext();
   const { myDetail } = useSelector((state) => state.sign);
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (checkPermission('postComment', myDetail.role)) {
-      if (mentionUser) {
-        handleSubmit(`@${mentionUser} ${context}`);
-        handleRemind(mentionUser);
+      if (mentionUsername) {
+        handleSubmit(
+          parentCommentIsRoot ? `${context}` : `@${mentionUsername} ${context}`,
+        );
+        handleRemind(mentionUsername);
         setContext('');
         closeComment();
       } else {
@@ -42,7 +53,7 @@ const CommentForm = ({
         alignItems="center"
       >
         <Box mt={4}>
-          <h2>Login is required to post comment</h2>
+          <h2>Login is required to {mobileDevice || 'post'} comment</h2>
         </Box>
         <Box mt={2}>
           <Sign />
