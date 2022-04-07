@@ -10,8 +10,10 @@ const LayoutRoot = styled('div')(() => ({
   width: '100vw',
   paddingTop: 64,
 }));
-
-const Layout = ({ children }) => {
+type Props = {
+  children: any;
+};
+const Layout: React.FC<Props> = ({ children }) => {
   return (
     <LayoutRoot>
       {children[0]}

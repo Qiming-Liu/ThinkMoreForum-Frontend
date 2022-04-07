@@ -15,7 +15,7 @@ import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
 import { blueGrey } from '@mui/material/colors';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
-import CommonContainer from '../../components/Layout/common-container';
+import CommonContainer from '../../components/Layout/common-container.tsx';
 import ProfilePost from '../../components/Profile/ProfilePost.tsx';
 import ProfileFollow from '../../components/Profile/ProfileFollow.tsx';
 import {

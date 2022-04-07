@@ -8,7 +8,7 @@ const NotificationsButton = () => {
   const [unread, setUnread] = useState(0);
   const [openPopover, setOpenPopover] = useState(false);
 
-  const handleUpdateUnread = (value) => {
+  const handleUpdateUnread = (value: number) => {
     setUnread(value);
   };
 

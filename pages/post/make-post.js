@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import CommonContainer from '../../components/Layout/common-container';
+import CommonContainer from '../../components/Layout/common-container.tsx';
 import PostCreate from '../../components/Post/PostCreate';
 
 const MakePost = () => {
