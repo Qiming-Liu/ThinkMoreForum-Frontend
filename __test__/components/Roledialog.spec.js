@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import RoleDialog from '../../components/Role/components/RoleDialog';
+import RoleDialog from '../../components/Role/RoleDialog';
 
 describe('<Roledialog />', () => {
   it('should pass value to input', () => {
@@ -8,8 +8,9 @@ describe('<Roledialog />', () => {
       <RoleDialog
         role={{}}
         setRole={() => {}}
-        onClose={() => {}}
         headerList={[]}
+        open
+        DialogClose={() => {}}
       />,
     );
     const input = getByRole('textbox', {
@@ -24,12 +25,13 @@ describe('<Roledialog />', () => {
       <RoleDialog
         role={{}}
         setRole={() => {}}
-        onClose={() => {}}
         headerList={[]}
+        open
+        DialogClose={() => {}}
       />,
     );
     const button = getByRole('button', {
-      name: /save/i,
+      name: /Add/i,
     });
     fireEvent.click(button);
     expect(screen.queryByRole('dialog')).toBeNull();
