@@ -5,7 +5,7 @@ import NextLink from 'next/link';
 import { useSelector } from 'react-redux';
 import { AppBar, Box, Toolbar, useTheme, useMediaQuery } from '@mui/material';
 import AccountButton from './AccountButton';
-import NotificationsButton from './NotificationsButton';
+import NotificationsButton from './NotificationsButton.tsx';
 import Sign from '../Sign';
 
 const ThinkMoreLogo = styled.div`

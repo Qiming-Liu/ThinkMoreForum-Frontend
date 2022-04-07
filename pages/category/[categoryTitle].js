@@ -27,7 +27,7 @@ import CategoryIntro from '../../components/Categroy/CategoryIntro';
 import hotToast from '../../utils/hotToast';
 import Loading from '../../components/Loading';
 import Posts from '../../components/Post/Posts';
-import CommonContainer from '../../components/Layout/common-container';
+import CommonContainer from '../../components/Layout/common-container.tsx';
 import getInitialDisplaySettings from '../../utils/getInitialDisplaySettings';
 import DisplaySettings from '../../components/Categroy/CategoryPageComponents/DisplaySettings';
 import DisplaySettingsSecondRow from '../../components/Categroy/CategoryPageComponents/DisplaySettingsSecondRow';

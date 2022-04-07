@@ -9,7 +9,7 @@ import NextNProgress from 'nextjs-progressbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import NextClientOnly from '../components/NextClientOnly';
 import store from '../store/store';
-import Layout from '../components/Layout';
+import Layout from '../components/Layout/index.tsx';
 import Navbar from '../components/Navbar';
 import Loading from '../components/Loading';
 import { WSContextProvider } from '../contexts/WSContext';
