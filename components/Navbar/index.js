@@ -63,7 +63,6 @@ const Navbar = () => {
                 style={{
                   fontFamily: 'Quicksand, sans-serif',
                   fontSize: '2rem',
-                  // color: 'transparent',
                   color: '#222429',
                   marginBottom: '0',
                   cursor: 'pointer',

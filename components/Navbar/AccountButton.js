@@ -8,10 +8,6 @@ const AccountButton = ({ isLogin }) => {
   const [openPopover, setOpenPopover] = useState(false);
   const { myDetail } = useSelector((state) => state.sign);
 
-  if (!myDetail) {
-    return null;
-  }
-
   return (
     <>
       <Box
@@ -29,14 +25,16 @@ const AccountButton = ({ isLogin }) => {
             height: 40,
             width: 40,
           }}
-          src={myDetail.headImgUrl}
+          src={myDetail ? myDetail.headImgUrl : ''}
         />
       </Box>
-      <AccountPopover
-        anchorEl={anchorRef.current}
-        onClose={() => setOpenPopover(false)}
-        open={openPopover}
-      />
+      {myDetail && (
+        <AccountPopover
+          anchorEl={anchorRef.current}
+          onClose={() => setOpenPopover(false)}
+          open={openPopover}
+        />
+      )}
     </>
   );
 };
