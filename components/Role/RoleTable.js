@@ -11,7 +11,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import Controls from '../../CategoryManager/controls/Controls';
+import Controls from '../CategoryManager/controls/Controls';
 
 const RoleTable = ({
   setRole,

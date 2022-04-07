@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { getAllRoles, putRole } from '../../services/Role';
 import ConfirmDialog from '../CategoryManager/ConfirmDialog';
-import RoleTable from './components/RoleTable';
-import RoleDialog from './components/RoleDialog';
-import SignDialog from '../Sign/SignDialog';
+import RoleTable from './RoleTable';
+import RoleDialog from './RoleDialog';
 import hotToast from '../../utils/hotToast';
 
 const headerList = [
@@ -15,7 +14,7 @@ const headerList = [
   'post comment',
   'upload img',
   'search',
-  'action',
+  'delete',
 ];
 
 const header = [
@@ -101,13 +100,21 @@ const Role = () => {
 
   return (
     <>
-      <Button
-        sx={{ mb: 5 }}
-        variant="contained"
-        onClick={() => setIsOpen(true)}
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+        sx={{ mb: 3 }}
       >
-        Add New Role
-      </Button>
+        <Button variant="contained" onClick={() => setIsOpen(true)}>
+          Add Role
+        </Button>
+
+        <Button variant="outlined" onClick={handlSaveChanges}>
+          Save All
+        </Button>
+      </Stack>
       <RoleTable
         role={role}
         setRole={setRole}
@@ -115,26 +122,17 @@ const Role = () => {
         confirmDialog={confirmDialog}
         setConfirmDialog={setConfirmDialog}
       />
-      <Button
-        sx={{ mt: 5 }}
-        fullWidth
-        variant="outlined"
-        onClick={handlSaveChanges}
-      >
-        Save All Changes
-      </Button>
       <ConfirmDialog
         confirmDialog={confirmDialog}
         setConfirmDialog={setConfirmDialog}
       />
-      <SignDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <RoleDialog
-          role={role}
-          setRole={setRole}
-          onClose={setIsOpen}
-          headerList={headerList}
-        />
-      </SignDialog>
+      <RoleDialog
+        role={role}
+        setRole={setRole}
+        headerList={headerList}
+        open={isOpen}
+        DialogClose={() => setIsOpen(false)}
+      />
     </>
   );
 };

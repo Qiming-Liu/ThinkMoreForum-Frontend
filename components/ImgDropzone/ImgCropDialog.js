@@ -11,13 +11,8 @@ import ImageCropper from './ImgCropper.tsx';
 const ImgCropDialog = ({ open, DialogClose, img, afterCrop, aspectRatio }) => {
   const ImgCropRef = useRef();
   return (
-    <Dialog
-      open={open}
-      onClose={DialogClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">Crop your picture</DialogTitle>
+    <Dialog open={open} onClose={DialogClose}>
+      <DialogTitle>Crop your picture</DialogTitle>
       <DialogContent>
         <ImageCropper aspectRatio={aspectRatio} src={img} onRef={ImgCropRef} />
       </DialogContent>

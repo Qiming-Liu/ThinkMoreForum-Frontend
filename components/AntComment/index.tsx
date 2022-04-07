@@ -30,7 +30,8 @@ const AntComment: React.FC<{
 }> = ({ comment, replies, sendChildComment, login, parentId }) => {
   const { commentUsers, createTimestamp } = comment;
   const [showReplying, setShowReplying] = useState(false);
-  const mentionUser: string = commentUsers.username;
+  const mentionUsername: string = commentUsers.username;
+  const parentCommentIsRoot: boolean = comment.parentComment === null;
   const handleCommentClose: () => void = () => {
     setShowReplying(false);
   };
@@ -75,7 +76,8 @@ const AntComment: React.FC<{
             sendChildComment(context, parentId)
           }
           login={login}
-          mentionUser={mentionUser}
+          mentionUsername={mentionUsername}
+          parentCommentIsRoot={parentCommentIsRoot}
           closeComment={handleCommentClose}
         />
       ) : null}
