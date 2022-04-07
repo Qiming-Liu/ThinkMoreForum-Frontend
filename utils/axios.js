@@ -24,17 +24,11 @@ const getInstance = () => {
       // eslint-disable-next-line no-unused-expressions
       error && console.log(error.response);
 
-      // jwt expired
-      if (error && error.response && error.response.status === 401) {
+      // jwt expired or invalid
+      if (error && error.response && (error.response.status === 401 || error.response.status === 405)) {
         store.dispatch(logoutAction());
         return '';
       }
-
-      // jwt invalid
-      // if (error && error.response && error.response.status === 403) {
-      //   store.dispatch(logoutAction());
-      //   return '';
-      // }
 
       return Promise.reject(error);
     },
