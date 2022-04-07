@@ -10,8 +10,40 @@ import {
   Tooltip,
 } from '@mui/material';
 
-const FollowCard = (props) => {
-  const { follow, title } = props;
+type roletype = {
+  id: string;
+  permission: string;
+  roleName: string;
+};
+
+type Usertype = {
+  createTimestamp: string;
+  email: string;
+  headImgUrl: string;
+  id: string;
+  lastLoginTimestamp: string;
+  profileImgUrl: string;
+  role: roletype;
+  username: string;
+};
+
+type followerinfo = [
+  {
+    createTimestamp: string;
+    followedUsers: Usertype;
+    id: string;
+    users: Usertype;
+  },
+];
+
+const FollowCard = ({
+  follow,
+  title,
+}: {
+  follow: followerinfo;
+  title: string;
+}) => {
+  // const { follow, title } = props;
 
   return (
     <Card>
