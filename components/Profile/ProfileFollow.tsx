@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { getFollowing, getFollower } from '../../services/Public';
+// @ts-ignore
 import FollowCard from './FollowCard.tsx';
 
 const ProfileFollow: React.FC<{
