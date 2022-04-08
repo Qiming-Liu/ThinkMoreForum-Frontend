@@ -14,7 +14,7 @@ import { makeStyles } from '@mui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArticleIcon from '@mui/icons-material/Article';
 import MyTime from '../../utils/myTime';
-import Participants from './Participants';
+import Participants from './Participants.tsx';
 
 const useStyles = makeStyles(
   {

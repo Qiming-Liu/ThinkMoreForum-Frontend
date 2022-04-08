@@ -14,6 +14,12 @@ import {
 import hotToast from '../../utils/hotToast';
 import { changePassword } from '../../services/Users';
 
+type submitProps = {
+  oldPassword: string;
+  newPassword: string;
+  submit: boolean | null;
+};
+
 const PersonalSettingPassword = () => {
   const formik = useFormik({
     enableReinitialize: true,
@@ -29,7 +35,7 @@ const PersonalSettingPassword = () => {
         .max(16)
         .required('Required'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values: submitProps) => {
       const { oldPassword, newPassword } = values;
       await changePassword({ oldPassword, newPassword })
         .then(() => {

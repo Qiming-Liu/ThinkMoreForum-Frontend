@@ -4,10 +4,14 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-const TextField = ({ title }) => {
+type Props = {
+  title: string;
+};
+
+const TextField: React.FC<Props> = ({ title }) => {
   const [name, setName] = useState('Composed TextField');
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setName(event.target.value);
   };
 

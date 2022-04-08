@@ -1,7 +1,11 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-const Participants = ({ count }) => {
+type Props = {
+  count: string;
+};
+
+const Participants: React.FC<Props> = ({ count }) => {
   return (
     <Box
       style={{
