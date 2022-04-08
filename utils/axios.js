@@ -25,7 +25,11 @@ const getInstance = () => {
       error && console.log(error.response);
 
       // jwt expired or invalid
-      if (error && error.response && (error.response.status === 401 || error.response.status === 405)) {
+      if (
+        error &&
+        error.response &&
+        (error.response.status === 401 || error.response.status === 405)
+      ) {
         store.dispatch(logoutAction());
         return '';
       }

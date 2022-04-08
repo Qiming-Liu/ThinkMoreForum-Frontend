@@ -15,22 +15,6 @@ const Popup = (props) => {
     >
       <DialogContent dividers>{children}</DialogContent>
     </Dialog>
-    // <DialogActions>
-    //   <Button
-    //     onClick={() => {
-    //       setOpenPopup(false);
-    //     }}
-    //   >
-    //     Reset
-    //   </Button>
-    //   <Button
-    //     onClick={() => {
-    //       setOpenPopup(false);
-    //     }}
-    //   >
-    //     Submit
-    //   </Button>
-    // </DialogActions>
   );
 };
 
