@@ -11,7 +11,7 @@ import NextClientOnly from '../components/NextClientOnly';
 import store from '../store/store';
 import Layout from '../components/Layout/index.tsx';
 import Navbar from '../components/Navbar';
-import Loading from '../components/Loading';
+import Loading from '../components/Loading/index.tsx';
 import { WSContextProvider } from '../contexts/WSContext';
 import createTheme from '../theme';
 import 'antd/dist/antd.css';
