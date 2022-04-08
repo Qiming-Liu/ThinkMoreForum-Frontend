@@ -21,7 +21,7 @@ const getInitials = (name = '') =>
     .map((v) => v && v[0].toUpperCase())
     .join('');
 
-export interface postProps {
+export interface PostProps {
   id: string;
   createTimestamp: any;
   postUsers: {
@@ -38,7 +38,7 @@ export interface postProps {
 }
 
 interface PostCardProps {
-  post: postProps;
+  post: PostProps;
   id: string;
   authorAvatar: string;
   authorName: string;

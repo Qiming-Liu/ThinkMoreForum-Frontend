@@ -2,13 +2,16 @@ import * as React from 'react';
 import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import Router from 'next/router';
-import { AdminUser } from '../components/Admin/AdminUser';
+// @ts-ignore
+import { AdminUser } from '../components/Admin/AdminUser.tsx';
 import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
+// @ts-ignore
 import CommonContainer from '../components/Layout/common-container.tsx';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
+// @ts-ignore
 import SetFooter from '../components/Footer/SetFooter.tsx';
 import Role from '../components/Role';
 import checkPermission from '../utils/checkPermission';
@@ -24,9 +27,12 @@ const tabs = [
 const Admin = () => {
   const [currentTab, setCurrentTab] = React.useState('users');
   const [users, setUsers] = useState();
-  const { myDetail } = useSelector((state) => state.sign);
+  const { myDetail } = useSelector((state: RootStateOrAny) => state.sign);
 
-  const handleTabsChange = (event, value) => {
+  const handleTabsChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: any,
+  ) => {
     setCurrentTab(value);
   };
 
@@ -40,7 +46,7 @@ const Admin = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const { data: responseAllUsersInfo } = await getAllUsers();
-      const allUsers = responseAllUsersInfo.map((protoUserInfo) => {
+      const allUsers = responseAllUsersInfo.map((protoUserInfo: any) => {
         const user = {
           id: protoUserInfo.id,
           logintime: MyTime(protoUserInfo.lastLoginTimestamp),

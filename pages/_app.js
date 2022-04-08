@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import Router from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
 import CssBaseline from '@mui/material/CssBaseline';
-import NextClientOnly from '../components/NextClientOnly';
+import NextClientOnly from '../components/NextClientOnly/index.tsx';
 import store from '../store/store';
 import Layout from '../components/Layout/index.tsx';
 import Navbar from '../components/Navbar';

@@ -2,7 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import { Typography } from '@mui/material';
 // @ts-ignore
-import PostCard, { postProps } from './PostCard.tsx';
+import PostCard, { PostProps } from './PostCard.tsx';
 import { getVisiblePostsByCategoryId } from '../../services/Public';
 import MyTime from '../../utils/myTime';
 
@@ -73,7 +73,7 @@ const Posts = ({
       commentCount,
       viewCount,
       followCount,
-    }: postProps) => {
+    }: PostProps) => {
       if (showPinPost === id) {
         return null;
       }
