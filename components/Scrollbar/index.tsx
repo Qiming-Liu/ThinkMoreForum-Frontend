@@ -5,6 +5,7 @@ import 'simplebar/dist/simplebar.min.css';
 
 const ScrollbarRoot = styled(SimpleBar)``;
 
+// eslint-disable-next-line react/display-name
 const Scrollbar = forwardRef((props, ref: any) => {
   return <ScrollbarRoot ref={ref} {...props} />;
 });

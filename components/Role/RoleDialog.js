@@ -76,9 +76,8 @@ const RoleDialog = ({ setRole, role, headerList, open, DialogClose }) => {
                 </TableCell>
                 {roleList.map((value, index) => {
                   return (
-                    <TableCell>
+                    <TableCell key={JSON.stringify({ index })}>
                       <Checkbox
-                        key={JSON.stringify({ index })}
                         label={JSON.stringify({ index })}
                         name={JSON.stringify({ index })}
                         checked={value}

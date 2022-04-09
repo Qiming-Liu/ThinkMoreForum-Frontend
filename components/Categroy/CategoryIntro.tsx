@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 interface CategoryIntroProps {
-  categoryTitle: string;
+  categoryTitle: string | string[] | undefined;
   description: string;
 }
 

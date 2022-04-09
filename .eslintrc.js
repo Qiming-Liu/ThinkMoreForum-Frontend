@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
+    es2021: true,
     jest: true,
   },
   settings: {
@@ -25,7 +25,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['import', 'react', '@typescript-eslint', 'prettier'],
+  plugins: ['react', '@typescript-eslint'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 'off',
     'react/function-component-definition': [
@@ -33,6 +33,7 @@ module.exports = {
       { namedComponents: 'arrow-function' },
     ],
     'react/prop-types': 0,
+    'react/require-default-props': 'off',
     'react/jsx-filename-extension': 0,
     'react/jsx-props-no-spreading': 0,
     'prettier/prettier': [

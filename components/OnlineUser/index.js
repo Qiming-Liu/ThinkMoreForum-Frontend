@@ -70,7 +70,7 @@ const OnlineUser = ({ mobileDevice }) => {
     return (
       <Grid container direction="row" spacing={2} width="95vw" sx={{ pl: 1 }}>
         {onlineUser.slice(0, Math.min(10, onlineUser.length)).map((value) => (
-          <Grid item md={1}>
+          <Grid key={value.username} item md={1}>
             <UserInfoRow userInfo={value} mobileDevice={mobileDevice} />
           </Grid>
         ))}

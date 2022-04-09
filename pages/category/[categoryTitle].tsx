@@ -121,7 +121,7 @@ const PostList = () => {
   }, [sortDirection]);
 
   const handlePageChange = useCallback(
-    (event, page) => {
+    (event: any, page: any) => {
       sessionStorage.setItem(
         `${categoryTitle}_currentPage`,
         JSON.stringify(page - 1),
@@ -131,7 +131,7 @@ const PostList = () => {
     [categoryTitle],
   );
 
-  const handleSortColumn = useCallback((event) => {
+  const handleSortColumn = useCallback((event: any) => {
     localStorage.setItem(`sortColumn`, event.target.value);
     setSortColumn(event.target.value);
   }, []);
@@ -173,11 +173,11 @@ const PostList = () => {
     }
   }, [categoryTitle, inputCurrentPage, totalPages]);
 
-  const handleInputSizePerPage = useCallback((event) => {
+  const handleInputSizePerPage = useCallback((event: any) => {
     setInputSizePerPage(event.target.value);
   }, []);
 
-  const handleInputCurrentPage = useCallback((event) => {
+  const handleInputCurrentPage = useCallback((event: any) => {
     setInputCurrentPage(event.target.value);
   }, []);
 

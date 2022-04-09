@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from '@mui/material';
 
-type roletype = {
+type Roletype = {
   id: string;
   permission: string;
   roleName: string;
@@ -23,11 +23,11 @@ type Usertype = {
   id: string;
   lastLoginTimestamp: string;
   profileImgUrl: string;
-  role: roletype;
+  role: Roletype;
   username: string;
 };
 
-type followerinfo = [
+type Followerinfo = [
   {
     createTimestamp: string;
     followedUsers: Usertype;
@@ -40,11 +40,9 @@ const FollowCard = ({
   follow,
   title,
 }: {
-  follow: followerinfo;
+  follow: Followerinfo;
   title: string;
 }) => {
-  // const { follow, title } = props;
-
   return (
     <Card>
       <CardHeader title={title} />

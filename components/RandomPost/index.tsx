@@ -90,7 +90,7 @@ const RandomPost = ({ randomPost }: { randomPost: any }) => {
       >
         {comments &&
           comments.map((comment: any) => (
-            <Card sx={{ mb: 2, px: 1 }}>
+            <Card key={comment.id} sx={{ mb: 2, px: 1 }}>
               <Comments comment={comment} />
             </Card>
           ))}
