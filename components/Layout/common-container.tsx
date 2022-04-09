@@ -7,7 +7,7 @@ const CommonContainer = ({
   noFooter = false,
 }: {
   children: React.ReactNode;
-  noFooter: boolean;
+  noFooter?: boolean;
 }) => {
   return (
     <>

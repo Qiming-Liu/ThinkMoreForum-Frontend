@@ -16,9 +16,9 @@ import {
 } from '../../services/Public';
 import { postComment } from '../../services/Comment';
 import PostContent from '../../components/Post/PostContent';
-import AntComment from '../../components/AntComment/index.tsx';
+import AntComment from '../../components/AntComment/index';
 import CommentForm from '../../components/Post/CommentForm';
-import CommonContainer from '../../components/Layout/common-container.tsx';
+import CommonContainer from '../../components/Layout/common-container';
 import { PinPostContextProvider } from '../../components/Post/PinPostContext';
 import hotToast from '../../utils/hotToast';
 import { useWSContext } from '../../contexts/WSContext';

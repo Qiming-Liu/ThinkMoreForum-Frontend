@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Typography, Divider } from '@mui/material';
-// @ts-ignore
-import PostCard from '../Post/PostCard.tsx';
+import PostCard from '../Post/PostCard';
 import {
   getPostByUsername,
   getFollowPostByUsername,

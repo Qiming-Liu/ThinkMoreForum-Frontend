@@ -7,8 +7,7 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-// @ts-ignore
-import RandomPost from '../RandomPost/index.tsx';
+import RandomPost from '../RandomPost/index';
 import SearchBar from '../SearchBar';
 import OnlineUser from '../OnlineUser';
 

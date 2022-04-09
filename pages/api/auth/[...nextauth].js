@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import NextAuth from 'next-auth';
 import FacebookProvider from 'next-auth/providers/facebook';
 import GoogleProvider from 'next-auth/providers/google';

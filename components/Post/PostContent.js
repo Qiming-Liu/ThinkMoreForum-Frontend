@@ -14,7 +14,7 @@ import {
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import GradeRoundedIcon from '@mui/icons-material/GradeRounded';
 import NextLink from 'next/link';
-import { parser } from '../../utils/htmlParser.ts';
+import { parser } from '../../utils/htmlParser';
 import hotToast from '../../utils/hotToast';
 import MyTime from '../../utils/myTime';
 import AdminTool from './AdminTool';

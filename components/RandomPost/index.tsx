@@ -3,8 +3,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Card, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-// @ts-ignore
-import Comments from './Comments.tsx';
+import Comments from './Comments';
 import photo from '../../public/logo.svg';
 
 const CustomBox = styled(Box)`
