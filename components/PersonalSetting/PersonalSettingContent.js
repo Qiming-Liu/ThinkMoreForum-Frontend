@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import hotToast from '../../utils/hotToast';
-import PersonalSettingPassword from './PersonalSettingPassword';
+import PersonalSettingPassword from './PersonalSettingPassword.tsx';
 import upload from '../../services/Img';
 import { uniqueUsername, uniqueEmail } from '../../services/Public';
 import {
