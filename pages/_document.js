@@ -6,7 +6,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
           <meta
             name="keywords"
             content="ThinkMore Community Forum Github Qiming-Liu"

@@ -35,7 +35,7 @@
 3. Flyway & PostgreSQL (JPA)
 4. Swagger & Postman
 5. Spring Security & JWT
-6. Jacoco & Unit Test
+6. Unit Test & Jacoco & Mockito
 7. Gradle
 8. RabbitMQ (amqp)
 9. Amazon S3 (MinIO)
