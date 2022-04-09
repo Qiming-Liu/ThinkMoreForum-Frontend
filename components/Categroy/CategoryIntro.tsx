@@ -1,10 +1,14 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-const CategoryIntro = (props) => {
-  const { categoryTitle, description } = props;
+interface CategoryIntroProps {
+  categoryTitle: string;
+  description: string;
+}
+
+const CategoryIntro = ({ categoryTitle, description }: CategoryIntroProps) => {
   return (
-    <Box container sx={{ mt: 2 }}>
+    <Box sx={{ mt: 2 }}>
       <Typography variant="h4" style={{ fontSize: '34px' }}>
         {categoryTitle}
       </Typography>

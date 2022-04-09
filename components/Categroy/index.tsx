@@ -14,7 +14,22 @@ import { makeStyles } from '@mui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArticleIcon from '@mui/icons-material/Article';
 import MyTime from '../../utils/myTime';
+// @ts-ignore
 import Participants from './Participants.tsx';
+// @ts-ignore
+import { PostProps } from '../Post/PostCard.tsx';
+
+interface CategoryProps {
+  color: string | never;
+  title: string | never;
+  description: string | never;
+  pinPost: PostProps;
+  postCount: number | never;
+  viewCount: number | never;
+  participantCount: number | never;
+  headImgUrl: string | never;
+  lastUpdateTimestamp: any;
+}
 
 const useStyles = makeStyles(
   {
@@ -29,21 +44,20 @@ const useStyles = makeStyles(
   { name: 'MuiCustomCard_toAvoidClassNameNotMatch' },
 );
 
-const Category = (props) => {
+const Category = ({
+  color,
+  title,
+  description,
+  pinPost,
+  postCount,
+  viewCount,
+  participantCount,
+  headImgUrl,
+  lastUpdateTimestamp,
+}: CategoryProps) => {
   const theme = useTheme();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('lg'));
   const classes = useStyles();
-  const {
-    color,
-    title,
-    description,
-    pinPost,
-    postCount,
-    viewCount,
-    participantCount,
-    headImgUrl,
-    lastUpdateTimestamp,
-  } = props;
 
   const date = new Date(
     lastUpdateTimestamp.substring(0, 4),
@@ -102,7 +116,6 @@ const Category = (props) => {
           <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography
               color="#0d47a1"
-              xs={4}
               sx={{
                 backgroundColor: '#18ffff',
                 borderRadius: 2,

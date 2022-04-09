@@ -1,16 +1,34 @@
 import React from 'react';
 import useSWR from 'swr';
 import { Typography } from '@mui/material';
-import PostCard from './PostCard';
+// @ts-ignore
+import PostCard, { PostProps } from './PostCard.tsx';
 import { getVisiblePostsByCategoryId } from '../../services/Public';
 import MyTime from '../../utils/myTime';
+
+interface fetchPostsDataSWRProps {
+  categoryId: string;
+  currentPage: number | never;
+  sizePerPage: number | never;
+  sortParams: any;
+}
+
+interface PostsProps {
+  categoryId: string;
+  currentPage: number | never;
+  sizePerPage: number | never;
+  sortParams: any;
+  displayHeadImg: boolean | never;
+  displayAbstract: boolean | never;
+  showPinPost: string | boolean;
+}
 
 const fetchPostsDataSWR = async ({
   categoryId,
   currentPage,
   sizePerPage,
   sortParams,
-}) => {
+}: fetchPostsDataSWRProps) => {
   const { data } = await getVisiblePostsByCategoryId(
     categoryId,
     currentPage,
@@ -28,7 +46,7 @@ const Posts = ({
   displayHeadImg,
   displayAbstract,
   showPinPost,
-}) => {
+}: PostsProps) => {
   const { data, error } = useSWR(
     {
       categoryId,
@@ -55,7 +73,7 @@ const Posts = ({
       commentCount,
       viewCount,
       followCount,
-    }) => {
+    }: PostProps) => {
       if (showPinPost === id) {
         return null;
       }

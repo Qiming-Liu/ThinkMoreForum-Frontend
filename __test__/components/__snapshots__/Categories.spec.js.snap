@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Popup /> should render CategoryForm when setOpenPopup is true 1`] = `null`;

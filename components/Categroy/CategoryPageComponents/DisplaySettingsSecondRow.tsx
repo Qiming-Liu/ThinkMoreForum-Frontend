@@ -11,6 +11,17 @@ import CheckIcon from '@mui/icons-material/Check';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
+interface DisplaySettingsSecondRowProps {
+  sizePerPage: number;
+  handleSizePerPage: () => void;
+  handleInputSizePerPage: () => void;
+  sortColumn: string;
+  sortColumnList: Object;
+  handleSortColumn: () => void;
+  toggleSortDirection: () => void;
+  sortDirection: 'asc' | 'desc';
+}
+
 const DisplaySettingsSecondRow = ({
   sizePerPage,
   handleSizePerPage,
@@ -20,7 +31,7 @@ const DisplaySettingsSecondRow = ({
   handleSortColumn,
   toggleSortDirection,
   sortDirection,
-}) => {
+}: DisplaySettingsSecondRowProps) => {
   return (
     <Grid item xs style={{ display: 'flex', justifyContent: 'space-evenly' }}>
       <TextField

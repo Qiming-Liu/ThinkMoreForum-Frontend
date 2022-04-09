@@ -1,16 +1,26 @@
 import React, { useCallback } from 'react';
 import { Slide, Fab, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 import { useRouter } from 'next/router';
 import checkPermission from '../../../utils/checkPermission';
 import hotToast from '../../../utils/hotToast';
 import { openSignDialog } from '../../../store/actions/signAction';
 
-const MakePostButton = ({ categoryTitle, mobileDevice }) => {
+interface MakePostButtonProps {
+  categoryTitle: string;
+  mobileDevice: boolean;
+}
+
+const MakePostButton = ({
+  categoryTitle,
+  mobileDevice,
+}: MakePostButtonProps) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isLogin, myDetail } = useSelector((state) => state.sign);
+  const { isLogin, myDetail } = useSelector(
+    (state: RootStateOrAny) => state.sign,
+  );
 
   const permissionCheck = useCallback(() => {
     return checkPermission('makePost', myDetail.role)
