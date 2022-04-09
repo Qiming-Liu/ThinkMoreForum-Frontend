@@ -7,12 +7,19 @@ import {
   Grid,
 } from '@mui/material';
 
+interface DisplaySettingsProps {
+  displayHeadImg: boolean;
+  toggleHeadImgDisplay: () => void;
+  displayAbstract: boolean;
+  toggleAbstractDisplay: () => void;
+}
+
 const DisplaySettings = ({
   displayHeadImg,
   toggleHeadImgDisplay,
   displayAbstract,
   toggleAbstractDisplay,
-}) => {
+}: DisplaySettingsProps) => {
   return (
     <Grid
       item

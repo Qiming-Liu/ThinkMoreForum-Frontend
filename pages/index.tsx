@@ -1,13 +1,21 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import styled from 'styled-components';
-import Category from '../components/Categroy';
-import ThreeColumns from '../components/Layout/three-columns';
+// @ts-ignore
+import Category from '../components/Categroy/index.tsx';
+// @ts-ignore
+import ThreeColumns from '../components/Layout/three-columns.tsx';
 import {
   getAllCategories,
   getRandomPost,
   getPostById,
 } from '../services/Public';
+
+interface IndexProps {
+  categoriesInfo: Array<any> | never;
+  randomPost: any;
+  pinPosts: Array<any> | never;
+}
 
 const CategoriesContainer = styled(Box)`
   display: flex;
@@ -19,12 +27,13 @@ const CategoriesContainer = styled(Box)`
 export async function getStaticProps() {
   const { data: categoriesInfo } = await getAllCategories();
   const { data: randomPost } = await getRandomPost();
-  const pinPostsPromises = categoriesInfo.map(async (categoryInfo) => {
+  const pinPostsPromises = categoriesInfo.map(async (categoryInfo: any) => {
     if (categoryInfo.pinPost) {
       const { data } = await getPostById(categoryInfo.pinPost.id);
-      const pinPost = {};
-      pinPost.title = data.title;
-      pinPost.headImgUrl = data.headImgUrl;
+      const pinPost = {
+        title: data.title,
+        headImgUrl: data.headImgUrl,
+      };
       return pinPost;
     }
     return null;
@@ -40,7 +49,7 @@ export async function getStaticProps() {
   };
 }
 
-const Index = ({ categoriesInfo, randomPost, pinPosts }) => {
+const Index = ({ categoriesInfo, randomPost, pinPosts }: IndexProps) => {
   if (!categoriesInfo || categoriesInfo.length === 0) {
     return (
       <Typography color="inherit" sx={{ mt: 2 }} variant="h4">

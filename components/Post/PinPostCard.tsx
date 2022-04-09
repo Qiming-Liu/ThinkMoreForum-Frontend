@@ -1,9 +1,20 @@
 import React from 'react';
 import { Chip } from '@mui/material';
-import PostCard from './PostCard';
+// @ts-ignore
+import PostCard, { postProps } from './PostCard.tsx';
 import MyTime from '../../utils/myTime';
 
-const PinPostCard = ({ pinPostInfo, displayHeadImg, displayAbstract }) => {
+interface PinPostProps {
+  pinPostInfo: postProps | never;
+  displayHeadImg: boolean | never;
+  displayAbstract: boolean | never;
+}
+
+const PinPostCard = ({
+  pinPostInfo,
+  displayHeadImg,
+  displayAbstract,
+}: PinPostProps) => {
   return (
     <div
       style={{ position: 'relative', marginBottom: '24px', marginTop: '18px' }}
@@ -24,7 +35,6 @@ const PinPostCard = ({ pinPostInfo, displayHeadImg, displayAbstract }) => {
       />
       <Chip
         color="primary"
-        size="large"
         label="PinPost"
         style={{
           position: 'absolute',
