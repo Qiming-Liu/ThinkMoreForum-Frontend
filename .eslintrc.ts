@@ -10,32 +10,33 @@ module.exports = {
     },
   },
   extends: [
-    'prettier',
     'next',
-    'airbnb',
     'airbnb-typescript',
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:jest/recommended',
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
+    ecmaVersion: 2018,
     sourceType: 'module',
+    project: './tsconfig.json',
   },
-  // plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'jest'],
   rules: {
     'import/no-unresolved': 'error',
-    '@typescript-eslint/ban-ts-comment': 'off',
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },
     ],
+    'react/prop-types': 'off',
     'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'prettier/prettier': [
       'error',
       {
