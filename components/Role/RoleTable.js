@@ -51,7 +51,7 @@ const RoleTable = ({
         </TableHead>
         <TableBody>
           {roleList.map((oneRole, indexH) => (
-            <TableRow>
+            <TableRow key={oneRole}>
               {oneRole.map((value, indexW) => {
                 return typeof value === 'string' || value instanceof String ? (
                   <TableCell>{value}</TableCell>

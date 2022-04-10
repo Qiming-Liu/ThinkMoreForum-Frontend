@@ -5,4 +5,4 @@
 
 # config
 next.config.js
-.eslintrc.js
+.eslintrc.ts

@@ -1,12 +1,11 @@
 import React from 'react';
 import useSWR from 'swr';
 import { Typography } from '@mui/material';
-// @ts-ignore
-import PostCard, { PostProps } from './PostCard.tsx';
+import PostCard, { PostProps } from './PostCard';
 import { getVisiblePostsByCategoryId } from '../../services/Public';
 import MyTime from '../../utils/myTime';
 
-interface fetchPostsDataSWRProps {
+interface FetchPostsDataSWRProps {
   categoryId: string;
   currentPage: number | never;
   sizePerPage: number | never;
@@ -28,7 +27,7 @@ const fetchPostsDataSWR = async ({
   currentPage,
   sizePerPage,
   sortParams,
-}: fetchPostsDataSWRProps) => {
+}: FetchPostsDataSWRProps) => {
   const { data } = await getVisiblePostsByCategoryId(
     categoryId,
     currentPage,

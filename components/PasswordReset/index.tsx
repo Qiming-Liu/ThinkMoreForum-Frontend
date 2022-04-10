@@ -19,7 +19,7 @@ import { setJWTAction } from '../../store/actions/signAction';
 import { passwordReset } from '../../services/Users';
 import hotToast from '../../utils/hotToast';
 
-type submitProps = {
+type SubmitProps = {
   password: string;
   passwordConfirm: string;
   submit: boolean | null;
@@ -47,7 +47,7 @@ const PasswordReset = () => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Password is required'),
     }),
-    onSubmit: async (values: submitProps) => {
+    onSubmit: async (values: SubmitProps) => {
       const { password } = values;
       setLoading(true);
       try {

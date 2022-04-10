@@ -10,7 +10,7 @@ const initialState = {
   footer: '',
 };
 
-// eslint-disable-next-line default-param-last
+// eslint-disable-next-line @typescript-eslint/default-param-last
 const signReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case Action.OPEN_SIGN_DIALOG:

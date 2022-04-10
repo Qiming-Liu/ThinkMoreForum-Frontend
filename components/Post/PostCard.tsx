@@ -10,8 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { updatePostViewCount } from '../../services/Public';
-// @ts-ignore
-import { strip } from '../../utils/htmlParser.ts';
+import { strip } from '../../utils/htmlParser';
 
 const getInitials = (name = '') =>
   name
@@ -38,14 +37,13 @@ export interface PostProps {
 }
 
 interface PostCardProps {
-  post: PostProps;
   id: string;
   authorAvatar: string;
   authorName: string;
   authorId: string;
-  headImg: string | never;
+  headImg: string | false;
   createTimeStamp: any;
-  abstract: string | never;
+  abstract: string | false;
   title: string;
   commentCount: number;
   viewCount: number;

@@ -14,10 +14,8 @@ import { makeStyles } from '@mui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArticleIcon from '@mui/icons-material/Article';
 import MyTime from '../../utils/myTime';
-// @ts-ignore
-import Participants from './Participants.tsx';
-// @ts-ignore
-import { PostProps } from '../Post/PostCard.tsx';
+import Participants from './Participants';
+import { PostProps } from '../Post/PostCard';
 
 interface CategoryProps {
   color: string | never;

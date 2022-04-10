@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import NotFound from '../../pages/404.tsx';
+import NotFound from '../../pages/404';
 
 afterEach(cleanup);
 

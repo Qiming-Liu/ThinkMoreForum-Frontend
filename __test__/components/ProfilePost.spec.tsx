@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import FollowCard from '../../components/Profile/FollowCard.tsx';
+import FollowCard from '../../components/Profile/FollowCard';
 
 const follow = [
   {

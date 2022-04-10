@@ -31,7 +31,6 @@ const Category = () => {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [records, setRecords] = useState(null);
-  // eslint-disable-next-line no-unused-vars
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;

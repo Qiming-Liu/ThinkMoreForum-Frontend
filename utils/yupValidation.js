@@ -1,6 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable func-names */
 import * as Yup from 'yup';
 
 Yup.addMethod(Yup.string, 'unique', function (message, axiosInstance) {

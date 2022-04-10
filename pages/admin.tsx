@@ -1,18 +1,14 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
-import { useState, useEffect } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Router from 'next/router';
-// @ts-ignore
-import { AdminUser } from '../components/Admin/AdminUser.tsx';
+import { AdminUser } from '../components/Admin/AdminUser';
 import { getAllUsers } from '../services/Users';
 import MyTime from '../utils/myTime';
-// @ts-ignore
-import CommonContainer from '../components/Layout/common-container.tsx';
+import CommonContainer from '../components/Layout/common-container';
 import Categories from '../components/CategoryManager/categoryTable/Categories';
-// @ts-ignore
-import SetFooter from '../components/Footer/SetFooter.tsx';
+import SetFooter from '../components/Footer/SetFooter';
 import Role from '../components/Role';
 import checkPermission from '../utils/checkPermission';
 import hotToast from '../utils/hotToast';

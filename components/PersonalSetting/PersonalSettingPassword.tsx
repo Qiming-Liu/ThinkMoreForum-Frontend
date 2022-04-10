@@ -14,7 +14,7 @@ import {
 import hotToast from '../../utils/hotToast';
 import { changePassword } from '../../services/Users';
 
-type submitProps = {
+type SubmitProps = {
   oldPassword: string;
   newPassword: string;
   submit: boolean | null;
@@ -35,7 +35,7 @@ const PersonalSettingPassword = () => {
         .max(16)
         .required('Required'),
     }),
-    onSubmit: async (values: submitProps) => {
+    onSubmit: async (values: SubmitProps) => {
       const { oldPassword, newPassword } = values;
       await changePassword({ oldPassword, newPassword })
         .then(() => {

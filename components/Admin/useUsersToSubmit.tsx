@@ -8,7 +8,7 @@ const useUsersToSubmit = () => {
     return targetUserInList !== undefined;
   };
 
-  const addUsersToSubmit = useCallback((updatedUser) => {
+  const addUsersToSubmit = useCallback((updatedUser: any) => {
     setUsersToSubmit((prevData: any) => {
       if (findInstanceByUserId(updatedUser, prevData)) {
         return prevData.map((row: any) =>
