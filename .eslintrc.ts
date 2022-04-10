@@ -10,11 +10,13 @@ module.exports = {
     },
   },
   extends: [
+    'prettier',
+    'next',
     'airbnb',
     'airbnb-typescript',
-    'plugin:@next/next/recommended',
-    'plugin:react/recommended',
-    'plugin:prettier/recommended',
+    'airbnb/hooks',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -25,17 +27,15 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  // plugins: ['react', '@typescript-eslint'],
   rules: {
+    'import/no-unresolved': 'error',
     '@typescript-eslint/ban-ts-comment': 'off',
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },
     ],
-    'react/prop-types': 0,
     'react/require-default-props': 'off',
-    'react/jsx-filename-extension': 0,
-    'react/jsx-props-no-spreading': 0,
     'prettier/prettier': [
       'error',
       {
