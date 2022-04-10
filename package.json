@@ -9,12 +9,12 @@
     "export": "next build && next export",
     "test": "jest -c jest.config.js --colors --coverage --passWithNoTests",
     "test:watch": "jest -c jest.config.js --colors --coverage --passWithNoTests --watch",
-    "lint:eslint": "eslint --ext .tsx,.ts ./pages ./components ./utils",
+    "lint:eslint": "eslint --ext .js,.jsx,.tsx,.ts ./pages ./components ./utils",
     "lint:sass": "sass-lint -v",
-    "lint:prettier": "prettier -c .prettierrc \"{pages,components,utils}/**/*.{ts,tsx}\" --check",
+    "lint:prettier": "prettier -c .prettierrc \"{pages,components,utils}/**/*.{js,jsx,ts,tsx}\" --check",
     "lint": "npm run prettier && npm run lint:eslint && npm run lint:sass && npm run lint:prettier",
     "prepare": "husky install",
-    "prettier": "prettier -c .prettierrc \"{pages,components,utils,store}/**/*.{ts,tsx}\" --write"
+    "prettier": "prettier -c .prettierrc \"{pages,components,utils,store}/**/*.{js,jsx,ts,tsx}\" --write"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -76,7 +76,8 @@
     "@types/styled-components": "^5.1.24",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
-    "eslint": "^8.4.1",
+    "eslint": "^8.13.0",
+    "eslint-config-react-app": "^7.0.0",
     "eslint-config-airbnb": "^19.0.2",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "^12.0.7",
