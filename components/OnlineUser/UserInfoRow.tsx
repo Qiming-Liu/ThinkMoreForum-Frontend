@@ -2,6 +2,7 @@ import React from 'react';
 import NextLink from 'next/link';
 import {
   Avatar,
+  Box,
   ListItemAvatar,
   ListItemButton,
   Tooltip,
@@ -9,7 +10,13 @@ import {
   Zoom,
 } from '@mui/material';
 
-const UserInfoRow = ({ userInfo, mobileDevice }) => {
+const UserInfoRow = ({
+  userInfo,
+  mobileDevice,
+}: {
+  userInfo: any;
+  mobileDevice: boolean;
+}) => {
   if (mobileDevice) {
     return (
       <NextLink
@@ -68,19 +75,22 @@ const UserInfoRow = ({ userInfo, mobileDevice }) => {
             pathname: `/profile/${userInfo.username}`,
           }}
           passHref
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            textDecoration: 'none',
-            color: '#65748B',
-          }}
         >
-          <Typography
-            variant="subtitle1"
-            sx={{ color: '#546378', marginLeft: '-2px' }}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              textDecoration: 'none',
+              color: '#65748B',
+            }}
           >
-            {`${userInfo.username}`}
-          </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ color: '#546378', marginLeft: '-2px' }}
+            >
+              {`${userInfo.username}`}
+            </Typography>
+          </Box>
         </NextLink>
       </ListItemButton>
     </NextLink>

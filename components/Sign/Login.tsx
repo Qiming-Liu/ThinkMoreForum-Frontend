@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { signIn } from 'next-auth/react';
 import {
   Box,
   Button,
@@ -14,12 +13,10 @@ import {
   Divider,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import GoogleIcon from '@mui/icons-material/Google';
 import loginAction from '../../store/actions/httpAction';
 import hotToast from '../../utils/hotToast';
 
-const Login = ({ register }) => {
+const Login = ({ register }: { register: any }) => {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -48,7 +45,7 @@ const Login = ({ register }) => {
           () => {
             hotToast('success', 'Login Success');
           },
-          (fail) => {
+          (fail: any) => {
             setLoading(false);
             if (fail && fail.response && fail.response.status === 403) {
               hotToast('error', 'Invalid Email or Password');
@@ -60,18 +57,6 @@ const Login = ({ register }) => {
       );
     },
   });
-
-  const handleFacebookLogin = async () => {
-    signIn('facebook', {
-      callbackUrl: 'https://www.thinkmoreapp.com/facebook-login',
-    });
-  };
-
-  const handleGoogleLogin = async () => {
-    signIn('google', {
-      callbackUrl: 'https://www.thinkmoreapp.com/google-login',
-    });
-  };
 
   return (
     <Box
@@ -141,49 +126,16 @@ const Login = ({ register }) => {
                 Login
               </LoadingButton>
             </Grid>
-            <br />
             <Divider />
+            <Box sx={{ pt: 1 }}>
+              <Typography color="textSecondary" variant="body2">
+                <Button onClick={() => register()}>Create a new account</Button>
+              </Typography>
+              <Typography color="textSecondary" variant="body2">
+                <Button href="/password-email">Forgot your password?</Button>
+              </Typography>
+            </Box>
           </Box>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Button
-                startIcon={<FacebookIcon />}
-                onClick={handleFacebookLogin}
-                color="info"
-                fullWidth
-                size="large"
-                variant="contained"
-                sx={{ px: 1, py: 1 }}
-              >
-                Login with Facebook
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Button
-                startIcon={<GoogleIcon />}
-                onClick={handleGoogleLogin}
-                fullWidth
-                color="error"
-                size="large"
-                variant="contained"
-                sx={{ px: 1, py: 1 }}
-              >
-                Login with Google
-              </Button>
-            </Grid>
-          </Grid>
-          <Box
-            sx={{
-              pb: 1,
-              pt: 2,
-            }}
-          />
-          <Typography color="textSecondary" variant="body2">
-            <Button onClick={() => register()}>Create a new account</Button>
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            <Button href="/password-email">Forgot your password?</Button>
-          </Typography>
         </form>
       </Container>
     </Box>

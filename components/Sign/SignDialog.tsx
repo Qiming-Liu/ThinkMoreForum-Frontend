@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
@@ -13,10 +13,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const BootstrapDialogTitle = ({ children, onClose, ...other }) => {
+const BootstrapDialogTitle = ({ onClose }: { onClose: any }) => {
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
+    <DialogTitle sx={{ m: 0, p: 2 }}>
       {onClose ? (
         <IconButton
           aria-label="close"
@@ -35,10 +34,18 @@ const BootstrapDialogTitle = ({ children, onClose, ...other }) => {
   );
 };
 
-const SignDialog = ({ children, isOpen, onClose }) => {
+const SignDialog = ({
+  children,
+  isOpen,
+  onClose,
+}: {
+  children: ReactNode;
+  isOpen: boolean;
+  onClose: any;
+}) => {
   return (
-    <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
-      <BootstrapDialogTitle id="customized-dialog-title" onClose={onClose} />
+    <BootstrapDialog open={isOpen}>
+      <BootstrapDialogTitle onClose={onClose} />
       <DialogContent>{children}</DialogContent>
     </BootstrapDialog>
   );

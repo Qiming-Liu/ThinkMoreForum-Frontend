@@ -1,4 +1,3 @@
-import { signOut } from 'next-auth/react';
 import * as Action from '../actionTypes';
 import store, { saveState } from '../store';
 
@@ -88,7 +87,6 @@ export const setFooterAction = (footer) => (dispatch) => {
 };
 
 export const logoutAction = () => (dispatch) => {
-  signOut({ redirect: false });
   dispatch({
     type: Action.LOGOUT,
   });
