@@ -1,19 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Popup from '../../components/CategoryManager/Popup';
+import CategoryDialog from 'components/CategoryManager/CategoryDialog';
 
 describe('<Popup />', () => {
   it('should render nothing when setOpenPopup is false', () => {
-    const { queryByText } = render(
-      <Popup openPopup={false} setOpenPopup={() => {}} />,
-    );
+    const { queryByText } = render(<CategoryDialog openDialog={false} />);
     expect(queryByText('New category')).toBeNull();
   });
   it('should render CategoryForm when setOpenPopup is true', () => {
     const { container } = render(
-      <Popup openPopup setOpenPopup={() => {}}>
-        This is category form
-      </Popup>,
+      <CategoryDialog openDialog={true}>
+        This is category dialog
+      </CategoryDialog>,
     );
     expect(container.firstChild).toMatchSnapshot();
   });

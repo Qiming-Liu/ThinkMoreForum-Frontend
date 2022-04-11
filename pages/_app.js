@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
-import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
 import { Toaster } from 'react-hot-toast';
@@ -33,18 +32,16 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
           <title>Home | ThinkMore Forum</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <SessionProvider session={session}>
-          <ThemeProvider theme={createTheme()}>
-            <CssBaseline />
-            <Layout>
-              <NextClientOnly>
-                <Toaster position="top-center" reverseOrder={false} />
-                <Navbar />
-              </NextClientOnly>
-              {isLoading ? <Loading /> : <Component {...pageProps} />}
-            </Layout>
-          </ThemeProvider>
-        </SessionProvider>
+        <ThemeProvider theme={createTheme()}>
+          <CssBaseline />
+          <Layout>
+            <NextClientOnly>
+              <Toaster position="top-center" reverseOrder={false} />
+              <Navbar />
+            </NextClientOnly>
+            {isLoading ? <Loading /> : <Component {...pageProps} />}
+          </Layout>
+        </ThemeProvider>
       </WSContextProvider>
     </ReduxProvider>
   );

@@ -42,10 +42,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const OnlineUser = ({ mobileDevice }) => {
+const OnlineUser = ({ mobileDevice }: { mobileDevice: boolean }) => {
   const classes = useStyles();
   const [onlineUser, setOnlineUser] = useState([]);
-  const { onlineUsers } = useWSContext();
+  const { onlineUsers }: any = useWSContext();
   const [noOnlineUser, setNoOnlineUser] = useState(false);
 
   useEffect(() => {
@@ -54,11 +54,11 @@ const OnlineUser = ({ mobileDevice }) => {
         setNoOnlineUser(true);
         return;
       }
-      const currentUsers = onlineUsers.map(async (user) => {
+      const currentUsers = onlineUsers.map(async (user: any) => {
         const { data: res } = await userService.getUserByUsername(user);
         return res;
       });
-      const result = await Promise.all(currentUsers);
+      const result: any = await Promise.all(currentUsers);
       setOnlineUser(result);
     };
     if (onlineUsers) {
@@ -69,11 +69,13 @@ const OnlineUser = ({ mobileDevice }) => {
   if (mobileDevice) {
     return (
       <Grid container direction="row" spacing={2} width="95vw" sx={{ pl: 1 }}>
-        {onlineUser.slice(0, Math.min(10, onlineUser.length)).map((value) => (
-          <Grid key={value.username} item md={1}>
-            <UserInfoRow userInfo={value} mobileDevice={mobileDevice} />
-          </Grid>
-        ))}
+        {onlineUser
+          .slice(0, Math.min(10, onlineUser.length))
+          .map((value: any) => (
+            <Grid key={value.username} item md={1}>
+              <UserInfoRow userInfo={value} mobileDevice />
+            </Grid>
+          ))}
         {onlineUser.length > 10 && (
           <Grid item md={1}>
             <MoreHorizIcon sx={{ mt: 2 }} />
@@ -100,13 +102,11 @@ const OnlineUser = ({ mobileDevice }) => {
         className={classes.root}
       >
         {onlineUser.length === 0 && (
-          <Typography sx={{ ml: 2, mt: 2 }} variant="subtitle1" color="#6b778d">
-            {noOnlineUser
-              ? 'No registered user is online currently :( '
-              : 'Connecting...'}
+          <Typography sx={{ ml: 3, mt: 3 }} variant="overline" color="#6b778d">
+            {noOnlineUser ? 'No user online' : 'Connecting...'}
           </Typography>
         )}
-        {onlineUser.map((value) => {
+        {onlineUser.map((value: any) => {
           if (value) {
             return (
               <ListItem
@@ -129,7 +129,7 @@ const OnlineUser = ({ mobileDevice }) => {
                   my: 2,
                 }}
               >
-                <UserInfoRow userInfo={value} />
+                <UserInfoRow userInfo={value} mobileDevice={false} />
               </ListItem>
             );
           }

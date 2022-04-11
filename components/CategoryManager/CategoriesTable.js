@@ -4,14 +4,11 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import CloseIcon from '@mui/icons-material/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { Button, TableBody, TableRow, TableCell, Stack } from '@mui/material';
-import CategoryForm from './CategoryForm';
-import useTable from '../useTable';
-import * as categoryServices from '../../../services/Public';
-import { putCategories } from '../../../services/Category';
-import Controls from '../controls/Controls';
-import Popup from '../Popup';
-import Notification from '../Notification';
-import ConfirmDialog from '../ConfirmDialog';
+import useTable from './useTable';
+import * as categoryServices from 'services/Public';
+import { putCategories } from 'services/Category';
+import ConfirmDialog from './ConfirmDialog';
+import CategoryDialog from './CategoryDialog';
 
 const headCells = [
   { id: 'order', disablePadding: true, label: 'Order', disableSorting: true },
@@ -29,13 +26,13 @@ const headCells = [
 
 const Category = () => {
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [records, setRecords] = useState(null);
-  const [filterFn, setFilterFn] = useState({
+  const filterFn = {
     fn: (items) => {
       return items;
     },
-  });
+  };
 
   useEffect(() => {
     const getCategory = async () => {
@@ -46,11 +43,6 @@ const Category = () => {
     getCategory();
   }, []);
 
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: '',
-    type: '',
-  });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: '',
@@ -80,12 +72,12 @@ const Category = () => {
     const newCategories = updateCategories(category, records);
     setRecords(newCategories);
     setRecordForEdit(null);
-    setOpenPopup(false);
+    setOpenDialog(false);
   };
 
   const openInPopup = (item) => {
     setRecordForEdit(item);
-    setOpenPopup(true);
+    setOpenDialog(true);
   };
 
   const onDelete = async (title) => {
@@ -111,7 +103,7 @@ const Category = () => {
     };
     setRecords((prevState) => [...prevState, formattedCategory]);
     setRecordForEdit(null);
-    setOpenPopup(false);
+    setOpenDialog(false);
   };
   const handleSaveChanges = () => {
     const formattedRecords = records.map((x) => {
@@ -148,7 +140,7 @@ const Category = () => {
           <Button
             variant="contained"
             onClick={() => {
-              setOpenPopup(true);
+              setOpenDialog(true);
               setRecordForEdit(null);
             }}
           >
@@ -218,16 +210,16 @@ const Category = () => {
                             {item.color}
                           </TableCell>
                           <TableCell>
-                            <Controls.ActionButton
+                            <Button
                               color="primary"
                               onClick={() => {
                                 openInPopup(item);
                               }}
                             >
                               <EditIcon fontSize="small" />
-                            </Controls.ActionButton>
-                            <Controls.ActionButton
-                              color="secondary"
+                            </Button>
+                            <Button
+                              color="primary"
                               onClick={() => {
                                 setConfirmDialog({
                                   isOpen: true,
@@ -240,7 +232,7 @@ const Category = () => {
                               }}
                             >
                               <CloseIcon fontSize="small" />
-                            </Controls.ActionButton>
+                            </Button>
                           </TableCell>
                         </TableRow>
                       )}
@@ -252,18 +244,14 @@ const Category = () => {
           </Droppable>
         </TblContainer>
       </DragDropContext>
-      <Popup
-        title="Category Form"
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
-      >
-        <CategoryForm
-          recordForEdit={recordForEdit}
-          addOrEdit={recordForEdit ? edit : add}
-          records={records}
-        />
-      </Popup>
-      <Notification notify={notify} setNotify={setNotify} />
+      {console.log(openDialog)}
+      <CategoryDialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        recordForEdit={recordForEdit}
+        addOrEdit={recordForEdit ? edit : add}
+        records={records}
+      />
       <ConfirmDialog
         confirmDialog={confirmDialog}
         setConfirmDialog={setConfirmDialog}

@@ -9,7 +9,6 @@ export function useForm(initialFValues) {
   const [headImg, setHeadImg] = useState('');
 
   const handleDropImg = async (base64) => {
-    // setImgBase64(base64);
     const file = await (await fetch(base64)).blob();
     try {
       const { data: img } = await upload(file);
@@ -26,7 +25,7 @@ export function useForm(initialFValues) {
     setValues({ ...values, [name]: value, headImg });
   };
 
-  const resetForm = () => {
+  const handleReset = () => {
     setValues(initialFValues);
     setErrors({});
   };
@@ -37,27 +36,7 @@ export function useForm(initialFValues) {
     setErrors,
     handleDropImg,
     handleInputChange,
-    resetForm,
+    handleReset,
     headImg,
-    // imgBase64,
   };
 }
-
-const StyledForm = styled.form`
-  & .MuiFormControl-root {
-    width: 100%;
-    margin: 8px;
-  }
-`;
-
-const Form = (props) => {
-  const { children, ...other } = props;
-
-  return (
-    <StyledForm autoComplete="off" {...other}>
-      {children}
-    </StyledForm>
-  );
-};
-
-export default Form;

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   IconButton,
 } from '@mui/material';
 import styled from 'styled-components';
-import Controls from './controls/Controls';
 
 const StyedDialog = styled(Dialog)`
   padding: 16px;
@@ -41,20 +41,15 @@ const ConfirmDialog = (props) => {
         <Typography variant="subtitle2">{confirmDialog.subTitle}</Typography>
       </StyDialogContent>
       <StyDialogActions>
-        <Controls.Button
-          text="No"
-          color="secondary"
-          text-align="center"
-          justify-content="center"
+        <Button
+          variant="contained"
           onClick={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
-        />
-        <Controls.Button
-          text="Yes"
-          color="secondary"
-          text-align="center"
-          justify-content="center"
-          onClick={confirmDialog.onConfirm}
-        />
+        >
+          No
+        </Button>
+        <Button variant="contained" onClick={confirmDialog.onConfirm}>
+          Yes
+        </Button>
       </StyDialogActions>
     </StyedDialog>
   );

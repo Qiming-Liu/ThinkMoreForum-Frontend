@@ -2,7 +2,8 @@ import http from '../utils/axios';
 
 export const getAllUsers = () => http(`/v1/users/all`, { method: 'GET' });
 
-export const hasOpenid = () => http(`/v1/users/open_id`, { method: 'GET' });
+export const getUserByContainingString = (string) =>
+  http(`/v1/users/search/${string}`, { method: 'GET' });
 
 export const passwordReset = (password) => {
   const data = { password };
@@ -11,9 +12,6 @@ export const passwordReset = (password) => {
     data,
   });
 };
-
-export const getUserByContainingString = (string) =>
-  http(`/v1/users/string/${string}`, { method: 'GET' });
 
 export const changePassword = ({ oldPassword, newPassword }) =>
   http(`/v1/users/password`, {

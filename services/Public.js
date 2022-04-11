@@ -14,15 +14,6 @@ export const register = ({ email, username, password }) =>
     },
   });
 
-export const thirdpartylogin = ({ oauthType, openid }, email, username) =>
-  http(`/v1/public/users/third_party_login/${email}/${username}`, {
-    method: 'POST',
-    data: {
-      oauthType,
-      openid,
-    },
-  });
-
 export const uniqueEmail = (email) =>
   http(`/v1/public/users/unique_email/${email}`, { method: 'get' });
 
@@ -85,7 +76,7 @@ export const getRandomPost = () =>
 export const getCommentsByPostId = (postId) =>
   http(`/v1/public/comment/${postId}`, { method: 'GET' });
 
-// component
+// Component
 export const getComponentByName = (name) =>
   http(`/v1/public/component/${name}`, { method: 'GET' });
 

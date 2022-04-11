@@ -3,15 +3,15 @@ import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Router from 'next/router';
-import { AdminUser } from '../components/Admin/AdminUser';
-import { getAllUsers } from '../services/Users';
-import MyTime from '../utils/myTime';
-import CommonContainer from '../components/Layout/common-container';
-import Categories from '../components/CategoryManager/categoryTable/Categories';
-import SetFooter from '../components/Footer/SetFooter';
-import Role from '../components/Role';
-import checkPermission from '../utils/checkPermission';
-import hotToast from '../utils/hotToast';
+import { AdminUser } from 'components/Admin/AdminUser';
+import { getAllUsers } from 'services/Users';
+import MyTime from 'utils/myTime';
+import CommonContainer from 'components/Layout/common-container';
+import CategoriesTable from 'components/CategoryManager/CategoriesTable';
+import SetFooter from 'components/Footer/SetFooter';
+import Role from 'components/Role';
+import checkPermission from 'utils/checkPermission';
+import hotToast from 'utils/hotToast';
 
 const tabs = [
   { label: 'Users', value: 'users' },
@@ -89,7 +89,7 @@ const Admin = () => {
         </Tabs>
         <Divider sx={{ mb: 3 }} />
         {currentTab === 'users' && users && <AdminUser allUsers={users} />}
-        {currentTab === 'categories' && <Categories />}
+        {currentTab === 'categories' && <CategoriesTable />}
         {currentTab === 'roles' && <Role />}
         {currentTab === 'footer' && <SetFooter />}
       </Box>
