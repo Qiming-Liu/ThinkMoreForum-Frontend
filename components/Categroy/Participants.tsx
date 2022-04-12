@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 type Props = {
-  count: string;
+  count: number;
 };
 
 const Participants: React.FC<Props> = ({ count }) => {

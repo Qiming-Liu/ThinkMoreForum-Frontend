@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
-import { Comment, Avatar } from 'antd';
+import { Avatar, Comment } from 'antd';
+import { Typography } from '@mui/material';
 import NextLink from 'next/link';
 import myTime from '../../utils/myTime';
 import CommentForm from '../Post/CommentForm';
@@ -19,11 +19,10 @@ type CommentType = {
   post: { id: string; title: string };
   visibility: boolean;
 };
-type repliesType = [CommentType];
 
 const AntComment: React.FC<{
   comment: CommentType;
-  replies: repliesType | [];
+  replies: any;
   sendChildComment: any;
   login: boolean;
   parentId: string;
@@ -39,13 +38,13 @@ const AntComment: React.FC<{
     <Comment
       key={comment.id}
       actions={[
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <span
-          key="comment-nested-reply-to"
+        <Typography
+          variant="button"
+          sx={{ cursor: 'pointer' }}
           onClick={() => setShowReplying(!showReplying)}
         >
           {login && (showReplying ? 'Cancel' : 'Reply')}
-        </span>,
+        </Typography>,
       ]}
       author={
         <NextLink
@@ -67,8 +66,12 @@ const AntComment: React.FC<{
           <Avatar src={commentUsers.headImgUrl} />
         </NextLink>
       }
-      content={comment.context}
-      datetime={<span>{myTime(createTimestamp)}</span>}
+      content={
+        <Typography color="#252526" variant="subtitle2">
+          {comment.context}
+        </Typography>
+      }
+      datetime={myTime(createTimestamp)}
     >
       {showReplying ? (
         <CommentForm

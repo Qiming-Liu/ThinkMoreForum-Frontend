@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import axios from 'axios';
 import store from '../store/store';
 import { setJWTAction, logoutAction } from '../store/actions/signAction';
@@ -21,7 +20,7 @@ const getInstance = () => {
       return config;
     },
     (error) => {
-      // eslint-disable-next-line no-unused-expressions
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       error && console.log(error.response);
 
       // jwt expired or invalid
@@ -40,13 +39,7 @@ const getInstance = () => {
   return axiosInstance;
 };
 
-const http = (endpoint, { method, data, headers, ...customConfig }) => {
-  const config = {
-    method,
-    headers,
-    data,
-    ...customConfig,
-  };
+const http = (endpoint, config) => {
   const axiosInstance = getInstance();
   return axiosInstance(endpoint, { ...config });
 };

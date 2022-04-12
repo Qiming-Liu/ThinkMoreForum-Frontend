@@ -18,7 +18,7 @@ import { getPostById } from '../../../services/Public';
 import upload from '../../../services/Img';
 import hotToast from '../../../utils/hotToast';
 import ImgDropzone from '../../ImgDropzone';
-import { strip } from '../../../utils/htmlParser.ts';
+import { strip } from '../../../utils/htmlParser';
 
 const PostEdit = ({ postId }) => {
   const [isLoading, setLoading] = useState(false);

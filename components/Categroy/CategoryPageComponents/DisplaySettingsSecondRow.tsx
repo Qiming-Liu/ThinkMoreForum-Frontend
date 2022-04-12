@@ -14,10 +14,10 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 interface DisplaySettingsSecondRowProps {
   sizePerPage: number;
   handleSizePerPage: () => void;
-  handleInputSizePerPage: () => void;
+  handleInputSizePerPage: (event: any) => void;
   sortColumn: string;
   sortColumnList: Object;
-  handleSortColumn: () => void;
+  handleSortColumn: (event: any) => void;
   toggleSortDirection: () => void;
   sortDirection: 'asc' | 'desc';
 }

@@ -1,6 +1,5 @@
 import React from 'react';
-// @ts-ignore
-import PasswordRecovery from '../components/PasswordRecovery/index.tsx';
+import PasswordRecovery from '../components/PasswordRecovery';
 
 const PasswordEmail = () => <PasswordRecovery />;
 

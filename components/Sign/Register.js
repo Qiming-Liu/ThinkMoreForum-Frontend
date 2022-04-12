@@ -101,7 +101,7 @@ const Register = ({ login }) => {
           >
             Where the Discovering Starts
           </Typography>
-          <Box sx={{ my: 4 }}>
+          <Box sx={{ my: 3 }}>
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -141,7 +141,7 @@ const Register = ({ login }) => {
               value={formik.values.password}
               variant="outlined"
             />
-            <Grid sx={{ pt: 11 }}>
+            <Grid sx={{ pt: 3 }}>
               <LoadingButton
                 loading={isLoading}
                 disabled={formik.isSubmitting}
@@ -154,12 +154,13 @@ const Register = ({ login }) => {
                 Register
               </LoadingButton>
             </Grid>
-            <br />
             <Divider />
+            <Box sx={{ pt: 1 }}>
+              <Typography color="textSecondary" variant="body2">
+                <Button onClick={() => login()}>Having an account</Button>
+              </Typography>
+            </Box>
           </Box>
-          <Typography color="textSecondary" variant="body2">
-            <Button onClick={() => login()}>Having an account</Button>
-          </Typography>
         </form>
       </Container>
     </Box>

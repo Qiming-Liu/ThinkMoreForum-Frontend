@@ -25,24 +25,16 @@ import {
 } from '../../services/Public';
 import hotToast from '../../utils/hotToast';
 import getInitialDisplaySettings from '../../utils/getInitialDisplaySettings';
-// @ts-ignore
-import CategoryIntro from '../../components/Categroy/CategoryIntro.tsx';
-// @ts-ignore
-import Loading from '../../components/Loading/index.tsx';
-// @ts-ignore
-import Posts from '../../components/Post/Posts.tsx';
-// @ts-ignore
-import CommonContainer from '../../components/Layout/common-container.tsx';
-// @ts-ignore
-import DisplaySettings from '../../components/Categroy/CategoryPageComponents/DisplaySettings.tsx';
-// @ts-ignore
-import DisplaySettingsSecondRow from '../../components/Categroy/CategoryPageComponents/DisplaySettingsSecondRow.tsx';
-// @ts-ignore
-import PinPostCard from '../../components/Post/PinPostCard.tsx';
-// @ts-ignore
-import MakePostButton from '../../components/Categroy/CategoryPageComponents/MakePostButton.tsx';
+import CategoryIntro from '../../components/Categroy/CategoryIntro';
+import Loading from '../../components/Loading';
+import Posts from '../../components/Post/Posts';
+import CommonContainer from '../../components/Layout/CommonContainer';
+import DisplaySettings from '../../components/Categroy/CategoryPageComponents/DisplaySettings';
+import DisplaySettingsSecondRow from '../../components/Categroy/CategoryPageComponents/DisplaySettingsSecondRow';
+import PinPostCard from '../../components/Post/PinPostCard';
+import MakePostButton from '../../components/Categroy/CategoryPageComponents/MakePostButton';
 
-const validNumberInput = /[^0-9]/;
+const validNumberInput: RegExp = /[^0-9]/;
 
 const sortColumnList: { [key: string]: string } = {
   'View count': 'viewCount',
@@ -129,7 +121,7 @@ const PostList = () => {
   }, [sortDirection]);
 
   const handlePageChange = useCallback(
-    (event, page) => {
+    (event: any, page: any) => {
       sessionStorage.setItem(
         `${categoryTitle}_currentPage`,
         JSON.stringify(page - 1),
@@ -139,7 +131,7 @@ const PostList = () => {
     [categoryTitle],
   );
 
-  const handleSortColumn = useCallback((event) => {
+  const handleSortColumn = useCallback((event: any) => {
     localStorage.setItem(`sortColumn`, event.target.value);
     setSortColumn(event.target.value);
   }, []);
@@ -181,11 +173,11 @@ const PostList = () => {
     }
   }, [categoryTitle, inputCurrentPage, totalPages]);
 
-  const handleInputSizePerPage = useCallback((event) => {
+  const handleInputSizePerPage = useCallback((event: any) => {
     setInputSizePerPage(event.target.value);
   }, []);
 
-  const handleInputCurrentPage = useCallback((event) => {
+  const handleInputCurrentPage = useCallback((event: any) => {
     setInputCurrentPage(event.target.value);
   }, []);
 

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
+  Button,
   Checkbox,
   Table,
   TableBody,
@@ -11,7 +12,6 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import Controls from '../CategoryManager/controls/Controls';
 
 const RoleTable = ({
   setRole,
@@ -51,7 +51,7 @@ const RoleTable = ({
         </TableHead>
         <TableBody>
           {roleList.map((oneRole, indexH) => (
-            <TableRow>
+            <TableRow key={oneRole}>
               {oneRole.map((value, indexW) => {
                 return typeof value === 'string' || value instanceof String ? (
                   <TableCell>{value}</TableCell>
@@ -67,7 +67,7 @@ const RoleTable = ({
               })}
               {undeletedList.includes(oneRole[0]) || (
                 <TableCell>
-                  <Controls.ActionButton
+                  <Button
                     color="secondary"
                     onClick={() => {
                       setConfirmDialog({
@@ -81,7 +81,7 @@ const RoleTable = ({
                     }}
                   >
                     <CloseIcon fontSize="small" />
-                  </Controls.ActionButton>
+                  </Button>
                 </TableCell>
               )}
             </TableRow>

@@ -16,7 +16,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { logoutAction } from '../../store/actions/signAction';
-import { useWSContext } from '../../contexts/WSContext';
+import { useWSContext } from '../../contexts/WebsocketContext';
 
 const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
