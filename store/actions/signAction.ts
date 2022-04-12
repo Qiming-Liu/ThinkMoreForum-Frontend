@@ -1,5 +1,6 @@
 import * as Action from '../actionTypes';
 import store, { saveState } from '../store';
+import { Dispatch } from 'redux';
 
 export const openSignDialog = () => ({
   type: Action.OPEN_SIGN_DIALOG,
@@ -17,76 +18,68 @@ export const registerSignDialog = () => ({
   type: Action.REGISTER_SIGN_DIALOG,
 });
 
-const setJWT = (token) => ({
+const setJWT = (token: string) => ({
   type: Action.SET_JWT,
   payload: token,
 });
 
-const setOpenID = (openid) => ({
-  type: Action.SET_OPENID,
-  payload: openid,
-});
-
-const setHeadImg = (headImgUrl) => ({
+const setHeadImg = (headImgUrl: string) => ({
   type: Action.SET_HEADIMG,
   payload: headImgUrl,
 });
 
-const setProfileImg = (profileImgUrl) => ({
+const setProfileImg = (profileImgUrl: string) => ({
   type: Action.SET_PROFILEHEADING,
   payload: profileImgUrl,
 });
 
-const setUsername = (username) => ({
+const setUsername = (username: string) => ({
   type: Action.SET_USERNAME,
   payload: username,
 });
 
-const setEmail = (email) => ({
+const setEmail = (email: string) => ({
   type: Action.SET_EMAIL,
   payload: email,
 });
 
-const setFooter = (footer) => ({
+const setFooter = (footer: any) => ({
   type: Action.SET_FOOTER,
   payload: footer,
 });
 
-export const setJWTAction = (token) => (dispatch) => {
+export const setJWTAction = (token: string) => (dispatch: any) => {
   dispatch(setJWT(token));
 };
 
-export const setOpenIDAction = (openid) => (dispatch) => {
-  dispatch(setOpenID(openid));
-  saveState(store.getState());
-};
+export const setHeadImgAction =
+  (headImgUrl: string) => (dispatch: Dispatch) => {
+    dispatch(setHeadImg(headImgUrl));
+    saveState(store.getState());
+  };
 
-export const setHeadImgAction = (headImgUrl) => (dispatch) => {
-  dispatch(setHeadImg(headImgUrl));
-  saveState(store.getState());
-};
+export const setProfileImgAction =
+  (profileImgUrl: string) => (dispatch: Dispatch) => {
+    dispatch(setProfileImg(profileImgUrl));
+    saveState(store.getState());
+  };
 
-export const setProfileImgAction = (profileImgUrl) => (dispatch) => {
-  dispatch(setProfileImg(profileImgUrl));
-  saveState(store.getState());
-};
-
-export const setUsernameAction = (username) => (dispatch) => {
+export const setUsernameAction = (username: string) => (dispatch: Dispatch) => {
   dispatch(setUsername(username));
   saveState(store.getState());
 };
 
-export const setEmailAction = (email) => (dispatch) => {
+export const setEmailAction = (email: string) => (dispatch: Dispatch) => {
   dispatch(setEmail(email));
   saveState(store.getState());
 };
 
-export const setFooterAction = (footer) => (dispatch) => {
+export const setFooterAction = (footer: any) => (dispatch: Dispatch) => {
   dispatch(setFooter(footer));
   saveState(store.getState());
 };
 
-export const logoutAction = () => (dispatch) => {
+export const logoutAction = () => (dispatch: Dispatch) => {
   dispatch({
     type: Action.LOGOUT,
   });

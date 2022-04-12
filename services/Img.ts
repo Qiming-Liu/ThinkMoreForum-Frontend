@@ -1,6 +1,6 @@
 import http from '../utils/axios';
 
-const upload = (img) => {
+const upload = (img: Blob) => {
   const data = new FormData();
   data.append('img', img);
   return http(`/v1/img/upload`, {

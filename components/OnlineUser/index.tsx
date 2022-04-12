@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { makeStyles } from '@mui/styles';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as userService from '../../services/Public';
-import { useWSContext } from '../../contexts/WSContext';
+import { useWSContext } from '../../contexts/WebsocketContext';
 import UserInfoRow from './UserInfoRow';
 
 const CustomPaper = styled(Paper)`

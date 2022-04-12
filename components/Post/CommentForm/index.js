@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import checkPermission from '../../../utils/checkPermission';
 import hotToast from '../../../utils/hotToast';
 import Sign from '../../Sign';
-import { useWSContext } from '../../../contexts/WSContext';
+import { useWSContext } from '../../../contexts/WebsocketContext';
 
 const CommentForm = ({
   handleSubmit,

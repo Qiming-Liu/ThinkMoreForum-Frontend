@@ -101,8 +101,7 @@ export const WSContextProvider = ({ children }) => {
 
       // Comment out this line to enable ws console log Cmessages
       stompClient.current.debug = null;
-      // eslint-disable-next-line no-empty
-    } catch (error) {}
+    } catch {}
   }, [onConnected, onError]);
 
   useEffect(() => {

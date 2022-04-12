@@ -11,7 +11,7 @@ import store from '../store/store';
 import Layout from '../components/Layout';
 import Navbar from '../components/Navbar';
 import Loading from '../components/Loading';
-import { WSContextProvider } from '../contexts/WSContext';
+import { WSContextProvider } from '../contexts/WebsocketContext';
 import createTheme from '../theme';
 import 'antd/dist/antd.css';
 import '../styles/main.scss';

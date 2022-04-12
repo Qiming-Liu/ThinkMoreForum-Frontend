@@ -130,12 +130,12 @@ const Form = (props) => {
     return null;
   }
   return (
-    <Grid sx={{ mt: 1 }} {...props} container direction="column" spacing={5}>
+    <Grid sx={{ mt: 1 }} container direction="column" spacing={5}>
       <Grid item>
         <Typography sx={{ mb: 3 }} variant="h4">
           Settings
         </Typography>
-        <Card item>
+        <Card>
           <CardContent>
             <Grid container spacing={3}>
               <Grid item md={4} xs={12}>

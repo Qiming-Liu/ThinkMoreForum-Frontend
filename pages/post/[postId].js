@@ -21,7 +21,7 @@ import CommentForm from '../../components/Post/CommentForm';
 import CommonContainer from 'components/Layout/CommonContainer';
 import { PinPostContextProvider } from '../../components/Post/PinPostContext';
 import hotToast from '../../utils/hotToast';
-import { useWSContext } from '../../contexts/WSContext';
+import { useWSContext } from '../../contexts/WebsocketContext';
 
 export const getStaticPaths = async () => {
   const { data: posts } = await getAllPosts();

@@ -10,8 +10,10 @@ const initialState = {
   footer: '',
 };
 
-// eslint-disable-next-line @typescript-eslint/default-param-last
-const signReducer = (state = initialState, { type, payload }) => {
+const signReducer = (
+  state = initialState,
+  { type, payload }: { type: any; payload: any },
+) => {
   switch (type) {
     case Action.OPEN_SIGN_DIALOG:
       return {
@@ -58,17 +60,11 @@ const signReducer = (state = initialState, { type, payload }) => {
         token: payload,
       };
 
-    case Action.SET_OPENID:
-      return {
-        ...state,
-        openid: payload,
-      };
-
     case Action.SET_HEADIMG:
       return {
         ...state,
         myDetail: {
-          ...state.myDetail,
+          ...(state.myDetail || {}),
           headImgUrl: payload,
         },
       };
@@ -77,7 +73,7 @@ const signReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         myDetail: {
-          ...state.myDetail,
+          ...(state.myDetail || {}),
           username: payload,
         },
       };
@@ -86,7 +82,7 @@ const signReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         myDetail: {
-          ...state.myDetail,
+          ...(state.myDetail || {}),
           email: payload,
         },
       };

@@ -39,13 +39,7 @@ const getInstance = () => {
   return axiosInstance;
 };
 
-const http = (endpoint, { method, data, headers, ...customConfig }) => {
-  const config = {
-    method,
-    headers,
-    data,
-    ...customConfig,
-  };
+const http = (endpoint, config) => {
   const axiosInstance = getInstance();
   return axiosInstance(endpoint, { ...config });
 };

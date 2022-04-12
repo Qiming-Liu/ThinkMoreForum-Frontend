@@ -32,7 +32,7 @@ import hotToast from '../../utils/hotToast';
 import { changeProfileImg } from '../../services/Users';
 import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
-import { useWSContext } from '../../contexts/WSContext';
+import { useWSContext } from '../../contexts/WebsocketContext';
 import ImgDropzone from '../../components/ImgDropzone';
 
 const Profile = () => {

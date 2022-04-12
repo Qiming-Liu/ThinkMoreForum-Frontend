@@ -21,7 +21,7 @@ import {
 } from '../../services/Notification';
 import Scrollbar from '../Scrollbar';
 import MyTime from '../../utils/myTime';
-import { useWSContext } from '../../contexts/WSContext';
+import { useWSContext } from '../../contexts/WebsocketContext';
 
 const NotificationsPopover = (props) => {
   const { anchorEl, onClose, onUpdateUnread, open, ...other } = props;
