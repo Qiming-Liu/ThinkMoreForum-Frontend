@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import PasswordRecovery from '../../components/PasswordRecovery/index';
+import PasswordRecovery from '../../components/PasswordRecovery';
 
 describe('<PasswordRecovery />', () => {
   it('should pass value to input', () => {

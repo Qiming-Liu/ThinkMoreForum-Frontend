@@ -19,7 +19,7 @@ import {
   markAsViewed,
   markAllAsViewed,
 } from '../../services/Notification';
-import Scrollbar from '../Scrollbar/index';
+import Scrollbar from '../Scrollbar';
 import MyTime from '../../utils/myTime';
 import { useWSContext } from '../../contexts/WSContext';
 

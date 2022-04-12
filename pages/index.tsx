@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import styled from 'styled-components';
-import Category from '../components/Categroy/index';
-import ThreeColumns from '../components/Layout/three-columns';
+import Category from 'components/Categroy';
+import ThreeColumns from 'components/Layout/ThreeColumns';
 import {
   getAllCategories,
   getRandomPost,

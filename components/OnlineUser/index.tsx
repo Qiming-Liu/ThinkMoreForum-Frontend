@@ -102,7 +102,7 @@ const OnlineUser = ({ mobileDevice }: { mobileDevice: boolean }) => {
         className={classes.root}
       >
         {onlineUser.length === 0 && (
-          <Typography sx={{ ml: 3, mt: 3 }} variant="overline" color="#6b778d">
+          <Typography sx={{ ml: 2 }} variant="overline" color="#6b778d">
             {noOnlineUser ? 'No user online' : 'Connecting...'}
           </Typography>
         )}

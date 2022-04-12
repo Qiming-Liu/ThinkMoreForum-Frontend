@@ -10,15 +10,21 @@ const ImgDropzone = ({
   afterCrop,
   aspectRatio,
   lockAspectRatio = true,
+}: {
+  children: React.ReactNode;
+  accept: string;
+  afterCrop: any;
+  aspectRatio: number;
+  lockAspectRatio?: boolean;
 }) => {
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<string>('');
   const onDrop = useCallback(([file]) => {
     const reader = new FileReader();
     reader.onabort = () => hotToast('fail', 'file reading was aborted');
     reader.onerror = () => hotToast('fail', 'file reading has failed');
     reader.onload = () => {
-      setImage(reader.result);
+      setImage(reader.result as string);
       setOpen(true);
     };
     reader.readAsDataURL(file);

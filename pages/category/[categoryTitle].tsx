@@ -26,9 +26,9 @@ import {
 import hotToast from '../../utils/hotToast';
 import getInitialDisplaySettings from '../../utils/getInitialDisplaySettings';
 import CategoryIntro from '../../components/Categroy/CategoryIntro';
-import Loading from '../../components/Loading/index';
+import Loading from '../../components/Loading';
 import Posts from '../../components/Post/Posts';
-import CommonContainer from '../../components/Layout/common-container';
+import CommonContainer from '../../components/Layout/CommonContainer';
 import DisplaySettings from '../../components/Categroy/CategoryPageComponents/DisplaySettings';
 import DisplaySettingsSecondRow from '../../components/Categroy/CategoryPageComponents/DisplaySettingsSecondRow';
 import PinPostCard from '../../components/Post/PinPostCard';

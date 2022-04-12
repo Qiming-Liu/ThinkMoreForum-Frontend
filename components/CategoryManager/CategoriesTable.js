@@ -3,7 +3,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import CloseIcon from '@mui/icons-material/Close';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { Button, TableBody, TableRow, TableCell, Stack } from '@mui/material';
+import {
+  Button,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography,
+  Stack,
+} from '@mui/material';
 import useTable from './useTable';
 import * as categoryServices from 'services/Public';
 import { putCategories } from 'services/Category';
@@ -13,16 +20,22 @@ import CategoryDialog from './CategoryDialog';
 const headCells = [
   { id: 'order', disablePadding: true, label: 'Order', disableSorting: true },
   {
-    id: 'headImgUrl',
+    id: 'headImg',
     disablePadding: true,
-    label: 'headImgUrl',
+    label: 'headImg',
     disableSorting: true,
   },
-  { id: 'title', label: 'Category Title', disableSorting: true },
+  { id: 'title', label: 'Title', disableSorting: true },
   { id: 'description', label: 'Description', disableSorting: true },
   { id: 'color', label: 'Color', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
+
+const colorReverse = (oldColor) => {
+  oldColor = '0x' + oldColor.replace(/#/g, '');
+  let str = '000000' + (0xffffff - oldColor).toString(16);
+  return '#' + str.substring(str.length - 6, str.length);
+};
 
 const Category = () => {
   const [recordForEdit, setRecordForEdit] = useState(null);
@@ -129,43 +142,43 @@ const Category = () => {
   }
   return (
     <>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={2}
-          sx={{ mt: 3 }}
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+        sx={{ mt: 3 }}
+      >
+        <Button
+          variant="contained"
+          onClick={() => {
+            setOpenDialog(true);
+            setRecordForEdit(null);
+          }}
         >
-          <Button
-            variant="contained"
-            onClick={() => {
-              setOpenDialog(true);
-              setRecordForEdit(null);
-            }}
-          >
-            Add Category
-          </Button>
-          <Button
-            text="."
-            variant="outlined"
-            onClick={() => {
-              setConfirmDialog({
-                isOpen: true,
-                title: 'Are you sure to save all changes?',
-                subTitle: "You can't undo this operation",
-                onConfirm: () => {
-                  handleSaveChanges();
-                },
-              });
-            }}
-          >
-            Save All
-          </Button>
-        </Stack>
-        <TblContainer>
-          <TblHead />
-          <Droppable droppableId="droppable-1">
+          Add Category
+        </Button>
+        <Button
+          text="."
+          variant="outlined"
+          onClick={() => {
+            setConfirmDialog({
+              isOpen: true,
+              title: 'Are you sure to save all changes?',
+              subTitle: "You can't undo this operation",
+              onConfirm: () => {
+                handleSaveChanges();
+              },
+            });
+          }}
+        >
+          Save All
+        </Button>
+      </Stack>
+      <TblContainer>
+        <TblHead />
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="droppable">
             {(provided) => (
               <TableBody ref={provided.innerRef} {...provided.droppableProps}>
                 {recordsAfterPagingAndSorting().map((item, index) => {
@@ -192,22 +205,32 @@ const Category = () => {
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 position: 'relative',
-                                width: '110%',
                                 marginTop: '10px',
                                 height: '85px',
-                                borderRadius: 'inherit',
                               }}
                             />
                           </TableCell>
-                          <TableCell>{item.title}</TableCell>
-                          <TableCell>{item.description}</TableCell>
+                          <TableCell>
+                            <Typography variant="subtitle2">
+                              {item.title}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="subtitle2">
+                              {item.description}
+                            </Typography>
+                          </TableCell>
                           <TableCell
                             style={{
                               background: item.color,
-                              color: '#ffffff',
                             }}
                           >
-                            {item.color}
+                            <Typography
+                              color={colorReverse(item.color)}
+                              variant="subtitle2"
+                            >
+                              {item.color}
+                            </Typography>
                           </TableCell>
                           <TableCell>
                             <Button
@@ -239,12 +262,12 @@ const Category = () => {
                     </Draggable>
                   );
                 })}
+                {provided.placeholder}
               </TableBody>
             )}
           </Droppable>
-        </TblContainer>
-      </DragDropContext>
-      {console.log(openDialog)}
+        </DragDropContext>
+      </TblContainer>
       <CategoryDialog
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}

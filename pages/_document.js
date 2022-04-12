@@ -6,10 +6,16 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta name="title" content="thinkmore." />
           <meta
             name="keywords"
-            content="ThinkMore Community Forum Github Qiming-Liu"
+            content="thinkmore., ThinkMore, ThinkMore App, ThinkMore Forum, Community Forum, Qiming-Liu"
           />
+          <meta
+            property="description"
+            content="ThinkMore Forum is place for people to make any kind of disscusion, where people come together to share their opinion."
+          />
+          <meta name="robots" content="index, follow" />
           <meta name="referrer" content="always" />
           <meta property="og:image" content="/home-preview.png" />
           <meta property="og:image:type" content="image/png" />

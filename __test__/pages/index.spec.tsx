@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import Index, { getStaticProps } from '../../pages/index';
+import Index, { getStaticProps } from '../../pages';
 
 afterEach(cleanup);
 const categoryInfo = 'Games';
