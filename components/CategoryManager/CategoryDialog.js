@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Button,
   Box,
-  Card,
-  CardContent,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,6 +12,7 @@ import {
 import Image from 'next/image';
 import { useForm } from './useForm';
 import ImgDropzone from '../ImgDropzone';
+import Category from 'components/Categroy';
 
 const initialFValues = {
   id: null,
@@ -22,21 +22,6 @@ const initialFValues = {
   description: '',
   color: '',
   pinPost: '',
-};
-
-const Input = (props) => {
-  const { name, value, onChange, label, error = null, ...other } = props;
-  return (
-    <TextField
-      variant="outlined"
-      label={label}
-      name={name}
-      value={value}
-      onChange={onChange}
-      {...other}
-      {...(error && { error: true, helperText: error })}
-    />
-  );
 };
 
 const CategoryDialog = ({
@@ -110,6 +95,8 @@ const CategoryDialog = ({
 
   return (
     <Dialog
+      fullWidth
+      maxWidth="md"
       open={openDialog}
       onClose={() => {
         setOpenDialog(false);
@@ -122,144 +109,112 @@ const CategoryDialog = ({
             flexDirection: 'column',
           }}
         >
-          <Card sx={{ overflow: 'visible' }}>
-            <CardContent>
-              <Typography variant="h6" sx={{ mb: 3 }}>
-                Category Title
-              </Typography>
-              <Input
-                name="title"
-                label="Category Title"
-                style={{ width: '98%' }}
-                value={values.title}
-                onChange={handleInputChange}
-                error={errors.title}
-              />
-              <Typography
-                variant="h6"
-                sx={{
-                  mb: 2,
-                  mt: 3,
-                }}
+          <Container maxWidth="md">
+            <Typography variant="h6">Category Card</Typography>
+            {console.log(values)}
+            <Category
+              color={values.color}
+              title={values.title}
+              description={values.description}
+              pinPost={undefined}
+              postCount={values.postCount || 0}
+              viewCount={values.viewCount || 0}
+              participantCount={values.participantCount || 0}
+              headImgUrl={values.headImgUrl}
+              lastUpdateTimestamp="2022-04-11T18:21:21.959076Z"
+            />
+
+            <Box sx={{ mt: 3 }}>
+              <ImgDropzone
+                accept="image/jpg,image/png, image/jpeg"
+                afterCrop={handleDropImg}
+                lockAspectRatio={false}
               >
-                Category Description
-              </Typography>
-              <Input
-                label="Description"
-                name="description"
-                multiline
-                rows={4}
-                style={{ width: '98%' }}
-                value={values.description}
-                onChange={handleInputChange}
-                error={errors.description}
-              />
-              <Typography
-                variant="h6"
-                sx={{
-                  mb: 2,
-                  mt: 3,
-                }}
-              >
-                Color
-              </Typography>
-              <Input
-                name="color"
-                label="Color"
-                style={{ width: '98%' }}
-                value={values.color}
-                onChange={handleInputChange}
-                error={errors.color}
-              />
-            </CardContent>
-          </Card>
-          <Card sx={{ mt: 5, mb: 5 }}>
-            <CardContent>
-              <Typography variant="h6">Post cover</Typography>
-              {values ? (
-                <Box
-                  sx={{
-                    backgroundImage: `url(${values.headImgUrl})`,
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                    borderRadius: 1,
-                    height: 200,
-                    mt: 2,
-                  }}
-                />
-              ) : (
                 <Box
                   sx={{
                     alignItems: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
                     border: 1,
                     borderRadius: 1,
                     borderStyle: 'dashed',
                     borderColor: 'divider',
-                    height: 100,
-                    mt: 3,
-                    p: 3,
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    outline: 'none',
+                    p: 6,
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                      cursor: 'pointer',
+                      opacity: 0.5,
+                    },
                   }}
                 >
-                  <Typography align="center" color="textSecondary" variant="h6">
-                    Select a image
-                  </Typography>
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    sx={{ mt: 1 }}
-                    variant="subtitle1"
-                  >
-                    Category Head Image
-                  </Typography>
-                </Box>
-              )}
-              <Box sx={{ mt: 3 }}>
-                <ImgDropzone
-                  accept="image/jpg,image/png, image/jpeg"
-                  afterCrop={handleDropImg}
-                  lockAspectRatio={false}
-                >
-                  <Box
-                    sx={{
-                      alignItems: 'center',
-                      border: 1,
-                      borderRadius: 1,
-                      borderStyle: 'dashed',
-                      borderColor: 'divider',
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      justifyContent: 'center',
-                      outline: 'none',
-                      p: 6,
-                      '&:hover': {
-                        backgroundColor: 'action.hover',
-                        cursor: 'pointer',
-                        opacity: 0.5,
-                      },
-                    }}
-                  >
-                    <Image
-                      alt="Select image"
-                      src="/file_upload.svg"
-                      width={100}
-                      height={80}
-                    />
-                    <Box sx={{ p: 2 }}>
-                      <Typography variant="h6">Select image</Typography>
-                      <Box sx={{ mt: 2 }}>
-                        <Typography variant="body1">
-                          Drop image browse thorough your machine
-                        </Typography>
-                      </Box>
+                  <Image
+                    alt="Select image"
+                    src="/file_upload.svg"
+                    width={100}
+                    height={80}
+                  />
+                  <Box sx={{ p: 2 }}>
+                    <Typography variant="h6">Select image</Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Typography variant="body1">
+                        Drop image browse thorough your machine
+                      </Typography>
                     </Box>
                   </Box>
-                </ImgDropzone>
-              </Box>
-            </CardContent>
-          </Card>
+                </Box>
+              </ImgDropzone>
+            </Box>
+
+            <Typography variant="h6" sx={{ mb: 3 }}>
+              Category Title
+            </Typography>
+            <TextField
+              variant="outlined"
+              name="title"
+              label="Category Title"
+              fullWidth
+              value={values.title}
+              onChange={handleInputChange}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                mb: 2,
+                mt: 3,
+              }}
+            >
+              Category Description
+            </Typography>
+            <TextField
+              variant="outlined"
+              label="Description"
+              name="description"
+              multiline
+              rows={4}
+              fullWidth
+              value={values.description}
+              onChange={handleInputChange}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                mb: 2,
+                mt: 3,
+              }}
+            >
+              Color
+            </Typography>
+            <TextField
+              variant="outlined"
+              name="color"
+              label="Color"
+              fullWidth
+              value={values.color}
+              onChange={handleInputChange}
+            />
+          </Container>
         </Box>
       </DialogContent>
       <DialogActions>

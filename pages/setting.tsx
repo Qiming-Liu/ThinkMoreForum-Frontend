@@ -1,5 +1,5 @@
 import React from 'react';
-import CommonContainer from '../components/Layout/common-container';
+import CommonContainer from '../components/Layout/CommonContainer';
 import PersonalSettingContent from '../components/PersonalSetting/PersonalSettingContent';
 
 const personalSetting = () => (

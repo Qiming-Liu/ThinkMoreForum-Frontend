@@ -157,16 +157,16 @@ const Category = ({
             }}
           >
             <Avatar
-              src={pinPost.headImgUrl}
+              src={pinPost ? pinPost.headImgUrl : ''}
               variant="square"
               style={{
                 borderRadius: '5px',
               }}
             >
-              {pinPost.headImgUrl === '' ? <ArticleIcon /> : null}
+              {pinPost ? null : <ArticleIcon />}
             </Avatar>
             <Typography variant="subtitle2" sx={{ ml: 2 }}>
-              {pinPost.title}
+              {pinPost ? pinPost.title : 'No Pinned Post Yet'}
             </Typography>
           </Box>
           <Grid

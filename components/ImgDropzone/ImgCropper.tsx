@@ -1,17 +1,29 @@
-import React, { useRef, useState, useImperativeHandle } from 'react';
+import React, {
+  Ref,
+  useRef,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-const ImgCropper: React.FC<{
-  onRef: any;
+interface RefObject {
+  getCropData: () => void;
+}
+
+type ImgCropperProps = {
   aspectRatio: number;
   lockAspectRatio: boolean;
   src: string;
-}> = ({ onRef, aspectRatio, lockAspectRatio, src }) => {
+};
+
+const ImgCropper = forwardRef((props: ImgCropperProps, ref: Ref<RefObject>) => {
+  const { aspectRatio, lockAspectRatio, src } = props;
   const cropperRef = useRef<HTMLImageElement>(null);
   const [cropper, setCropper] = useState<any>();
 
-  useImperativeHandle(onRef, () => ({
+  useImperativeHandle(ref, () => ({
     getCropData: () => {
       if (typeof cropper !== 'undefined') {
         return cropper.getCroppedCanvas().toDataURL();
@@ -55,6 +67,6 @@ const ImgCropper: React.FC<{
       }}
     />
   );
-};
+});
 
 export default ImgCropper;

@@ -7,7 +7,7 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-import RandomPost from '../RandomPost/index';
+import RandomPost from '../RandomPost';
 import SearchBar from '../SearchBar';
 import OnlineUser from '../OnlineUser';
 
