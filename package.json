@@ -4,17 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next lint && next build",
+    "build": "next build",
     "start": "next start",
+    "lint": "next lint",
     "export": "next build && next export",
     "test": "jest -c jest.config.js --colors --coverage --passWithNoTests",
     "test:watch": "jest -c jest.config.js --colors --coverage --passWithNoTests --watch",
-    "lint:eslint": "eslint --ext .js,.jsx,.tsx,.ts ./pages ./components ./utils",
+    "lint:eslint": "eslint --ext .tsx,.ts ./pages ./components ./utils",
     "lint:sass": "sass-lint -v",
-    "lint:prettier": "prettier -c .prettierrc \"{pages,components,utils}/**/*.{js,jsx,ts,tsx}\" --check",
-    "lint": "npm run prettier && npm run lint:eslint && npm run lint:sass && npm run lint:prettier",
+    "lint:prettier": "prettier -c .prettierrc \"{pages,components,utils}/**/*.{ts,tsx}\" --check",
+    "lint:all": "npm run prettier && npm run lint:eslint && npm run lint:sass && npm run lint:prettier",
     "prepare": "husky install",
-    "prettier": "prettier -c .prettierrc \"{pages,components,utils,store}/**/*.{js,jsx,ts,tsx}\" --write"
+    "prettier": "prettier -c .prettierrc \"{pages,components,utils,store}/**/*.{ts,tsx}\" --write"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -121,7 +122,7 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,md}": [
+    "*.{ts,tsx,json,css,md}": [
       "prettier --single-quote --write",
       "git add"
     ]
