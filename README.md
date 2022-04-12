@@ -8,23 +8,26 @@
 ![Code Size](https://img.shields.io/github/languages/code-size/Qiming-Liu/ThinkMoreForum-Frontend)
 ![Stars](https://img.shields.io/github/commit-activity/y/Qiming-Liu/ThinkMoreForum-Frontend)
 
-<p align="center">
-  <img src="./public/home-preview.png">
-</p>
+## [Website](https://www.thinkmoreapp.com/)
 
-### [Website](https://www.thinkmoreapp.com/)
+<p align="center"><img src="./public/home-preview.png"></p>
 
-### Front-end technology stack
+> Desktop
+
+<p align="center"><img src="./public/mobile-preview.png"></p>
+
+> Mobile
+
+### [Front-end technology stack](https://github.com/Qiming-Liu/ThinkMoreForum-Frontend)
 
 1. Next.js
-2. React.js
-3. Redux thunk
-4. Typescript
-5. MUI Antd
-6. Axios
-7. Husky
-8. React testing-library Jest
-9. Eslint, sass-lint, prettier
+2. Redux
+3. Typescript
+4. MUI Antd
+5. Axios
+6. Husky
+7. React testing-library Jest
+8. Eslint, sass-lint, prettier
 
 ### [Back-end technology stack](https://github.com/Qiming-Liu/ThinkMoreForum-Backend)
 
@@ -56,7 +59,7 @@ $ yarn
 ### LiveReload Development
 
 ```shell
-$ yarn
+$ yarn dev
 ```
 
 ### [Build for Production](https://nextjs.org/docs/deployment)
