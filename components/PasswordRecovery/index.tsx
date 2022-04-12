@@ -16,7 +16,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import hotToast from '../../utils/hotToast';
 import { sendResetPasswordEmail } from '../../services/Public';
 
-type submitProps = {
+type SubmitProps = {
   email: string;
   success: boolean | null;
   submit: boolean | null;
@@ -37,7 +37,7 @@ const PasswordRecovery = () => {
         .max(255)
         .required('Email is required'),
     }),
-    onSubmit: async (values: submitProps) => {
+    onSubmit: async (values: SubmitProps) => {
       setLoading(true);
       await sendResetPasswordEmail(values.email);
       hotToast('success', 'Check your email for a reset link');

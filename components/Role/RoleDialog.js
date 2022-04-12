@@ -13,9 +13,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Paper,
 } from '@mui/material';
-import Input from '../CategoryManager/controls/Input';
 import hotToast from '../../utils/hotToast';
 
 const RoleDialog = ({ setRole, role, headerList, open, DialogClose }) => {
@@ -66,7 +66,8 @@ const RoleDialog = ({ setRole, role, headerList, open, DialogClose }) => {
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <Input
+                  <TextField
+                    variant="outlined"
                     sx={{ width: 120 }}
                     name="roleName"
                     label="Role Name"
@@ -76,9 +77,8 @@ const RoleDialog = ({ setRole, role, headerList, open, DialogClose }) => {
                 </TableCell>
                 {roleList.map((value, index) => {
                   return (
-                    <TableCell>
+                    <TableCell key={JSON.stringify({ index })}>
                       <Checkbox
-                        key={JSON.stringify({ index })}
                         label={JSON.stringify({ index })}
                         name={JSON.stringify({ index })}
                         checked={value}

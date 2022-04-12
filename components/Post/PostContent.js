@@ -14,12 +14,12 @@ import {
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import GradeRoundedIcon from '@mui/icons-material/GradeRounded';
 import NextLink from 'next/link';
-import { parser } from '../../utils/htmlParser.ts';
-import hotToast from '../../utils/hotToast';
-import MyTime from '../../utils/myTime';
+import { parser } from 'utils/htmlParser';
+import hotToast from 'utils/hotToast';
+import MyTime from 'utils/myTime';
 import AdminTool from './AdminTool';
-import { useWSContext } from '../../contexts/WSContext';
-import checkPermission from '../../utils/checkPermission';
+import { useWSContext } from '../../contexts/WebsocketContext';
+import checkPermission from 'utils/checkPermission';
 
 const PostContent = ({ post, isFavored, toggleFav }) => {
   const { myDetail } = useSelector((state) => state.sign);

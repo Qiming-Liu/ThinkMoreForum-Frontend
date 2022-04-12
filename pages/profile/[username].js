@@ -15,9 +15,9 @@ import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PersonIcon from '@mui/icons-material/Person';
 import { blueGrey } from '@mui/material/colors';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
-import CommonContainer from '../../components/Layout/common-container.tsx';
-import ProfilePost from '../../components/Profile/ProfilePost.tsx';
-import ProfileFollow from '../../components/Profile/ProfileFollow.tsx';
+import CommonContainer from 'components/Layout/CommonContainer';
+import ProfilePost from '../../components/Profile/ProfilePost';
+import ProfileFollow from '../../components/Profile/ProfileFollow';
 import {
   followUser,
   unfollowUser,
@@ -32,7 +32,7 @@ import hotToast from '../../utils/hotToast';
 import { changeProfileImg } from '../../services/Users';
 import upload from '../../services/Img';
 import { setProfileImgAction } from '../../store/actions/signAction';
-import { useWSContext } from '../../contexts/WSContext';
+import { useWSContext } from '../../contexts/WebsocketContext';
 import ImgDropzone from '../../components/ImgDropzone';
 
 const Profile = () => {

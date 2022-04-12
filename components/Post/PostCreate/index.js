@@ -16,7 +16,7 @@ import QuillEditor from '../../QuillEditor';
 import { postPost } from '../../../services/Post';
 import upload from '../../../services/Img';
 import ImgDropzone from '../../ImgDropzone';
-import { strip } from '../../../utils/htmlParser.ts';
+import { strip } from '../../../utils/htmlParser';
 import hotToast from '../../../utils/hotToast';
 
 const PostCreate = ({ categoryTitle }) => {

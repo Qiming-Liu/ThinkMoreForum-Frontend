@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { getFollowing, getFollower } from '../../services/Public';
-// @ts-ignore
-import FollowCard from './FollowCard.tsx';
+import FollowCard from './FollowCard';
 
 const ProfileFollow: React.FC<{
   title: string;
@@ -27,7 +26,6 @@ const ProfileFollow: React.FC<{
         const { data: responsefollow } = await getFollower(value);
         setFollow(responsefollow);
       };
-      // console.log(status);
       if (title === 'Following') {
         getFollow();
       } else {

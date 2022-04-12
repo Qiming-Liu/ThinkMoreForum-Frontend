@@ -12,8 +12,7 @@ import {
 } from '@mui/x-data-grid';
 import { makeStyles } from '@mui/styles';
 import { changeUsersRoles } from '../../services/Users';
-// @ts-ignore
-import useUsersToSubmit from './useUsersToSubmit.tsx';
+import useUsersToSubmit from './useUsersToSubmit';
 import { getAllRoles } from '../../services/Role';
 
 interface UserProps {

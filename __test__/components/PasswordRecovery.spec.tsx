@@ -1,7 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-// @ts-ignore
-import PasswordRecovery from '../../components/PasswordRecovery/index.tsx';
+import PasswordRecovery from '../../components/PasswordRecovery';
 
 describe('<PasswordRecovery />', () => {
   it('should pass value to input', () => {

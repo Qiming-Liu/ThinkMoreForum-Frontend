@@ -1,6 +1,5 @@
 import React from 'react';
-// @ts-ignore
-import PasswordReset from '../components/PasswordReset/index.tsx';
+import PasswordReset from '../components/PasswordReset';
 
 const PasswordResetPage = () => {
   return <PasswordReset />;

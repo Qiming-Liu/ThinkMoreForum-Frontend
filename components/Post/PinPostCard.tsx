@@ -1,11 +1,10 @@
 import React from 'react';
 import { Chip } from '@mui/material';
-// @ts-ignore
-import PostCard, { postProps } from './PostCard.tsx';
+import PostCard, { PostProps } from './PostCard';
 import MyTime from '../../utils/myTime';
 
 interface PinPostProps {
-  pinPostInfo: postProps | never;
+  pinPostInfo: PostProps | never;
   displayHeadImg: boolean | never;
   displayAbstract: boolean | never;
 }

@@ -14,10 +14,8 @@ import { makeStyles } from '@mui/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArticleIcon from '@mui/icons-material/Article';
 import MyTime from '../../utils/myTime';
-// @ts-ignore
-import Participants from './Participants.tsx';
-// @ts-ignore
-import { PostProps } from '../Post/PostCard.tsx';
+import Participants from './Participants';
+import { PostProps } from '../Post/PostCard';
 
 interface CategoryProps {
   color: string | never;
@@ -159,16 +157,16 @@ const Category = ({
             }}
           >
             <Avatar
-              src={pinPost.headImgUrl}
+              src={pinPost ? pinPost.headImgUrl : ''}
               variant="square"
               style={{
                 borderRadius: '5px',
               }}
             >
-              {pinPost.headImgUrl === '' ? <ArticleIcon /> : null}
+              {pinPost ? null : <ArticleIcon />}
             </Avatar>
             <Typography variant="subtitle2" sx={{ ml: 2 }}>
-              {pinPost.title}
+              {pinPost ? pinPost.title : 'No Pinned Post Yet'}
             </Typography>
           </Box>
           <Grid

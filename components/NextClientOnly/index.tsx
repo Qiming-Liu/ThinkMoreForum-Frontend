@@ -6,8 +6,10 @@ const NextClientOnly = ({ children }: { children: React.ReactNode }) => {
     setMounted(true);
   }, []);
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  return mounted && <>{children}</>;
+  if (mounted) {
+    return <>{children}</>;
+  }
+  return null;
 };
 
 export default NextClientOnly;

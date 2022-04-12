@@ -1,6 +1,5 @@
 import React from 'react';
-// @ts-ignore
-import CommonContainer from '../components/Layout/common-container.tsx';
+import CommonContainer from '../components/Layout/CommonContainer';
 import PersonalSettingContent from '../components/PersonalSetting/PersonalSettingContent';
 
 const personalSetting = () => (

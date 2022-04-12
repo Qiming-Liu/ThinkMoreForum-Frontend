@@ -3,14 +3,14 @@ import NextLink from 'next/link';
 import { Typography } from '@mui/material';
 import { Comment, Avatar } from 'antd';
 
-type user = {
+type User = {
   id: string;
   username: string;
   headImgUrl: string;
 };
 
 const Comments = ({ comment }: { comment: any }) => {
-  const { commentUsers, context }: { commentUsers: user; context: string } =
+  const { commentUsers, context }: { commentUsers: User; context: string } =
     comment;
   return (
     <Comment

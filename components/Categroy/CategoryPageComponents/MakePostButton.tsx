@@ -8,7 +8,7 @@ import hotToast from '../../../utils/hotToast';
 import { openSignDialog } from '../../../store/actions/signAction';
 
 interface MakePostButtonProps {
-  categoryTitle: string;
+  categoryTitle: string | string[] | undefined;
   mobileDevice: boolean;
 }
 

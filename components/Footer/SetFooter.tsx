@@ -12,14 +12,11 @@ interface Footer {
   name: string;
   code: string;
 }
-interface FooterCode {
-  code: string;
-}
 
 const SetFooter = () => {
   const dispatch = useDispatch();
   const [footer, setFooter] = useState<Footer>({ id: '', name: '', code: '' });
-  const [footerCode, setFooterCode] = useState<FooterCode>({ code: '' });
+  const [footerCode, setFooterCode] = useState<string>('');
   useEffect(() => {
     const getFooter = async () => {
       const { data } = await getComponentByName('footer');

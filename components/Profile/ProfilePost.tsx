@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Typography, Divider } from '@mui/material';
-// @ts-ignore
-import PostCard from '../Post/PostCard.tsx';
+import PostCard from '../Post/PostCard';
 import {
   getPostByUsername,
   getFollowPostByUsername,
@@ -59,6 +58,7 @@ const ProfilePost: React.FC<{
       {title === 'Posts' &&
         posts.map((post: any) => (
           <PostCard
+            key={post.id}
             id={post.id}
             authorAvatar={post.postUsers.headImgUrl}
             authorName={post.postUsers.username}
@@ -75,6 +75,7 @@ const ProfilePost: React.FC<{
       {title === 'Favorite' &&
         posts.map((post: any) => (
           <PostCard
+            key={post.id}
             id={post.id}
             authorAvatar={post.postUsers.headImgUrl}
             authorName={post.postUsers.username}
