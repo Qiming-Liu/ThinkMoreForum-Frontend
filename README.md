@@ -23,7 +23,7 @@
 1. Next.js
 2. Redux
 3. Typescript
-4. MUI Antd
+4. MUI
 5. Axios
 6. Husky
 7. React testing-library Jest
