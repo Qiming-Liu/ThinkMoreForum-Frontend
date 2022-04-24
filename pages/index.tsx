@@ -76,20 +76,21 @@ const Index = ({ categoriesInfo, randomPost, pinPosts }: IndexProps) => {
             index,
           ) => {
             return (
-              <NextLink href={`/category/${title}`} passHref>
-                <Category
-                  key={id}
-                  color={color}
-                  title={title}
-                  description={description}
-                  pinPost={pinPosts[index]}
-                  postCount={postCount}
-                  viewCount={viewCount}
-                  participantCount={participantCount}
-                  headImgUrl={headImgUrl}
-                  lastUpdateTimestamp={lastUpdateTimestamp}
-                  previewMode={false}
-                />
+              <NextLink href={`/category/${title}`} passHref key={id}>
+                <Box>
+                  <Category
+                    color={color}
+                    title={title}
+                    description={description}
+                    pinPost={pinPosts[index]}
+                    postCount={postCount}
+                    viewCount={viewCount}
+                    participantCount={participantCount}
+                    headImgUrl={headImgUrl}
+                    lastUpdateTimestamp={lastUpdateTimestamp}
+                    previewMode={false}
+                  />
+                </Box>
               </NextLink>
             );
           },
