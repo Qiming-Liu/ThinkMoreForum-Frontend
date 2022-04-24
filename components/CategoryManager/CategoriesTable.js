@@ -52,6 +52,7 @@ const Category = () => {
       const { data: categoriesInfo } =
         await categoryServices.getAllCategories();
       setRecords(categoriesInfo);
+      console.log(categoriesInfo);
     };
     getCategory();
   }, []);
@@ -68,7 +69,17 @@ const Category = () => {
     filterFn,
   );
 
-  const edit = async (category) => {
+  const add = (category) => {
+    const formattedCategory = {
+      ...category,
+      pinPost: { id: category.pinPost },
+    };
+    setRecords((prevState) => [...prevState, formattedCategory]);
+    setRecordForEdit(null);
+    setOpenDialog(false);
+  };
+
+  const edit = (category) => {
     const updateCategories = (updatedCategory, oldRecords) => {
       const newCategoryID = updatedCategory.id || updatedCategory.fakeID;
       return oldRecords.map((x) => {
@@ -109,15 +120,7 @@ const Category = () => {
     setRecords(tempData);
   };
 
-  const add = (category) => {
-    const formattedCategory = {
-      ...category,
-      pinPost: { id: category.pinPost },
-    };
-    setRecords((prevState) => [...prevState, formattedCategory]);
-    setRecordForEdit(null);
-    setOpenDialog(false);
-  };
+
   const handleSaveChanges = () => {
     const formattedRecords = records.map((x) => {
       const y = x;

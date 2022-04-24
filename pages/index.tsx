@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import styled from 'styled-components';
+import NextLink from 'next/link';
 import Category from 'components/Categroy';
 import ThreeColumns from 'components/Layout/ThreeColumns';
 import {
@@ -75,18 +76,22 @@ const Index = ({ categoriesInfo, randomPost, pinPosts }: IndexProps) => {
             index,
           ) => {
             return (
-              <Category
-                key={id}
-                color={color}
-                title={title}
-                description={description}
-                pinPost={pinPosts[index]}
-                postCount={postCount}
-                viewCount={viewCount}
-                participantCount={participantCount}
-                headImgUrl={headImgUrl}
-                lastUpdateTimestamp={lastUpdateTimestamp}
-              />
+              <NextLink href={`/category/${title}`} passHref key={id}>
+                <Box>
+                  <Category
+                    color={color}
+                    title={title}
+                    description={description}
+                    pinPost={pinPosts[index]}
+                    postCount={postCount}
+                    viewCount={viewCount}
+                    participantCount={participantCount}
+                    headImgUrl={headImgUrl}
+                    lastUpdateTimestamp={lastUpdateTimestamp}
+                    previewMode={false}
+                  />
+                </Box>
+              </NextLink>
             );
           },
         )}
