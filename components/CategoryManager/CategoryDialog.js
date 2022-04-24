@@ -59,14 +59,14 @@ const CategoryDialog = ({
       const findTitle = arr.indexOf(fieldValues.title);
       temp.title = findTitle === -1 ? '' : 'This title is already existed';
     }
-    if ('description' in fieldValues)
-      temp.description = fieldValues.description
-        ? ''
-        : 'This field is required.';
-    if ('color' in fieldValues && fieldValues.color.length > 0) {
-      temp.color = /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(fieldValues.color)
-        ? ''
-        : 'color is not valid.';
+    if (
+      'color' in fieldValues &&
+      fieldValues.color.length > 0 &&
+      /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(fieldValues.color)
+    ) {
+      temp.color = '';
+    } else {
+      temp.color = 'Color is invalid';
     }
     setErrors({
       ...temp,
@@ -78,7 +78,12 @@ const CategoryDialog = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      addOrEdit(values);
+      if (values.id === null && values.fakeID === null) {
+        const newValues = { ...values, fakeID: '' };
+        addOrEdit(newValues);
+      } else {
+        addOrEdit(values);
+      }
     }
   };
 
@@ -121,6 +126,7 @@ const CategoryDialog = ({
               participantCount={values.participantCount || 0}
               headImgUrl={values.headImgUrl}
               lastUpdateTimestamp="2022-04-11T18:21:21.959076Z"
+              previewMode={true}
             />
 
             <Box sx={{ mt: 3 }}>
@@ -166,7 +172,7 @@ const CategoryDialog = ({
               </ImgDropzone>
             </Box>
 
-            <Typography variant="h6" sx={{ mb: 3 }}>
+            <Typography variant="h6" sx={{ my: 3 }}>
               Category Title
             </Typography>
             <TextField
@@ -176,6 +182,8 @@ const CategoryDialog = ({
               fullWidth
               value={values.title}
               onChange={handleInputChange}
+              error={errors.title}
+              helperText={errors.title}
             />
             <Typography
               variant="h6"
@@ -212,6 +220,8 @@ const CategoryDialog = ({
               fullWidth
               value={values.color}
               onChange={handleInputChange}
+              error={errors.color}
+              helperText={errors.color}
             />
           </Container>
         </Box>
