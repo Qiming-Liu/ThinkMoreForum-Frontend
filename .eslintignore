@@ -4,5 +4,4 @@
 /out
 
 # config
-next.config.js
-.eslintrc.ts
+*.js

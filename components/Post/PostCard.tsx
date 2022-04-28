@@ -56,7 +56,6 @@ const PostCard = (props: PostCardProps) => {
     id,
     authorAvatar,
     authorName,
-    authorId,
     headImg,
     createTimeStamp,
     abstract,

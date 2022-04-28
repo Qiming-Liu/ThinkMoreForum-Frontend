@@ -47,7 +47,7 @@ const PasswordReset = () => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Password is required'),
     }),
-    onSubmit: async (values: SubmitProps) => {
+    onSubmit: (values: SubmitProps) => {
       const { password } = values;
       setLoading(true);
       try {
