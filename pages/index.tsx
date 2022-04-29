@@ -44,7 +44,7 @@ export async function getStaticProps() {
       randomPost: randomPost || {},
       pinPosts: pinPosts || [],
     },
-    revalidate: 60,
+    revalidate: 10,
   };
 }
 

@@ -12,13 +12,14 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
-import QuillEditor from '../../QuillEditor';
-import { editPost } from '../../../services/Post';
-import { getPostById } from '../../../services/Public';
-import upload from '../../../services/Img';
-import hotToast from '../../../utils/hotToast';
-import ImgDropzone from '../../ImgDropzone';
-import { strip } from '../../../utils/htmlParser';
+import QuillEditor from 'components/QuillEditor';
+import { editPost } from 'services/Post';
+import { getPostById } from 'services/Public';
+import { postRefetch } from 'services/Nextapi';
+import upload from 'services/Img';
+import hotToast from 'utils/hotToast';
+import ImgDropzone from 'components/ImgDropzone';
+import { strip } from 'utils/htmlParser';
 
 const PostEdit = ({ postId }) => {
   const [isLoading, setLoading] = useState(false);
@@ -68,6 +69,9 @@ const PostEdit = ({ postId }) => {
         },
         postId,
       );
+      await postRefetch(postId);
+      // sleep 2 seconds to wait for the sever postRefetch
+      await new Promise(resolve => setTimeout(resolve, 2000));
       setLoading(false);
       Router.push(`/post/${postId}`);
       hotToast('success', 'Post edited successfully');
