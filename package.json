@@ -58,6 +58,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sass": "^1.49.7",
+    "sharp": "^0.30.4",
     "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
     "sockjs-client": "^1.6.0",
