@@ -16,7 +16,7 @@ interface DisplaySettingsSecondRowProps {
   handleSizePerPage: () => void;
   handleInputSizePerPage: (event: any) => void;
   sortColumn: string;
-  sortColumnList: Object;
+  sortColumnList: any;
   handleSortColumn: (event: any) => void;
   toggleSortDirection: () => void;
   sortDirection: 'asc' | 'desc';

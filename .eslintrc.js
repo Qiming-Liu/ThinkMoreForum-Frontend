@@ -11,7 +11,6 @@ module.exports = {
   },
   extends: [
     'next',
-    'airbnb-typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:jest/recommended',
@@ -28,20 +27,21 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'jest'],
   rules: {
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/no-unsafe-call': 'off',
-    '@typescript-eslint/restrict-template-expressions': 'off',
     'import/no-unresolved': 'error',
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },
     ],
-    'react/prop-types': 'off',
-    'react/require-default-props': 'off',
-    'react/jsx-props-no-spreading': 'off',
+    'react/display-name': 'off',
     'prettier/prettier': [
       'error',
       {

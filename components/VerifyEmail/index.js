@@ -88,7 +88,7 @@ const VerifyEmail = () => {
                   onClick={handleSubmit}
                   variant="contained"
                 >
-                  Back to home page
+                  Conform
                 </Button>
               </Box>
             </Box>

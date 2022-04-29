@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { Button, MenuItem, Menu, Divider } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -105,35 +105,6 @@ const AdminTool = () => {
       : hotToast('error', 'You do not have permission to edit post!');
   }, [myDetail.role, router, thisPost.id]);
 
-  const isPinViewable = useMemo(() => {
-    if (isPinned) {
-      return (
-        <MenuItem
-          onClick={() => {
-            completeUnpinPost();
-            handleClose();
-          }}
-          disableRipple
-        >
-          <PushPinOutlinedIcon />
-          Unpin
-        </MenuItem>
-      );
-    }
-    return (
-      <MenuItem
-        onClick={() => {
-          completePinPost();
-          handleClose();
-        }}
-        disableRipple
-      >
-        <PushPinIcon />
-        Pin
-      </MenuItem>
-    );
-  }, [completePinPost, completeUnpinPost, handleClose, isPinned]);
-
   return (
     <AdminToolWrapper>
       <Button
@@ -166,19 +137,40 @@ const AdminTool = () => {
         open={open}
         onClose={handleClose}
       >
-        {isPinViewable}
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem
-          onClick={() => {
-            handleHide();
-            handleClose();
-          }}
-          disableRipple
-        >
-          {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
-          {visible ? 'Hide' : 'Expose'}
-        </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
+        {visible && (
+          <>
+            <MenuItem
+              onClick={() => {
+                if (isPinned) {
+                  completeUnpinPost();
+                } else {
+                  completePinPost();
+                }
+                handleClose();
+              }}
+              disableRipple
+            >
+              {isPinned ? <PushPinIcon /> : <PushPinOutlinedIcon />}
+              {isPinned ? 'Unpin' : 'Pin'}
+            </MenuItem>
+            <Divider sx={{ my: 0.5 }} />
+          </>
+        )}
+        {isPinned || (
+          <>
+            <MenuItem
+              onClick={() => {
+                handleHide();
+                handleClose();
+              }}
+              disableRipple
+            >
+              {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              {visible ? 'Hide' : 'Expose'}
+            </MenuItem>
+            <Divider sx={{ my: 0.5 }} />
+          </>
+        )}
         <MenuItem
           onClick={() => {
             handleEdit();

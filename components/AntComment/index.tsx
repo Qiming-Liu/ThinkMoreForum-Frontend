@@ -39,6 +39,7 @@ const AntComment: React.FC<{
       key={comment.id}
       actions={[
         <Typography
+          key={comment.id}
           variant="button"
           sx={{ cursor: 'pointer' }}
           onClick={() => setShowReplying(!showReplying)}

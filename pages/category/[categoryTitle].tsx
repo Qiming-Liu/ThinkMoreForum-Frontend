@@ -34,7 +34,7 @@ import DisplaySettingsSecondRow from '../../components/Categroy/CategoryPageComp
 import PinPostCard from '../../components/Post/PinPostCard';
 import MakePostButton from '../../components/Categroy/CategoryPageComponents/MakePostButton';
 
-const validNumberInput: RegExp = /[^0-9]/;
+const validNumberInput = /[^0-9]/;
 
 const sortColumnList: { [key: string]: string } = {
   'View count': 'viewCount',

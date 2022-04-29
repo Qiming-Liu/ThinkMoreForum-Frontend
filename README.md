@@ -8,47 +8,52 @@
 ![Code Size](https://img.shields.io/github/languages/code-size/Qiming-Liu/ThinkMoreForum-Frontend)
 ![Stars](https://img.shields.io/github/commit-activity/y/Qiming-Liu/ThinkMoreForum-Frontend)
 
-## [Website](https://www.thinkmoreapp.com/)
+<p align="center"><img src="./public/3d.png"></p>
 
-<p align="center"><img src="./public/home-preview.png"></p>
+## [thinkmoreapp.com](https://www.thinkmoreapp.com/)
 
-> Desktop
+ThinkMoreForum is a place for people to make any kind of discussion, where people come together to share their opinion. As a discussion platform, it is multifunctional, interactive, and mobile-ready. Administrators can easily set the look and topic of the forum, manage user permissions, and customize the site footer. The development process uses Jira as an agile scrum software to help the team organize and prioritize the work, and uses Github as a version control tool for a lightweight, branch-based workflow. From a technical perspective, the project uses message queues to send emails, and implements high-level JWT updates and protection, constructs WebSocket to achieve real-time online users and real-time notifications.
 
-<p align="center"><img src="./public/mobile-preview.png"></p>
+## Project Architecture
 
-> Mobile
+<table align="center" border=0>
+   <tr>
+      <td width="500"><a herf="https://github.com/Qiming-Liu/ThinkMoreForum-Frontend"><b>Front-end</b></a></td>
+      <td width="500"><a herf="https://github.com/Qiming-Liu/ThinkMoreForum-Backend"><b>Back-end</b></a></td>
+   </tr>
+   <tr>
+      <td>
+         • Next.js<br>
+         • Redux<br>
+         • Typescript<br>
+         • MUI<br>
+         • Axios<br>
+         • Husky<br>
+         • Jest<br>
+         • Eslint<br>
+         • Sass-lint<br>
+         • Prettier<br>
+         • Yup, Formik
+      </td>
+      <td>
+         • Spring boot<br>
+         • Lombok & Mapstruct<br>
+         • Flyway & PostgreSQL (JPA)<br>
+         • Swagger & Postman<br>
+         • Spring Security & JWT<br>
+         • Jacoco & Mockito<br>
+         • RabbitMQ (amqp)<br>
+         • Amazon S3 (MinIO)<br>
+         • Redis (Jedis)<br>
+         • Sockjs (websocket)<br>
+         • Sendgrid (Email)
+      </td>
+   </tr>
+</table>
 
-### [Front-end technology stack](https://github.com/Qiming-Liu/ThinkMoreForum-Frontend)
+![Project Architecture](./public/ThinkMore.png)
 
-1. Next.js
-2. Redux
-3. Typescript
-4. MUI
-5. Axios
-6. Husky
-7. React testing-library Jest
-8. Eslint, sass-lint, prettier
-
-### [Back-end technology stack](https://github.com/Qiming-Liu/ThinkMoreForum-Backend)
-
-1. Spring boot
-2. Lombok & Mapstruct
-3. Flyway & PostgreSQL (JPA)
-4. Swagger & Postman
-5. Spring Security & JWT
-6. Unit Test & Jacoco & Mockito
-7. Gradle
-8. RabbitMQ (amqp)
-9. Amazon S3 (MinIO)
-10. Redis (Jedis)
-11. Sockjs (websocket)
-12. Sendgrid (Email)
-
-### Technology stack and architecture diagram
-
-<p align="center">
-  <img src="./public/ThinkMore.svg">
-</p>
+## Project Development and Deployment
 
 ### Install dependencies
 

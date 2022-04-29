@@ -35,7 +35,7 @@ const Login = ({ register }: { register: any }) => {
         .max(16)
         .required('Password is required'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       const { email, password } = values;
       setLoading(true);
       dispatch(
