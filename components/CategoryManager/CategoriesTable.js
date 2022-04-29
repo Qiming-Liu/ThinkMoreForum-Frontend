@@ -14,8 +14,10 @@ import {
 import useTable from './useTable';
 import * as categoryServices from 'services/Public';
 import { putCategories } from 'services/Category';
+import { categoryRefetch } from 'services/Nextapi';
 import ConfirmDialog from './ConfirmDialog';
 import CategoryDialog from './CategoryDialog';
+import hotToast from 'utils/hotToast';
 
 const headCells = [
   { id: 'order', disablePadding: true, label: 'Order', disableSorting: true },
@@ -52,7 +54,6 @@ const Category = () => {
       const { data: categoriesInfo } =
         await categoryServices.getAllCategories();
       setRecords(categoriesInfo);
-      console.log(categoriesInfo);
     };
     getCategory();
   }, []);
@@ -120,8 +121,7 @@ const Category = () => {
     setRecords(tempData);
   };
 
-
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     const formattedRecords = records.map((x) => {
       const y = x;
       if (y.color === null || y.color === '') delete y.color;
@@ -137,7 +137,12 @@ const Category = () => {
       ...confirmDialog,
       isOpen: false,
     });
-    putCategories(formattedRecords);
+    await putCategories(formattedRecords);
+    hotToast(
+      'promise',
+      'Changes saved successfully, you may need to refresh the index page to see the changes',
+      categoryRefetch(),
+    );
   };
 
   if (!records) {

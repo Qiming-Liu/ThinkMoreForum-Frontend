@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '../store/store';
 import { setJWTAction, logoutAction } from '../store/actions/signAction';
 
-const getInstance = () => {
+const backendHttpInstance = () => {
   const axiosInstance = axios.create();
   axiosInstance.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -40,7 +40,12 @@ const getInstance = () => {
 };
 
 const http = (endpoint, config) => {
-  const axiosInstance = getInstance();
+  const axiosInstance = backendHttpInstance();
+  return axiosInstance(endpoint, { ...config });
+};
+
+export const nextapi = (endpoint, config) => {
+  const axiosInstance = axios.create();
   return axiosInstance(endpoint, { ...config });
 };
 

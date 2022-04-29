@@ -50,7 +50,7 @@ export const PinPostContextProvider = ({ children, thisPost }) => {
   const handleUnpinPost = async () => {
     if (checkPermission('postManagement', myDetail.role)) {
       try {
-        deleteCategoryPinPost(thisPost.category.id);
+        await deleteCategoryPinPost(thisPost.category.id);
       } catch (err) {
         hotToast('error', err.message);
       }
