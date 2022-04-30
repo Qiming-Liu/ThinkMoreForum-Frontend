@@ -91,15 +91,11 @@ const Category = () => {
   };
 
   const add = async (category) => {
-    const formattedCategory = {
-      ...category,
-      pinPost: { id: category.pinPost },
-    };
     setRecordForEdit(null);
     setOpenDialog(false);
-    setRecords((prevState) => [...prevState, formattedCategory]);
-    // TODO
-    await handleSaveChanges(a);
+    const newCategories = [...records, category];
+    setRecords(newCategories);
+    await handleSaveChanges(newCategories);
     Router.push('/admin/categories');
   };
 
