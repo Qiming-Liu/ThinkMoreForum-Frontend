@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import EditIcon from '@mui/icons-material/Edit';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import CloseIcon from '@mui/icons-material/Close';
@@ -40,6 +41,7 @@ const colorReverse = (oldColor) => {
 };
 
 const Category = () => {
+  const Router = useRouter();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [records, setRecords] = useState(null);
@@ -70,14 +72,31 @@ const Category = () => {
     filterFn,
   );
 
-  const add = (category) => {
-    const formattedCategory = {
-      ...category,
-      pinPost: { id: category.pinPost },
-    };
-    setRecords((prevState) => [...prevState, formattedCategory]);
+  const handleSaveChanges = async (record) => {
+    console.log(record);
+    const formattedRecords = record.map((x) => {
+      const y = x;
+      if (y.color === null || y.color === '') delete y.color;
+      if (y.description === null || y.description === '') delete y.description;
+      if (!y.pinPost || y.pinPost.id === '' || y.pinPost.id === null)
+        delete y.pinPost;
+      if (y.id === null || y.id === '') delete y.id;
+      if (y.headImgUrl === null || y.headImgUrl === '') delete y.headImgUrl;
+      delete y.fakeID;
+      return y;
+    });
+    await putCategories(formattedRecords);
+    await categoryRefetch();
+    hotToast('success', 'Changes saved successfully');
+  };
+
+  const add = async (category) => {
     setRecordForEdit(null);
     setOpenDialog(false);
+    const newCategories = [...records, category];
+    setRecords(newCategories);
+    await handleSaveChanges(newCategories);
+    Router.push('/admin/categories');
   };
 
   const edit = (category) => {
@@ -95,9 +114,10 @@ const Category = () => {
       });
     };
     const newCategories = updateCategories(category, records);
-    setRecords(newCategories);
     setRecordForEdit(null);
     setOpenDialog(false);
+    handleSaveChanges(newCategories);
+    setRecords(newCategories);
   };
 
   const openInPopup = (item) => {
@@ -105,12 +125,14 @@ const Category = () => {
     setOpenDialog(true);
   };
 
-  const onDelete = async (title) => {
+  const onDelete = (title) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     });
-    setRecords(records.filter((x) => x.title !== title));
+    const newRecords = records.filter((x) => x.title !== title);
+    setRecords(newRecords);
+    handleSaveChanges(newRecords);
   };
 
   const handleDragEnd = (e) => {
@@ -119,30 +141,7 @@ const Category = () => {
     const [sourceData] = tempData.splice(e.source.index, 1);
     tempData.splice(e.destination.index, 0, sourceData);
     setRecords(tempData);
-  };
-
-  const handleSaveChanges = async () => {
-    const formattedRecords = records.map((x) => {
-      const y = x;
-      if (y.color === null || y.color === '') delete y.color;
-      if (y.description === null || y.description === '') delete y.description;
-      if (!y.pinPost || y.pinPost.id === '' || y.pinPost.id === null)
-        delete y.pinPost;
-      if (y.id === null || y.id === '') delete y.id;
-      if (y.headImgUrl === null || y.headImgUrl === '') delete y.headImgUrl;
-      delete y.fakeID;
-      return y;
-    });
-    setConfirmDialog({
-      ...confirmDialog,
-      isOpen: false,
-    });
-    await putCategories(formattedRecords);
-    hotToast(
-      'promise',
-      'Changes saved successfully, you may need to refresh the index page to see the changes',
-      categoryRefetch(),
-    );
+    handleSaveChanges(tempData);
   };
 
   if (!records) {
@@ -165,22 +164,6 @@ const Category = () => {
           }}
         >
           Add Category
-        </Button>
-        <Button
-          text="."
-          variant="outlined"
-          onClick={() => {
-            setConfirmDialog({
-              isOpen: true,
-              title: 'Are you sure to save all changes?',
-              subTitle: "You can't undo this operation",
-              onConfirm: () => {
-                handleSaveChanges();
-              },
-            });
-          }}
-        >
-          Save All
         </Button>
       </Stack>
       <TblContainer>
@@ -282,6 +265,7 @@ const Category = () => {
         recordForEdit={recordForEdit}
         addOrEdit={recordForEdit ? edit : add}
         records={records}
+        handleSaveChanges={handleSaveChanges}
       />
       <ConfirmDialog
         confirmDialog={confirmDialog}

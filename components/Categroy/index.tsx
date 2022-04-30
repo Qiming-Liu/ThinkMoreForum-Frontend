@@ -79,6 +79,7 @@ const Category = ({
         cursor: previewMode ? 'default' : 'pointer',
         borderRadius: '20px',
         mb: 2.5,
+        width: '100%',
       }}
       style={{
         width: '100%',

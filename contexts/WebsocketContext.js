@@ -20,7 +20,6 @@ export const WSContextProvider = ({ children }) => {
   const [updateInfo, setUpdateInfo] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onReminded = useCallback(
     debounce(async () => {
       setUpdateInfo((prev) => !prev);
@@ -28,7 +27,6 @@ export const WSContextProvider = ({ children }) => {
     [],
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateOnlineUsers = useCallback(
     debounce((rawOnlineUsers) => {
       const onlineUserList = JSON.parse(rawOnlineUsers.body);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Box, Typography, Tabs, Tab, Divider } from '@mui/material';
 import { RootStateOrAny, useSelector } from 'react-redux';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { AdminUser } from 'components/Admin/AdminUser';
 import { getAllUsers } from 'services/Users';
 import MyTime from 'utils/myTime';
@@ -21,7 +21,8 @@ const tabs = [
 ];
 
 const Admin = () => {
-  const [currentTab, setCurrentTab] = React.useState('users');
+  const Router = useRouter();
+  const { tab } = Router.query;
   const [users, setUsers] = useState();
   const { myDetail } = useSelector((state: RootStateOrAny) => state.sign);
 
@@ -29,7 +30,7 @@ const Admin = () => {
     event: React.SyntheticEvent<Element, Event>,
     value: any,
   ) => {
-    setCurrentTab(value);
+    Router.push(`/admin/${value}`);
   };
 
   const checkAuth = React.useCallback(() => {
@@ -37,7 +38,7 @@ const Admin = () => {
       hotToast('error', "You don't have admin management permission.");
       Router.push('/404');
     }
-  }, [myDetail]);
+  }, [Router, myDetail]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -74,7 +75,7 @@ const Admin = () => {
           onChange={handleTabsChange}
           scrollButtons="auto"
           textColor="primary"
-          value={currentTab}
+          value={tab}
           variant="scrollable"
           sx={{ mt: 3 }}
         >
@@ -88,10 +89,10 @@ const Admin = () => {
           ))}
         </Tabs>
         <Divider sx={{ mb: 3 }} />
-        {currentTab === 'users' && users && <AdminUser allUsers={users} />}
-        {currentTab === 'categories' && <CategoriesTable />}
-        {currentTab === 'roles' && <Role />}
-        {currentTab === 'footer' && <SetFooter />}
+        {tab === 'users' && users && <AdminUser allUsers={users} />}
+        {tab === 'categories' && <CategoriesTable />}
+        {tab === 'roles' && <Role />}
+        {tab === 'footer' && <SetFooter />}
       </Box>
     </CommonContainer>
   );

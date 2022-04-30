@@ -77,7 +77,7 @@ const Index = ({ categoriesInfo, randomPost, pinPosts }: IndexProps) => {
           ) => {
             return (
               <NextLink href={`/category/${title}`} passHref key={id}>
-                <Box>
+                <Box sx={{ width: '100%' }}>
                   <Category
                     color={color}
                     title={title}
