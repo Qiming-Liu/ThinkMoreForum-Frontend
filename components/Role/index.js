@@ -41,7 +41,6 @@ const Role = () => {
       roleName: value[1],
     }));
     const newList = role.map((r) => r.filter((x) => typeof x === 'boolean'));
-    // eslint-disable-next-line array-callback-return
     newList.map((r) => {
       const result = Object.assign.apply(
         {},
@@ -50,15 +49,12 @@ const Role = () => {
       roleLists.push(result);
     });
     newRoleLists.map(
-      // eslint-disable-next-line no-return-assign
       (value, index) =>
-        // eslint-disable-next-line no-param-reassign
         (value.permission = JSON.stringify(roleLists[index])),
     );
     newRoleLists.map((t) =>
       Object.keys(t).forEach((key) => {
         if (t[key] === null) {
-          // eslint-disable-next-line no-param-reassign
           delete t[key];
         }
       }),
@@ -68,11 +64,9 @@ const Role = () => {
 
   const convertDateToRoleList = (data) => {
     const roleL = [];
-    // eslint-disable-next-line array-callback-return
     data.map((value) => {
       const permission = JSON.parse(value.permission);
       const newRole = [];
-      // eslint-disable-next-line array-callback-return
       header.map((v) => {
         newRole.push(permission[v]);
       });

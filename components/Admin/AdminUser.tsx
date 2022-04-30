@@ -57,7 +57,7 @@ export const AdminUser = ({ allUsers }: { allUsers: Array<UserProps> }) => {
   const { usersToSubmit, setUsersToSubmit, addUsersToSubmit } =
     useUsersToSubmit();
   const classes = useStyles();
-  const router = useRouter();
+  const Router = useRouter();
   const [roles, setRoles] = useState([]);
 
   const initialRows = allUsers.map((user: UserProps) => {
@@ -125,7 +125,7 @@ export const AdminUser = ({ allUsers }: { allUsers: Array<UserProps> }) => {
   const handleSubmit = () => {
     changeUsersRoles(usersToSubmit);
     setUsersToSubmit([]);
-    router.replace(router.asPath);
+    Router.replace(Router.asPath);
   };
 
   const handleCellEditCommit = (params: any) => {

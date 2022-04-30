@@ -81,7 +81,7 @@ const AccountPopover = (props) => {
       <Divider />
       <Box sx={{ my: 1 }}>
         {myDetail.role.roleName === 'admin' && (
-          <NextLink href="/admin" passHref>
+          <NextLink href="/admin/users" passHref>
             <MenuItem component="a">
               <ListItemIcon>
                 <ManageAccountsIcon fontSize="small" />

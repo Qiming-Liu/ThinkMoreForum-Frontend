@@ -39,6 +39,8 @@ export const PinPostContextProvider = ({ children, thisPost }) => {
     if (checkPermission('postManagement', myDetail.role)) {
       try {
         await changeCategoryPinPost(thisPost.category.id, thisPost.id);
+        setIsPinned((prev) => !prev);
+        setPinPost(thisPost);
       } catch (err) {
         hotToast('error', err.message);
       }
@@ -51,6 +53,8 @@ export const PinPostContextProvider = ({ children, thisPost }) => {
     if (checkPermission('postManagement', myDetail.role)) {
       try {
         await deleteCategoryPinPost(thisPost.category.id);
+        setIsPinned((prev) => !prev);
+        setPinPost(null);
       } catch (err) {
         hotToast('error', err.message);
       }
@@ -61,7 +65,6 @@ export const PinPostContextProvider = ({ children, thisPost }) => {
 
   const completePinPost = () => {
     if (pinPost === null) {
-      setIsPinned((prev) => !prev);
       handlePinPost();
     } else {
       hotToast(
@@ -72,7 +75,6 @@ export const PinPostContextProvider = ({ children, thisPost }) => {
   };
 
   const completeUnpinPost = () => {
-    setIsPinned((prev) => !prev);
     handleUnpinPost();
   };
 
@@ -85,8 +87,7 @@ export const PinPostContextProvider = ({ children, thisPost }) => {
       completePinPost,
       completeUnpinPost,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isPinned],
+    [isPinned, pinPost],
   );
 
   return (

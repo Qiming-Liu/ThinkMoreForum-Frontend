@@ -20,7 +20,6 @@ const backendHttpInstance = () => {
       return config;
     },
     (error) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       error && console.log(error.response);
 
       // jwt expired or invalid

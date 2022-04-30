@@ -70,7 +70,6 @@ const Profile = () => {
         checkFollowedStatus();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin, router.isReady, username]);
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
