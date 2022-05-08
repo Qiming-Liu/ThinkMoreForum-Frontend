@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Router from 'next/router';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -14,6 +15,7 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import loginAction from '../../store/actions/httpAction';
+import { closeSignDialog } from '../../store/actions/signAction';
 import hotToast from '../../utils/hotToast';
 
 const Login = ({ register }: { register: any }) => {
@@ -23,7 +25,6 @@ const Login = ({ register }: { register: any }) => {
     initialValues: {
       email: '',
       password: '',
-      submit: null,
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -57,6 +58,10 @@ const Login = ({ register }: { register: any }) => {
       );
     },
   });
+  const resetPassword = () => {
+    dispatch(closeSignDialog());
+    Router.push('/password-reset');
+  };
 
   return (
     <Box
@@ -116,7 +121,6 @@ const Login = ({ register }: { register: any }) => {
             <Grid sx={{ py: 3 }}>
               <LoadingButton
                 loading={isLoading}
-                disabled={formik.isSubmitting}
                 color="primary"
                 fullWidth
                 size="large"
@@ -132,7 +136,7 @@ const Login = ({ register }: { register: any }) => {
                 <Button onClick={() => register()}>Create a new account</Button>
               </Typography>
               <Typography color="textSecondary" variant="body2">
-                <Button href="/password-email">Forgot your password?</Button>
+                <Button onClick={resetPassword}>Forgot your password?</Button>
               </Typography>
             </Box>
           </Box>
