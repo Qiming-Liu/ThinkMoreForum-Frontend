@@ -60,7 +60,7 @@ const Login = ({ register }: { register: any }) => {
   });
   const resetPassword = () => {
     dispatch(closeSignDialog());
-    Router.push('/password-reset');
+    Router.push('/password-email');
   };
 
   return (
