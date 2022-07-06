@@ -20,8 +20,8 @@ ThinkMoreForum is a place for people to make any kind of discussion, where peopl
 
 <table align="center" border=0>
    <tr>
-      <td width="500"><a herf="https://github.com/Qiming-Liu/ThinkMoreForum-Frontend"><b>Front-end</b></a></td>
-      <td width="500"><a herf="https://github.com/Qiming-Liu/ThinkMoreForum-Backend"><b>Back-end</b></a></td>
+      <td width="500"><b>Front-end</b></td>
+      <td width="500"><b>Back-end</b></td>
    </tr>
    <tr>
       <td>
