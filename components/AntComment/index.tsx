@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Avatar, Comment } from 'antd';
+import { Comment } from 'antd';
 import { Typography } from '@mui/material';
 import NextLink from 'next/link';
 import myTime from '../../utils/myTime';
 import CommentForm from '../Post/CommentForm';
+import { Avatar } from '@mui/material';
 
 type CommentType = {
   id: string;
@@ -64,7 +65,10 @@ const AntComment: React.FC<{
           }}
           passHref
         >
-          <Avatar src={commentUsers.headImgUrl} />
+          <Avatar
+            sx={{ width: 32, height: 32 }}
+            src={commentUsers.headImgUrl}
+          />
         </NextLink>
       }
       content={

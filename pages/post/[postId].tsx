@@ -172,7 +172,7 @@ const Post = ({ post }: { post: any }) => {
               />
             );
           })}
-        {rootComments.length === 0 ? <div> </div> : <Divider sx={{ my: 3 }} />}
+        {rootComments.length === 0 ? null : <Divider sx={{ my: 3 }} />}
         <CommentForm handleSubmit={sendComment} login={isLogin} />
       </PinPostContextProvider>
     </CommonContainer>

@@ -1,7 +1,8 @@
 import React from 'react';
 import NextLink from 'next/link';
 import { Typography } from '@mui/material';
-import { Comment, Avatar } from 'antd';
+import { Comment } from 'antd';
+import { Avatar } from '@mui/material';
 
 type User = {
   id: string;
@@ -26,12 +27,8 @@ const Comments = ({ comment }: { comment: any }) => {
           passHref
         >
           <Avatar
+            sx={{ width: 32, height: 32 }}
             src={commentUsers.headImgUrl}
-            style={{
-              marginTop: '5px',
-              boxShadow:
-                '2px 4px 4px 1px rgba(100, 100, 100, 0.1), 0px 2px 4px 1px rgba(100, 100, 100, 0.1)',
-            }}
           />
         </NextLink>
       }
