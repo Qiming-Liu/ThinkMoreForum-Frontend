@@ -3,6 +3,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Card, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import NextClientOnly from 'components/NextClientOnly';
 import Comments from './Comments';
 import photo from '../../public/logo.svg';
 
@@ -59,42 +60,44 @@ const RandomPost = ({ randomPost }: { randomPost: any }) => {
       }}
       elevation={2}
     >
-      <NextLink
-        href={{
-          pathname: `/post/${post ? post.id : ''}`,
-        }}
-        passHref
-      >
-        <Box
-          style={{
-            backgroundImage: `url(${image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+      <NextClientOnly>
+        <NextLink
+          href={{
+            pathname: `/post/${post ? post.id : ''}`,
+          }}
+          passHref
+        >
+          <Box
+            sx={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              position: 'relative',
+              width: '95%',
+              mt: '10px',
+              minHeight: '300px',
+              borderRadius: 'inherit',
+              cursor: 'pointer',
+            }}
+          />
+        </NextLink>
+        <CustomBox
+          sx={{
             position: 'relative',
             width: '95%',
-            marginTop: '10px',
-            height: '350px',
             borderRadius: 'inherit',
-            cursor: 'pointer',
+            mt: '15px',
           }}
-        />
-      </NextLink>
-      <CustomBox
-        style={{
-          position: 'relative',
-          width: '95%',
-          borderRadius: 'inherit',
-          marginTop: '15px',
-        }}
-        className={classes.root}
-      >
-        {comments &&
-          comments.map((comment: any) => (
-            <Card key={comment.id} sx={{ mb: 2, px: 1 }}>
-              <Comments comment={comment} />
-            </Card>
-          ))}
-      </CustomBox>
+          className={classes.root}
+        >
+          {comments &&
+            comments.map((comment: any) => (
+              <Card key={comment.id} sx={{ mb: 2, px: 1 }}>
+                <Comments comment={comment} />
+              </Card>
+            ))}
+        </CustomBox>
+      </NextClientOnly>
     </Card>
   );
 };

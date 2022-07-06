@@ -44,40 +44,42 @@ const Navbar = () => {
           pr: mobileDevice ? 3 : 5,
         }}
       >
-        <NextLink href="/" passHref>
-          <Box sx={{ cursor: 'pointer' }}>
-            <Image
-              src="/logo.svg"
-              height="35"
-              width="35"
-              alt="logo"
-              className="shadow"
-            />
-          </Box>
-        </NextLink>
-
-        {mobileDevice || (
-          <ThinkMoreLogo>
-            <NextLink href="/" passHref>
-              <h1
-                style={{
-                  fontFamily: 'Quicksand, sans-serif',
-                  fontSize: '2rem',
-                  color: '#222429',
-                  marginBottom: '0',
-                  cursor: 'pointer',
-                }}
-              >
-                thinkmore.
-              </h1>
-            </NextLink>
-          </ThinkMoreLogo>
-        )}
-        <Box sx={{ flexGrow: 1 }} />
         <>
-          {isLogin || <Sign />}
-          {isLogin && <NotificationsButton />}
-          <AccountButton isLogin={isLogin} />
+          <NextLink href="/" passHref>
+            <Box sx={{ cursor: 'pointer' }}>
+              <Image
+                src="/logo.svg"
+                height="35"
+                width="35"
+                alt="logo"
+                className="shadow"
+              />
+            </Box>
+          </NextLink>
+
+          {mobileDevice || (
+            <ThinkMoreLogo>
+              <NextLink href="/" passHref>
+                <h1
+                  style={{
+                    fontFamily: 'Quicksand, sans-serif',
+                    fontSize: '2rem',
+                    color: '#222429',
+                    marginBottom: '0',
+                    cursor: 'pointer',
+                  }}
+                >
+                  thinkmore.
+                </h1>
+              </NextLink>
+            </ThinkMoreLogo>
+          )}
+          <Box sx={{ flexGrow: 1 }} />
+          <>
+            {isLogin || <Sign />}
+            {isLogin && <NotificationsButton />}
+            <AccountButton isLogin={isLogin} />
+          </>
         </>
       </Toolbar>
     </NavbarRoot>

@@ -85,124 +85,126 @@ const Category = ({
         width: '100%',
       }}
     >
-      {mobileDevice || (
+      <>
+        {mobileDevice || (
+          <Grid
+            item
+            xs={4}
+            sx={{
+              borderRadius: 4,
+              backgroundColor: color,
+              ml: 3,
+              my: 3,
+              p: 2,
+            }}
+          >
+            <Image src={headImgUrl} height="300" width="300" alt="logo" />
+          </Grid>
+        )}
         <Grid
           item
-          xs={4}
+          xs={mobileDevice ? 12 : 7}
           sx={{
-            borderRadius: 4,
-            backgroundColor: color,
-            ml: 3,
-            my: 3,
-            p: 2,
-          }}
-        >
-          <Image src={headImgUrl} height="300" width="300" alt="logo" />
-        </Grid>
-      )}
-      <Grid
-        item
-        xs={mobileDevice ? 12 : 7}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          mx: 4,
-          my: 2,
-          justifyContet: 'space-between',
-          alignItems: 'flex-start',
-        }}
-      >
-        <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
-          <Typography
-            color="#0d47a1"
-            sx={{
-              backgroundColor: '#18ffff',
-              borderRadius: 2,
-              p: 1,
-              px: 1.75,
-              py: 0.75,
-            }}
-            variant="h5"
-            align="center"
-          >
-            <small>{longMonth}</small>
-            <br />
-            <b>{lastUpdateTimestamp.substring(8, 10)}</b>
-          </Typography>
-          <Grid
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              ml: 2,
-              justifyContent: 'center',
-            }}
-          >
-            <Typography color="#222429" variant="h4">
-              {title}
-            </Typography>
-            <Typography color="#9e9e9e" variant="subtitle2">
-              Last Updated : {MyTime(lastUpdateTimestamp)}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Typography color="#6b778d" sx={{ my: 2 }} variant="subtitle2">
-          {description}
-        </Typography>
-        <Box
-          sx={{
-            alignItems: 'center',
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
+            mx: 4,
             my: 2,
-            ml: 0.5,
+            justifyContet: 'space-between',
+            alignItems: 'flex-start',
           }}
         >
-          <Avatar
-            src={pinPost ? pinPost.headImgUrl : ''}
-            variant="square"
-            style={{
-              borderRadius: '5px',
-            }}
-          >
-            {pinPost ? null : <ArticleIcon />}
-          </Avatar>
-          <Typography variant="subtitle2" sx={{ ml: 2 }}>
-            {pinPost ? pinPost.title : 'No Pinned Post Yet'}
+          <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Typography
+              color="#0d47a1"
+              sx={{
+                backgroundColor: '#18ffff',
+                borderRadius: 2,
+                p: 1,
+                px: 1.75,
+                py: 0.75,
+              }}
+              variant="h5"
+              align="center"
+            >
+              <small>{longMonth}</small>
+              <br />
+              <b>{lastUpdateTimestamp.substring(8, 10)}</b>
+            </Typography>
+            <Grid
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                ml: 2,
+                justifyContent: 'center',
+              }}
+            >
+              <Typography color="#222429" variant="h4">
+                {title}
+              </Typography>
+              <Typography color="#9e9e9e" variant="subtitle2">
+                Last Updated : {MyTime(lastUpdateTimestamp)}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Typography color="#6b778d" sx={{ my: 2 }} variant="subtitle2">
+            {description}
           </Typography>
-        </Box>
-        <Grid
-          container
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            mt: 1,
-          }}
-        >
-          <Participants count={participantCount} />
           <Box
             sx={{
               alignItems: 'center',
               display: 'flex',
               flexDirection: 'row',
+              my: 2,
+              ml: 0.5,
             }}
           >
-            <ArticleIcon sx={{ color: 'primary.main' }} />
-            <Typography
-              color="#222429"
-              variant="subtitle2"
-              sx={{ m: 1, mr: 4 }}
+            <Avatar
+              src={pinPost ? pinPost.headImgUrl : ''}
+              variant="square"
+              style={{
+                borderRadius: '5px',
+              }}
             >
-              {postCount}
-            </Typography>
-            <VisibilityIcon sx={{ color: 'primary.main' }} />
-            <Typography color="#222429" variant="subtitle2" sx={{ m: 1 }}>
-              {viewCount}
+              {pinPost ? null : <ArticleIcon />}
+            </Avatar>
+            <Typography variant="subtitle2" sx={{ ml: 2 }}>
+              {pinPost ? pinPost.title : 'No Pinned Post Yet'}
             </Typography>
           </Box>
+          <Grid
+            container
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              mt: 1,
+            }}
+          >
+            <Participants count={participantCount} />
+            <Box
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              <ArticleIcon sx={{ color: 'primary.main' }} />
+              <Typography
+                color="#222429"
+                variant="subtitle2"
+                sx={{ m: 1, mr: 4 }}
+              >
+                {postCount}
+              </Typography>
+              <VisibilityIcon sx={{ color: 'primary.main' }} />
+              <Typography color="#222429" variant="subtitle2" sx={{ m: 1 }}>
+                {viewCount}
+              </Typography>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </>
     </Card>
   );
 };

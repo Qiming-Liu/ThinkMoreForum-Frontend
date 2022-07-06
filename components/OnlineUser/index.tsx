@@ -101,40 +101,42 @@ const OnlineUser = ({ mobileDevice }: { mobileDevice: boolean }) => {
         style={{ height: '70vh' }}
         className={classes.root}
       >
-        {onlineUser.length === 0 && (
-          <Typography sx={{ ml: 2 }} variant="overline" color="#6b778d">
-            {noOnlineUser ? 'No user online' : 'Connecting...'}
-          </Typography>
-        )}
-        {onlineUser.map((value: any) => {
-          if (value) {
-            return (
-              <ListItem
-                key={value.id}
-                disablePadding
-                secondaryAction={
-                  <Zoom in>
-                    <Box
-                      sx={{
-                        backgroundColor: '#057642',
-                        width: 10,
-                        height: 10,
-                        borderRadius: '50%',
-                        mr: 3,
-                      }}
-                    />
-                  </Zoom>
-                }
-                sx={{
-                  my: 2,
-                }}
-              >
-                <UserInfoRow userInfo={value} mobileDevice={false} />
-              </ListItem>
-            );
-          }
-          return null;
-        })}
+        <>
+          {onlineUser.length === 0 && (
+            <Typography sx={{ ml: 2 }} variant="overline" color="#6b778d">
+              {noOnlineUser ? 'No user online' : 'Connecting...'}
+            </Typography>
+          )}
+          {onlineUser.map((value: any) => {
+            if (value) {
+              return (
+                <ListItem
+                  key={value.id}
+                  disablePadding
+                  secondaryAction={
+                    <Zoom in>
+                      <Box
+                        sx={{
+                          backgroundColor: '#057642',
+                          width: 10,
+                          height: 10,
+                          borderRadius: '50%',
+                          mr: 3,
+                        }}
+                      />
+                    </Zoom>
+                  }
+                  sx={{
+                    my: 2,
+                  }}
+                >
+                  <UserInfoRow userInfo={value} mobileDevice={false} />
+                </ListItem>
+              );
+            }
+            return null;
+          })}
+        </>
       </CustomPaper>
     </List>
   );
