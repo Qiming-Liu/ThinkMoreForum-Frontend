@@ -96,6 +96,9 @@ const Category = ({
               ml: 3,
               my: 3,
               p: 2,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <Image src={headImgUrl} height="300" width="300" alt="logo" />

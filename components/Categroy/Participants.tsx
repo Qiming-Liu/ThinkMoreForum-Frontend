@@ -36,7 +36,7 @@ const Participants: React.FC<Props> = ({ count }) => {
         }}
         style={{
           fontWeight: 'bold',
-          fontSize: '1rem',
+          fontSize: '0.9rem',
           color: '#0d47a1',
         }}
       >
