@@ -54,7 +54,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
               <Snackbar open={true} autoHideDuration={5000}>
                 <Alert variant="filled" severity="info">
                   <AlertTitle>
-                    This is a Preview Version of ThinkMore Forum
+                    This is Preview Version of ThinkMore Forum
                   </AlertTitle>
                   <GitHubButton
                     href="https://github.com/Qiming-Liu/ThinkMoreForum-Frontend"

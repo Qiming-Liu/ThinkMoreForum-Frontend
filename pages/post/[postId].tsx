@@ -46,6 +46,17 @@ export const getStaticProps = async ({ params }: { params: any }) => {
 const Post = ({ post }: { post: any }) => {
   const router = useRouter();
   const { postId } = router.query;
+
+  // preview mode
+  useEffect(() => {
+    if (
+      process.env.NEXT_PUBLIC_PREVIEW_ENABLED &&
+      postId !== '3017f26a-4117-41ac-af3a-a5c9b0bd7d8e'
+    ) {
+      router.push('/post/3017f26a-4117-41ac-af3a-a5c9b0bd7d8e');
+    }
+  }, [postId, router]);
+
   const [comments, setComments] = useState([]);
   const [postFaved, setPostFaved] = useState(false);
   const { isLogin } = useSelector((state: any) => state.sign);

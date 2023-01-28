@@ -36,10 +36,18 @@ import { useWSContext } from '../../contexts/WebsocketContext';
 import ImgDropzone from '../../components/ImgDropzone';
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const { isLogin, myDetail } = useSelector((state) => state.sign);
   const router = useRouter();
   const { username } = router.query;
+
+  // preview mode
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED && username !== 'Alan') {
+      router.push('/profile/Alan');
+    }
+  }, [username, router]);
+
+  const dispatch = useDispatch();
+  const { isLogin, myDetail } = useSelector((state) => state.sign);
   const [user, setUser] = useState(undefined);
   const [followedStatus, setFollowedStatus] = useState(false);
   const [currentTab, setCurrentTab] = useState('posts');
@@ -96,6 +104,13 @@ const Profile = () => {
 
   const handleCropImg = async (base64) => {
     setCurrentProfileImg(base64);
+
+    // preview mode
+    if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+      hotToast('success', `You are in preview mode.`);
+      return;
+    }
+
     const file = await (await fetch(base64)).blob();
     const { data: img } = await upload(file).catch((error) => {
       hotToast('error', `Something wrong: ${error}`);
