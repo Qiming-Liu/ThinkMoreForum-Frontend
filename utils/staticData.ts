@@ -185,6 +185,28 @@ export const max_count_comment = {
 };
 
 export const post1 = {
+  url: '/v1/public/post/3017f26a-4117-41ac-af3a-a5c9b0bd7d8e',
+  data: {
+    id: '3017f26a-4117-41ac-af3a-a5c9b0bd7d8e',
+    postUsers: {
+      id: '95ad31db-3e15-4166-b0ef-aa4eb1576f9c',
+      headImgUrl: '/image/b2ee6edc0a0d5c0897380cca757d137d.jpg',
+      username: 'Zzyang',
+    },
+    category: { id: '8751f1fa-c724-42c3-8d8d-a7fe438ae57e', title: 'Games' },
+    headImgUrl: '/image/f702ad38837de2ebdf5fc14cb7e22843.jpg',
+    title: 'Elden Ring Has Already Sold 12 Million Copies Worldwide',
+    context:
+      '<h2>Elden Ring is off to an incredibly strong start as it has already sold 12 million copies worldwide since its February 25 release date.</h2><h2><br></h2><h2>FromSoftware and Bandai Namco shared the news in a press release, stating that Elden Ring has sold more than one million copies in Japan alone and 12 million copies worldwide as of March 14, 2022. These sales are "derived from distribution figures of the package version and sales figures of the downloadable versions."</h2><h2><br></h2><h2><br></h2><h2>"It\'s astonishing to see just how many people have been playing Elden Ring," FromSoftware President and CEO/director Hidetaka Miyazaki said. "I\'d like to extend our heartfelt thanks on behalf of the entire development team. Elden Ring is based on a mythological story written by George R. R. Martin. We hope players enjoy a high level of freedom when adventuring through its vast world, exploring its many secrets and facing up to its many threats. Thank you for your continued support."</h2><h2><br></h2><h2>President and CEO of Bandai Namco Yasuo Miyakawa also shared some words in celebration of Elden Ring\'s success, saying this is only the beginning for the brand new IP.</h2><h2><br></h2><h2>"Much effort was placed into creating ELDEN RING so that we could exceed the expectations of our fans worldwide," Miyakawa said. "In like manner, we will continue our efforts in expanding the brand beyond the game itself, and into everyone’s daily life. We will continue to create enjoyment and fulfillment through entertainment, so that we can come closer and connect to our fans around the world."</h2><h2><br></h2><h2><br></h2><h2>For comparison, Sekiro: Shadows Die Twice - FromSoftware\'s previous game - sold two million copies in 10 days. Bloodborne, which was only released on PS4, sold over 1 million copies within two weeks of its launch back in 2015.</h2><h2><br></h2><h2>In 2015, Famitsu revealed that Dark Souls, Dark Souls with the Artorias of the Abyss expansion, Dark Souls II, and the remastered release Scholar of the First Sin had sold over eight million copies worldwide. For context, Dark Souls 2 was released on March 11, 2014.</h2><h2><br></h2><h2>Dark Souls 3 was Bandai Namco\'s fastest-selling title in its history and it sold over three million copies about a month after its worldwide release in April 2016.</h2><h2><br></h2><h2><br></h2><h2>In our 10/10 review of Elden Ring, we said that it is a "massive iteration on what FromSoftware began with the Souls series, bringing its relentlessly challenging combat to an incredible open world that gives us the freedom to choose our own path."</h2><h2><br></h2><h2>For more, check out our extensive Wiki guide that will help you survive in the Lands Between, how it is Europe\'s biggest new IP since The Division, and where it already ranks on our list of the top 10 open-world games of all time.</h2><h2><br></h2><h2>Source: <a href="https://www.ign.com/articles/elden-ring-has-already-sold-12-million-copies-worldwide" rel="noopener noreferrer" target="_blank">https://www.ign.com/articles/elden-ring-has-already-sold-12-million-copies-worldwide</a></h2>',
+    viewCount: 120,
+    followCount: 0,
+    commentCount: 6,
+    visibility: true,
+    createTimestamp: '2022-04-02T21:38:23.553062+10:30',
+  },
+};
+
+export const post2 = {
   url: '/v1/public/post/cf20a137-b138-4800-86c1-791f3ffdebc2',
   data: {
     id: 'cf20a137-b138-4800-86c1-791f3ffdebc2',
@@ -207,7 +229,7 @@ export const post1 = {
   },
 };
 
-export const post2 = {
+export const post3 = {
   url: '/v1/public/post/9e1a83f9-bb7c-4224-9723-6a17f7c1a946',
   data: {
     id: '9e1a83f9-bb7c-4224-9723-6a17f7c1a946',
@@ -229,28 +251,6 @@ export const post2 = {
     commentCount: 0,
     visibility: true,
     createTimestamp: '2022-04-02T21:59:54.707118+10:30',
-  },
-};
-
-export const post3 = {
-  url: '/v1/public/post/3017f26a-4117-41ac-af3a-a5c9b0bd7d8e',
-  data: {
-    id: '3017f26a-4117-41ac-af3a-a5c9b0bd7d8e',
-    postUsers: {
-      id: '95ad31db-3e15-4166-b0ef-aa4eb1576f9c',
-      headImgUrl: '/image/b2ee6edc0a0d5c0897380cca757d137d.jpg',
-      username: 'Zzyang',
-    },
-    category: { id: '8751f1fa-c724-42c3-8d8d-a7fe438ae57e', title: 'Games' },
-    headImgUrl: '/image/f702ad38837de2ebdf5fc14cb7e22843.jpg',
-    title: 'Elden Ring Has Already Sold 12 Million Copies Worldwide',
-    context:
-      '<h2>Elden Ring is off to an incredibly strong start as it has already sold 12 million copies worldwide since its February 25 release date.</h2><h2><br></h2><h2>FromSoftware and Bandai Namco shared the news in a press release, stating that Elden Ring has sold more than one million copies in Japan alone and 12 million copies worldwide as of March 14, 2022. These sales are "derived from distribution figures of the package version and sales figures of the downloadable versions."</h2><h2><br></h2><h2><br></h2><h2>"It\'s astonishing to see just how many people have been playing Elden Ring," FromSoftware President and CEO/director Hidetaka Miyazaki said. "I\'d like to extend our heartfelt thanks on behalf of the entire development team. Elden Ring is based on a mythological story written by George R. R. Martin. We hope players enjoy a high level of freedom when adventuring through its vast world, exploring its many secrets and facing up to its many threats. Thank you for your continued support."</h2><h2><br></h2><h2>President and CEO of Bandai Namco Yasuo Miyakawa also shared some words in celebration of Elden Ring\'s success, saying this is only the beginning for the brand new IP.</h2><h2><br></h2><h2>"Much effort was placed into creating ELDEN RING so that we could exceed the expectations of our fans worldwide," Miyakawa said. "In like manner, we will continue our efforts in expanding the brand beyond the game itself, and into everyone’s daily life. We will continue to create enjoyment and fulfillment through entertainment, so that we can come closer and connect to our fans around the world."</h2><h2><br></h2><h2><br></h2><h2>For comparison, Sekiro: Shadows Die Twice - FromSoftware\'s previous game - sold two million copies in 10 days. Bloodborne, which was only released on PS4, sold over 1 million copies within two weeks of its launch back in 2015.</h2><h2><br></h2><h2>In 2015, Famitsu revealed that Dark Souls, Dark Souls with the Artorias of the Abyss expansion, Dark Souls II, and the remastered release Scholar of the First Sin had sold over eight million copies worldwide. For context, Dark Souls 2 was released on March 11, 2014.</h2><h2><br></h2><h2>Dark Souls 3 was Bandai Namco\'s fastest-selling title in its history and it sold over three million copies about a month after its worldwide release in April 2016.</h2><h2><br></h2><h2><br></h2><h2>In our 10/10 review of Elden Ring, we said that it is a "massive iteration on what FromSoftware began with the Souls series, bringing its relentlessly challenging combat to an incredible open world that gives us the freedom to choose our own path."</h2><h2><br></h2><h2>For more, check out our extensive Wiki guide that will help you survive in the Lands Between, how it is Europe\'s biggest new IP since The Division, and where it already ranks on our list of the top 10 open-world games of all time.</h2><h2><br></h2><h2>Source: <a href="https://www.ign.com/articles/elden-ring-has-already-sold-12-million-copies-worldwide" rel="noopener noreferrer" target="_blank">https://www.ign.com/articles/elden-ring-has-already-sold-12-million-copies-worldwide</a></h2>',
-    viewCount: 120,
-    followCount: 0,
-    commentCount: 6,
-    visibility: true,
-    createTimestamp: '2022-04-02T21:38:23.553062+10:30',
   },
 };
 
