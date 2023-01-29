@@ -14,7 +14,9 @@
 
 https://user-images.githubusercontent.com/68600416/167850826-1a155349-2daf-4b8b-b8d2-e6c9452d5020.mp4
 
-ThinkMoreForum is a place for people to make any kind of discussion, where people come together to share their opinion. As a discussion platform, it is multifunctional, interactive, and mobile-ready. Administrators can easily set the look and topic of the forum, manage user permissions, and customize the site footer. The development process uses Jira as an agile scrum software to help the team organize and prioritize the work, and uses Github as a version control tool for a lightweight, branch-based workflow. From a technical perspective, the project uses message queues to send emails, and implements high-level JWT updates and protection, constructs WebSocket to achieve real-time online users and real-time notifications.  
+ThinkMoreForum is a place for people to make any kind of discussion, where people come together to share their opinion. As a discussion platform, it is multifunctional, interactive, and mobile-ready. Administrators can easily set the look and topic of the forum, manage user permissions, and customize the site footer. The development process uses Jira as an agile scrum software to help the team organize and prioritize the work, and uses Github as a version control tool for a lightweight, branch-based workflow. From a technical perspective, the project uses message queues to send emails, and implements high-level JWT updates and protection, constructs WebSocket to achieve real-time online users and real-time notifications.
+
+> The website is a preview version, which only contains the Frontend. To see the full version, please deploy a [Backend](https://github.com/Qiming-Liu/ThinkMoreForum-Backend).
 
 ## Project Architecture
 
@@ -52,6 +54,8 @@ ThinkMoreForum is a place for people to make any kind of discussion, where peopl
       </td>
    </tr>
 </table>
+
+[![Backend](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ![Project Architecture](./public/ThinkMore.svg)
 
