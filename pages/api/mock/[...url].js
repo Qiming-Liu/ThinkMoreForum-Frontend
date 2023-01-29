@@ -1,34 +1,30 @@
 export default async function handler(req, res) {
-  const url = req.query.url.join('/');
+  const url = '/' + req.query.url.join('/');
 
-  if (url === 'component/footer') {
-    return res.json(footer);
+  const dataList = [
+    category,
+    max_count_comment,
+    post1,
+    post2,
+    post3,
+    postList,
+    footer,
+    login,
+    notificationList,
+    Alan,
+    followingAlan,
+    followerAlan,
+    postAlan,
+    userAll,
+    roleAll,
+  ];
+
+  const data = dataList.find((item) => item.url === url);
+  if (data) {
+    return res.status(200).json(data.data);
   }
-  if (url === 'category') {
-    return res.json(category);
-  }
-  if (
-    url === 'category/Games' ||
-    url === 'category/Movies' ||
-    url === 'category/Technology'
-  ) {
-    return res.json(games);
-  }
-  if (url.startsWith('category/') && url.includes('visible_post')) {
-    return res.json(categoryPost);
-  }
-  if (url.startsWith('post/')) {
-    return res.json(post);
-  }
-  if (url === 'post/max_count_comment') {
-    return res.json(max_count_comment);
-  }
-  if (url.startsWith('comment/')) {
-    return res.json(comments);
-  }
-  if (url.endsWith('visible_count')) {
-    return res.json(4);
-  }
+
+  console.log('url', url);
 }
 
 const category = {
