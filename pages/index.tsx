@@ -9,6 +9,7 @@ import {
   getRandomPost,
   getPostById,
 } from '../services/Public';
+import * as staticData from '../utils/staticData';
 
 interface IndexProps {
   categoriesInfo: Array<any> | never;
@@ -24,6 +25,22 @@ const CategoriesContainer = styled(Box)`
 `;
 
 export async function getStaticProps() {
+  // preview mode
+  if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+    return {
+      props: {
+        categoriesInfo: staticData.category.data,
+        randomPost: staticData.max_count_comment.data,
+        pinPosts: [
+          staticData.post1.data,
+          staticData.post2.data,
+          staticData.post3.data,
+        ],
+      },
+      revalidate: 10,
+    };
+  }
+
   const { data: categoriesInfo } = await getAllCategories();
   const { data: randomPost } = await getRandomPost();
   const pinPostsPromises = categoriesInfo.map(async (categoryInfo: any) => {

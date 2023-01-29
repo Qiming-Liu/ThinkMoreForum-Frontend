@@ -1,33 +1,4 @@
-export default async function handler(req, res) {
-  const url = '/' + req.query.url.join('/');
-
-  const dataList = [
-    category,
-    max_count_comment,
-    post1,
-    post2,
-    post3,
-    postList,
-    footer,
-    login,
-    notificationList,
-    Alan,
-    followingAlan,
-    followerAlan,
-    postAlan,
-    userAll,
-    roleAll,
-  ];
-
-  const data = dataList.find((item) => item.url === url);
-  if (data) {
-    return res.status(200).json(data.data);
-  }
-
-  console.log('url', url);
-}
-
-const category = {
+export const category = {
   url: '/v1/public/category',
   data: [
     {
@@ -85,7 +56,7 @@ const category = {
   ],
 };
 
-const max_count_comment = {
+export const max_count_comment = {
   url: '/v1/public/post/max_count_comment',
   data: {
     post: {
@@ -213,7 +184,7 @@ const max_count_comment = {
   },
 };
 
-const post1 = {
+export const post1 = {
   url: '/v1/public/post/cf20a137-b138-4800-86c1-791f3ffdebc2',
   data: {
     id: 'cf20a137-b138-4800-86c1-791f3ffdebc2',
@@ -236,7 +207,7 @@ const post1 = {
   },
 };
 
-const post2 = {
+export const post2 = {
   url: '/v1/public/post/9e1a83f9-bb7c-4224-9723-6a17f7c1a946',
   data: {
     id: '9e1a83f9-bb7c-4224-9723-6a17f7c1a946',
@@ -261,7 +232,7 @@ const post2 = {
   },
 };
 
-const post3 = {
+export const post3 = {
   url: '/v1/public/post/3017f26a-4117-41ac-af3a-a5c9b0bd7d8e',
   data: {
     id: '3017f26a-4117-41ac-af3a-a5c9b0bd7d8e',
@@ -283,7 +254,7 @@ const post3 = {
   },
 };
 
-const postList = {
+export const postList = {
   url: '/v1/public/post',
   data: [
     {
@@ -326,7 +297,7 @@ const postList = {
   ],
 };
 
-const footer = {
+export const footer = {
   url: '/v1/public/component/footer',
   data: {
     id: '7c1729cc-bb6a-4abe-8d98-edff57f59c94',
@@ -335,7 +306,7 @@ const footer = {
   },
 };
 
-const login = {
+export const login = {
   url: '/login',
   data: {
     id: '288004fd-5817-4829-a30d-bfb2f8b1db9b',
@@ -354,7 +325,7 @@ const login = {
   },
 };
 
-const notificationList = {
+export const notificationList = {
   url: '/v1/notification',
   data: [
     {
@@ -568,7 +539,7 @@ const notificationList = {
   ],
 };
 
-const Alan = {
+export const Alan = {
   url: '/v1/public/users/username/Alan',
   data: {
     id: '288004fd-5817-4829-a30d-bfb2f8b1db9b',
@@ -587,7 +558,7 @@ const Alan = {
   },
 };
 
-const followingAlan = {
+export const followingAlan = {
   url: '/v1/public/following/Alan',
   data: [
     {
@@ -797,7 +768,7 @@ const followingAlan = {
   ],
 };
 
-const followerAlan = {
+export const followerAlan = {
   usl: '/v1/public/follower/Alan',
   data: [
     {
@@ -871,7 +842,7 @@ const followerAlan = {
   ],
 };
 
-const postAlan = {
+export const postAlan = {
   url: '/v1/public/post/user/Alan',
   data: [
     {
@@ -898,7 +869,7 @@ const postAlan = {
   ],
 };
 
-const userAll = {
+export const userAll = {
   url: '/v1/users/all',
   data: [
     {
@@ -1009,7 +980,7 @@ const userAll = {
   ],
 };
 
-const roleAll = {
+export const roleAll = {
   url: '/v1/role/all',
   data: [
     {
