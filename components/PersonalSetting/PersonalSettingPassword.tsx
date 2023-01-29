@@ -37,6 +37,11 @@ const PersonalSettingPassword = () => {
     }),
     onSubmit: async (values: SubmitProps) => {
       const { oldPassword, newPassword } = values;
+      // preview mode
+      if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+        hotToast('success', `You are in preview mode.`);
+        return;
+      }
       await changePassword({ oldPassword, newPassword })
         .then(() => {
           hotToast('success', 'Password is changed');

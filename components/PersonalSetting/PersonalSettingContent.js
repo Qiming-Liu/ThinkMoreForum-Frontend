@@ -106,6 +106,13 @@ const Form = (props) => {
   const handleCropImg = async (base64) => {
     setHeadImg(base64);
     const file = await (await fetch(base64)).blob();
+
+    // preview mode
+    if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+      hotToast('success', `You are in preview mode.`);
+      return;
+    }
+
     const { data: img } = await upload(file).catch((error) => {
       hotToast('error', `Something wrong: ${error}`);
     });
@@ -215,6 +222,12 @@ const Form = (props) => {
                           ) {
                             setUsernameLock(true);
                           } else {
+                            // preview mode
+                            if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+                              setUsernameLock(true);
+                              hotToast('success', `You are in preview mode.`);
+                              return;
+                            }
                             formikUsername.submitForm();
                           }
                         }}
@@ -271,6 +284,12 @@ const Form = (props) => {
                           if (formikEmail.values.email === myDetail.email) {
                             setEmailLock(true);
                           } else {
+                            // preview mode
+                            if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+                              setEmailLock(true);
+                              hotToast('success', `You are in preview mode.`);
+                              return;
+                            }
                             formikEmail.submitForm();
                           }
                         }}
