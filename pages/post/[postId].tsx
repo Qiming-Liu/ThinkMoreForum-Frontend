@@ -22,8 +22,17 @@ import CommonContainer from 'components/Layout/CommonContainer';
 import { PinPostContextProvider } from '../../components/Post/PinPostContext';
 import hotToast from '../../utils/hotToast';
 import { useWSContext } from '../../contexts/WebsocketContext';
+import * as staticData from '../../utils/staticData';
 
 export const getStaticPaths = async () => {
+  // preview mode
+  if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+    const paths = staticData.postList.data.map((post: any) => ({
+      params: { postId: post.id },
+    }));
+    return { paths, fallback: 'blocking' };
+  }
+
   const { data: posts } = await getAllPosts();
   const paths = posts.map((post: any) => ({
     params: { postId: post.id },
@@ -33,6 +42,23 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }: { params: any }) => {
   try {
+    // preview mode
+    if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+      const post = [
+        staticData.post1.data,
+        staticData.post2.data,
+        staticData.post3.data,
+      ].find((post) => post.id === params.postId);
+      if (post) {
+        return { props: { post } };
+      } else {
+        return {
+          notFound: true,
+          revalidate: 10,
+        };
+      }
+    }
+
     const { data: post } = await getPostById(params.postId);
     return { props: { post } };
   } catch {
