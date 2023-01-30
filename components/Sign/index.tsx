@@ -12,7 +12,7 @@ import {
 } from '../../store/actions/signAction';
 
 const Sign = () => {
-  const { isOpen, content } = useSelector((state) => state.sign);
+  const { isOpen, content } = useSelector((state: any) => state.sign);
   const dispatch = useDispatch();
   return (
     <>

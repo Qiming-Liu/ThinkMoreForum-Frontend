@@ -55,8 +55,6 @@ ThinkMoreForum is a place for people to make any kind of discussion, where peopl
    </tr>
 </table>
 
-[![Backend](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 ![Project Architecture](./public/ThinkMore.svg)
 
 ## Project Development and Deployment
