@@ -44,6 +44,11 @@ const Login = ({ register }: { register: any }) => {
           email,
           password,
           () => {
+            // preview mode
+            if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+              hotToast('success', `Preview Simulate Login Success`);
+              return;
+            }
             hotToast('success', 'Login Success');
           },
           (fail: any) => {
