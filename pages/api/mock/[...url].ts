@@ -19,6 +19,8 @@ export default function handler(req: any, res: any) {
     staticData.postAlan,
     staticData.userAll,
     staticData.roleAll,
+    staticData.category_game,
+    staticData.visible_count,
   ];
 
   const static_data = dataList.find((item: any) => item.url === access_url);
