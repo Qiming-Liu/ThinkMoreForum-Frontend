@@ -46,6 +46,7 @@ const Register = ({ login }) => {
         .required('Password is required'),
     }),
     onSubmit: async (values) => {
+      // preview mode
       const { email, username, password } = values;
       setLoading(true);
       register({ email, username, password })
@@ -148,8 +149,42 @@ const Register = ({ login }) => {
                 color="primary"
                 fullWidth
                 size="large"
-                type="submit"
                 variant="contained"
+                onClick={() => {
+                  if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+                    dispatch(
+                      loginAction(
+                        'asd@asd.com',
+                        '123456',
+                        () => {
+                          // preview mode
+                          if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+                            hotToast(
+                              'success',
+                              `Preview Simulate Login Success`,
+                            );
+                            return;
+                          }
+                          hotToast('success', 'Login Success');
+                        },
+                        (fail) => {
+                          setLoading(false);
+                          if (
+                            fail &&
+                            fail.response &&
+                            fail.response.status === 403
+                          ) {
+                            hotToast('error', 'Invalid Email or Password');
+                          } else {
+                            hotToast('error', `Something wrong ${fail}`);
+                          }
+                        },
+                      ),
+                    );
+                  } else {
+                    formik.handleSubmit();
+                  }
+                }}
               >
                 Register
               </LoadingButton>

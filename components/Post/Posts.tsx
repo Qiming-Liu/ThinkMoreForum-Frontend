@@ -55,6 +55,7 @@ const Posts = ({
     },
     fetchPostsDataSWR,
   );
+  if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) return <></>;
   if (error) return <Typography variant="body1">Failed to load</Typography>;
   if (!data) return <Typography variant="body1">Loading</Typography>;
   return data.map(

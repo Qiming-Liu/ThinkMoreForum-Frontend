@@ -33,21 +33,28 @@ const CommentForm = ({
   const { myDetail } = useSelector((state: any) => state.sign);
 
   const onSubmit = (e: any) => {
-    e.preventDefault();
-    if (checkPermission('postComment', myDetail.role)) {
-      if (mentionUsername) {
-        handleSubmit(
-          parentCommentIsRoot ? `${context}` : `@${mentionUsername} ${context}`,
-        );
-        handleRemind(mentionUsername);
-        setContext('');
-        closeComment();
-      } else {
-        handleSubmit(context);
-        setContext('');
-      }
+    if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED) {
+      e.preventDefault();
+      hotToast('success', `You are in preview mode.`);
     } else {
-      hotToast('error', "You don't have permission to comment");
+      e.preventDefault();
+      if (checkPermission('postComment', myDetail.role)) {
+        if (mentionUsername) {
+          handleSubmit(
+            parentCommentIsRoot
+              ? `${context}`
+              : `@${mentionUsername} ${context}`,
+          );
+          handleRemind(mentionUsername);
+          setContext('');
+          closeComment();
+        } else {
+          handleSubmit(context);
+          setContext('');
+        }
+      } else {
+        hotToast('error', "You don't have permission to comment");
+      }
     }
   };
   if (!login) {
