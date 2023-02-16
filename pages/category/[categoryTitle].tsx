@@ -59,10 +59,18 @@ const getTotalPostsCountSWR = async (categoryId: string | never) => {
 };
 
 const PostList = () => {
-  const theme = useTheme();
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   const router = useRouter();
   const { categoryTitle } = router.query;
+
+  // preview mode
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_PREVIEW_ENABLED && categoryTitle !== 'Games') {
+      router.push('/category/Games');
+    }
+  }, [categoryTitle, router]);
+
+  const theme = useTheme();
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
   const { data: thisCategory, error: thisCategoryError } = useSWR(
     categoryTitle,
     getCategoryByTitleSWR,

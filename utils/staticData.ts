@@ -1003,3 +1003,29 @@ export const roleAll = {
     },
   ],
 };
+
+export const category_game = {
+  url: '/v1/public/category/Games',
+  data: {
+    id: '8751f1fa-c724-42c3-8d8d-a7fe438ae57e',
+    pinPost: {
+      id: '3017f26a-4117-41ac-af3a-a5c9b0bd7d8e',
+      title: 'Elden Ring Has Already Sold 12 Million Copies Worldwide',
+    },
+    headImgUrl: '/category_games.png',
+    color: '#ffb549',
+    title: 'Games',
+    description:
+      'The latest video game news, discussions, announcements, industry gossip, sales figures, bargains and reviews. The pulse of the gaming industry.',
+    viewCount: 1180,
+    postCount: 2,
+    sortOrder: 0,
+    participantCount: 7,
+    lastUpdateTimestamp: '2022-04-02T22:02:05.037548+10:30',
+  },
+};
+
+export const visible_count = {
+  url: '/v1/public/category/8751f1fa-c724-42c3-8d8d-a7fe438ae57e/visible_count',
+  data: 2,
+};
