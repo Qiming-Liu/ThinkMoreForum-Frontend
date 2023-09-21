@@ -1,4 +1,4 @@
-# [ThinkMoreForum-Frontend](https://www.thinkmoreapp.com/)
+# [ThinkMoreForum-Frontend](https://thinkmore.vercel.app)
 
 ![Watchers](https://img.shields.io/github/watchers/Qiming-Liu/ThinkMoreForum-Frontend?style=social)
 ![Forks](https://img.shields.io/github/forks/Qiming-Liu/ThinkMoreForum-Frontend?style=social)
@@ -10,7 +10,7 @@
 
 <p align="center"><img src="./public/3d.png"></p>
 
-## [thinkmoreapp.com](https://www.thinkmoreapp.com/)
+## [thinkmoreapp.com](https://thinkmore.vercel.app)
 
 https://user-images.githubusercontent.com/68600416/167850826-1a155349-2daf-4b8b-b8d2-e6c9452d5020.mp4
 
